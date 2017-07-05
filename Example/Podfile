@@ -1,0 +1,12 @@
+use_frameworks!
+
+target 'WTLibrary-iOS_Example' do
+  pod 'WTLibrary-iOS', :path => '../'
+
+  target 'WTLibrary-iOS_Tests' do
+    inherit! :search_paths
+
+    pod 'Specta'
+  pod 'Expecta'
+  end
+end
