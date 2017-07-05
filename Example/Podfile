@@ -2,7 +2,20 @@ use_frameworks!
 
 target 'WTLibrary-iOS_Example' do
   pod 'WTLibrary-iOS', :path => '../'
-
+  pod 'WTLibrary-iOS/AQGridViewHorizontal', :path => '../'
+  pod 'WTLibrary-iOS/CategoriesExtension', :path => '../'
+  pod 'WTLibrary-iOS/CategoriesExtensionMD5', :path => '../'
+  pod 'WTLibrary-iOS/MetadataRetriever', :path => '../'
+  pod 'WTLibrary-iOS/WTDatabase', :path => '../'
+  pod 'WTLibrary-iOS/WTDropbox', :path => '../'
+  pod 'WTLibrary-iOS/WTGoogle', :path => '../'
+  pod 'WTLibrary-iOS/WTLocation', :path => '../'
+  pod 'WTLibrary-iOS/WTSNS', :path => '../'
+  pod 'WTLibrary-iOS/WTStoreKit', :path => '../'
+  pod 'WTLibrary-iOS/WTSwipeModalView', :path => '../'
+  pod 'WTLibrary-iOS/WTUIKit', :path => '../'
+  pod 'WTLibrary-iOS/WTUtaPlayer', :path => '../'
+  
   target 'WTLibrary-iOS_Tests' do
     inherit! :search_paths
 
@@ -10,3 +23,14 @@ target 'WTLibrary-iOS_Example' do
   pod 'Expecta'
   end
 end
+
+# target 'WTLibrary-iOS-Swift_Example' do
+#   pod 'WTLibrary-iOS/WTSwift', :path => '../'
+# 
+#   target 'WTLibrary-iOS-Swift_Tests' do
+#     inherit! :search_paths
+# 
+#     pod 'Quick', '~> 1.0.0'
+#   pod 'Nimble', '~> 5.1.1'
+#   end
+# end

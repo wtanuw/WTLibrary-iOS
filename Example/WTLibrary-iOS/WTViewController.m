@@ -7,23 +7,33 @@
 //
 
 #import "WTViewController.h"
+#import "WTGoogleDriveManager.h"
+#import "WTDropboxManager.h"
+//#import <GoogleSignIn/GoogleSignIn.h>
+//#import "GoogleSignIn/GoogleSignIn.h"
 
 @interface WTViewController ()
-
-@end
+    
+    @end
 
 @implementation WTViewController
-
+    
 - (void)viewDidLoad
-{
-    [super viewDidLoad];
-	// Do any additional setup after loading the view, typically from a nib.
-}
-
+    {
+        [super viewDidLoad];
+        // Do any additional setup after loading the view, typically from a nib.
+    }
+    
 - (void)didReceiveMemoryWarning
-{
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
+    {
+        [super didReceiveMemoryWarning];
+        // Dispose of any resources that can be recreated.
+    }
+    
+-(void)shfk
+    {
+        [WTGoogleDriveManager sharedManager];
+        [WTDropboxManager sharedManager];
+    }
 
 @end

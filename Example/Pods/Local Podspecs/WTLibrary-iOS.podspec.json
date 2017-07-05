@@ -1,0 +1,217 @@
+{
+  "name": "WTLibrary-iOS",
+  "version": "0.3.0",
+  "summary": "summary with WTLibrary-iOS.",
+  "description": "TODO: Add long description of the pod here.\nA simple life with WTLibrary-iOS.",
+  "homepage": "https://github.com/wtanuw/WTLibrary-iOS",
+  "license": {
+    "type": "MIT",
+    "file": "LICENSE"
+  },
+  "authors": {
+    "wtanuw": "wat_wtanuw@hotmail.com"
+  },
+  "source": {
+    "git": "https://github.com/wtanuw/WTLibrary-iOS.git",
+    "tag": "0.3.0"
+  },
+  "platforms": {
+    "ios": "8.0"
+  },
+  "default_subspecs": "WTObjC",
+  "subspecs": [
+    {
+      "name": "WTObjC",
+      "source_files": "WTLibrary-iOS/Classes/WT*.{h,m}",
+      "frameworks": [
+        "UIKit",
+        "QuartzCore"
+      ]
+    },
+    {
+      "name": "AQGridViewHorizontal",
+      "dependencies": {
+        "WTLibrary-iOS/WTObjC": [
+
+        ]
+      },
+      "source_files": "WTLibrary-iOS/Classes/AQGridViewHorizontal/*.{h,m}",
+      "frameworks": [
+        "UIKit",
+        "QuartzCore"
+      ]
+    },
+    {
+      "name": "CategoriesExtension",
+      "dependencies": {
+        "WTLibrary-iOS/WTObjC": [
+
+        ]
+      },
+      "source_files": "WTLibrary-iOS/Classes/CategoriesExtension/*.{h,m}",
+      "frameworks": [
+        "UIKit",
+        "QuartzCore"
+      ]
+    },
+    {
+      "name": "CategoriesExtensionMD5",
+      "dependencies": {
+        "WTLibrary-iOS/WTObjC": [
+
+        ]
+      },
+      "source_files": "WTLibrary-iOS/Classes/CategoriesExtensionMD5/*.{h,m}"
+    },
+    {
+      "name": "MetadataRetriever",
+      "dependencies": {
+        "WTLibrary-iOS/WTObjC": [
+
+        ]
+      },
+      "source_files": "WTLibrary-iOS/Classes/MetadataRetriever/*.{h,m}",
+      "frameworks": [
+        "AudioToolbox",
+        "AssetsLibrary",
+        "AVFoundation",
+        "UIKit"
+      ]
+    },
+    {
+      "name": "WTDatabase",
+      "dependencies": {
+        "WTLibrary-iOS/WTObjC": [
+
+        ],
+        "FMDB": [
+          "~> 2.0"
+        ]
+      },
+      "source_files": "WTLibrary-iOS/Classes/WTDatabase/*.{h,m}"
+    },
+    {
+      "name": "WTDropbox",
+      "dependencies": {
+        "WTLibrary-iOS/WTObjC": [
+
+        ],
+        "ObjectiveDropboxOfficial": [
+
+        ]
+      },
+      "source_files": "WTLibrary-iOS/Classes/WTDropbox/*.{h,m}"
+    },
+    {
+      "name": "WTGoogle",
+      "dependencies": {
+        "WTLibrary-iOS/WTObjC": [
+
+        ],
+        "GoogleAPIClientForREST/Drive": [
+          "~> 1.1.1"
+        ],
+        "GTMOAuth2": [
+          "~> 1.1.4"
+        ],
+        "GTMAppAuth": [
+
+        ]
+      },
+      "source_files": "WTLibrary-iOS/Classes/WTGoogle/*.{h,m}",
+      "vendored_frameworks": [
+        "WTLibrary-iOS/Classes/WTGoogle/GoogleAppUtilities.framework",
+        "WTLibrary-iOS/Classes/WTGoogle/GoogleSignIn.framework",
+        "WTLibrary-iOS/Classes/WTGoogle/GoogleSignInDependencies.framework",
+        "WTLibrary-iOS/Classes/WTGoogle/GoogleSymbolUtilities.framework"
+      ],
+      "resources": "WTLibrary-iOS/Classes/WTGoogle/GoogleSignIn.bundle",
+      "frameworks": [
+        "SafariServices",
+        "SystemConfiguration",
+        "GoogleAppUtilities",
+        "GoogleSignIn",
+        "GoogleSignInDependencies",
+        "GoogleSymbolUtilities"
+      ],
+      "xcconfig": {
+        "OTHER_LDFLAGS": "-ObjC",
+        "FRAMEWORK_SEARCH_PATHS": "\"${PODS_ROOT}/GoogleSignIn/Frameworks\", \"${PODS_ROOT}/WTLibrary-iOS/WTLibrary-iOS/Classes/WTGoogle\", \"${PODS_ROOT}/../../WTLibrary-iOS/Classes/WTGoogle\""
+      }
+    },
+    {
+      "name": "WTLocation",
+      "dependencies": {
+        "WTLibrary-iOS/WTObjC": [
+
+        ]
+      },
+      "source_files": "WTLibrary-iOS/Classes/WTLocation/*.{h,m}"
+    },
+    {
+      "name": "WTSNS",
+      "dependencies": {
+        "WTLibrary-iOS/WTObjC": [
+
+        ]
+      },
+      "source_files": "WTLibrary-iOS/Classes/WTSNS/*.{h,m}",
+      "frameworks": [
+        "Twitter",
+        "Social",
+        "Accounts"
+      ]
+    },
+    {
+      "name": "WTStoreKit",
+      "dependencies": {
+        "WTLibrary-iOS/WTObjC": [
+
+        ],
+        "Reachability": [
+          "~> 3.2"
+        ]
+      },
+      "source_files": "WTLibrary-iOS/Classes/WTStoreKit/*.{h,m}",
+      "frameworks": [
+        "StoreKit",
+        "Security"
+      ]
+    },
+    {
+      "name": "WTSwipeModalView",
+      "dependencies": {
+        "WTLibrary-iOS/WTObjC": [
+
+        ],
+        "AGWindowView": [
+          "~> 0.1"
+        ]
+      },
+      "source_files": "WTLibrary-iOS/Classes/WTSwipeModalView/*.{h,m}"
+    },
+    {
+      "name": "WTUIKit",
+      "dependencies": {
+        "WTLibrary-iOS/WTObjC": [
+
+        ]
+      },
+      "source_files": "WTLibrary-iOS/Classes/WTUIKit/*.{h,m}",
+      "frameworks": [
+        "UIKit",
+        "QuartzCore"
+      ]
+    },
+    {
+      "name": "WTUtaPlayer",
+      "dependencies": {
+        "WTLibrary-iOS/WTObjC": [
+
+        ]
+      },
+      "source_files": "WTLibrary-iOS/Classes/WTUtaPlayer/*.{h,m}",
+      "frameworks": "AVFoundation"
+    }
+  ]
+}

@@ -1,0 +1,6 @@
+framework module AGWindowView {
+  umbrella header "AGWindowView-umbrella.h"
+
+  export *
+  module * { export * }
+}

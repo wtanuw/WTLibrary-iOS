@@ -60,13 +60,13 @@
 		6003F5BB195388D20070C39A /* Tests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Tests.m; sourceTree = "<group>"; };
 		606FC2411953D9B200FFA9A0 /* Tests-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Tests-Prefix.pch"; sourceTree = "<group>"; };
 		71719F9E1E33DC2100824A3D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
-		7FD3D64F340C05F4111F2CA8 /* README.md */ = {isa = PBXFileReference; includeInIndex = 1; name = README.md; path = ../README.md; sourceTree = "<group>"; };
+		7FD3D64F340C05F4111F2CA8 /* README.md */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = net.daringfireball.markdown; name = README.md; path = ../README.md; sourceTree = "<group>"; };
 		850D6E3FE437E17BFB6F20FB /* Pods_WTLibrary_iOS_Tests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_WTLibrary_iOS_Tests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		873B8AEA1B1F5CCA007FD442 /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = Main.storyboard; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
-		9355B05B3543D2FD1AE695D0 /* LICENSE */ = {isa = PBXFileReference; includeInIndex = 1; name = LICENSE; path = ../LICENSE; sourceTree = "<group>"; };
+		9355B05B3543D2FD1AE695D0 /* LICENSE */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = LICENSE; path = ../LICENSE; sourceTree = "<group>"; };
 		C37C785575DC672C9F980777 /* Pods-WTLibrary-iOS_Example.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WTLibrary-iOS_Example.release.xcconfig"; path = "Pods/Target Support Files/Pods-WTLibrary-iOS_Example/Pods-WTLibrary-iOS_Example.release.xcconfig"; sourceTree = "<group>"; };
 		C69DE549F83659157732D953 /* Pods-WTLibrary-iOS_Tests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WTLibrary-iOS_Tests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-WTLibrary-iOS_Tests/Pods-WTLibrary-iOS_Tests.debug.xcconfig"; sourceTree = "<group>"; };
-		EE89FA8FF2008820798428C4 /* WTLibrary-iOS.podspec */ = {isa = PBXFileReference; includeInIndex = 1; name = "WTLibrary-iOS.podspec"; path = "../WTLibrary-iOS.podspec"; sourceTree = "<group>"; };
+		EE89FA8FF2008820798428C4 /* WTLibrary-iOS.podspec */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = "WTLibrary-iOS.podspec"; path = "../WTLibrary-iOS.podspec"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -309,7 +309,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
 		};
 		8B4D3D3122326DA644B7B23A /* [CP] Copy Pods Resources */ = {
@@ -384,7 +384,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -524,6 +524,21 @@
 			baseConfigurationReference = 4380D452C8ECD6BC7DEEDC3B /* Pods-WTLibrary-iOS_Example.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"${PODS_ROOT}/../../GoogleSignIn/Frameworks\",",
+					"\"${PODS_ROOT}/../../WTLibrary-iOS/WTLibrary-iOS/Classes/WTGoogle\"",
+					"\"$PODS_CONFIGURATION_BUILD_DIR/AGWindowView\"",
+					"\"$PODS_CONFIGURATION_BUILD_DIR/AppAuth\"",
+					"\"$PODS_CONFIGURATION_BUILD_DIR/FMDB\"",
+					"\"$PODS_CONFIGURATION_BUILD_DIR/GTMAppAuth\"",
+					"\"$PODS_CONFIGURATION_BUILD_DIR/GTMOAuth2\"",
+					"\"$PODS_CONFIGURATION_BUILD_DIR/GTMSessionFetcher\"",
+					"\"$PODS_CONFIGURATION_BUILD_DIR/GoogleAPIClientForREST\"",
+					"\"$PODS_CONFIGURATION_BUILD_DIR/ObjectiveDropboxOfficial\"",
+					"\"$PODS_CONFIGURATION_BUILD_DIR/Reachability\"",
+					"\"$PODS_CONFIGURATION_BUILD_DIR/WTLibrary-iOS\"",
+				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "WTLibrary-iOS/WTLibrary-iOS-Prefix.pch";
 				INFOPLIST_FILE = "WTLibrary-iOS/WTLibrary-iOS-Info.plist";
@@ -539,6 +554,21 @@
 			baseConfigurationReference = C37C785575DC672C9F980777 /* Pods-WTLibrary-iOS_Example.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"${PODS_ROOT}/../../GoogleSignIn/Frameworks\",",
+					"\"${PODS_ROOT}/../../WTLibrary-iOS/WTLibrary-iOS/Classes/WTGoogle\"",
+					"\"$PODS_CONFIGURATION_BUILD_DIR/AGWindowView\"",
+					"\"$PODS_CONFIGURATION_BUILD_DIR/AppAuth\"",
+					"\"$PODS_CONFIGURATION_BUILD_DIR/FMDB\"",
+					"\"$PODS_CONFIGURATION_BUILD_DIR/GTMAppAuth\"",
+					"\"$PODS_CONFIGURATION_BUILD_DIR/GTMOAuth2\"",
+					"\"$PODS_CONFIGURATION_BUILD_DIR/GTMSessionFetcher\"",
+					"\"$PODS_CONFIGURATION_BUILD_DIR/GoogleAPIClientForREST\"",
+					"\"$PODS_CONFIGURATION_BUILD_DIR/ObjectiveDropboxOfficial\"",
+					"\"$PODS_CONFIGURATION_BUILD_DIR/Reachability\"",
+					"\"$PODS_CONFIGURATION_BUILD_DIR/WTLibrary-iOS\"",
+				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "WTLibrary-iOS/WTLibrary-iOS-Prefix.pch";
 				INFOPLIST_FILE = "WTLibrary-iOS/WTLibrary-iOS-Info.plist";
