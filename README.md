@@ -1,9 +1,4 @@
-# WTLibrary-iOS-ObjC
-
-[![CI Status](http://img.shields.io/travis/wtanuw/WTLibrary-iOS-ObjC.svg?style=flat)](https://travis-ci.org/wtanuw/WTLibrary-iOS-ObjC)
-[![Version](https://img.shields.io/cocoapods/v/WTLibrary-iOS-ObjC.svg?style=flat)](http://cocoapods.org/pods/WTLibrary-iOS-ObjC)
-[![License](https://img.shields.io/cocoapods/l/WTLibrary-iOS-ObjC.svg?style=flat)](http://cocoapods.org/pods/WTLibrary-iOS-ObjC)
-[![Platform](https://img.shields.io/cocoapods/p/WTLibrary-iOS-ObjC.svg?style=flat)](http://cocoapods.org/pods/WTLibrary-iOS-ObjC)
+# WTLibrary-iOS
 
 ## Example
 
@@ -13,37 +8,38 @@ To run the example project, clone the repo, and run `pod install` from the Examp
 
 ## Installation
 
-WTLibrary-iOS-ObjC is available through [CocoaPods](http://cocoapods.org). To install
+WTLibrary-iOS is available through [Github](https://github.com/wtanuw/WTLibrary-iOS). To install
 it, simply add the following line to your Podfile:
 
 ```ruby
-pod 'WTLibrary-iOS-ObjC', :git => 'https://github.com/wtanuw/WTLibrary-iOS-ObjC.git'
-pod 'WTLibrary-iOS-ObjC/AQGridViewHorizontal', :git => 'https://github.com/wtanuw/WTLibrary-iOS-ObjC.git'
-pod 'WTLibrary-iOS-ObjC/CategoriesExtension', :git => 'https://github.com/wtanuw/WTLibrary-iOS-ObjC.git'
-pod 'WTLibrary-iOS-ObjC/CategoriesExtensionMD5', :git => 'https://github.com/wtanuw/WTLibrary-iOS-ObjC.git'
-pod 'WTLibrary-iOS-ObjC/MetadataRetriever', :git => 'https://github.com/wtanuw/WTLibrary-iOS-ObjC.git'
-pod 'WTLibrary-iOS-ObjC/WTDatabase', :git => 'https://github.com/wtanuw/WTLibrary-iOS-ObjC.git'
-pod 'WTLibrary-iOS-ObjC/WTDropbox', :git => 'https://github.com/wtanuw/WTLibrary-iOS-ObjC.git'
-pod 'WTLibrary-iOS-ObjC/WTGoogle', :git => 'https://github.com/wtanuw/WTLibrary-iOS-ObjC.git'
-pod 'WTLibrary-iOS-ObjC/WTLocation', :git => 'https://github.com/wtanuw/WTLibrary-iOS-ObjC.git'
-pod 'WTLibrary-iOS-ObjC/WTSNS', :git => 'https://github.com/wtanuw/WTLibrary-iOS-ObjC.git'
-pod 'WTLibrary-iOS-ObjC/WTStoreKit', :git => 'https://github.com/wtanuw/WTLibrary-iOS-ObjC.git'
-pod 'WTLibrary-iOS-ObjC/WTSwipeModalView', :git => 'https://github.com/wtanuw/WTLibrary-iOS-ObjC.git'
-pod 'WTLibrary-iOS-ObjC/WTUIKit', :git => 'https://github.com/wtanuw/WTLibrary-iOS-ObjC.git'
-pod 'WTLibrary-iOS-ObjC/WTUtaPlayer', :git => 'https://github.com/wtanuw/WTLibrary-iOS-ObjC.git'
+pod 'WTLibrary-iOS', :git => 'https://github.com/wtanuw/WTLibrary-iOS.git'
+pod 'WTLibrary-iOS/AQGridViewHorizontal', :git => 'https://github.com/wtanuw/WTLibrary-iOS.git'
+pod 'WTLibrary-iOS/CategoriesExtension', :git => 'https://github.com/wtanuw/WTLibrary-iOS.git'
+pod 'WTLibrary-iOS/CategoriesExtensionMD5', :git => 'https://github.com/wtanuw/WTLibrary-iOS.git'
+pod 'WTLibrary-iOS/MetadataRetriever', :git => 'https://github.com/wtanuw/WTLibrary-iOS.git'
+pod 'WTLibrary-iOS/WTDatabase', :git => 'https://github.com/wtanuw/WTLibrary-iOS.git'
+pod 'WTLibrary-iOS/WTDropbox', :git => 'https://github.com/wtanuw/WTLibrary-iOS.git'
+pod 'WTLibrary-iOS/WTGoogle', :git => 'https://github.com/wtanuw/WTLibrary-iOS.git'
+pod 'WTLibrary-iOS/WTLocation', :git => 'https://github.com/wtanuw/WTLibrary-iOS.git'
+pod 'WTLibrary-iOS/WTSNS', :git => 'https://github.com/wtanuw/WTLibrary-iOS.git'
+pod 'WTLibrary-iOS/WTStoreKit', :git => 'https://github.com/wtanuw/WTLibrary-iOS.git'
+pod 'WTLibrary-iOS/WTSwipeModalView', :git => 'https://github.com/wtanuw/WTLibrary-iOS.git'
+pod 'WTLibrary-iOS/WTUIKit', :git => 'https://github.com/wtanuw/WTLibrary-iOS.git'
+pod 'WTLibrary-iOS/WTUtaPlayer', :git => 'https://github.com/wtanuw/WTLibrary-iOS.git'
 ```
 
 ```ruby
-pod 'WTLibrary-iOS-ObjC', :git => 'https://github.com/wtanuw/WTLibrary-iOS-ObjC.git', :subspecs => ['AQGridViewHorizontal', 'CategoriesExtension', 'CategoriesExtensionMD5', 'MetadataRetriever', 'WTDatabase', 'WTDropbox', 'WTGoogle', 'WTLocation', 'WTSNS', 'WTStoreKit', 'WTSwipeModalView', 'WTUIKit', 'WTUtaPlayer']
+pod 'WTLibrary-iOS', :git => 'https://github.com/wtanuw/WTLibrary-iOS.git', :subspecs => ['AQGridViewHorizontal', 'CategoriesExtension', 'CategoriesExtensionMD5', 'MetadataRetriever', 'WTDatabase', 'WTDropbox', 'WTGoogle', 'WTLocation', 'WTSNS', 'WTStoreKit', 'WTSwipeModalView', 'WTUIKit', 'WTUtaPlayer']
 ```
-
+  
 other option  
 :branch => 'dev'  
 :tag => '0.7.0'  
 :commit => '082f8319af'  
-
+:path => '~/Desktop/WTLibrary-iOS'  
+  
 version
-pod 'WTLibrary-iOS-ObjC', '0.1'  
+pod 'WTLibrary-iOS', '0.1'  
 = 0.1 Version 0.1.  
 \> 0.1 Any version higher than 0.1.  
 \>= 0.1 Version 0.1 and any higher version.  
@@ -57,4 +53,4 @@ wtanuw, wat_wtanuw@hotmail.com
 
 ## License
 
-WTLibrary-iOS-ObjC is available under the MIT license. See the LICENSE file for more info.
+WTLibrary-iOS is available under the MIT license. See the LICENSE file for more info.
