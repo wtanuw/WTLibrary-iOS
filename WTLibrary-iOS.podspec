@@ -169,9 +169,10 @@ end
 
 ##################################################
 
-#s.subspec 'WTSwift' do |subspec|
-#subspec.source_files = 'WTLibrary-iOS/Swift/*'
-#end
+s.subspec 'WTSwift' do |subspec|
+subspec.dependency 'AFDateHelper', '~> 4.1'
+subspec.source_files = 'WTLibrary-iOS/Swift/*'
+end
 
 ##################################################
 

@@ -26,10 +26,11 @@ pod 'WTLibrary-iOS/WTStoreKit', :git => 'https://github.com/wtanuw/WTLibrary-iOS
 pod 'WTLibrary-iOS/WTSwipeModalView', :git => 'https://github.com/wtanuw/WTLibrary-iOS.git'
 pod 'WTLibrary-iOS/WTUIKit', :git => 'https://github.com/wtanuw/WTLibrary-iOS.git'
 pod 'WTLibrary-iOS/WTUtaPlayer', :git => 'https://github.com/wtanuw/WTLibrary-iOS.git'
+pod 'WTLibrary-iOS/WTSwift', :git => 'https://github.com/wtanuw/WTLibrary-iOS.git'
 ```
 
 ```ruby
-pod 'WTLibrary-iOS', :git => 'https://github.com/wtanuw/WTLibrary-iOS.git', :subspecs => ['AQGridViewHorizontal', 'CategoriesExtension', 'CategoriesExtensionMD5', 'MetadataRetriever', 'WTDatabase', 'WTDropbox', 'WTGoogle', 'WTLocation', 'WTSNS', 'WTStoreKit', 'WTSwipeModalView', 'WTUIKit', 'WTUtaPlayer']
+pod 'WTLibrary-iOS', :git => 'https://github.com/wtanuw/WTLibrary-iOS.git', :subspecs => ['AQGridViewHorizontal', 'CategoriesExtension', 'CategoriesExtensionMD5', 'MetadataRetriever', 'WTDatabase', 'WTDropbox', 'WTGoogle', 'WTLocation', 'WTSNS', 'WTStoreKit', 'WTSwipeModalView', 'WTUIKit', 'WTUtaPlayer', 'WTSwift']
 ```
   
 other option  

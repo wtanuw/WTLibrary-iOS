@@ -212,6 +212,15 @@
       },
       "source_files": "WTLibrary-iOS/Classes/WTUtaPlayer/*.{h,m}",
       "frameworks": "AVFoundation"
+    },
+    {
+      "name": "WTSwift",
+      "dependencies": {
+        "AFDateHelper": [
+          "~> 4.1"
+        ]
+      },
+      "source_files": "WTLibrary-iOS/Swift/*"
     }
   ]
 }

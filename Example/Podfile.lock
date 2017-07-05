@@ -1,4 +1,5 @@
 PODS:
+  - AFDateHelper (4.1.2)
   - AGWindowView (0.1.9)
   - AppAuth (0.9.1)
   - Expecta (1.0.6)
@@ -20,7 +21,9 @@ PODS:
   - GTMSessionFetcher/Core (1.1.10)
   - GTMSessionFetcher/Full (1.1.10):
     - GTMSessionFetcher/Core (= 1.1.10)
+  - Nimble (5.1.1)
   - ObjectiveDropboxOfficial (3.0.15)
+  - Quick (1.0.0)
   - Reachability (3.2)
   - Specta (1.0.6)
   - WTLibrary-iOS (0.3.0):
@@ -52,6 +55,8 @@ PODS:
   - WTLibrary-iOS/WTStoreKit (0.3.0):
     - Reachability (~> 3.2)
     - WTLibrary-iOS/WTObjC
+  - WTLibrary-iOS/WTSwift (0.3.0):
+    - AFDateHelper (~> 4.1)
   - WTLibrary-iOS/WTSwipeModalView (0.3.0):
     - AGWindowView (~> 0.1)
     - WTLibrary-iOS/WTObjC
@@ -62,6 +67,8 @@ PODS:
 
 DEPENDENCIES:
   - Expecta
+  - Nimble (~> 5.1.1)
+  - Quick (~> 1.0.0)
   - Specta
   - WTLibrary-iOS (from `../`)
   - WTLibrary-iOS/AQGridViewHorizontal (from `../`)
@@ -74,6 +81,7 @@ DEPENDENCIES:
   - WTLibrary-iOS/WTLocation (from `../`)
   - WTLibrary-iOS/WTSNS (from `../`)
   - WTLibrary-iOS/WTStoreKit (from `../`)
+  - WTLibrary-iOS/WTSwift (from `../`)
   - WTLibrary-iOS/WTSwipeModalView (from `../`)
   - WTLibrary-iOS/WTUIKit (from `../`)
   - WTLibrary-iOS/WTUtaPlayer (from `../`)
@@ -83,6 +91,7 @@ EXTERNAL SOURCES:
     :path: "../"
 
 SPEC CHECKSUMS:
+  AFDateHelper: b19c83daa132e398b34fbea085a1554ce07adfe9
   AGWindowView: 08dc8d448b8c96430e78b3945a9c2cf5b0fde754
   AppAuth: f7d9a2ce4ffe79a62a8b0c1d0938e88d9809b846
   Expecta: 3b6bd90a64b9a1dcb0b70aa0e10a7f8f631667d5
@@ -91,11 +100,13 @@ SPEC CHECKSUMS:
   GTMAppAuth: ae710e1e53431e2bcdd57f9f92daa16a58a2947d
   GTMOAuth2: 7fc9c10f5c745f4d9850419ea88889fe3baa6b7d
   GTMSessionFetcher: 30d874b96d0d76028f61fbd122801e3f030d47db
+  Nimble: 415e3aa3267e7bc2c96b05fa814ddea7bb686a29
   ObjectiveDropboxOfficial: 69d6d3831e41cf4918e0374b0d1fcb620b238791
+  Quick: 8024e4a47e6cc03a9d5245ef0948264fc6d27cff
   Reachability: 33e18b67625424e47b6cde6d202dce689ad7af96
   Specta: f506f3a8361de16bc0dcf3b17b75e269072ba465
-  WTLibrary-iOS: 45f1501437075201cae87128886143533b109b8f
+  WTLibrary-iOS: 65af07555b33e5cda9796bc70532bc8521d64073
 
-PODFILE CHECKSUM: c2dad14752291b4c753c11f70e64ea28848c76d4
+PODFILE CHECKSUM: 2ace150822403089c18e89f745944b2c4796da5f
 
 COCOAPODS: 1.2.0
