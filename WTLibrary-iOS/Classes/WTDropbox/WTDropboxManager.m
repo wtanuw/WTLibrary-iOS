@@ -218,6 +218,9 @@
     return NO;
 }
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wunused-variable"
+
 -(void)migrate
 {
     BOOL willPerformMigration = [DBClientsManager checkAndPerformV1TokenMigration:^(BOOL shouldRetry, BOOL invalidAppKeyOrSecret,
@@ -236,7 +239,7 @@
             WatLog(@"The following tokens were unsucessfully migrated:");
             for (NSArray<NSString *> *tokenData in unsuccessfullyMigratedTokenData) {
                 WatLog(@"DropboxUserID: %@, AccessToken: %@, AccessTokenSecret: %@, StoredAppKey: %@", tokenData[0],
-                      tokenData[1], tokenData[2], tokenData[3]);
+                       tokenData[1], tokenData[2], tokenData[3]);
             }
         }
         
@@ -249,6 +252,8 @@
         [DBClientsManager setupWithAppKey:@"<APP_KEY>"];
     }
 }
+
+#pragma clang diagnostic pop
 
 #pragma mark -
 
@@ -348,6 +353,9 @@
      }];
 }
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wunused-variable"
+
 - (void)printEntries:(NSArray<DBFILESMetadata *> *)entries {
     for (DBFILESMetadata *entry in entries) {
         if ([entry isKindOfClass:[DBFILESFileMetadata class]]) {
@@ -362,6 +370,8 @@
         }
     }
 }
+
+#pragma clang diagnostic pop
 
 //- (void)loadListFileFromRootFolder;
 //

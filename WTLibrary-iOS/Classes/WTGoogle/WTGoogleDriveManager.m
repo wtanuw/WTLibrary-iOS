@@ -309,7 +309,7 @@
         };
     } else {
         GTLRDriveQuery_FilesDelete *queryz = [GTLRDriveQuery_FilesDelete queryWithFileId:rev];
-        GTLRServiceTicket *ticketz = [self.service executeQuery:queryz
+        /*GTLRServiceTicket *ticketz =*/ [self.service executeQuery:queryz
                                               completionHandler:^(GTLRServiceTicket * ticket, GTLRDrive_File *file, NSError * error) {
             if (error == nil) {
                 

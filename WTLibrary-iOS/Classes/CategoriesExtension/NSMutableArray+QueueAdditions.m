@@ -15,6 +15,9 @@
 
 @implementation NSMutableArray (QueueAdditions)
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wunused-value"
+
 - (id)dequeue
 {
     if([self count] == 0) return nil;
@@ -26,6 +29,8 @@
     }
     return firstObject;
 }
+
+#pragma clang diagnostic pop
 
 - (void)enqueue:(id)obj
 {

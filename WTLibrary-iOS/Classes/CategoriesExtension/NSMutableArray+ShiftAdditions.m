@@ -15,6 +15,9 @@
 
 @implementation NSMutableArray (ShiftAdditions)
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wunused-value"
+
 - (id)shift
 {
     if([self count] == 0) return nil;
@@ -26,6 +29,8 @@
     }
     return firstObject;
 }
+
+#pragma clang diagnostic pop
 
 - (void)unshift:(id)obj
 {
