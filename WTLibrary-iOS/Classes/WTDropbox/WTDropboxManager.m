@@ -7,6 +7,7 @@
 //
 
 #import "WTDropboxManager.h"
+
 #import "WTMacro.h"
 #import "WTStoreKit.h"
 
@@ -258,12 +259,24 @@
 
 //- (void)rest;
 
-//#pragma mark -
-//
-//-(void)accountInfo;
-//
-//#pragma mark - rest delegate
-//
+#pragma mark -
+
+-(void)accountInfo
+{
+//    [[[self client].usersRoutes getCurrentAccount] setResponseBlock:^(DBUSERSFullAccount *result, DBNilObject *routeError, DBRequestError * networkError) {
+//        if (_accountInfoCompleteBlock) {
+//            _accountInfoCompleteBlock(result);
+//        }
+//    }];
+    [[[self client].usersRoutes getSpaceUsage] setResponseBlock:^(DBUSERSSpaceUsage *result, DBNilObject *routeError, DBRequestError * networkError) {
+        if (_accountInfoCompleteBlock) {
+            _accountInfoCompleteBlock(result);
+        }
+    }];
+}
+
+#pragma mark - rest delegate
+
 //- (void)restClient:(DBRestClient*)client loadedAccountInfo:(DBAccountInfo*)info;
 //
 //- (void)restClient:(DBRestClient*)client loadAccountInfoFailedWithError:(NSError*)error;
@@ -363,9 +376,9 @@
 
 #pragma mark -
 
-- (void)downloadFromPath:(NSString*)dropboxPath toFolderPath:(NSString*)localFolderPath
+- (void)downloadFromPath:(DBFILESMetadata *)metadata toFolderPath:(NSString*)localFolderPath
 {
-    [self downloadFromArray:@[dropboxPath] toFolderPath:localFolderPath];
+    [self downloadFromArray:@[metadata] toFolderPath:localFolderPath];
 }
 
 - (void)downloadFromArray:(NSArray*)array toFolderPath:(NSString*)localFolderPath

@@ -485,12 +485,12 @@ didSignInForUser:(GIDGoogleUser *)user
     WatLog(@"goole signin");
     if (error == nil) {
         // Perform any operations on signed in user here.
-        NSString *userId = user.userID;                  // For client-side use only!
-        NSString *idToken = user.authentication.idToken; // Safe to send to the server
-        NSString *fullName = user.profile.name;
-        NSString *givenName = user.profile.givenName;
-        NSString *familyName = user.profile.familyName;
-        NSString *email = user.profile.email;
+//        NSString *userId = user.userID;                  // For client-side use only!
+//        NSString *idToken = user.authentication.idToken; // Safe to send to the server
+//        NSString *fullName = user.profile.name;
+//        NSString *givenName = user.profile.givenName;
+//        NSString *familyName = user.profile.familyName;
+//        NSString *email = user.profile.email;
         // ...
         
         [WTGoogleDriveManager sharedManager].service.authorizer = [user.authentication fetcherAuthorizer];
@@ -507,4 +507,74 @@ didDisconnectWithUser:(GIDGoogleUser *)user
     // ...
     WatLog(@"google signout");
 }
+
+#pragma mark - deprecated
+
+
+- (void)uploadFileFromPath:(NSString*)fromPath
+{
+    
+}
+- (void)uploadFileFromPath:(NSString*)fromPath toPath:(NSString*)toPath
+{
+    
+}
+- (void)uploadNewFileFromPath:(NSString*)fromPath toPath:(NSString*)toPath
+{
+    
+}
+- (void)uploadCancel:(NSString*)path
+{
+    
+}
+
+
+//- (void)listFileFromRootFolder
+//{
+//    
+//}
+- (void)listFileFromFolderPath:(NSString*)path
+{
+    
+}
+- (void)listFileFromFolderPath:(NSString*)path recursive:(BOOL)recursive
+{
+    
+}
+
+- (void)loadListFileFromRootFolder
+{
+    
+}
+- (void)loadListFileFromFolderPath:(NSString*)path
+{
+    
+}
+- (void)loadListFileFromFolderPath:(NSString*)path recursive:(BOOL)recursive
+{
+    
+}
+
+
+- (void)download
+{
+    
+}
+- (void)downloadFileFromPath:(NSString*)path toPath:(NSString*)localPath
+{
+    
+}
+//- (void)downloadFileFromPath:(NSString*)path toFolderPath:(NSString*)localFolderPath;
+
+- (void)downloadFileFromPaths:(NSArray*)paths toFolderPath:(NSString*)localFolderPath
+{
+    
+}
+
+
+- (BOOL)handleOpenURL:(NSURL *)url
+{
+    return NO;
+}
+
 @end

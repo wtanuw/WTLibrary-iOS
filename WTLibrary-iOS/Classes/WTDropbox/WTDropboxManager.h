@@ -7,6 +7,8 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "WTMacro.h"
+
 
 #define WTDropboxManager_VERSION 0x00020000
 
@@ -25,6 +27,13 @@
 - (BOOL)handleOpenURL:(NSURL *)url;
 - (void)linkFromViewController:(UIViewController*)vct;
 - (void)unlink;
+
+
+@property (nonatomic, copy) void (^accountInfoCompleteBlock)(DBUSERSSpaceUsage *space);
+
+- (void)accountInfo;
+
+
 
 @property (nonatomic, assign) BOOL recursively;
 
@@ -47,7 +56,7 @@
 @property (nonatomic, copy) void (^downloadProgressBlock)(int64_t bytesDownloaded, int64_t totalBytesDownloaded, int64_t totalBytesExpectedToDownload);
 @property (nonatomic, copy) void (^downloadCompleteBlock)(BOOL success, NSArray *fileSuccess, NSArray *fileFail);
 
-- (void)downloadFromPath:(NSString*)dropboxPath toFolderPath:(NSString*)localFolderPath;
+- (void)downloadFromPath:(DBFILESMetadata*)metadata toFolderPath:(NSString*)localFolderPath;
 - (void)downloadFromArray:(NSArray*)array toFolderPath:(NSString*)localFolderPath;
 - (void)downloadCancel;
 

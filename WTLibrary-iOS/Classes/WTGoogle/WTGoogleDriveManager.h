@@ -63,8 +63,6 @@
 - (void)unlink;
 - (BOOL)isLogin;
 
-- (BOOL)handleOpenURL:(NSURL *)url;
-
 - (void)searchFolder:(NSString*)folderName completion:(void (^)(GTLRServiceTicket *ticket,
                                                                 GTLRDrive_FileList *files,
                                                                 NSError *error))completion;
@@ -82,39 +80,42 @@
 - (void)downloadFileFromMetadatas:(NSArray *)googleMetadatas toFolderPath:(NSString *)localFolderPath;
 - (void)downloadFileFromPath:(GTLRDrive_File*)googleFile toFolderPath:(NSString*)localFolderPath;
 
+- (void)downloadCancel;
+
 - (void)searchFile:(NSString*)fileName completion:(void (^)(GTLRServiceTicket *ticket,
                                                             GTLRDrive_FileList *files,
                                                             NSError *error))completion;
 
 - (void)uploadFileFromPath:(NSString*)fromPath toPath:(NSString*)toPath revision:(NSString*)rev;
+
 - (void)uploadCancel;
 
 
 
-//funcion api
+//old funcion api
 
-- (void)uploadFileFromPath:(NSString*)fromPath;
-- (void)uploadFileFromPath:(NSString*)fromPath toPath:(NSString*)toPath;
-- (void)uploadNewFileFromPath:(NSString*)fromPath toPath:(NSString*)toPath;
-- (void)uploadCancel:(NSString*)path;
-
-
-- (void)listFileFromRootFolder;
-- (void)listFileFromFolderPath:(NSString*)path;
-- (void)listFileFromFolderPath:(NSString*)path recursive:(BOOL)recursive;
-
-- (void)loadListFileFromRootFolder;
-- (void)loadListFileFromFolderPath:(NSString*)path;
-- (void)loadListFileFromFolderPath:(NSString*)path recursive:(BOOL)recursive;
+- (void)uploadFileFromPath:(NSString*)fromPath __attribute((deprecated("not have available method.")));
+- (void)uploadFileFromPath:(NSString*)fromPath toPath:(NSString*)toPath __attribute((deprecated("not have available method.")));
+- (void)uploadNewFileFromPath:(NSString*)fromPath toPath:(NSString*)toPath __attribute((deprecated("not have available method.")));
+- (void)uploadCancel:(NSString*)path __attribute((deprecated("not have available method.")));
 
 
-- (void)download;
-- (void)downloadFileFromPath:(NSString*)path toPath:(NSString*)localPath;
+- (void)listFileFromRootFolder __attribute((deprecated("not have available method.")));
+- (void)listFileFromFolderPath:(NSString*)path __attribute((deprecated("not have available method.")));
+- (void)listFileFromFolderPath:(NSString*)path recursive:(BOOL)recursive __attribute((deprecated("not have available method.")));
+
+- (void)loadListFileFromRootFolder __attribute((deprecated("not have available method.")));
+- (void)loadListFileFromFolderPath:(NSString*)path __attribute((deprecated("not have available method.")));
+- (void)loadListFileFromFolderPath:(NSString*)path recursive:(BOOL)recursive __attribute((deprecated("not have available method.")));
+
+
+- (void)download __attribute((deprecated("not have available method.")));
+- (void)downloadFileFromPath:(NSString*)path toPath:(NSString*)localPath __attribute((deprecated("not have available method.")));
 //- (void)downloadFileFromPath:(NSString*)path toFolderPath:(NSString*)localFolderPath;
 
-- (void)downloadFileFromMetadatas:(NSArray*)metadatas toFolderPath:(NSString*)localFolderPath;
-- (void)downloadFileFromPaths:(NSArray*)paths toFolderPath:(NSString*)localFolderPath;
+- (void)downloadFileFromPaths:(NSArray*)paths toFolderPath:(NSString*)localFolderPath __attribute((deprecated("not have available method.")));
 
-- (void)downloadCancel;
+
+- (BOOL)handleOpenURL:(NSURL *)url __attribute((deprecated("not have available method.")));
 
 @end

@@ -43,6 +43,7 @@
 #import "AQGridView+CellLocationDelegation.h"
 #import "NSIndexSet+AQIsSetContiguous.h"
 #import "NSIndexSet+AQIndexesOutsideSet.h"
+#import "WTMacro.h"
 
 #import <libkern/OSAtomic.h>
 
@@ -1321,49 +1322,50 @@ NSString * const AQGridViewSelectionDidChangeNotification = @"AQGridViewSelectio
     
     // XCode 6 - callimg imp(...) is throwing a compiler error 'too many arguments to function call (4, expected 0)'
     
-//	Method method = class_getInstanceMethod( [UIView class], @selector(hitTest:withEvent:) );
-//	IMP imp = method_getImplementation( method );
-//	return ( (UIView *)imp(self, @selector(hitTest:withEvent:), point, event) ); // -[UIView hitTest:withEvent:]
+//    if (SYSTEM_VERSION_LESS_THAN(@"8.0")) {
+//        Method method = class_getInstanceMethod( [UIView class], @selector(hitTest:withEvent:) );
+//        IMP imp = method_getImplementation( method );
+//        return ( (UIView *)imp(self, @selector(hitTest:withEvent:), point, event) ); // -[UIView hitTest:withEvent:]
+//    }else{
+        return [self hitTest:point withEvent:event];
+//    }
     
-    return [self hitTest:point withEvent:event];
-    
-    
-    // Use NSInvocation to do this instead
-    SEL hitSelector = @selector(hitTest:withEvent:);
-    NSMethodSignature * signature = [self methodSignatureForSelector:hitSelector];
-    NSInvocation * invocation = [NSInvocation invocationWithMethodSignature:signature];
-    
-    
-    [invocation setTarget: self];
-    [invocation setSelector:hitSelector];
-    
-    [invocation setArgument:&point atIndex:2];
-    [invocation setArgument:&event atIndex:3];
-    
-    // Invoke!
-    [invocation invoke];
-    
-    // Get return value
-    NSValue    * ret_val  = nil;
-    NSUInteger   ret_size = [signature methodReturnLength];
-    
-    if(  ret_size > 0 ) {
-        
-        void * ret_buffer = malloc( ret_size );
-        
-        [invocation getReturnValue:ret_buffer];
-        
-        ret_val = [NSValue valueWithBytes:ret_buffer
-                                 objCType:[signature methodReturnType]];
-        
-        free(ret_buffer);
-    }
-    
-    // Copy the value into our UIView object
-    UIView * returnedView = nil;
-    [ret_val getValue:&returnedView];
-    
-    return returnedView;
+//    // Use NSInvocation to do this instead
+//    SEL hitSelector = @selector(hitTest:withEvent:);
+//    NSMethodSignature * signature = [self methodSignatureForSelector:hitSelector];
+//    NSInvocation * invocation = [NSInvocation invocationWithMethodSignature:signature];
+//    
+//    
+//    [invocation setTarget: self];
+//    [invocation setSelector:hitSelector];
+//    
+//    [invocation setArgument:&point atIndex:2];
+//    [invocation setArgument:&event atIndex:3];
+//    
+//    // Invoke!
+//    [invocation invoke];
+//    
+//    // Get return value
+//    NSValue    * ret_val  = nil;
+//    NSUInteger   ret_size = [signature methodReturnLength];
+//    
+//    if(  ret_size > 0 ) {
+//        
+//        void * ret_buffer = malloc( ret_size );
+//        
+//        [invocation getReturnValue:ret_buffer];
+//        
+//        ret_val = [NSValue valueWithBytes:ret_buffer
+//                                 objCType:[signature methodReturnType]];
+//        
+//        free(ret_buffer);
+//    }
+//    
+//    // Copy the value into our UIView object
+//    UIView * returnedView = nil;
+//    [ret_val getValue:&returnedView];
+//    
+//    return returnedView;
 }
 
 - (BOOL) _canSelectItemContainingHitView: (UIView *) hitView
