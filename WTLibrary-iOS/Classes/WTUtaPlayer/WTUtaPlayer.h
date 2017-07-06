@@ -9,9 +9,8 @@
 #import <Foundation/Foundation.h>
 #import <CommonCrypto/CommonDigest.h>
 #import <AVFoundation/AVFoundation.h>
-#import "WTMacro.h"
-#import "MusicItem.h"
-//#import "PlaylistItem.h"
+#import <MediaPlayer/MediaPlayer.h>
+#import "WTUtaProtocol.h"
 
 #pragma mark - Notification
 
@@ -66,8 +65,8 @@ typedef enum {
     AVPlayer *utaPlayer;
     NSMutableArray *normalPlayListArray;
     NSMutableArray *shufflePlayListArray;
-     NSMutableArray *nextTunePlaylistArray;
-    int playListSongIndex;
+    NSMutableArray *nextTunePlaylistArray;
+    NSInteger playListSongIndex;
     WTUtaPlayerRepeatState repeatState;
     WTUtaPlayerShuffleState shuffleState;
     WTUtaPlayerPlayState playState;
@@ -82,16 +81,16 @@ typedef enum {
 @property (nonatomic, readonly, retain) NSMutableArray *normalPlayListArray;
 @property (nonatomic, readonly, retain) NSMutableArray *shufflePlayListArray;
 @property (nonatomic, readonly, retain) NSMutableArray *nextTunePlaylistArray;
-@property (nonatomic, readonly, assign) int playListSongIndex;
+@property (nonatomic, readonly, assign) NSInteger playListSongIndex;
 @property (nonatomic, readonly, assign) WTUtaPlayerRepeatState repeatState;
 @property (nonatomic, readonly, assign) WTUtaPlayerShuffleState shuffleState;
 @property (nonatomic, readonly, assign) WTUtaPlayerPlayState playState;
 @property (nonatomic, readonly, assign) WTUtaPlayerNextTuneState nextTuneState;
 
 
-@property (nonatomic, readonly, retain) NSArray *currentPlaylistArray;
-@property (nonatomic, readonly, assign) int currentPlaylistCount;
-@property (nonatomic, readonly, retain) MusicItem *currentMusicItem;
+@property (nonatomic, readonly, retain) NSArray<WTUtaItem*> *currentPlaylistArray;
+@property (nonatomic, readonly, assign) NSUInteger currentPlaylistCount;
+@property (nonatomic, readonly, retain) WTUtaItem *currentMusicItem;
 @property (nonatomic, readonly, assign) float currentRate;
 @property (nonatomic, readonly, assign) float currentTime;
 @property (nonatomic, readonly, assign) CMTime currentTimeCMTime;
@@ -124,12 +123,12 @@ typedef enum {
 - (void)callUtaPlayerToChangeShuffle:(WTUtaPlayerShuffleState)_state;
 
 
-- (void)playPlayListSong:(MusicItem*)song;
+- (void)playPlayListSong:(WTUtaItem*)song;
 - (void)playPlayListSongAtIndex:(NSInteger)index;
 - (void)normalPlay:(NSArray*)array;
-- (void)shufflePlay:(NSArray*)array beginWith:(int)numbegin;
+- (void)shufflePlay:(NSArray*)array beginWith:(NSUInteger)numbegin;
 
-- (MusicItem*)currentPlaylistMusicItemAtIndex:(int)index;
+- (WTUtaItem*)currentPlaylistMusicItemAtIndex:(NSUInteger)index;
 
 - (id)addPeriodicTimeObserverForInterval:(CMTime)interval queue:(dispatch_queue_t)queue usingBlock:(void (^)(CMTime time))block;
 - (id)addBoundaryTimeObserverForTimes:(NSArray *)times queue:(dispatch_queue_t)queue usingBlock:(void (^)(void))block;
@@ -140,6 +139,6 @@ typedef enum {
 
 - (void)callUtaPlayerToChangeNextTune:(WTUtaPlayerNextTuneState)_state;
 - (void)nextTunePlay;
-- (void)addSongNextTune:(MusicItem*)item;
-- (void)removeSongNextTuneAtIndex:(int)index;
+- (void)addSongNextTune:(WTUtaItem*)item;
+- (void)removeSongNextTuneAtIndex:(NSUInteger)index;
 @end

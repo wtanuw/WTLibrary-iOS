@@ -136,7 +136,7 @@
       ],
       "xcconfig": {
         "OTHER_LDFLAGS": "-ObjC",
-        "FRAMEWORK_SEARCH_PATHS": "\"${PODS_ROOT}/GoogleSignIn/Frameworks\", \"${PODS_ROOT}/WTLibrary-iOS/WTLibrary-iOS/Classes/WTGoogle\", \"${PODS_ROOT}/../../WTLibrary-iOS/Classes/WTGoogle\""
+        "FRAMEWORK_SEARCH_PATHS": "\"${PODS_ROOT}/WTLibrary-iOS/WTLibrary-iOS/Classes/WTGoogle\" \"${PODS_ROOT}/../../WTLibrary-iOS/Classes/WTGoogle\""
       }
     },
     {

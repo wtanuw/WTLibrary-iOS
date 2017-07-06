@@ -54,6 +54,7 @@
 #import "WTNavigationBar.h"
 #import "WTTabbarController.h"
 #import "WTUtaPlayer.h"
+#import "WTUtaPlayerProtocol.h"
 
 FOUNDATION_EXPORT double WTLibrary_iOSVersionNumber;
 FOUNDATION_EXPORT const unsigned char WTLibrary_iOSVersionString[];

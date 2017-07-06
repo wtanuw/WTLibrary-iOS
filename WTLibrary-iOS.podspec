@@ -164,7 +164,7 @@ end
 s.subspec 'WTUtaPlayer' do |subspec|
 subspec.dependency 'WTLibrary-iOS/WTObjC'
 subspec.source_files = 'WTLibrary-iOS/Classes/WTUtaPlayer/*.{h,m}'
-subspec.frameworks = 'AVFoundation'
+subspec.frameworks = 'AVFoundation', 'MediaPlayer'
 end
 
 ##################################################

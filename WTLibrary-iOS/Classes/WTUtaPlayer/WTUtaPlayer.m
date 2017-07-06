@@ -8,6 +8,8 @@
 
 #import "WTUtaPlayer.h"
 
+#import "WTMacro.h"
+
 @interface WTUtaPlayer()
 
 @property (nonatomic, retain) id crossFadeObserver;
@@ -17,7 +19,7 @@
 @property (nonatomic, retain) NSMutableArray *normalPlayListArray;
 @property (nonatomic, retain) NSMutableArray *shufflePlayListArray;
 @property (nonatomic, retain) NSMutableArray *nextTunePlaylistArray;
-@property (nonatomic, assign) int playListSongIndex;
+@property (nonatomic, assign) NSInteger playListSongIndex;
 @property (nonatomic, assign) WTUtaPlayerRepeatState repeatState;
 @property (nonatomic, assign) WTUtaPlayerShuffleState shuffleState;
 @property (nonatomic, assign) WTUtaPlayerPlayState playState;
@@ -33,9 +35,9 @@
 
 - (void)changeToNormalPlayListSong:(NSArray*)array;
 
-- (void)changeToShufflePlayListSong:(NSArray*)array beginWith:(int)numbegin;
+- (void)changeToShufflePlayListSong:(NSArray*)array beginWith:(NSUInteger)numbegin;
 - (NSMutableArray*)functionRandomArray:(NSMutableArray*)list;
-- (NSMutableArray*)functionRandomArray:(NSMutableArray*)list beginWith:(int)numbegin;
+- (NSMutableArray*)functionRandomArray:(NSMutableArray*)list beginWith:(NSUInteger)numbegin;
 
 
 @end
@@ -140,15 +142,6 @@
                 utaPlayer.usesExternalPlaybackWhileExternalScreenIsActive = YES;
             }
         }
-        else if(SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"5.0"))
-        {
-            if([utaPlayer respondsToSelector:@selector(allowsAirPlayVideo)]){
-                utaPlayer.allowsAirPlayVideo = YES;
-            }
-            if([utaPlayer respondsToSelector:@selector(usesAirPlayVideoWhileAirPlayScreenIsActive)]){
-                utaPlayer.usesAirPlayVideoWhileAirPlayScreenIsActive = YES;
-            }
-        }
         
         [[NSNotificationCenter defaultCenter] addObserver:self
                                                  selector:@selector(didPlayToEndTimeNotification:)
@@ -186,35 +179,35 @@
     return self;
 }
 
-- (void)dealloc {
-    
-    [crossFadeObserver release];
-    
-    [uraPlayer release];
-    
-    [utaPlayer release];
-    
-    [normalPlayListArray release];
-    
-    [shufflePlayListArray release];
-    
-    [nextTunePlaylistArray release];
-    
-//    [currentPlayListSong release];
-    
-    [self removeObserver:self forKeyPath:AVPlayerItemDidPlayToEndTimeNotification];
-    
-    if(artworkQueue){
-        [artworkQueue setSuspended:YES];
-        [artworkQueue cancelAllOperations];
-        // you need to decide if you need to handle running operations
-        // reasonably, but don't wait here because that may block the
-        // main thread
-        [artworkQueue release];
-    }
-    
-    [super dealloc];
-}
+//- (void)dealloc {
+//    
+//    [crossFadeObserver release];
+//    
+//    [uraPlayer release];
+//    
+//    [utaPlayer release];
+//    
+//    [normalPlayListArray release];
+//    
+//    [shufflePlayListArray release];
+//    
+//    [nextTunePlaylistArray release];
+//    
+////    [currentPlayListSong release];
+//    
+//    [self removeObserver:self forKeyPath:AVPlayerItemDidPlayToEndTimeNotification];
+//    
+//    if(artworkQueue){
+//        [artworkQueue setSuspended:YES];
+//        [artworkQueue cancelAllOperations];
+//        // you need to decide if you need to handle running operations
+//        // reasonably, but don't wait here because that may block the
+//        // main thread
+//        [artworkQueue release];
+//    }
+//    
+//    [super dealloc];
+//}
 
 - (void)handleAudioSessionInterruption:(NSNotification*)notification {
     
@@ -257,7 +250,7 @@
 
 #pragma mark -
 
-- (NSArray*)currentPlaylistArray{
+- (NSArray<WTUtaItem*>*)currentPlaylistArray{
     if(shuffleState == WTUtaPlayerShuffleStateOn && [shufflePlayListArray count] > 0){
         return shufflePlayListArray;
     }else if(shuffleState == WTUtaPlayerShuffleStateOff && [normalPlayListArray count] > 0){
@@ -266,13 +259,13 @@
     return nil;
 }
 
-- (int)currentPlaylistCount{
+- (NSUInteger)currentPlaylistCount{
     return [[self currentPlaylistArray] count];
 }
 
-- (MusicItem*)currentMusicItem{
+- (WTUtaItem*)currentMusicItem{
     if([[self currentPlaylistArray] count] > playListSongIndex){
-        return (MusicItem*)[[self currentPlaylistArray] objectAtIndex:playListSongIndex];
+        return (WTUtaItem*)[[self currentPlaylistArray] objectAtIndex:playListSongIndex];
     }
     return  nil;
 }
@@ -328,7 +321,7 @@
 }
 
 - (BOOL)isFirstInPlaylist{
-    return (playListSongIndex-1 < 0);
+    return (playListSongIndex <= 0);
 }
 
 - (BOOL)isLastInPlaylist{
@@ -348,9 +341,9 @@
     playListSongIndex = index;
     repeatState = repeat;
     shuffleState = shuffle;
-    if(playListSongIndex>=0 && playListSongIndex<[[self currentPlaylistArray] count]){
+    if(playListSongIndex>=0 && playListSongIndex+1<=[[self currentPlaylistArray] count]){
 //        [self callUtaPlayerToPlayURL:[(MusicItem*)[[self currentPlaylistArray] objectAtIndex:playListSongIndex] pathURL]];
-        MusicItem *song = [self currentPlaylistMusicItemAtIndex:index];
+        WTUtaItem *song = [self currentPlaylistMusicItemAtIndex:index];
         [self playSong:song];
         [self callUtaPlayerToPause];
         [self queueAdvanceLoadCurrentArtwork];
@@ -368,7 +361,7 @@
     if(SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"5.0")){
         
 //        int playingQueueCount = [[self currentPlaylistArray] count];
-        MusicItem *nowPlayingItem = [self currentMusicItem];
+        WTUtaItem *nowPlayingItem = [self currentMusicItem];
         
         Class playingInfoCenter = NSClassFromString(@"MPNowPlayingInfoCenter");
         if (playingInfoCenter)
@@ -381,7 +374,6 @@
                 MPMediaItemArtwork *albumArt;
                 albumArt = [[MPMediaItemArtwork alloc] initWithImage: [nowPlayingItem artwork]];
                 [songInfo setObject:albumArt forKey:MPMediaItemPropertyArtwork];
-                [albumArt release];
                 
                 [songInfo setObject:[NSNumber numberWithFloat:[self currentRate]] forKey:MPNowPlayingInfoPropertyPlaybackRate];
                 [songInfo setObject:[NSNumber numberWithFloat:[self currentTime]] forKey:MPNowPlayingInfoPropertyElapsedPlaybackTime];
@@ -389,7 +381,6 @@
 
             }
             [[MPNowPlayingInfoCenter defaultCenter] setNowPlayingInfo:songInfo];
-            [songInfo release];
         }
         
     }
@@ -399,7 +390,7 @@
     if(SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"5.0")){
         
         //        int playingQueueCount = [[self currentPlaylistArray] count];
-        MusicItem *nowPlayingItem = [self currentMusicItem];
+        WTUtaItem *nowPlayingItem = [self currentMusicItem];
         
         Class playingInfoCenter = NSClassFromString(@"MPNowPlayingInfoCenter");
         if (playingInfoCenter)
@@ -412,7 +403,6 @@
                 MPMediaItemArtwork *albumArt;
                 albumArt = [[MPMediaItemArtwork alloc] initWithImage: [nowPlayingItem artwork]];
                 [songInfo setObject:albumArt forKey:MPMediaItemPropertyArtwork];
-                [albumArt release];
                 
                 [songInfo setObject:[NSNumber numberWithFloat:[self currentRate]] forKey:MPNowPlayingInfoPropertyPlaybackRate];
                 [songInfo setObject:[NSNumber numberWithFloat:[self currentTime]] forKey:MPNowPlayingInfoPropertyElapsedPlaybackTime];
@@ -420,7 +410,6 @@
                 
             }
             [[MPNowPlayingInfoCenter defaultCenter] setNowPlayingInfo:songInfo];
-            [songInfo release];
         }
         
     }
@@ -532,7 +521,7 @@
         
         if(repeatState == WTUtaPlayerRepeatStateOne){
             
-            if(playListSongIndex-1 < 0){
+            if(playListSongIndex <= 0){
                 
                 //already first song
                 [[NSNotificationCenter defaultCenter] postNotificationName:musicBackNotification object:nil];
@@ -549,7 +538,7 @@
             
         }else if(repeatState == WTUtaPlayerRepeatStateNone){
             
-            if(playListSongIndex-1 < 0){
+            if(playListSongIndex <= 0){
                 
                 //already first song
                 [[NSNotificationCenter defaultCenter] postNotificationName:musicBackNotification object:nil];
@@ -566,7 +555,7 @@
             
         }else if(repeatState == WTUtaPlayerRepeatStateAll){
             
-            if(playListSongIndex-1 < 0){
+            if(playListSongIndex <= 0){
                 
                 [self playPlayListSongAtIndex:[[self currentPlaylistArray] count]-1];
                 
@@ -707,11 +696,11 @@
         
     }else if(_state == WTUtaPlayerShuffleStateOff){
         
-        MusicItem *song = [self currentMusicItem];
+        WTUtaItem *song = [self currentMusicItem];
         
         [self changeToNormalPlayListSong:normalPlayListArray];
         
-        int newPlaylistSongIndex = [normalPlayListArray indexOfObject:song];
+        NSUInteger newPlaylistSongIndex = [normalPlayListArray indexOfObject:song];
         
         playListSongIndex = newPlaylistSongIndex;
         
@@ -739,9 +728,7 @@
     [artworkQueue cancelAllOperations];
 }
 
-- (void)loadDataWithOperation:(MusicItem*)song{
-    
-    NSAutoreleasePool* threadPool = [NSAutoreleasePool new];
+- (void)loadDataWithOperation:(WTUtaItem*)song{
     
     if([song isKindOfClass:NSClassFromString(@"MusicItem")]){
         
@@ -758,11 +745,9 @@
                 
         }
     }
-    
-    [threadPool drain];
 }
 
--(int)getNumberOfLoadNextArtworkAdvance:(int)_arrayCount{
+-(int)getNumberOfLoadNextArtworkAdvance:(NSUInteger)_arrayCount{
     
     int numberNext = numberToLoadNextArtworkAdvance;
     
@@ -772,7 +757,7 @@
     return numberNext;
 }
 
--(int)getNumberOfLoadPrevArtworkAdvance:(int)_arrayCount{
+-(int)getNumberOfLoadPrevArtworkAdvance:(NSUInteger)_arrayCount{
     
     int numberPrev = numberToLoadPrevArtworkAdvance;
     
@@ -786,10 +771,10 @@
     
     [self stopLoadArtworkAdvance];
     
-    MusicItem *item = [self currentMusicItem];
-    NSInvocationOperation *operation = [[[NSInvocationOperation alloc] initWithTarget:self
+    WTUtaItem *item = [self currentMusicItem];
+    NSInvocationOperation *operation = [[NSInvocationOperation alloc] initWithTarget:self
                                                                              selector:@selector(loadDataWithOperation:)
-                                                                               object:item] autorelease];
+                                                                               object:item];
     [operation setQueuePriority:NSOperationQueuePriorityVeryHigh];
     [artworkQueue addOperation:operation];
 }
@@ -799,17 +784,17 @@
 //    [artworkQueue performSelectorOnMainThread:@selector(cancelAllOperations) withObject:nil waitUntilDone:NO];
 //    [artworkQueue cancelAllOperations];
     
-    int arrayCount = [[self currentPlaylistArray] count];
-    int numberNext = [self getNumberOfLoadNextArtworkAdvance:arrayCount];
-    int numberPrev = [self getNumberOfLoadPrevArtworkAdvance:arrayCount];
+    NSUInteger arrayCount = [[self currentPlaylistArray] count];
+    NSUInteger numberNext = [self getNumberOfLoadNextArtworkAdvance:arrayCount];
+    NSUInteger numberPrev = [self getNumberOfLoadPrevArtworkAdvance:arrayCount];
     
 //    NSOperation *operationX = nil;
     for(int i=1 ; i<1+numberNext ; i++){
-        int index = (playListSongIndex+arrayCount+i)%arrayCount;
-        MusicItem *item = [self currentPlaylistMusicItemAtIndex:index];
-        NSInvocationOperation *operation = [[[NSInvocationOperation alloc] initWithTarget:self
+        NSUInteger index = (playListSongIndex+arrayCount+i)%arrayCount;
+        WTUtaItem *item = [self currentPlaylistMusicItemAtIndex:index];
+        NSInvocationOperation *operation = [[NSInvocationOperation alloc] initWithTarget:self
                                                                                 selector:@selector(loadDataWithOperation:)
-                                                                                    object:item] autorelease];
+                                                                                    object:item];
         [operation setQueuePriority:NSOperationQueuePriorityNormal];
         
 //        CLS_LOG(@"operation %d: %@",i,operationX);
@@ -821,11 +806,11 @@
     }
     
     for(int i=-1 ; i>-1-numberPrev ; i--){
-        int index = (playListSongIndex+arrayCount+i)%arrayCount;
-        MusicItem *item = [self currentPlaylistMusicItemAtIndex:index];
-        NSInvocationOperation *operation = [[[NSInvocationOperation alloc] initWithTarget:self
+        NSUInteger index = (playListSongIndex+arrayCount+i)%arrayCount;
+        WTUtaItem *item = [self currentPlaylistMusicItemAtIndex:index];
+        NSInvocationOperation *operation = [[NSInvocationOperation alloc] initWithTarget:self
                                                                                 selector:@selector(loadDataWithOperation:)
-                                                                                    object:item] autorelease];
+                                                                                    object:item];
         [operation setQueuePriority:NSOperationQueuePriorityNormal];
         
 //        CLS_LOG(@"operation %d: %@",i,operationX);
@@ -839,26 +824,26 @@
 
 -(void)queueClearAllLoadArtwork{
     
-    MusicItem *itemX = [self currentMusicItem];
+    WTUtaItem *itemX = [self currentMusicItem];
     if([itemX isLoadArtwork]){
         [itemX removeArtwork];
     }
     
-    int arrayCount = [[self currentPlaylistArray] count];
-    int numberNext = [self getNumberOfLoadNextArtworkAdvance:arrayCount];
-    int numberPrev = [self getNumberOfLoadPrevArtworkAdvance:arrayCount];
+    NSUInteger arrayCount = [[self currentPlaylistArray] count];
+    NSUInteger numberNext = [self getNumberOfLoadNextArtworkAdvance:arrayCount];
+    NSUInteger numberPrev = [self getNumberOfLoadPrevArtworkAdvance:arrayCount];
     
     for(int i=1 ; i<1+numberNext ; i++){
-        int index = (playListSongIndex+arrayCount+i)%arrayCount;
-        MusicItem *item = [self currentPlaylistMusicItemAtIndex:index];
+        NSUInteger index = (playListSongIndex+arrayCount+i)%arrayCount;
+        WTUtaItem *item = [self currentPlaylistMusicItemAtIndex:index];
         if([item isLoadArtwork]){
             [item removeArtwork];
         }
     }
     
     for(int i=-1 ; i>-1-numberPrev ; i--){
-        int index = (playListSongIndex+arrayCount+i)%arrayCount;
-        MusicItem *item = [self currentPlaylistMusicItemAtIndex:index];
+        NSUInteger index = (playListSongIndex+arrayCount+i)%arrayCount;
+        WTUtaItem *item = [self currentPlaylistMusicItemAtIndex:index];
         if([item isLoadArtwork]){
             [item removeArtwork];
         }
@@ -869,7 +854,7 @@
     
     //clear only prev artwork
     
-    int arrayCount = [[self currentPlaylistArray] count];
+    NSUInteger arrayCount = [[self currentPlaylistArray] count];
 //        int numberNext = [self getNumberOfLoadNextArtworkAdvance:arrayCount];
     int numberPrev = [self getNumberOfLoadPrevArtworkAdvance:arrayCount];
     
@@ -883,8 +868,8 @@
 //        }
     
     for(int i=-numberPrev ; i>-1-numberPrev && numberPrev!=0  ; i--){
-        int index = (playListSongIndex+arrayCount+i)%arrayCount;
-        MusicItem *item = [self currentPlaylistMusicItemAtIndex:index];
+        NSUInteger index = (playListSongIndex+arrayCount+i)%arrayCount;
+        WTUtaItem *item = [self currentPlaylistMusicItemAtIndex:index];
         if([item isLoadArtwork]){
             [item removeArtwork];
         }
@@ -893,7 +878,7 @@
 
 #pragma mark - function
 
-- (void)playPlayListSong:(MusicItem *)song{
+- (void)playPlayListSong:(WTUtaItem *)song{
     
     NSInteger newPlaylistSongIndex = [[self currentPlaylistArray] indexOfObject:song];
     
@@ -912,7 +897,7 @@
         
         if(playListSongIndex+1 >= [[self currentPlaylistArray] count]){
             
-        }else if(playListSongIndex-1 < 0){
+        }else if(playListSongIndex <= 0){
             
         }else{
             
@@ -926,7 +911,7 @@
         
         if(playListSongIndex+1 >= [[self currentPlaylistArray] count]){
             
-        }else if(playListSongIndex-1 < 0){
+        }else if(playListSongIndex <= 0){
             
         }else{
             
@@ -944,7 +929,7 @@
                 [self queueClearPlayedLoadArtwork];
             }
             
-        }else if(playListSongIndex-1 < 0){
+        }else if(playListSongIndex <= 0){
             
         }else{
             
@@ -962,14 +947,14 @@
 //        [self queueAdvanceLoadArtwork];
 //    }
     
-    MusicItem *song = [self currentPlaylistMusicItemAtIndex:index];
+    WTUtaItem *song = [self currentPlaylistMusicItemAtIndex:index];
     
     [self queueAdvanceLoadCurrentArtwork];
     
     [self playSong:song];
 }
 
-- (void)playSong:(MusicItem *)song{
+- (void)playSong:(WTUtaItem *)song{
     
     if(song.pathURL){
         [self callUtaPlayerToPause];
@@ -984,7 +969,7 @@
     [[NSNotificationCenter defaultCenter] postNotificationName:sendMusicItemNotification object:song];
 }
 
-- (void)playPlayListSongAtIndexCrossFade:(int)index{
+- (void)playPlayListSongAtIndexCrossFade:(NSInteger)index{
     
     [self queueClearPlayedLoadArtwork];
     
@@ -997,7 +982,7 @@
 //        [self queueAdvanceLoadArtwork];
 //    }
     
-    MusicItem *song = [self currentPlaylistMusicItemAtIndex:index];
+    WTUtaItem *song = [self currentPlaylistMusicItemAtIndex:index];
     
     [self queueAdvanceLoadCurrentArtwork];
     
@@ -1155,15 +1140,15 @@
     shuffleState = WTUtaPlayerShuffleStateOff;
 }
 
-- (void)shufflePlay:(NSArray*)array beginWith:(int)numbegin{
+- (void)shufflePlay:(NSArray*)array beginWith:(NSUInteger)numbegin{
     [self queueClearAllLoadArtwork];
     [self changeToShufflePlayListSong:array beginWith:numbegin];
 }
 
-- (void)changeToShufflePlayListSong:(NSArray*)array beginWith:(int)numbegin{
+- (void)changeToShufflePlayListSong:(NSArray*)array beginWith:(NSUInteger)numbegin{
     self.normalPlayListArray = [NSMutableArray arrayWithArray:array];
     NSArray *shuffleArray;
-    if(numbegin < 0){
+    if(numbegin >= [array count]){
         shuffleArray = [self functionRandomArray:normalPlayListArray];
     }else{
         shuffleArray = [self functionRandomArray:normalPlayListArray beginWith:numbegin];
@@ -1174,12 +1159,12 @@
 
 
 - (NSMutableArray*)functionRandomArray:(NSMutableArray*)list{
-	
-    NSMutableArray *list_Normal = [[NSMutableArray alloc]initWithArray:list];
     
-	NSMutableArray *list_Random = [[[NSMutableArray alloc]init]autorelease];
+    NSMutableArray *list_Normal = [NSMutableArray arrayWithArray:list];
+    
+    NSMutableArray *list_Random = [NSMutableArray array];
 	
-	for(int i = [list_Normal count] ; i > 0 ; i--){
+	for(NSUInteger i = [list_Normal count] ; i > 0 ; i--){
 		
 		int randomIndex = arc4random()%i;
 		
@@ -1189,26 +1174,24 @@
 		
 	}
     
-    [list_Normal release];
-    
 	return list_Random;
 }
 
-- (NSMutableArray*)functionRandomArray:(NSMutableArray*)list beginWith:(int)numbegin{
+- (NSMutableArray*)functionRandomArray:(NSMutableArray*)list beginWith:(NSUInteger)numbegin{
 	
-    if(numbegin < 0 && numbegin >= [list count]){
+    if(numbegin >= [list count]){
         numbegin = arc4random()%[list count];
     }
     
-    NSMutableArray *list_Normal = [[NSMutableArray alloc]initWithArray:list];
+    NSMutableArray *list_Normal = [NSMutableArray arrayWithArray:list];
 	
-	NSMutableArray *list_Random = [[[NSMutableArray alloc]init]autorelease];
+	NSMutableArray *list_Random = [NSMutableArray array];
 	
 	[list_Random addObject:[list_Normal objectAtIndex:numbegin]];
 	
     [list_Normal removeObjectAtIndex:numbegin];
     
-	for(int i = [list_Normal count] ; i > 0 ; i--){
+	for(NSUInteger i = [list_Normal count] ; i > 0 ; i--){
 		
 		int randomIndex = arc4random()%i;
 		
@@ -1218,14 +1201,12 @@
 		
 	}
     
-    [list_Normal release];
-    
 	return list_Random;
 }
 
-- (MusicItem*)currentPlaylistMusicItemAtIndex:(int)index{
-    if(index >= 0 && index < [[self currentPlaylistArray] count]){
-        return (MusicItem*)[[self currentPlaylistArray] objectAtIndex:index];
+- (WTUtaItem*)currentPlaylistMusicItemAtIndex:(NSUInteger)index{
+    if(index < [[self currentPlaylistArray] count]){
+        return (WTUtaItem*)[[self currentPlaylistArray] objectAtIndex:index];
     }
     return  nil;
 }
@@ -1252,8 +1233,9 @@
     Float64 durationSeconds = [self currentDuration];
     CMTime crossFadePoint = CMTimeSubtract(CMTimeMakeWithSeconds(durationSeconds, 1),CMTimeMake(numberOfSecondToCrossFade, 1));
     
+    __weak WTUtaPlayer *weak_self = self;
     [self addBoundaryTimeObserverForTimes:[NSArray arrayWithObjects: [NSValue valueWithCMTime:crossFadePoint], nil] queue:NULL usingBlock:^{
-        [self didPlayToCrossFadeTimeNotification];
+        [weak_self didPlayToCrossFadeTimeNotification];
     }];
 }
 
@@ -1267,7 +1249,7 @@
 
 - (void)nextTunePlay
 {
-    MusicItem *item = [self.nextTunePlaylistArray objectAtIndex:0];
+    WTUtaItem *item = [self.nextTunePlaylistArray objectAtIndex:0];
     
     [self normalPlay:[NSArray arrayWithObject:item]];
     
@@ -1285,7 +1267,7 @@
     }
 }
 
-- (void)addSongNextTune:(MusicItem*)item
+- (void)addSongNextTune:(WTUtaItem*)item
 {
     
     if(nextTuneState == WTUtaPlayerNextTuneStateOnOne)
@@ -1313,180 +1295,8 @@
 //    }
 }
 
-- (void)removeSongNextTuneAtIndex:(int)index{
+- (void)removeSongNextTuneAtIndex:(NSUInteger)index{
     [self.nextTunePlaylistArray removeObjectAtIndex:index];
 }
-
-//- (NSArray*)matchMusicItemFromPlaylistSongItem:(NSArray*)_array{
-//    
-//    NSArray *playlistSongItemInPlaylist = _array;
-//    
-//    NSMutableArray *musicItemInPlaylist = [NSMutableArray array];
-//    
-//    for(PlaylistSongItem *aItem in playlistSongItemInPlaylist){
-//        
-//        if(aItem.type == PlaylistSongItemSourceFromiPod){
-//            
-//            for(MusicItem *bItem in allSongiPod) {
-//                
-//                if([aItem.fileName isEqualToString:bItem.filename]){
-//                    
-//                    [musicItemInPlaylist addObject:bItem];
-//                    break;
-//                    
-//                }
-//                
-//            }
-//            
-//        }else if(aItem.type == PlaylistSongItemSourceFromApp){
-//            
-//            for(MusicItem *bItem in allSongAppDoc) {
-//                
-//                if([aItem.fileName isEqualToString:bItem.filename]){
-//                    
-//                    [musicItemInPlaylist addObject:bItem];
-//                    break;
-//                    
-//                }
-//                
-//            }
-//            
-//        }
-//        
-//    }
-//    
-//    return musicItemInPlaylist;
-//    
-//}
-
-//#pragma mark - return array for music filter
-//
-//
-//- (NSArray*)queryAllSongiPod{
-//    
-//    return self.allSongiPod;
-//    
-//}
-//
-//- (NSArray*)queryAllSongAppDoc{
-//    
-//    return self.allSongAppDoc;
-//    
-//}
-//
-//- (NSArray*)queryPlaylistiPod{
-//    
-//    MPMediaQuery *everything = [MPMediaQuery playlistsQuery];
-//    NSArray *items = [NSArray arrayWithArray:[everything collections]];
-//    
-//    NSMutableArray *itemsFromGenericQuery = [NSMutableArray array];
-//    int i = 0;
-//    for (MPMediaItemCollection *playlist in items) {
-//        NSString *name = [playlist valueForProperty: MPMediaPlaylistPropertyName];
-//        
-//        NSArray *songs = [playlist items];
-//        PlaylistItem *item = [[PlaylistItem alloc] initWithName:name SortId:i Total:[songs count]];
-//        [itemsFromGenericQuery addObject:item];
-//        [item release];
-//        i++;
-//    }
-//    
-//    return itemsFromGenericQuery;
-//}
-//
-//- (NSArray*)queryPlaylistAppDoc{
-//    
-//    return [self readPlaylist];
-//    
-//}
-//
-//- (NSArray*)queryPlaylistSongiPodWithPlaylistName:(NSString*)_playlist{
-//    
-//    MPMediaQuery *everything = [MPMediaQuery playlistsQuery];
-//    NSArray *items = [NSArray arrayWithArray:[everything collections]];
-//    
-//    NSMutableArray *itemsFromGenericQuery = [NSMutableArray array];
-//    
-//    for (MPMediaItemCollection *playlist in items) {
-//        NSString *name = [playlist valueForProperty: MPMediaPlaylistPropertyName];
-//        
-//        if([name isEqualToString:_playlist]){
-//            
-//            NSArray *array = [playlist items];
-//            
-//            for (MPMediaItem *song in array) {
-//                MusicItem *item = [[MusicItem alloc] initItem:song WithType:MusicItemSourceFromiPod];
-//                [itemsFromGenericQuery addObject:item];
-//                [item release];
-//            }
-//            
-//        }
-//        
-//    }
-//    
-//    return itemsFromGenericQuery;
-//}
-//
-//- (NSArray*)queryPlaylistSongAppDocWithPlaylistName:(NSString*)_playlist{////////
-//    
-//    NSArray *playlistSongItemInPlaylist = [NSArray arrayWithArray:[self readPlaylistSongWithPlaylistName:_playlist]];
-//    
-//    return [self matchMusicItemFromPlaylistSongItem:playlistSongItemInPlaylist];
-//    
-//}
-//
-//- (void)firstQueryAllSongiPod{
-//    
-//    MPMediaQuery *everything = [[MPMediaQuery alloc] init];
-//    NSArray *items = [NSArray arrayWithArray:[everything items]];
-//    
-//    [everything release];
-//    
-//    NSMutableArray *itemsFromGenericQuery = [NSMutableArray array];
-//    
-//    for (MPMediaItem *song in items) {
-//        MusicItem *item = [[MusicItem alloc] initItem:song WithType:MusicItemSourceFromiPod];
-//        [itemsFromGenericQuery addObject:item];
-//        [item release];
-//    }
-//    
-//    self.allSongiPod = [NSArray arrayWithArray:itemsFromGenericQuery];
-//    
-//    [[NSNotificationCenter defaultCenter] postNotificationName:addSongNotification object:nil];
-//}
-//
-//- (void)firstQueryAllSongAppDoc{
-//    
-//    NSArray * paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-//    NSString * documentsDirectory = [paths objectAtIndex:0];
-//    
-//    NSFileManager *manager = [NSFileManager defaultManager];
-//    NSArray *fileList = [manager contentsOfDirectoryAtPath:documentsDirectory error:nil];
-//    
-//    NSArray *items = [NSArray arrayWithArray:fileList];
-//    
-//    NSMutableArray *itemsFromGenericQuery = [NSMutableArray array];
-//    
-//    for (NSString *song in items) {
-//        NSString * urlPath = [NSString stringWithFormat:@"%@",[documentsDirectory stringByAppendingPathComponent:song]];
-//        MusicItem *item = [[MusicItem alloc] initItem:urlPath WithType:MusicItemSourceFromApp];
-//        if(item.filsIsOK){
-//            [itemsFromGenericQuery addObject:item];
-//        }
-//        [item release];
-//    }
-//    
-//    self.allSongAppDoc = [NSArray arrayWithArray:itemsFromGenericQuery];
-//    
-//    [[NSNotificationCenter defaultCenter] postNotificationName:addSongNotification object:nil];
-//}
-//
-//- (void)updateAllSongiPod{
-//    [self firstQueryAllSongiPod];
-//}
-//
-//- (void)updateAllSongAppDoc{
-//    [self firstQueryAllSongAppDoc];
-//}
 
 @end
