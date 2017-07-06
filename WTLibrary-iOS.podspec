@@ -116,7 +116,7 @@ subspec.frameworks = 'SafariServices', 'SystemConfiguration', 'GoogleAppUtilitie
 #subspec.xcconfig = { 'OTHER_LDFLAGS' => '-ObjC', 'FRAMEWORK_SEARCH_PATHS' => '"${PODS_ROOT}/GoogleSignIn/Frameworks", "${PODS_ROOT}/WTLibrary-iOS/WTLibrary-iOS/Classes/WTGoogle"' }
 #subspec.header_dir = '{PODS_ROOT}/../../WTLibrary-iOS/Classes/WTGoogle'
 
-subspec.xcconfig = { 'OTHER_LDFLAGS' => '-ObjC', 'FRAMEWORK_SEARCH_PATHS' => '"${PODS_ROOT}/GoogleSignIn/Frameworks", "${PODS_ROOT}/WTLibrary-iOS/WTLibrary-iOS/Classes/WTGoogle", "${PODS_ROOT}/../../WTLibrary-iOS/Classes/WTGoogle"' }
+subspec.xcconfig = { 'OTHER_LDFLAGS' => '-ObjC', 'FRAMEWORK_SEARCH_PATHS' => '"${PODS_ROOT}/WTLibrary-iOS/WTLibrary-iOS/Classes/WTGoogle" "${PODS_ROOT}/../../WTLibrary-iOS/Classes/WTGoogle"' }
 end
 
 ##################################################
