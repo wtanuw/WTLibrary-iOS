@@ -211,7 +211,10 @@
         ]
       },
       "source_files": "WTLibrary-iOS/Classes/WTUtaPlayer/*.{h,m}",
-      "frameworks": "AVFoundation"
+      "frameworks": [
+        "AVFoundation",
+        "MediaPlayer"
+      ]
     },
     {
       "name": "WTSwift",
@@ -220,7 +223,10 @@
           "~> 4.1"
         ]
       },
-      "source_files": "WTLibrary-iOS/Swift/*"
+      "source_files": "WTLibrary-iOS/Swift/*",
+      "pod_target_xcconfig": {
+        "SWIFT_VERSION": "3.0"
+      }
     }
   ]
 }

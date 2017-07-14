@@ -43,8 +43,6 @@ s.ios.deployment_target = '8.0'
 
 s.default_subspec = 'WTObjC'
 
-s.module_name = 'WTLibrary'
-
 
 ##################################################
 
@@ -173,6 +171,7 @@ end
 s.subspec 'WTSwift' do |subspec|
 subspec.dependency 'AFDateHelper', '~> 4.1'
 subspec.source_files = 'WTLibrary-iOS/Swift/*'
+subspec.pod_target_xcconfig = { 'SWIFT_VERSION' => '3.0' }
 end
 
 ##################################################
