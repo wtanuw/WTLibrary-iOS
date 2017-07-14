@@ -730,7 +730,7 @@
 
 - (void)loadDataWithOperation:(WTUtaItem*)song{
     
-    if([song isKindOfClass:NSClassFromString(@"MusicItem")]){
+    if([song respondsToSelector:@selector(loadArtworkImage)]){
         
         if(![song isLoadArtwork]){
             

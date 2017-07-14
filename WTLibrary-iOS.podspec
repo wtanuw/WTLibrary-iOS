@@ -172,6 +172,7 @@ end
 s.subspec 'WTSwift' do |subspec|
 subspec.dependency 'AFDateHelper', '~> 4.1'
 subspec.source_files = 'WTLibrary-iOS/Swift/*'
+subspec.module_name = 'WTSwift'
 end
 
 ##################################################

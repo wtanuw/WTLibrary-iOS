@@ -15,6 +15,9 @@
 
 @implementation NSMutableArray (StackAdditions)
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wunused-value"
+
 - (id)pop
 {
     if([self count] == 0) return nil;
@@ -26,6 +29,8 @@
     }
     return lastObject;
 }
+
+#pragma clang diagnostic pop
 
 - (void)push:(id)obj
 {
