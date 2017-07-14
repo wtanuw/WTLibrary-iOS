@@ -1,26 +1,19 @@
 //
-//  WTLibrary.h
+//  WTCategoriesExtension.h
 //  Pods
 //
 //  Created by iMac on 6/8/17.
 //
 //
 
-#ifndef WTLibrary_h
-#define WTLibrary_h
+#ifndef WTCategoriesExtension_h
+#define WTCategoriesExtension_h
 
-#endif /* WTLibrary_h */
+#endif /* WTCategoriesExtension_h */
 
 #ifdef __cplusplus
 extern "C" {
 #endif
-    
-#import "WTMacro.h"
-#import "WTPath.h"
-#import "WTBox.h"
-#import "WTSharedBox.h"
-    
-//#import "NSString+MD5Digest.h"
     
 #import "NSData+Base64.h"
 #import "NSMutableArray+QueueAdditions.h"
