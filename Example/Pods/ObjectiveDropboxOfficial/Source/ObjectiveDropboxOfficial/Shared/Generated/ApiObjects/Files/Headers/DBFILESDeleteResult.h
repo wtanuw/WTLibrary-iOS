@@ -6,10 +6,13 @@
 
 #import <Foundation/Foundation.h>
 
+#import "DBFILESFileOpsResult.h"
 #import "DBSerializableProtocol.h"
 
 @class DBFILESDeleteResult;
 @class DBFILESMetadata;
+
+NS_ASSUME_NONNULL_BEGIN
 
 #pragma mark - API Object
 
@@ -20,25 +23,23 @@
 /// deserialize instance methods), which is required for all Obj-C SDK API route
 /// objects.
 ///
-@interface DBFILESDeleteResult : NSObject <DBSerializable, NSCopying>
+@interface DBFILESDeleteResult : DBFILESFileOpsResult <DBSerializable, NSCopying>
 
 #pragma mark - Instance fields
 
-/// (no description).
-@property (nonatomic, readonly) DBFILESMetadata * _Nonnull metadata;
+/// Metadata of the deleted object.
+@property (nonatomic, readonly) DBFILESMetadata *metadata;
 
 #pragma mark - Constructors
 
 ///
 /// Full constructor for the struct (exposes all instance variables).
 ///
-/// @param metadata (no description).
+/// @param metadata Metadata of the deleted object.
 ///
 /// @return An initialized instance.
 ///
-- (nonnull instancetype)initWithMetadata:(DBFILESMetadata * _Nonnull)metadata;
-
-- (nonnull instancetype)init NS_UNAVAILABLE;
+- (instancetype)initWithMetadata:(DBFILESMetadata *)metadata;
 
 @end
 
@@ -57,7 +58,7 @@
 /// @return A json-compatible dictionary representation of the
 /// `DBFILESDeleteResult` API object.
 ///
-+ (NSDictionary * _Nonnull)serialize:(DBFILESDeleteResult * _Nonnull)instance;
++ (nullable NSDictionary *)serialize:(DBFILESDeleteResult *)instance;
 
 ///
 /// Deserializes `DBFILESDeleteResult` instances.
@@ -67,6 +68,8 @@
 ///
 /// @return An instantiation of the `DBFILESDeleteResult` object.
 ///
-+ (DBFILESDeleteResult * _Nonnull)deserialize:(NSDictionary * _Nonnull)dict;
++ (DBFILESDeleteResult *)deserialize:(NSDictionary *)dict;
 
 @end
+
+NS_ASSUME_NONNULL_END

@@ -11,6 +11,8 @@
 
 @class DBFILESRelocationArg;
 
+NS_ASSUME_NONNULL_BEGIN
+
 #pragma mark - API Object
 
 ///
@@ -27,11 +29,15 @@
 /// If true, `dCopy` will copy contents in shared folder, otherwise
 /// `cantCopySharedFolder` in `DBFILESRelocationError` will be returned if
 /// fromPath contains shared folder. This field is always true for `move`.
-@property (nonatomic, readonly) NSNumber * _Nonnull allowSharedFolder;
+@property (nonatomic, readonly) NSNumber *allowSharedFolder;
 
 /// If there's a conflict, have the Dropbox server try to autorename the file to
 /// avoid the conflict.
-@property (nonatomic, readonly) NSNumber * _Nonnull autorename;
+@property (nonatomic, readonly) NSNumber *autorename;
+
+/// Allow moves by owner even if it would result in an ownership transfer for
+/// the content being moved. This does not apply to copies.
+@property (nonatomic, readonly) NSNumber *allowOwnershipTransfer;
 
 #pragma mark - Constructors
 
@@ -46,13 +52,17 @@
 /// `move`.
 /// @param autorename If there's a conflict, have the Dropbox server try to
 /// autorename the file to avoid the conflict.
+/// @param allowOwnershipTransfer Allow moves by owner even if it would result
+/// in an ownership transfer for the content being moved. This does not apply to
+/// copies.
 ///
 /// @return An initialized instance.
 ///
-- (nonnull instancetype)initWithFromPath:(NSString * _Nonnull)fromPath
-                                  toPath:(NSString * _Nonnull)toPath
-                       allowSharedFolder:(NSNumber * _Nullable)allowSharedFolder
-                              autorename:(NSNumber * _Nullable)autorename;
+- (instancetype)initWithFromPath:(NSString *)fromPath
+                          toPath:(NSString *)toPath
+               allowSharedFolder:(nullable NSNumber *)allowSharedFolder
+                      autorename:(nullable NSNumber *)autorename
+          allowOwnershipTransfer:(nullable NSNumber *)allowOwnershipTransfer;
 
 ///
 /// Convenience constructor (exposes only non-nullable instance variables with
@@ -63,7 +73,7 @@
 ///
 /// @return An initialized instance.
 ///
-- (nonnull instancetype)initWithFromPath:(NSString * _Nonnull)fromPath toPath:(NSString * _Nonnull)toPath;
+- (instancetype)initWithFromPath:(NSString *)fromPath toPath:(NSString *)toPath;
 
 @end
 
@@ -82,7 +92,7 @@
 /// @return A json-compatible dictionary representation of the
 /// `DBFILESRelocationArg` API object.
 ///
-+ (NSDictionary * _Nonnull)serialize:(DBFILESRelocationArg * _Nonnull)instance;
++ (nullable NSDictionary *)serialize:(DBFILESRelocationArg *)instance;
 
 ///
 /// Deserializes `DBFILESRelocationArg` instances.
@@ -92,6 +102,8 @@
 ///
 /// @return An instantiation of the `DBFILESRelocationArg` object.
 ///
-+ (DBFILESRelocationArg * _Nonnull)deserialize:(NSDictionary * _Nonnull)dict;
++ (DBFILESRelocationArg *)deserialize:(NSDictionary *)dict;
 
 @end
+
+NS_ASSUME_NONNULL_END

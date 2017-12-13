@@ -12,6 +12,8 @@
 @class DBFILESRelocationBatchError;
 @class DBFILESWriteError;
 
+NS_ASSUME_NONNULL_BEGIN
+
 #pragma mark - API Object
 
 ///
@@ -54,6 +56,14 @@ typedef NS_ENUM(NSInteger, DBFILESRelocationBatchErrorTag) {
   /// `DBFILESRelocationArg` and `toPath` in `DBFILESRelocationArg`.
   DBFILESRelocationBatchErrorDuplicatedOrNestedPaths,
 
+  /// Your move operation would result in an ownership transfer. You may
+  /// reissue the request with the field `allowOwnershipTransfer` in
+  /// `DBFILESRelocationArg` to true.
+  DBFILESRelocationBatchErrorCantTransferOwnership,
+
+  /// The current user does not have enough space to move or copy the files.
+  DBFILESRelocationBatchErrorInsufficientQuota,
+
   /// (no description).
   DBFILESRelocationBatchErrorOther,
 
@@ -68,15 +78,15 @@ typedef NS_ENUM(NSInteger, DBFILESRelocationBatchErrorTag) {
 
 /// (no description). @note Ensure the `isFromLookup` method returns true before
 /// accessing, otherwise a runtime exception will be raised.
-@property (nonatomic, readonly) DBFILESLookupError * _Nonnull fromLookup;
+@property (nonatomic, readonly) DBFILESLookupError *fromLookup;
 
 /// (no description). @note Ensure the `isFromWrite` method returns true before
 /// accessing, otherwise a runtime exception will be raised.
-@property (nonatomic, readonly) DBFILESWriteError * _Nonnull fromWrite;
+@property (nonatomic, readonly) DBFILESWriteError *fromWrite;
 
 /// (no description). @note Ensure the `isTo` method returns true before
 /// accessing, otherwise a runtime exception will be raised.
-@property (nonatomic, readonly) DBFILESWriteError * _Nonnull to;
+@property (nonatomic, readonly) DBFILESWriteError *to;
 
 #pragma mark - Constructors
 
@@ -87,7 +97,7 @@ typedef NS_ENUM(NSInteger, DBFILESRelocationBatchErrorTag) {
 ///
 /// @return An initialized instance.
 ///
-- (nonnull instancetype)initWithFromLookup:(DBFILESLookupError * _Nonnull)fromLookup;
+- (instancetype)initWithFromLookup:(DBFILESLookupError *)fromLookup;
 
 ///
 /// Initializes union class with tag state of "from_write".
@@ -96,7 +106,7 @@ typedef NS_ENUM(NSInteger, DBFILESRelocationBatchErrorTag) {
 ///
 /// @return An initialized instance.
 ///
-- (nonnull instancetype)initWithFromWrite:(DBFILESWriteError * _Nonnull)fromWrite;
+- (instancetype)initWithFromWrite:(DBFILESWriteError *)fromWrite;
 
 ///
 /// Initializes union class with tag state of "to".
@@ -105,7 +115,7 @@ typedef NS_ENUM(NSInteger, DBFILESRelocationBatchErrorTag) {
 ///
 /// @return An initialized instance.
 ///
-- (nonnull instancetype)initWithTo:(DBFILESWriteError * _Nonnull)to;
+- (instancetype)initWithTo:(DBFILESWriteError *)to;
 
 ///
 /// Initializes union class with tag state of "cant_copy_shared_folder".
@@ -115,7 +125,7 @@ typedef NS_ENUM(NSInteger, DBFILESRelocationBatchErrorTag) {
 ///
 /// @return An initialized instance.
 ///
-- (nonnull instancetype)initWithCantCopySharedFolder;
+- (instancetype)initWithCantCopySharedFolder;
 
 ///
 /// Initializes union class with tag state of "cant_nest_shared_folder".
@@ -125,7 +135,7 @@ typedef NS_ENUM(NSInteger, DBFILESRelocationBatchErrorTag) {
 ///
 /// @return An initialized instance.
 ///
-- (nonnull instancetype)initWithCantNestSharedFolder;
+- (instancetype)initWithCantNestSharedFolder;
 
 ///
 /// Initializes union class with tag state of "cant_move_folder_into_itself".
@@ -135,7 +145,7 @@ typedef NS_ENUM(NSInteger, DBFILESRelocationBatchErrorTag) {
 ///
 /// @return An initialized instance.
 ///
-- (nonnull instancetype)initWithCantMoveFolderIntoItself;
+- (instancetype)initWithCantMoveFolderIntoItself;
 
 ///
 /// Initializes union class with tag state of "too_many_files".
@@ -145,7 +155,7 @@ typedef NS_ENUM(NSInteger, DBFILESRelocationBatchErrorTag) {
 ///
 /// @return An initialized instance.
 ///
-- (nonnull instancetype)initWithTooManyFiles;
+- (instancetype)initWithTooManyFiles;
 
 ///
 /// Initializes union class with tag state of "duplicated_or_nested_paths".
@@ -156,14 +166,35 @@ typedef NS_ENUM(NSInteger, DBFILESRelocationBatchErrorTag) {
 ///
 /// @return An initialized instance.
 ///
-- (nonnull instancetype)initWithDuplicatedOrNestedPaths;
+- (instancetype)initWithDuplicatedOrNestedPaths;
+
+///
+/// Initializes union class with tag state of "cant_transfer_ownership".
+///
+/// Description of the "cant_transfer_ownership" tag state: Your move operation
+/// would result in an ownership transfer. You may reissue the request with the
+/// field `allowOwnershipTransfer` in `DBFILESRelocationArg` to true.
+///
+/// @return An initialized instance.
+///
+- (instancetype)initWithCantTransferOwnership;
+
+///
+/// Initializes union class with tag state of "insufficient_quota".
+///
+/// Description of the "insufficient_quota" tag state: The current user does not
+/// have enough space to move or copy the files.
+///
+/// @return An initialized instance.
+///
+- (instancetype)initWithInsufficientQuota;
 
 ///
 /// Initializes union class with tag state of "other".
 ///
 /// @return An initialized instance.
 ///
-- (nonnull instancetype)initWithOther;
+- (instancetype)initWithOther;
 
 ///
 /// Initializes union class with tag state of "too_many_write_operations".
@@ -173,9 +204,9 @@ typedef NS_ENUM(NSInteger, DBFILESRelocationBatchErrorTag) {
 ///
 /// @return An initialized instance.
 ///
-- (nonnull instancetype)initWithTooManyWriteOperations;
+- (instancetype)initWithTooManyWriteOperations;
 
-- (nonnull instancetype)init NS_UNAVAILABLE;
+- (instancetype)init NS_UNAVAILABLE;
 
 #pragma mark - Tag state methods
 
@@ -253,6 +284,24 @@ typedef NS_ENUM(NSInteger, DBFILESRelocationBatchErrorTag) {
 - (BOOL)isDuplicatedOrNestedPaths;
 
 ///
+/// Retrieves whether the union's current tag state has value
+/// "cant_transfer_ownership".
+///
+/// @return Whether the union's current tag state has value
+/// "cant_transfer_ownership".
+///
+- (BOOL)isCantTransferOwnership;
+
+///
+/// Retrieves whether the union's current tag state has value
+/// "insufficient_quota".
+///
+/// @return Whether the union's current tag state has value
+/// "insufficient_quota".
+///
+- (BOOL)isInsufficientQuota;
+
+///
 /// Retrieves whether the union's current tag state has value "other".
 ///
 /// @return Whether the union's current tag state has value "other".
@@ -273,7 +322,7 @@ typedef NS_ENUM(NSInteger, DBFILESRelocationBatchErrorTag) {
 ///
 /// @return A human-readable string representing the union's current tag state.
 ///
-- (NSString * _Nonnull)tagName;
+- (NSString *)tagName;
 
 @end
 
@@ -292,7 +341,7 @@ typedef NS_ENUM(NSInteger, DBFILESRelocationBatchErrorTag) {
 /// @return A json-compatible dictionary representation of the
 /// `DBFILESRelocationBatchError` API object.
 ///
-+ (NSDictionary * _Nonnull)serialize:(DBFILESRelocationBatchError * _Nonnull)instance;
++ (nullable NSDictionary *)serialize:(DBFILESRelocationBatchError *)instance;
 
 ///
 /// Deserializes `DBFILESRelocationBatchError` instances.
@@ -302,6 +351,8 @@ typedef NS_ENUM(NSInteger, DBFILESRelocationBatchErrorTag) {
 ///
 /// @return An instantiation of the `DBFILESRelocationBatchError` object.
 ///
-+ (DBFILESRelocationBatchError * _Nonnull)deserialize:(NSDictionary * _Nonnull)dict;
++ (DBFILESRelocationBatchError *)deserialize:(NSDictionary *)dict;
 
 @end
+
+NS_ASSUME_NONNULL_END

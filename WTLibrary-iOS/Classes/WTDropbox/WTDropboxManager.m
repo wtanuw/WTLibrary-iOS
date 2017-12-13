@@ -507,6 +507,7 @@
                                                autorename:@(NO)
                                            clientModified:[NSDate date]
                                                      mute:@(NO)
+                                          propertyGroups:nil
                                                 inputUrl:localPath]
                     setResponseBlock:^(DBFILESFileMetadata *result, DBFILESUploadError *routeError, DBRequestError *networkError) {
                         if (result) {

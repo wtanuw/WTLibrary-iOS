@@ -10,6 +10,8 @@
 
 @class DBFILESDeleteBatchError;
 
+NS_ASSUME_NONNULL_BEGIN
+
 #pragma mark - API Object
 
 ///
@@ -26,8 +28,9 @@
 /// The `DBFILESDeleteBatchErrorTag` enum type represents the possible tag
 /// states with which the `DBFILESDeleteBatchError` union can exist.
 typedef NS_ENUM(NSInteger, DBFILESDeleteBatchErrorTag) {
-  /// There are too many write operations in user's Dropbox. Please retry this
-  /// request.
+  /// Use `tooManyWriteOperations` in `DBFILESDeleteError`. `deleteBatch` now
+  /// provides smaller granularity about which entry has failed because of
+  /// this.
   DBFILESDeleteBatchErrorTooManyWriteOperations,
 
   /// (no description).
@@ -43,21 +46,22 @@ typedef NS_ENUM(NSInteger, DBFILESDeleteBatchErrorTag) {
 ///
 /// Initializes union class with tag state of "too_many_write_operations".
 ///
-/// Description of the "too_many_write_operations" tag state: There are too many
-/// write operations in user's Dropbox. Please retry this request.
+/// Description of the "too_many_write_operations" tag state: Use
+/// `tooManyWriteOperations` in `DBFILESDeleteError`. `deleteBatch` now provides
+/// smaller granularity about which entry has failed because of this.
 ///
 /// @return An initialized instance.
 ///
-- (nonnull instancetype)initWithTooManyWriteOperations;
+- (instancetype)initWithTooManyWriteOperations;
 
 ///
 /// Initializes union class with tag state of "other".
 ///
 /// @return An initialized instance.
 ///
-- (nonnull instancetype)initWithOther;
+- (instancetype)initWithOther;
 
-- (nonnull instancetype)init NS_UNAVAILABLE;
+- (instancetype)init NS_UNAVAILABLE;
 
 #pragma mark - Tag state methods
 
@@ -82,7 +86,7 @@ typedef NS_ENUM(NSInteger, DBFILESDeleteBatchErrorTag) {
 ///
 /// @return A human-readable string representing the union's current tag state.
 ///
-- (NSString * _Nonnull)tagName;
+- (NSString *)tagName;
 
 @end
 
@@ -101,7 +105,7 @@ typedef NS_ENUM(NSInteger, DBFILESDeleteBatchErrorTag) {
 /// @return A json-compatible dictionary representation of the
 /// `DBFILESDeleteBatchError` API object.
 ///
-+ (NSDictionary * _Nonnull)serialize:(DBFILESDeleteBatchError * _Nonnull)instance;
++ (nullable NSDictionary *)serialize:(DBFILESDeleteBatchError *)instance;
 
 ///
 /// Deserializes `DBFILESDeleteBatchError` instances.
@@ -111,6 +115,8 @@ typedef NS_ENUM(NSInteger, DBFILESDeleteBatchErrorTag) {
 ///
 /// @return An instantiation of the `DBFILESDeleteBatchError` object.
 ///
-+ (DBFILESDeleteBatchError * _Nonnull)deserialize:(NSDictionary * _Nonnull)dict;
++ (DBFILESDeleteBatchError *)deserialize:(NSDictionary *)dict;
 
 @end
+
+NS_ASSUME_NONNULL_END

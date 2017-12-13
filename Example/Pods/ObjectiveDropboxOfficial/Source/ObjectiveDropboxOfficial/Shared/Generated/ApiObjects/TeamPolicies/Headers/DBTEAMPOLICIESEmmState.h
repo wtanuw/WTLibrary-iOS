@@ -10,6 +10,8 @@
 
 @class DBTEAMPOLICIESEmmState;
 
+NS_ASSUME_NONNULL_BEGIN
+
 #pragma mark - API Object
 
 ///
@@ -26,13 +28,13 @@
 /// The `DBTEAMPOLICIESEmmStateTag` enum type represents the possible tag states
 /// with which the `DBTEAMPOLICIESEmmState` union can exist.
 typedef NS_ENUM(NSInteger, DBTEAMPOLICIESEmmStateTag) {
-  /// Emm token is disabled
+  /// Emm token is disabled.
   DBTEAMPOLICIESEmmStateDisabled,
 
-  /// Emm token is optional
+  /// Emm token is optional.
   DBTEAMPOLICIESEmmStateOptional,
 
-  /// Emm token is required
+  /// Emm token is required.
   DBTEAMPOLICIESEmmStateRequired,
 
   /// (no description).
@@ -48,38 +50,38 @@ typedef NS_ENUM(NSInteger, DBTEAMPOLICIESEmmStateTag) {
 ///
 /// Initializes union class with tag state of "disabled".
 ///
-/// Description of the "disabled" tag state: Emm token is disabled
+/// Description of the "disabled" tag state: Emm token is disabled.
 ///
 /// @return An initialized instance.
 ///
-- (nonnull instancetype)initWithDisabled;
+- (instancetype)initWithDisabled;
 
 ///
 /// Initializes union class with tag state of "optional".
 ///
-/// Description of the "optional" tag state: Emm token is optional
+/// Description of the "optional" tag state: Emm token is optional.
 ///
 /// @return An initialized instance.
 ///
-- (nonnull instancetype)initWithOptional;
+- (instancetype)initWithOptional;
 
 ///
 /// Initializes union class with tag state of "required".
 ///
-/// Description of the "required" tag state: Emm token is required
+/// Description of the "required" tag state: Emm token is required.
 ///
 /// @return An initialized instance.
 ///
-- (nonnull instancetype)initWithRequired;
+- (instancetype)initWithRequired;
 
 ///
 /// Initializes union class with tag state of "other".
 ///
 /// @return An initialized instance.
 ///
-- (nonnull instancetype)initWithOther;
+- (instancetype)initWithOther;
 
-- (nonnull instancetype)init NS_UNAVAILABLE;
+- (instancetype)init NS_UNAVAILABLE;
 
 #pragma mark - Tag state methods
 
@@ -116,7 +118,7 @@ typedef NS_ENUM(NSInteger, DBTEAMPOLICIESEmmStateTag) {
 ///
 /// @return A human-readable string representing the union's current tag state.
 ///
-- (NSString * _Nonnull)tagName;
+- (NSString *)tagName;
 
 @end
 
@@ -135,7 +137,7 @@ typedef NS_ENUM(NSInteger, DBTEAMPOLICIESEmmStateTag) {
 /// @return A json-compatible dictionary representation of the
 /// `DBTEAMPOLICIESEmmState` API object.
 ///
-+ (NSDictionary * _Nonnull)serialize:(DBTEAMPOLICIESEmmState * _Nonnull)instance;
++ (nullable NSDictionary *)serialize:(DBTEAMPOLICIESEmmState *)instance;
 
 ///
 /// Deserializes `DBTEAMPOLICIESEmmState` instances.
@@ -145,6 +147,8 @@ typedef NS_ENUM(NSInteger, DBTEAMPOLICIESEmmStateTag) {
 ///
 /// @return An instantiation of the `DBTEAMPOLICIESEmmState` object.
 ///
-+ (DBTEAMPOLICIESEmmState * _Nonnull)deserialize:(NSDictionary * _Nonnull)dict;
++ (DBTEAMPOLICIESEmmState *)deserialize:(NSDictionary *)dict;
 
 @end
+
+NS_ASSUME_NONNULL_END

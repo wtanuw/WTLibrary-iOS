@@ -10,6 +10,8 @@
 
 @class DBTEAMListMemberAppsArg;
 
+NS_ASSUME_NONNULL_BEGIN
+
 #pragma mark - API Object
 
 ///
@@ -23,21 +25,21 @@
 
 #pragma mark - Instance fields
 
-/// The team member id
-@property (nonatomic, readonly, copy) NSString * _Nonnull teamMemberId;
+/// The team member id.
+@property (nonatomic, readonly, copy) NSString *teamMemberId;
 
 #pragma mark - Constructors
 
 ///
 /// Full constructor for the struct (exposes all instance variables).
 ///
-/// @param teamMemberId The team member id
+/// @param teamMemberId The team member id.
 ///
 /// @return An initialized instance.
 ///
-- (nonnull instancetype)initWithTeamMemberId:(NSString * _Nonnull)teamMemberId;
+- (instancetype)initWithTeamMemberId:(NSString *)teamMemberId;
 
-- (nonnull instancetype)init NS_UNAVAILABLE;
+- (instancetype)init NS_UNAVAILABLE;
 
 @end
 
@@ -56,7 +58,7 @@
 /// @return A json-compatible dictionary representation of the
 /// `DBTEAMListMemberAppsArg` API object.
 ///
-+ (NSDictionary * _Nonnull)serialize:(DBTEAMListMemberAppsArg * _Nonnull)instance;
++ (nullable NSDictionary *)serialize:(DBTEAMListMemberAppsArg *)instance;
 
 ///
 /// Deserializes `DBTEAMListMemberAppsArg` instances.
@@ -66,6 +68,8 @@
 ///
 /// @return An instantiation of the `DBTEAMListMemberAppsArg` object.
 ///
-+ (DBTEAMListMemberAppsArg * _Nonnull)deserialize:(NSDictionary * _Nonnull)dict;
++ (DBTEAMListMemberAppsArg *)deserialize:(NSDictionary *)dict;
 
 @end
+
+NS_ASSUME_NONNULL_END

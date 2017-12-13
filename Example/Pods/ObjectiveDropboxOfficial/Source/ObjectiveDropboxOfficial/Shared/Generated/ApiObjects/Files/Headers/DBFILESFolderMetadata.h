@@ -9,9 +9,11 @@
 #import "DBFILESMetadata.h"
 #import "DBSerializableProtocol.h"
 
+@class DBFILEPROPERTIESPropertyGroup;
 @class DBFILESFolderMetadata;
 @class DBFILESFolderSharingInfo;
-@class DBPROPERTIESPropertyGroup;
+
+NS_ASSUME_NONNULL_BEGIN
 
 #pragma mark - API Object
 
@@ -27,18 +29,19 @@
 #pragma mark - Instance fields
 
 /// A unique identifier for the folder.
-@property (nonatomic, readonly, copy) NSString * _Nonnull id_;
+@property (nonatomic, readonly, copy) NSString *id_;
 
-/// Deprecated. Please use sharingInfo instead.
-@property (nonatomic, readonly, copy) NSString * _Nullable sharedFolderId;
+/// Please use sharingInfo instead.
+@property (nonatomic, readonly, copy, nullable) NSString *sharedFolderId;
 
 /// Set if the folder is contained in a shared folder or is a shared folder
 /// mount point.
-@property (nonatomic, readonly) DBFILESFolderSharingInfo * _Nullable sharingInfo;
+@property (nonatomic, readonly, nullable) DBFILESFolderSharingInfo *sharingInfo;
 
 /// Additional information if the file has custom properties with the property
-/// template specified.
-@property (nonatomic, readonly) NSArray<DBPROPERTIESPropertyGroup *> * _Nullable propertyGroups;
+/// template specified. Note that only properties associated with user-owned
+/// templates, not team-owned templates, can be attached to folders.
+@property (nonatomic, readonly, nullable) NSArray<DBFILEPROPERTIESPropertyGroup *> *propertyGroups;
 
 #pragma mark - Constructors
 
@@ -57,25 +60,27 @@
 /// least the last path component will have the correct casing. Changes to only
 /// the casing of paths won't be returned by `listFolderContinue`. This field
 /// will be null if the file or folder is not mounted.
-/// @param parentSharedFolderId Deprecated. Please use `parentSharedFolderId` in
+/// @param parentSharedFolderId Please use `parentSharedFolderId` in
 /// `DBFILESFileSharingInfo` or `parentSharedFolderId` in
 /// `DBFILESFolderSharingInfo` instead.
-/// @param sharedFolderId Deprecated. Please use sharingInfo instead.
+/// @param sharedFolderId Please use sharingInfo instead.
 /// @param sharingInfo Set if the folder is contained in a shared folder or is a
 /// shared folder mount point.
 /// @param propertyGroups Additional information if the file has custom
-/// properties with the property template specified.
+/// properties with the property template specified. Note that only properties
+/// associated with user-owned templates, not team-owned templates, can be
+/// attached to folders.
 ///
 /// @return An initialized instance.
 ///
-- (nonnull instancetype)initWithName:(NSString * _Nonnull)name
-                                 id_:(NSString * _Nonnull)id_
-                           pathLower:(NSString * _Nullable)pathLower
-                         pathDisplay:(NSString * _Nullable)pathDisplay
-                parentSharedFolderId:(NSString * _Nullable)parentSharedFolderId
-                      sharedFolderId:(NSString * _Nullable)sharedFolderId
-                         sharingInfo:(DBFILESFolderSharingInfo * _Nullable)sharingInfo
-                      propertyGroups:(NSArray<DBPROPERTIESPropertyGroup *> * _Nullable)propertyGroups;
+- (instancetype)initWithName:(NSString *)name
+                         id_:(NSString *)id_
+                   pathLower:(nullable NSString *)pathLower
+                 pathDisplay:(nullable NSString *)pathDisplay
+        parentSharedFolderId:(nullable NSString *)parentSharedFolderId
+              sharedFolderId:(nullable NSString *)sharedFolderId
+                 sharingInfo:(nullable DBFILESFolderSharingInfo *)sharingInfo
+              propertyGroups:(nullable NSArray<DBFILEPROPERTIESPropertyGroup *> *)propertyGroups;
 
 ///
 /// Convenience constructor (exposes only non-nullable instance variables with
@@ -87,7 +92,7 @@
 ///
 /// @return An initialized instance.
 ///
-- (nonnull instancetype)initWithName:(NSString * _Nonnull)name id_:(NSString * _Nonnull)id_;
+- (instancetype)initWithName:(NSString *)name id_:(NSString *)id_;
 
 @end
 
@@ -106,7 +111,7 @@
 /// @return A json-compatible dictionary representation of the
 /// `DBFILESFolderMetadata` API object.
 ///
-+ (NSDictionary * _Nonnull)serialize:(DBFILESFolderMetadata * _Nonnull)instance;
++ (nullable NSDictionary *)serialize:(DBFILESFolderMetadata *)instance;
 
 ///
 /// Deserializes `DBFILESFolderMetadata` instances.
@@ -116,6 +121,8 @@
 ///
 /// @return An instantiation of the `DBFILESFolderMetadata` object.
 ///
-+ (DBFILESFolderMetadata * _Nonnull)deserialize:(NSDictionary * _Nonnull)dict;
++ (DBFILESFolderMetadata *)deserialize:(NSDictionary *)dict;
 
 @end
+
+NS_ASSUME_NONNULL_END

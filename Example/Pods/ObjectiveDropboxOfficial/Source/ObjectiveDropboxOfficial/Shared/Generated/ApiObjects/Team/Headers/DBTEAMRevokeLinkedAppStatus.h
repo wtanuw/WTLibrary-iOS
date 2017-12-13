@@ -11,6 +11,8 @@
 @class DBTEAMRevokeLinkedAppError;
 @class DBTEAMRevokeLinkedAppStatus;
 
+NS_ASSUME_NONNULL_BEGIN
+
 #pragma mark - API Object
 
 ///
@@ -24,36 +26,35 @@
 
 #pragma mark - Instance fields
 
-/// Result of the revoking request
-@property (nonatomic, readonly) NSNumber * _Nonnull success;
+/// Result of the revoking request.
+@property (nonatomic, readonly) NSNumber *success;
 
-/// The error cause in case of a failure
-@property (nonatomic, readonly) DBTEAMRevokeLinkedAppError * _Nullable errorType;
+/// The error cause in case of a failure.
+@property (nonatomic, readonly, nullable) DBTEAMRevokeLinkedAppError *errorType;
 
 #pragma mark - Constructors
 
 ///
 /// Full constructor for the struct (exposes all instance variables).
 ///
-/// @param success Result of the revoking request
-/// @param errorType The error cause in case of a failure
+/// @param success Result of the revoking request.
+/// @param errorType The error cause in case of a failure.
 ///
 /// @return An initialized instance.
 ///
-- (nonnull instancetype)initWithSuccess:(NSNumber * _Nonnull)success
-                              errorType:(DBTEAMRevokeLinkedAppError * _Nullable)errorType;
+- (instancetype)initWithSuccess:(NSNumber *)success errorType:(nullable DBTEAMRevokeLinkedAppError *)errorType;
 
 ///
 /// Convenience constructor (exposes only non-nullable instance variables with
 /// no default value).
 ///
-/// @param success Result of the revoking request
+/// @param success Result of the revoking request.
 ///
 /// @return An initialized instance.
 ///
-- (nonnull instancetype)initWithSuccess:(NSNumber * _Nonnull)success;
+- (instancetype)initWithSuccess:(NSNumber *)success;
 
-- (nonnull instancetype)init NS_UNAVAILABLE;
+- (instancetype)init NS_UNAVAILABLE;
 
 @end
 
@@ -72,7 +73,7 @@
 /// @return A json-compatible dictionary representation of the
 /// `DBTEAMRevokeLinkedAppStatus` API object.
 ///
-+ (NSDictionary * _Nonnull)serialize:(DBTEAMRevokeLinkedAppStatus * _Nonnull)instance;
++ (nullable NSDictionary *)serialize:(DBTEAMRevokeLinkedAppStatus *)instance;
 
 ///
 /// Deserializes `DBTEAMRevokeLinkedAppStatus` instances.
@@ -82,6 +83,8 @@
 ///
 /// @return An instantiation of the `DBTEAMRevokeLinkedAppStatus` object.
 ///
-+ (DBTEAMRevokeLinkedAppStatus * _Nonnull)deserialize:(NSDictionary * _Nonnull)dict;
++ (DBTEAMRevokeLinkedAppStatus *)deserialize:(NSDictionary *)dict;
 
 @end
+
+NS_ASSUME_NONNULL_END

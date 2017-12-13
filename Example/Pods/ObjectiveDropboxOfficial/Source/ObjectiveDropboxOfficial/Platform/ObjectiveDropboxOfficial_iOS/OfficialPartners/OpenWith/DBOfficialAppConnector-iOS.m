@@ -21,8 +21,8 @@ static NSString *kDBOpenURLAppDropboxEMM = @"DropboxEMM";
 @implementation DBOfficialAppConnector {
   NSString *_appKey;
   NSString *_urlScheme;
-  BOOL (^_canOpenURLWrapper)(NSURL * _Nonnull);
-  void (^_openURLWrapper)(NSURL * _Nonnull);
+  BOOL (^_canOpenURLWrapper)(NSURL *);
+  void (^_openURLWrapper)(NSURL *);
 }
 
 - (instancetype)initWithAppKey:(NSString *)appKey
@@ -89,7 +89,9 @@ static NSString *kDBOpenURLAppDropboxEMM = @"DropboxEMM";
 
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
       NSMutableArray *existingItems = [[[UIPasteboard generalPasteboard] items] mutableCopy];
-      [existingItems removeObjectsAtIndexes:indexSet];
+      if ([existingItems count] > 0) {
+        [existingItems removeObjectsAtIndexes:indexSet];
+      }
       [[UIPasteboard generalPasteboard] setItems:existingItems];
     });
 
@@ -105,27 +107,29 @@ static NSString *kDBOpenURLAppDropboxEMM = @"DropboxEMM";
     NSArray<NSURLQueryItem *> *queryItems = urlComponents.queryItems;
     if (queryItems) {
       openWithInfo = [[DBOpenWithInfo alloc]
-                      initWithUserId:[NSString
-                                      stringWithFormat:@"%@", [[self class] getQueryItemValueFromName:@"uid" queryItems:queryItems]]
-                      rev:[NSString
-                           stringWithFormat:@"%@", [[self class] getQueryItemValueFromName:@"rev" queryItems:queryItems]]
-                      path:[NSString
-                            stringWithFormat:@"%@", [[self class] getQueryItemValueFromName:@"path" queryItems:queryItems]]
-                      .lowercaseString
-                      modifiedTime:[[self.class dateFormatter]
-                                    dateFromString:[NSString
-                                                    stringWithFormat:@"%@", [[self class] getQueryItemValueFromName:@"modifiedTime"
-                                                                                                 queryItems:queryItems]]]
-                      readOnly:[[NSString stringWithFormat:@"%@", [[self class] getQueryItemValueFromName:@"readOnly"
-                                                                                       queryItems:queryItems]] boolValue]
-                      verb:[NSString
-                            stringWithFormat:@"%@", [[self class] getQueryItemValueFromName:@"verb" queryItems:queryItems]]
-                      sessionId:[NSString stringWithFormat:@"%@",
-                                 [[self class] getQueryItemValueFromName:@"sessionId" queryItems:queryItems]]
-                      fileId:nil
-                      fileData:nil
-                      sourceApp:[NSString stringWithFormat:@"%@", [[self class] getQueryItemValueFromName:@"sourceApp"
-                                                                                       queryItems:queryItems]]];
+          initWithUserId:[NSString stringWithFormat:@"%@", [[self class] getQueryItemValueFromName:@"uid"
+                                                                                        queryItems:queryItems]]
+                     rev:[NSString stringWithFormat:@"%@", [[self class] getQueryItemValueFromName:@"rev"
+                                                                                        queryItems:queryItems]]
+                    path:[NSString stringWithFormat:@"%@", [[self class] getQueryItemValueFromName:@"path"
+                                                                                        queryItems:queryItems]]
+                             .lowercaseString
+            modifiedTime:[[self.class dateFormatter]
+                             dateFromString:[NSString
+                                                stringWithFormat:@"%@",
+                                                                 [[self class] getQueryItemValueFromName:@"modifiedTime"
+                                                                                              queryItems:queryItems]]]
+                readOnly:[[NSString stringWithFormat:@"%@", [[self class] getQueryItemValueFromName:@"readOnly"
+                                                                                         queryItems:queryItems]]
+                             boolValue]
+                    verb:[NSString stringWithFormat:@"%@", [[self class] getQueryItemValueFromName:@"verb"
+                                                                                        queryItems:queryItems]]
+               sessionId:[NSString stringWithFormat:@"%@", [[self class] getQueryItemValueFromName:@"sessionId"
+                                                                                        queryItems:queryItems]]
+                  fileId:nil
+                fileData:nil
+               sourceApp:[NSString stringWithFormat:@"%@", [[self class] getQueryItemValueFromName:@"sourceApp"
+                                                                                        queryItems:queryItems]]];
       NSAssert(openWithInfo, @"Error creating OpenWith info.");
     }
   }

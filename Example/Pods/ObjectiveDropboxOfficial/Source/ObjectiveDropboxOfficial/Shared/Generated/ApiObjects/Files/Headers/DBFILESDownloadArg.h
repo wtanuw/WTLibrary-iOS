@@ -10,6 +10,8 @@
 
 @class DBFILESDownloadArg;
 
+NS_ASSUME_NONNULL_BEGIN
+
 #pragma mark - API Object
 
 ///
@@ -24,10 +26,10 @@
 #pragma mark - Instance fields
 
 /// The path of the file to download.
-@property (nonatomic, readonly, copy) NSString * _Nonnull path;
+@property (nonatomic, readonly, copy) NSString *path;
 
-/// Deprecated. Please specify revision in path instead.
-@property (nonatomic, readonly, copy) NSString * _Nullable rev;
+/// Please specify revision in path instead.
+@property (nonatomic, readonly, copy, nullable) NSString *rev;
 
 #pragma mark - Constructors
 
@@ -35,11 +37,11 @@
 /// Full constructor for the struct (exposes all instance variables).
 ///
 /// @param path The path of the file to download.
-/// @param rev Deprecated. Please specify revision in path instead.
+/// @param rev Please specify revision in path instead.
 ///
 /// @return An initialized instance.
 ///
-- (nonnull instancetype)initWithPath:(NSString * _Nonnull)path rev:(NSString * _Nullable)rev;
+- (instancetype)initWithPath:(NSString *)path rev:(nullable NSString *)rev;
 
 ///
 /// Convenience constructor (exposes only non-nullable instance variables with
@@ -49,9 +51,9 @@
 ///
 /// @return An initialized instance.
 ///
-- (nonnull instancetype)initWithPath:(NSString * _Nonnull)path;
+- (instancetype)initWithPath:(NSString *)path;
 
-- (nonnull instancetype)init NS_UNAVAILABLE;
+- (instancetype)init NS_UNAVAILABLE;
 
 @end
 
@@ -70,7 +72,7 @@
 /// @return A json-compatible dictionary representation of the
 /// `DBFILESDownloadArg` API object.
 ///
-+ (NSDictionary * _Nonnull)serialize:(DBFILESDownloadArg * _Nonnull)instance;
++ (nullable NSDictionary *)serialize:(DBFILESDownloadArg *)instance;
 
 ///
 /// Deserializes `DBFILESDownloadArg` instances.
@@ -80,6 +82,8 @@
 ///
 /// @return An instantiation of the `DBFILESDownloadArg` object.
 ///
-+ (DBFILESDownloadArg * _Nonnull)deserialize:(NSDictionary * _Nonnull)dict;
++ (DBFILESDownloadArg *)deserialize:(NSDictionary *)dict;
 
 @end
+
+NS_ASSUME_NONNULL_END

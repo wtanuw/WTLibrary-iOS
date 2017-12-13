@@ -13,6 +13,8 @@
 @class DBTEAMListMemberDevicesResult;
 @class DBTEAMMobileClientSession;
 
+NS_ASSUME_NONNULL_BEGIN
+
 #pragma mark - API Object
 
 ///
@@ -26,31 +28,30 @@
 
 #pragma mark - Instance fields
 
-/// List of web sessions made by this team member
-@property (nonatomic, readonly) NSArray<DBTEAMActiveWebSession *> * _Nullable activeWebSessions;
+/// List of web sessions made by this team member.
+@property (nonatomic, readonly, nullable) NSArray<DBTEAMActiveWebSession *> *activeWebSessions;
 
-/// List of desktop clients used by this team member
-@property (nonatomic, readonly) NSArray<DBTEAMDesktopClientSession *> * _Nullable desktopClientSessions;
+/// List of desktop clients used by this team member.
+@property (nonatomic, readonly, nullable) NSArray<DBTEAMDesktopClientSession *> *desktopClientSessions;
 
-/// List of mobile client used by this team member
-@property (nonatomic, readonly) NSArray<DBTEAMMobileClientSession *> * _Nullable mobileClientSessions;
+/// List of mobile client used by this team member.
+@property (nonatomic, readonly, nullable) NSArray<DBTEAMMobileClientSession *> *mobileClientSessions;
 
 #pragma mark - Constructors
 
 ///
 /// Full constructor for the struct (exposes all instance variables).
 ///
-/// @param activeWebSessions List of web sessions made by this team member
+/// @param activeWebSessions List of web sessions made by this team member.
 /// @param desktopClientSessions List of desktop clients used by this team
-/// member
-/// @param mobileClientSessions List of mobile client used by this team member
+/// member.
+/// @param mobileClientSessions List of mobile client used by this team member.
 ///
 /// @return An initialized instance.
 ///
-- (nonnull instancetype)initWithActiveWebSessions:(NSArray<DBTEAMActiveWebSession *> * _Nullable)activeWebSessions
-                            desktopClientSessions:
-                                (NSArray<DBTEAMDesktopClientSession *> * _Nullable)desktopClientSessions
-                             mobileClientSessions:(NSArray<DBTEAMMobileClientSession *> * _Nullable)mobileClientSessions;
+- (instancetype)initWithActiveWebSessions:(nullable NSArray<DBTEAMActiveWebSession *> *)activeWebSessions
+                    desktopClientSessions:(nullable NSArray<DBTEAMDesktopClientSession *> *)desktopClientSessions
+                     mobileClientSessions:(nullable NSArray<DBTEAMMobileClientSession *> *)mobileClientSessions;
 
 ///
 /// Convenience constructor (exposes only non-nullable instance variables with
@@ -59,9 +60,9 @@
 ///
 /// @return An initialized instance.
 ///
-- (nonnull instancetype)initDefault;
+- (instancetype)initDefault;
 
-- (nonnull instancetype)init NS_UNAVAILABLE;
+- (instancetype)init NS_UNAVAILABLE;
 
 @end
 
@@ -81,7 +82,7 @@
 /// @return A json-compatible dictionary representation of the
 /// `DBTEAMListMemberDevicesResult` API object.
 ///
-+ (NSDictionary * _Nonnull)serialize:(DBTEAMListMemberDevicesResult * _Nonnull)instance;
++ (nullable NSDictionary *)serialize:(DBTEAMListMemberDevicesResult *)instance;
 
 ///
 /// Deserializes `DBTEAMListMemberDevicesResult` instances.
@@ -91,6 +92,8 @@
 ///
 /// @return An instantiation of the `DBTEAMListMemberDevicesResult` object.
 ///
-+ (DBTEAMListMemberDevicesResult * _Nonnull)deserialize:(NSDictionary * _Nonnull)dict;
++ (DBTEAMListMemberDevicesResult *)deserialize:(NSDictionary *)dict;
 
 @end
+
+NS_ASSUME_NONNULL_END

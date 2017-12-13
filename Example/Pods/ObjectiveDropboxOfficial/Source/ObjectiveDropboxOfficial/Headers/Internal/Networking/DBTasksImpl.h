@@ -13,23 +13,27 @@
 @class DBRequestError;
 @class DBRoute;
 
+NS_ASSUME_NONNULL_BEGIN
+
 #pragma mark - RPC-style network task
 
 @interface DBRpcTaskImpl : DBRpcTask
 
 /// The `NSURLSessionTask` that was used to make the request.
-@property (nonatomic, readonly) NSURLSessionDataTask * _Nonnull dataTask;
+@property (nonatomic, readonly) NSURLSessionDataTask *dataTask;
 
 /// The session that was used to make to the request.
-@property (nonatomic, readonly) NSURLSession * _Nonnull session;
+@property (nonatomic, readonly) NSURLSession *session;
 
 /// The delegate used manage handler code.
-@property (nonatomic, readonly) DBDelegate * _Nonnull delegate;
+@property (nonatomic, readonly) DBDelegate *delegate;
 
 ///
 /// `DBRpcTaskImpl` full constructor.
 ///
 /// @param task The `NSURLSessionDataTask` task that initialized the network request.
+/// @param tokenUid Identifies a unique Dropbox account. Used for the multi Dropbox account case where client objects
+/// are each associated with a particular Dropbox account.
 /// @param session The `NSURLSession` used to make the network request.
 /// @param delegate The delegate that manages and executes response code.
 /// @param route The static `DBRoute` instance associated with the route to which the request was made. Contains
@@ -37,10 +41,11 @@
 ///
 /// @return An initialized instance.
 ///
-- (nonnull instancetype)initWithTask:(NSURLSessionDataTask * _Nonnull)task
-                             session:(NSURLSession * _Nonnull)session
-                            delegate:(DBDelegate * _Nonnull)delegate
-                               route:(DBRoute * _Nonnull)route;
+- (instancetype)initWithTask:(NSURLSessionDataTask *)task
+                    tokenUid:(nullable NSString *)tokenUid
+                     session:(NSURLSession *)session
+                    delegate:(DBDelegate *)delegate
+                       route:(DBRoute *)route;
 @end
 
 #pragma mark - Upload-style network task
@@ -48,24 +53,26 @@
 @interface DBUploadTaskImpl : DBUploadTask
 
 /// The `NSURLSessionTask` that was used to make the request.
-@property (nonatomic, readonly) NSURLSessionUploadTask * _Nonnull uploadTask;
+@property (nonatomic, readonly) NSURLSessionUploadTask *uploadTask;
 
 /// The session that was used to make to the request.
-@property (nonatomic, readonly) NSURLSession * _Nonnull session;
+@property (nonatomic, readonly) NSURLSession *session;
 
 /// The delegate used manage handler code.
-@property (nonatomic, readonly) DBDelegate * _Nonnull delegate;
+@property (nonatomic, readonly) DBDelegate *delegate;
 
 /// The url to upload.
-@property (nonatomic, readonly) NSURL * _Nullable inputUrl;
+@property (nonatomic, readonly, nullable) NSURL *inputUrl;
 
 /// The data to upload.
-@property (nonatomic, readonly) NSData * _Nullable inputData;
+@property (nonatomic, readonly, nullable) NSData *inputData;
 
 ///
 /// `DBUploadTask` full constructor.
 ///
 /// @param task The `NSURLSessionDataTask` task that initialized the network request.
+/// @param tokenUid Identifies a unique Dropbox account. Used for the multi Dropbox account case where client objects
+/// are each associated with a particular Dropbox account.
 /// @param session The `NSURLSession` used to make the network request.
 /// @param delegate The delegate that manages and executes response code.
 /// @param route The static `DBRoute` instance associated with the route to which the request was made. Contains
@@ -75,12 +82,13 @@
 ///
 /// @return An initialized instance.
 ///
-- (nonnull instancetype)initWithTask:(NSURLSessionUploadTask * _Nonnull)task
-                             session:(NSURLSession * _Nonnull)session
-                            delegate:(DBDelegate * _Nonnull)delegate
-                               route:(DBRoute * _Nonnull)route
-                            inputUrl:(NSURL * _Nullable)inputUrl
-                           inputData:(NSData * _Nullable)inputData;
+- (instancetype)initWithTask:(NSURLSessionUploadTask *)task
+                    tokenUid:(nullable NSString *)tokenUid
+                     session:(NSURLSession *)session
+                    delegate:(DBDelegate *)delegate
+                       route:(DBRoute *)route
+                    inputUrl:(nullable NSURL *)inputUrl
+                   inputData:(nullable NSData *)inputData;
 @end
 
 #pragma mark - Download-style network task (NSURL)
@@ -88,18 +96,20 @@
 @interface DBDownloadUrlTaskImpl : DBDownloadUrlTask
 
 /// The `NSURLSessionTask` that was used to make the request.
-@property (nonatomic, readonly) NSURLSessionDownloadTask * _Nonnull downloadUrlTask;
+@property (nonatomic, readonly) NSURLSessionDownloadTask *downloadUrlTask;
 
 /// The session that was used to make to the request.
-@property (nonatomic, readonly) NSURLSession * _Nonnull session;
+@property (nonatomic, readonly) NSURLSession *session;
 
 /// The delegate used manage handler code.
-@property (nonatomic, readonly) DBDelegate * _Nonnull delegate;
+@property (nonatomic, readonly) DBDelegate *delegate;
 
 ///
 /// `DBDownloadUrlTask` full constructor.
 ///
 /// @param task The `NSURLSessionDataTask` task that initialized the network request.
+/// @param tokenUid Identifies a unique Dropbox account. Used for the multi Dropbox account case where client objects
+/// are each associated with a particular Dropbox account.
 /// @param session The `NSURLSession` used to make the network request.
 /// @param delegate The delegate that manages and executes response code.
 /// @param route The static `DBRoute` instance associated with the route to which the request was made. Contains
@@ -109,12 +119,13 @@
 ///
 /// @return An initialized instance.
 ///
-- (nonnull instancetype)initWithTask:(NSURLSessionDownloadTask * _Nonnull)task
-                             session:(NSURLSession * _Nonnull)session
-                            delegate:(DBDelegate * _Nonnull)delegate
-                               route:(DBRoute * _Nonnull)route
-                           overwrite:(BOOL)overwrite
-                         destination:(NSURL * _Nonnull)destination;
+- (instancetype)initWithTask:(NSURLSessionDownloadTask *)task
+                    tokenUid:(nullable NSString *)tokenUid
+                     session:(NSURLSession *)session
+                    delegate:(DBDelegate *)delegate
+                       route:(DBRoute *)route
+                   overwrite:(BOOL)overwrite
+                 destination:(NSURL *)destination;
 @end
 
 #pragma mark - Download-style network task (NSData)
@@ -122,18 +133,20 @@
 @interface DBDownloadDataTaskImpl : DBDownloadDataTask
 
 /// The `NSURLSessionTask` that was used to make the request.
-@property (nonatomic, readonly) NSURLSessionDownloadTask * _Nonnull downloadDataTask;
+@property (nonatomic, readonly) NSURLSessionDownloadTask *downloadDataTask;
 
 /// The session that was used to make to the request.
-@property (nonatomic, readonly) NSURLSession * _Nonnull session;
+@property (nonatomic, readonly) NSURLSession *session;
 
 /// The delegate used manage handler code.
-@property (nonatomic, readonly) DBDelegate * _Nonnull delegate;
+@property (nonatomic, readonly) DBDelegate *delegate;
 
 ///
 /// DBDownloadDataTask full constructor.
 ///
 /// @param task The `NSURLSessionDataTask` task that initialized the network request.
+/// @param tokenUid Identifies a unique Dropbox account. Used for the multi Dropbox account case where client objects
+/// are each associated with a particular Dropbox account.
 /// @param session The `NSURLSession` used to make the network request.
 /// @param delegate The delegate that manages and executes response code.
 /// @param route The static `DBRoute` instance associated with the route to which the request was made. Contains
@@ -141,8 +154,11 @@
 ///
 /// @return An initialized instance.
 ///
-- (nonnull instancetype)initWithTask:(NSURLSessionDownloadTask * _Nonnull)task
-                             session:(NSURLSession * _Nonnull)session
-                            delegate:(DBDelegate * _Nonnull)delegate
-                               route:(DBRoute * _Nonnull)route;
+- (instancetype)initWithTask:(NSURLSessionDownloadTask *)task
+                    tokenUid:(nullable NSString *)tokenUid
+                     session:(NSURLSession *)session
+                    delegate:(DBDelegate *)delegate
+                       route:(DBRoute *)route;
 @end
+
+NS_ASSUME_NONNULL_END

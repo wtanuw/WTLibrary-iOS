@@ -11,6 +11,8 @@
 
 @class DBFILESDeletedMetadata;
 
+NS_ASSUME_NONNULL_BEGIN
+
 #pragma mark - API Object
 
 ///
@@ -43,16 +45,16 @@
 /// least the last path component will have the correct casing. Changes to only
 /// the casing of paths won't be returned by `listFolderContinue`. This field
 /// will be null if the file or folder is not mounted.
-/// @param parentSharedFolderId Deprecated. Please use `parentSharedFolderId` in
+/// @param parentSharedFolderId Please use `parentSharedFolderId` in
 /// `DBFILESFileSharingInfo` or `parentSharedFolderId` in
 /// `DBFILESFolderSharingInfo` instead.
 ///
 /// @return An initialized instance.
 ///
-- (nonnull instancetype)initWithName:(NSString * _Nonnull)name
-                           pathLower:(NSString * _Nullable)pathLower
-                         pathDisplay:(NSString * _Nullable)pathDisplay
-                parentSharedFolderId:(NSString * _Nullable)parentSharedFolderId;
+- (instancetype)initWithName:(NSString *)name
+                   pathLower:(nullable NSString *)pathLower
+                 pathDisplay:(nullable NSString *)pathDisplay
+        parentSharedFolderId:(nullable NSString *)parentSharedFolderId;
 
 ///
 /// Convenience constructor (exposes only non-nullable instance variables with
@@ -63,7 +65,7 @@
 ///
 /// @return An initialized instance.
 ///
-- (nonnull instancetype)initWithName:(NSString * _Nonnull)name;
+- (instancetype)initWithName:(NSString *)name;
 
 @end
 
@@ -82,7 +84,7 @@
 /// @return A json-compatible dictionary representation of the
 /// `DBFILESDeletedMetadata` API object.
 ///
-+ (NSDictionary * _Nonnull)serialize:(DBFILESDeletedMetadata * _Nonnull)instance;
++ (nullable NSDictionary *)serialize:(DBFILESDeletedMetadata *)instance;
 
 ///
 /// Deserializes `DBFILESDeletedMetadata` instances.
@@ -92,6 +94,8 @@
 ///
 /// @return An instantiation of the `DBFILESDeletedMetadata` object.
 ///
-+ (DBFILESDeletedMetadata * _Nonnull)deserialize:(NSDictionary * _Nonnull)dict;
++ (DBFILESDeletedMetadata *)deserialize:(NSDictionary *)dict;
 
 @end
+
+NS_ASSUME_NONNULL_END

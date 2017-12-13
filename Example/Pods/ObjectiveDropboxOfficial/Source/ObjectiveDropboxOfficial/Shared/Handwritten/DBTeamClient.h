@@ -9,6 +9,8 @@
 @class DBUserClient;
 @class DBTransportDefaultConfig;
 
+NS_ASSUME_NONNULL_BEGIN
+
 ///
 /// Dropbox Business (Team) API Client for all endpoints with auth type "team".
 ///
@@ -18,27 +20,47 @@
 ///
 @interface DBTeamClient : DBTeamBaseClient
 
+/// Identifies a unique Dropbox account. Used for the multi Dropbox account case where client objects are each
+/// associated with a particular Dropbox account.
+@property (nonatomic, readonly, copy, nullable) NSString *tokenUid;
+
 ///
 /// Convenience constructor.
 ///
 /// Uses standard network configuration parameters.
 ///
-/// @param accessToken The Dropbox OAuth2 access token used to make requests.
+/// @param accessToken The Dropbox OAuth 2.0 access token used to make requests.
 ///
 /// @return An initialized instance.
 ///
-- (nonnull instancetype)initWithAccessToken:(NSString * _Nonnull)accessToken;
+- (instancetype)initWithAccessToken:(NSString *)accessToken;
 
 ///
-/// Full constructor.
+/// Convenience constructor.
 ///
+/// @param accessToken The Dropbox OAuth 2.0 access token used to make requests.
 /// @param transportConfig A wrapper around the different parameters that can be set to change network calling behavior.
 /// `DBTransportDefaultConfig` offers a number of different constructors to customize networking settings.
 ///
 /// @return An initialized instance.
 ///
-- (nonnull instancetype)initWithAccessToken:(NSString * _Nonnull)accessToken
-                            transportConfig:(DBTransportDefaultConfig * _Nullable)transportConfig;
+- (instancetype)initWithAccessToken:(NSString *)accessToken
+                    transportConfig:(nullable DBTransportDefaultConfig *)transportConfig;
+
+///
+/// Full constructor.
+///
+/// @param accessToken The Dropbox OAuth 2.0 access token used to make requests.
+/// @param tokenUid Identifies a unique Dropbox account. Used for the multi Dropbox account case where client objects
+/// are each associated with a particular Dropbox account.
+/// @param transportConfig A wrapper around the different parameters that can be set to change network calling behavior.
+/// `DBTransportDefaultConfig` offers a number of different constructors to customize networking settings.
+///
+/// @return An initialized instance.
+///
+- (instancetype)initWithAccessToken:(NSString *)accessToken
+                           tokenUid:(nullable NSString *)tokenUid
+                    transportConfig:(nullable DBTransportDefaultConfig *)transportConfig;
 
 ///
 /// Returns a `DBUserClient` instance that can be used to make API calls on behalf of the designated team member.
@@ -50,12 +72,12 @@
 ///
 /// @return An initialized User API client instance.
 ///
-- (DBUserClient * _Nonnull)userClientWithMemberId:(NSString * _Nonnull)memberId;
+- (DBUserClient *)userClientWithMemberId:(NSString *)memberId;
 
 ///
 /// Returns the current access token used to make API requests.
 ///
-- (NSString * _Nullable)accessToken;
+- (nullable NSString *)accessToken;
 
 ///
 /// Returns whether the client is authorized.
@@ -65,3 +87,5 @@
 - (BOOL)isAuthorized;
 
 @end
+
+NS_ASSUME_NONNULL_END

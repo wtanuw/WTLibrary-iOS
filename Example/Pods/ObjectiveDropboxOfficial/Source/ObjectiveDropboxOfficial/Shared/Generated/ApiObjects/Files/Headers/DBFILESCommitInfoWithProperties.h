@@ -9,9 +9,11 @@
 #import "DBFILESCommitInfo.h"
 #import "DBSerializableProtocol.h"
 
+@class DBFILEPROPERTIESPropertyGroup;
 @class DBFILESCommitInfoWithProperties;
 @class DBFILESWriteMode;
-@class DBPROPERTIESPropertyGroup;
+
+NS_ASSUME_NONNULL_BEGIN
 
 #pragma mark - API Object
 
@@ -25,9 +27,6 @@
 @interface DBFILESCommitInfoWithProperties : DBFILESCommitInfo <DBSerializable, NSCopying>
 
 #pragma mark - Instance fields
-
-/// List of custom properties to add to file.
-@property (nonatomic, readonly) NSArray<DBPROPERTIESPropertyGroup *> * _Nullable propertyGroups;
 
 #pragma mark - Constructors
 
@@ -51,12 +50,12 @@
 ///
 /// @return An initialized instance.
 ///
-- (nonnull instancetype)initWithPath:(NSString * _Nonnull)path
-                                mode:(DBFILESWriteMode * _Nullable)mode
-                          autorename:(NSNumber * _Nullable)autorename
-                      clientModified:(NSDate * _Nullable)clientModified
-                                mute:(NSNumber * _Nullable)mute
-                      propertyGroups:(NSArray<DBPROPERTIESPropertyGroup *> * _Nullable)propertyGroups;
+- (instancetype)initWithPath:(NSString *)path
+                        mode:(nullable DBFILESWriteMode *)mode
+                  autorename:(nullable NSNumber *)autorename
+              clientModified:(nullable NSDate *)clientModified
+                        mute:(nullable NSNumber *)mute
+              propertyGroups:(nullable NSArray<DBFILEPROPERTIESPropertyGroup *> *)propertyGroups;
 
 ///
 /// Convenience constructor (exposes only non-nullable instance variables with
@@ -66,7 +65,7 @@
 ///
 /// @return An initialized instance.
 ///
-- (nonnull instancetype)initWithPath:(NSString * _Nonnull)path;
+- (instancetype)initWithPath:(NSString *)path;
 
 @end
 
@@ -86,7 +85,7 @@
 /// @return A json-compatible dictionary representation of the
 /// `DBFILESCommitInfoWithProperties` API object.
 ///
-+ (NSDictionary * _Nonnull)serialize:(DBFILESCommitInfoWithProperties * _Nonnull)instance;
++ (nullable NSDictionary *)serialize:(DBFILESCommitInfoWithProperties *)instance;
 
 ///
 /// Deserializes `DBFILESCommitInfoWithProperties` instances.
@@ -96,6 +95,8 @@
 ///
 /// @return An instantiation of the `DBFILESCommitInfoWithProperties` object.
 ///
-+ (DBFILESCommitInfoWithProperties * _Nonnull)deserialize:(NSDictionary * _Nonnull)dict;
++ (DBFILESCommitInfoWithProperties *)deserialize:(NSDictionary *)dict;
 
 @end
+
+NS_ASSUME_NONNULL_END

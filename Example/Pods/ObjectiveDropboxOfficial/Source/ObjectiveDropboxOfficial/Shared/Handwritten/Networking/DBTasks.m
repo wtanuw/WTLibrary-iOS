@@ -2,12 +2,12 @@
 /// Copyright (c) 2016 Dropbox, Inc. All rights reserved.
 ///
 
+#import "DBTasks.h"
 #import "DBDelegate.h"
 #import "DBGlobalErrorResponseHandler+Internal.h"
 #import "DBHandlerTypes.h"
 #import "DBRequestErrors.h"
 #import "DBStoneBase.h"
-#import "DBTasks.h"
 #import "DBTransportBaseClient+Internal.h"
 #import "DBTransportBaseClient.h"
 
@@ -15,10 +15,12 @@
 
 @implementation DBTask : NSObject
 
-- (instancetype)initWithRoute:(DBRoute *)route {
+- (instancetype)initWithRoute:(DBRoute *)route tokenUid:(NSString *)tokenUid {
   self = [super init];
   if (self) {
     _route = route;
+    _queue = nil;
+    _tokenUid = [tokenUid copy];
   }
   return self;
 }
@@ -57,6 +59,10 @@
       exceptionWithName:NSInternalInconsistencyException
                  reason:[NSString stringWithFormat:@"You must override %@ in a subclass", NSStringFromSelector(_cmd)]
                userInfo:nil];
+}
+
++ (NSError *)dropboxBadResponseErrorWithException:(NSException *)exception {
+  return [NSError errorWithDomain:@"dropbox.com" code:0 userInfo:@{ @"error_message" : exception }];
 }
 
 @end
@@ -104,6 +110,10 @@
   __weak DBRpcTask *weakSelf = self;
   DBRpcResponseBlockStorage storageBlock = ^BOOL(NSData *data, NSURLResponse *response, NSError *clientError) {
     DBRpcTask *strongSelf = weakSelf;
+    if (strongSelf == nil) {
+      // Indicates failure and no-op
+      return NO;
+    }
 
     NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)response;
     int statusCode = (int)httpResponse.statusCode;
@@ -125,10 +135,14 @@
                        : nil;
       [DBGlobalErrorResponseHandler executeRegisteredResponseBlocksWithRouteError:routeError
                                                                      networkError:networkError
-                                                                      restartTask:self];
+                                                                      restartTask:strongSelf];
     } else {
       NSError *serializationError;
-      result = [DBTransportBaseClient routeResultWithRoute:route data:data serializationError:&serializationError];
+      @try {
+        result = [DBTransportBaseClient routeResultWithRoute:route data:data serializationError:&serializationError];
+      } @catch (NSException *exception) {
+        serializationError = [[self class] dropboxBadResponseErrorWithException:exception];
+      }
       if (serializationError) {
         networkError = [[DBRequestError alloc] initAsClientError:serializationError];
       } else {
@@ -191,6 +205,10 @@
   __weak DBUploadTask *weakSelf = self;
   DBUploadResponseBlockStorage storageBlock = ^BOOL(NSData *data, NSURLResponse *response, NSError *clientError) {
     DBUploadTask *strongSelf = weakSelf;
+    if (strongSelf == nil) {
+      // Indicates failure and no-op
+      return NO;
+    }
 
     NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)response;
     int statusCode = (int)httpResponse.statusCode;
@@ -212,10 +230,14 @@
                        : nil;
       [DBGlobalErrorResponseHandler executeRegisteredResponseBlocksWithRouteError:routeError
                                                                      networkError:networkError
-                                                                      restartTask:self];
+                                                                      restartTask:strongSelf];
     } else {
       NSError *serializationError;
-      result = [DBTransportBaseClient routeResultWithRoute:route data:data serializationError:&serializationError];
+      @try {
+        result = [DBTransportBaseClient routeResultWithRoute:route data:data serializationError:&serializationError];
+      } @catch (NSException *exception) {
+        serializationError = [[self class] dropboxBadResponseErrorWithException:exception];
+      }
       if (serializationError) {
         networkError = [[DBRequestError alloc] initAsClientError:serializationError];
       } else {
@@ -278,13 +300,22 @@
   __weak DBDownloadUrlTask *weakSelf = self;
   DBDownloadResponseBlockStorage storageBlock = ^BOOL(NSURL *location, NSURLResponse *response, NSError *clientError) {
     DBDownloadUrlTask *strongSelf = weakSelf;
+    if (strongSelf == nil) {
+      // Indicates failure and no-op
+      return NO;
+    }
 
     NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)response;
     int statusCode = (int)httpResponse.statusCode;
     NSDictionary *httpHeaders = httpResponse.allHeaderFields;
-    NSString *headerString =
-        [DBTransportBaseClient caseInsensitiveLookupWithKey:@"Dropbox-API-Result" dictionary:httpHeaders];
-    NSData *resultData = headerString ? [headerString dataUsingEncoding:NSUTF8StringEncoding] : nil;
+    id headerString =
+        [DBTransportBaseClient caseInsensitiveLookupWithKey:@"Dropbox-API-Result" headerFieldsDictionary:httpHeaders];
+
+    NSData *resultData = nil;
+    if ([headerString isKindOfClass:[NSString class]]) {
+      // If `headerString == nil` then `resultData = nil`
+      resultData = [headerString dataUsingEncoding:NSUTF8StringEncoding];
+    }
 
     DBRoute *route = strongSelf->_route;
 
@@ -295,7 +326,7 @@
     DBRequestError *networkError = nil;
     NSURL *destination = strongSelf->_destination;
 
-    if (clientError || !resultData) {
+    if (clientError || !resultData || !location) {
       // error data is in response body (downloaded to output tmp file)
       NSData *errorData = location ? [NSData dataWithContentsOfFile:[location path]] : nil;
       networkError = [DBTransportBaseClient dBRequestErrorWithErrorData:errorData
@@ -307,7 +338,7 @@
                        : nil;
       [DBGlobalErrorResponseHandler executeRegisteredResponseBlocksWithRouteError:routeError
                                                                      networkError:networkError
-                                                                      restartTask:self];
+                                                                      restartTask:strongSelf];
     } else {
       NSFileManager *fileManager = [NSFileManager defaultManager];
       NSString *destinationPath = [destination path];
@@ -329,8 +360,13 @@
           networkError = [[DBRequestError alloc] initAsClientError:fileMoveErrorToDestination];
         } else {
           NSError *serializationError;
-          result =
-              [DBTransportBaseClient routeResultWithRoute:route data:resultData serializationError:&serializationError];
+          @try {
+            result = [DBTransportBaseClient routeResultWithRoute:route
+                                                            data:resultData
+                                              serializationError:&serializationError];
+          } @catch (NSException *exception) {
+            serializationError = [[self class] dropboxBadResponseErrorWithException:exception];
+          }
           if (serializationError) {
             networkError = [[DBRequestError alloc] initAsClientError:serializationError];
           } else {
@@ -396,13 +432,22 @@
   __weak DBDownloadDataTask *weakSelf = self;
   DBDownloadResponseBlockStorage storageBlock = ^BOOL(NSURL *location, NSURLResponse *response, NSError *clientError) {
     DBDownloadDataTask *strongSelf = weakSelf;
+    if (strongSelf == nil) {
+      // Indicates failure and no-op
+      return NO;
+    }
 
     NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)response;
     int statusCode = (int)httpResponse.statusCode;
     NSDictionary *httpHeaders = httpResponse.allHeaderFields;
-    NSString *headerString =
-        [DBTransportBaseClient caseInsensitiveLookupWithKey:@"Dropbox-API-Result" dictionary:httpHeaders];
-    NSData *resultData = headerString ? [headerString dataUsingEncoding:NSUTF8StringEncoding] : nil;
+    id headerString =
+        [DBTransportBaseClient caseInsensitiveLookupWithKey:@"Dropbox-API-Result" headerFieldsDictionary:httpHeaders];
+
+    NSData *resultData = nil;
+    if ([headerString isKindOfClass:[NSString class]]) {
+      // If `headerString == nil` then `resultData = nil`
+      resultData = [headerString dataUsingEncoding:NSUTF8StringEncoding];
+    }
 
     DBRoute *route = strongSelf->_route;
 
@@ -425,11 +470,15 @@
                        : nil;
       [DBGlobalErrorResponseHandler executeRegisteredResponseBlocksWithRouteError:routeError
                                                                      networkError:networkError
-                                                                      restartTask:self];
+                                                                      restartTask:strongSelf];
     } else {
       NSError *serializationError;
-      result =
-          [DBTransportBaseClient routeResultWithRoute:route data:resultData serializationError:&serializationError];
+      @try {
+        result =
+            [DBTransportBaseClient routeResultWithRoute:route data:resultData serializationError:&serializationError];
+      } @catch (NSException *exception) {
+        serializationError = [[self class] dropboxBadResponseErrorWithException:exception];
+      }
       if (serializationError) {
         networkError = [[DBRequestError alloc] initAsClientError:serializationError];
       } else {

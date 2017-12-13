@@ -10,6 +10,8 @@
 
 @class DBTEAMDesktopPlatform;
 
+NS_ASSUME_NONNULL_BEGIN
+
 #pragma mark - API Object
 
 ///
@@ -26,13 +28,13 @@
 /// The `DBTEAMDesktopPlatformTag` enum type represents the possible tag states
 /// with which the `DBTEAMDesktopPlatform` union can exist.
 typedef NS_ENUM(NSInteger, DBTEAMDesktopPlatformTag) {
-  /// Official Windows Dropbox desktop client
+  /// Official Windows Dropbox desktop client.
   DBTEAMDesktopPlatformWindows,
 
-  /// Official Mac Dropbox desktop client
+  /// Official Mac Dropbox desktop client.
   DBTEAMDesktopPlatformMac,
 
-  /// Official Linux Dropbox desktop client
+  /// Official Linux Dropbox desktop client.
   DBTEAMDesktopPlatformLinux,
 
   /// (no description).
@@ -49,38 +51,38 @@ typedef NS_ENUM(NSInteger, DBTEAMDesktopPlatformTag) {
 /// Initializes union class with tag state of "windows".
 ///
 /// Description of the "windows" tag state: Official Windows Dropbox desktop
-/// client
+/// client.
 ///
 /// @return An initialized instance.
 ///
-- (nonnull instancetype)initWithWindows;
+- (instancetype)initWithWindows;
 
 ///
 /// Initializes union class with tag state of "mac".
 ///
-/// Description of the "mac" tag state: Official Mac Dropbox desktop client
+/// Description of the "mac" tag state: Official Mac Dropbox desktop client.
 ///
 /// @return An initialized instance.
 ///
-- (nonnull instancetype)initWithMac;
+- (instancetype)initWithMac;
 
 ///
 /// Initializes union class with tag state of "linux".
 ///
-/// Description of the "linux" tag state: Official Linux Dropbox desktop client
+/// Description of the "linux" tag state: Official Linux Dropbox desktop client.
 ///
 /// @return An initialized instance.
 ///
-- (nonnull instancetype)initWithLinux;
+- (instancetype)initWithLinux;
 
 ///
 /// Initializes union class with tag state of "other".
 ///
 /// @return An initialized instance.
 ///
-- (nonnull instancetype)initWithOther;
+- (instancetype)initWithOther;
 
-- (nonnull instancetype)init NS_UNAVAILABLE;
+- (instancetype)init NS_UNAVAILABLE;
 
 #pragma mark - Tag state methods
 
@@ -117,7 +119,7 @@ typedef NS_ENUM(NSInteger, DBTEAMDesktopPlatformTag) {
 ///
 /// @return A human-readable string representing the union's current tag state.
 ///
-- (NSString * _Nonnull)tagName;
+- (NSString *)tagName;
 
 @end
 
@@ -136,7 +138,7 @@ typedef NS_ENUM(NSInteger, DBTEAMDesktopPlatformTag) {
 /// @return A json-compatible dictionary representation of the
 /// `DBTEAMDesktopPlatform` API object.
 ///
-+ (NSDictionary * _Nonnull)serialize:(DBTEAMDesktopPlatform * _Nonnull)instance;
++ (nullable NSDictionary *)serialize:(DBTEAMDesktopPlatform *)instance;
 
 ///
 /// Deserializes `DBTEAMDesktopPlatform` instances.
@@ -146,6 +148,8 @@ typedef NS_ENUM(NSInteger, DBTEAMDesktopPlatformTag) {
 ///
 /// @return An instantiation of the `DBTEAMDesktopPlatform` object.
 ///
-+ (DBTEAMDesktopPlatform * _Nonnull)deserialize:(NSDictionary * _Nonnull)dict;
++ (DBTEAMDesktopPlatform *)deserialize:(NSDictionary *)dict;
 
 @end
+
+NS_ASSUME_NONNULL_END

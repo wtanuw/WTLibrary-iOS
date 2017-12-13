@@ -11,6 +11,8 @@
 @class DBTEAMTeamFolderMetadata;
 @class DBTEAMTeamFolderStatus;
 
+NS_ASSUME_NONNULL_BEGIN
+
 #pragma mark - API Object
 
 ///
@@ -27,13 +29,16 @@
 #pragma mark - Instance fields
 
 /// The ID of the team folder.
-@property (nonatomic, readonly, copy) NSString * _Nonnull teamFolderId;
+@property (nonatomic, readonly, copy) NSString *teamFolderId;
 
 /// The name of the team folder.
-@property (nonatomic, readonly, copy) NSString * _Nonnull name;
+@property (nonatomic, readonly, copy) NSString *name;
 
 /// The status of the team folder.
-@property (nonatomic, readonly) DBTEAMTeamFolderStatus * _Nonnull status;
+@property (nonatomic, readonly) DBTEAMTeamFolderStatus *status;
+
+/// True if this team folder is the team shared dropbox.
+@property (nonatomic, readonly) NSNumber *isTeamSharedDropbox;
 
 #pragma mark - Constructors
 
@@ -43,14 +48,17 @@
 /// @param teamFolderId The ID of the team folder.
 /// @param name The name of the team folder.
 /// @param status The status of the team folder.
+/// @param isTeamSharedDropbox True if this team folder is the team shared
+/// dropbox.
 ///
 /// @return An initialized instance.
 ///
-- (nonnull instancetype)initWithTeamFolderId:(NSString * _Nonnull)teamFolderId
-                                        name:(NSString * _Nonnull)name
-                                      status:(DBTEAMTeamFolderStatus * _Nonnull)status;
+- (instancetype)initWithTeamFolderId:(NSString *)teamFolderId
+                                name:(NSString *)name
+                              status:(DBTEAMTeamFolderStatus *)status
+                 isTeamSharedDropbox:(NSNumber *)isTeamSharedDropbox;
 
-- (nonnull instancetype)init NS_UNAVAILABLE;
+- (instancetype)init NS_UNAVAILABLE;
 
 @end
 
@@ -69,7 +77,7 @@
 /// @return A json-compatible dictionary representation of the
 /// `DBTEAMTeamFolderMetadata` API object.
 ///
-+ (NSDictionary * _Nonnull)serialize:(DBTEAMTeamFolderMetadata * _Nonnull)instance;
++ (nullable NSDictionary *)serialize:(DBTEAMTeamFolderMetadata *)instance;
 
 ///
 /// Deserializes `DBTEAMTeamFolderMetadata` instances.
@@ -79,6 +87,8 @@
 ///
 /// @return An instantiation of the `DBTEAMTeamFolderMetadata` object.
 ///
-+ (DBTEAMTeamFolderMetadata * _Nonnull)deserialize:(NSDictionary * _Nonnull)dict;
++ (DBTEAMTeamFolderMetadata *)deserialize:(NSDictionary *)dict;
 
 @end
+
+NS_ASSUME_NONNULL_END

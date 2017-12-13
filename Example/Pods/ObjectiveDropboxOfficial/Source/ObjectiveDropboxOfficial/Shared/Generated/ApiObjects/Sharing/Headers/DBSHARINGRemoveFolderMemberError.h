@@ -12,6 +12,8 @@
 @class DBSHARINGSharedFolderAccessError;
 @class DBSHARINGSharedFolderMemberError;
 
+NS_ASSUME_NONNULL_BEGIN
+
 #pragma mark - API Object
 
 ///
@@ -48,6 +50,10 @@ typedef NS_ENUM(NSInteger, DBSHARINGRemoveFolderMemberErrorTag) {
   /// The current user does not have permission to perform this action.
   DBSHARINGRemoveFolderMemberErrorNoPermission,
 
+  /// This shared folder has too many files for leaving a copy. You can still
+  /// remove this user without leaving a copy.
+  DBSHARINGRemoveFolderMemberErrorTooManyFiles,
+
   /// (no description).
   DBSHARINGRemoveFolderMemberErrorOther,
 
@@ -58,11 +64,11 @@ typedef NS_ENUM(NSInteger, DBSHARINGRemoveFolderMemberErrorTag) {
 
 /// (no description). @note Ensure the `isAccessError` method returns true
 /// before accessing, otherwise a runtime exception will be raised.
-@property (nonatomic, readonly) DBSHARINGSharedFolderAccessError * _Nonnull accessError;
+@property (nonatomic, readonly) DBSHARINGSharedFolderAccessError *accessError;
 
 /// (no description). @note Ensure the `isMemberError` method returns true
 /// before accessing, otherwise a runtime exception will be raised.
-@property (nonatomic, readonly) DBSHARINGSharedFolderMemberError * _Nonnull memberError;
+@property (nonatomic, readonly) DBSHARINGSharedFolderMemberError *memberError;
 
 #pragma mark - Constructors
 
@@ -73,7 +79,7 @@ typedef NS_ENUM(NSInteger, DBSHARINGRemoveFolderMemberErrorTag) {
 ///
 /// @return An initialized instance.
 ///
-- (nonnull instancetype)initWithAccessError:(DBSHARINGSharedFolderAccessError * _Nonnull)accessError;
+- (instancetype)initWithAccessError:(DBSHARINGSharedFolderAccessError *)accessError;
 
 ///
 /// Initializes union class with tag state of "member_error".
@@ -82,7 +88,7 @@ typedef NS_ENUM(NSInteger, DBSHARINGRemoveFolderMemberErrorTag) {
 ///
 /// @return An initialized instance.
 ///
-- (nonnull instancetype)initWithMemberError:(DBSHARINGSharedFolderMemberError * _Nonnull)memberError;
+- (instancetype)initWithMemberError:(DBSHARINGSharedFolderMemberError *)memberError;
 
 ///
 /// Initializes union class with tag state of "folder_owner".
@@ -93,7 +99,7 @@ typedef NS_ENUM(NSInteger, DBSHARINGRemoveFolderMemberErrorTag) {
 ///
 /// @return An initialized instance.
 ///
-- (nonnull instancetype)initWithFolderOwner;
+- (instancetype)initWithFolderOwner;
 
 ///
 /// Initializes union class with tag state of "group_access".
@@ -103,7 +109,7 @@ typedef NS_ENUM(NSInteger, DBSHARINGRemoveFolderMemberErrorTag) {
 ///
 /// @return An initialized instance.
 ///
-- (nonnull instancetype)initWithGroupAccess;
+- (instancetype)initWithGroupAccess;
 
 ///
 /// Initializes union class with tag state of "team_folder".
@@ -113,7 +119,7 @@ typedef NS_ENUM(NSInteger, DBSHARINGRemoveFolderMemberErrorTag) {
 ///
 /// @return An initialized instance.
 ///
-- (nonnull instancetype)initWithTeamFolder;
+- (instancetype)initWithTeamFolder;
 
 ///
 /// Initializes union class with tag state of "no_permission".
@@ -123,16 +129,27 @@ typedef NS_ENUM(NSInteger, DBSHARINGRemoveFolderMemberErrorTag) {
 ///
 /// @return An initialized instance.
 ///
-- (nonnull instancetype)initWithNoPermission;
+- (instancetype)initWithNoPermission;
+
+///
+/// Initializes union class with tag state of "too_many_files".
+///
+/// Description of the "too_many_files" tag state: This shared folder has too
+/// many files for leaving a copy. You can still remove this user without
+/// leaving a copy.
+///
+/// @return An initialized instance.
+///
+- (instancetype)initWithTooManyFiles;
 
 ///
 /// Initializes union class with tag state of "other".
 ///
 /// @return An initialized instance.
 ///
-- (nonnull instancetype)initWithOther;
+- (instancetype)initWithOther;
 
-- (nonnull instancetype)init NS_UNAVAILABLE;
+- (instancetype)init NS_UNAVAILABLE;
 
 #pragma mark - Tag state methods
 
@@ -185,6 +202,13 @@ typedef NS_ENUM(NSInteger, DBSHARINGRemoveFolderMemberErrorTag) {
 - (BOOL)isNoPermission;
 
 ///
+/// Retrieves whether the union's current tag state has value "too_many_files".
+///
+/// @return Whether the union's current tag state has value "too_many_files".
+///
+- (BOOL)isTooManyFiles;
+
+///
 /// Retrieves whether the union's current tag state has value "other".
 ///
 /// @return Whether the union's current tag state has value "other".
@@ -196,7 +220,7 @@ typedef NS_ENUM(NSInteger, DBSHARINGRemoveFolderMemberErrorTag) {
 ///
 /// @return A human-readable string representing the union's current tag state.
 ///
-- (NSString * _Nonnull)tagName;
+- (NSString *)tagName;
 
 @end
 
@@ -216,7 +240,7 @@ typedef NS_ENUM(NSInteger, DBSHARINGRemoveFolderMemberErrorTag) {
 /// @return A json-compatible dictionary representation of the
 /// `DBSHARINGRemoveFolderMemberError` API object.
 ///
-+ (NSDictionary * _Nonnull)serialize:(DBSHARINGRemoveFolderMemberError * _Nonnull)instance;
++ (nullable NSDictionary *)serialize:(DBSHARINGRemoveFolderMemberError *)instance;
 
 ///
 /// Deserializes `DBSHARINGRemoveFolderMemberError` instances.
@@ -226,6 +250,8 @@ typedef NS_ENUM(NSInteger, DBSHARINGRemoveFolderMemberErrorTag) {
 ///
 /// @return An instantiation of the `DBSHARINGRemoveFolderMemberError` object.
 ///
-+ (DBSHARINGRemoveFolderMemberError * _Nonnull)deserialize:(NSDictionary * _Nonnull)dict;
++ (DBSHARINGRemoveFolderMemberError *)deserialize:(NSDictionary *)dict;
 
 @end
+
+NS_ASSUME_NONNULL_END

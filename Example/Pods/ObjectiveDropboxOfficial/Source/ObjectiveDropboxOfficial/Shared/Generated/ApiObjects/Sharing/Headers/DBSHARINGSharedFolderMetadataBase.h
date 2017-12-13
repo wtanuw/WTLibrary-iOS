@@ -12,6 +12,8 @@
 @class DBSHARINGSharedFolderMetadataBase;
 @class DBUSERSTeam;
 
+NS_ASSUME_NONNULL_BEGIN
+
 #pragma mark - API Object
 
 ///
@@ -28,25 +30,30 @@
 #pragma mark - Instance fields
 
 /// The current user's access level for this shared folder.
-@property (nonatomic, readonly) DBSHARINGAccessLevel * _Nonnull accessType;
+@property (nonatomic, readonly) DBSHARINGAccessLevel *accessType;
 
 /// Whether this folder is inside of a team folder.
-@property (nonatomic, readonly) NSNumber * _Nonnull isInsideTeamFolder;
+@property (nonatomic, readonly) NSNumber *isInsideTeamFolder;
 
 /// Whether this folder is a team folder https://www.dropbox.com/en/help/986.
-@property (nonatomic, readonly) NSNumber * _Nonnull isTeamFolder;
+@property (nonatomic, readonly) NSNumber *isTeamFolder;
+
+/// The display names of the users that own the folder. If the folder is part of
+/// a team folder, the display names of the team admins are also included.
+/// Absent if the owner display names cannot be fetched.
+@property (nonatomic, readonly, nullable) NSArray<NSString *> *ownerDisplayNames;
 
 /// The team that owns the folder. This field is not present if the folder is
 /// not owned by a team.
-@property (nonatomic, readonly) DBUSERSTeam * _Nullable ownerTeam;
+@property (nonatomic, readonly, nullable) DBUSERSTeam *ownerTeam;
 
 /// The ID of the parent shared folder. This field is present only if the folder
 /// is contained within another shared folder.
-@property (nonatomic, readonly, copy) NSString * _Nullable parentSharedFolderId;
+@property (nonatomic, readonly, copy, nullable) NSString *parentSharedFolderId;
 
 /// The lower-cased full path of this shared folder. Absent for unmounted
 /// folders.
-@property (nonatomic, readonly, copy) NSString * _Nullable pathLower;
+@property (nonatomic, readonly, copy, nullable) NSString *pathLower;
 
 #pragma mark - Constructors
 
@@ -57,6 +64,9 @@
 /// @param isInsideTeamFolder Whether this folder is inside of a team folder.
 /// @param isTeamFolder Whether this folder is a team folder
 /// https://www.dropbox.com/en/help/986.
+/// @param ownerDisplayNames The display names of the users that own the folder.
+/// If the folder is part of a team folder, the display names of the team admins
+/// are also included. Absent if the owner display names cannot be fetched.
 /// @param ownerTeam The team that owns the folder. This field is not present if
 /// the folder is not owned by a team.
 /// @param parentSharedFolderId The ID of the parent shared folder. This field
@@ -66,12 +76,13 @@
 ///
 /// @return An initialized instance.
 ///
-- (nonnull instancetype)initWithAccessType:(DBSHARINGAccessLevel * _Nonnull)accessType
-                        isInsideTeamFolder:(NSNumber * _Nonnull)isInsideTeamFolder
-                              isTeamFolder:(NSNumber * _Nonnull)isTeamFolder
-                                 ownerTeam:(DBUSERSTeam * _Nullable)ownerTeam
-                      parentSharedFolderId:(NSString * _Nullable)parentSharedFolderId
-                                 pathLower:(NSString * _Nullable)pathLower;
+- (instancetype)initWithAccessType:(DBSHARINGAccessLevel *)accessType
+                isInsideTeamFolder:(NSNumber *)isInsideTeamFolder
+                      isTeamFolder:(NSNumber *)isTeamFolder
+                 ownerDisplayNames:(nullable NSArray<NSString *> *)ownerDisplayNames
+                         ownerTeam:(nullable DBUSERSTeam *)ownerTeam
+              parentSharedFolderId:(nullable NSString *)parentSharedFolderId
+                         pathLower:(nullable NSString *)pathLower;
 
 ///
 /// Convenience constructor (exposes only non-nullable instance variables with
@@ -84,11 +95,11 @@
 ///
 /// @return An initialized instance.
 ///
-- (nonnull instancetype)initWithAccessType:(DBSHARINGAccessLevel * _Nonnull)accessType
-                        isInsideTeamFolder:(NSNumber * _Nonnull)isInsideTeamFolder
-                              isTeamFolder:(NSNumber * _Nonnull)isTeamFolder;
+- (instancetype)initWithAccessType:(DBSHARINGAccessLevel *)accessType
+                isInsideTeamFolder:(NSNumber *)isInsideTeamFolder
+                      isTeamFolder:(NSNumber *)isTeamFolder;
 
-- (nonnull instancetype)init NS_UNAVAILABLE;
+- (instancetype)init NS_UNAVAILABLE;
 
 @end
 
@@ -108,7 +119,7 @@
 /// @return A json-compatible dictionary representation of the
 /// `DBSHARINGSharedFolderMetadataBase` API object.
 ///
-+ (NSDictionary * _Nonnull)serialize:(DBSHARINGSharedFolderMetadataBase * _Nonnull)instance;
++ (nullable NSDictionary *)serialize:(DBSHARINGSharedFolderMetadataBase *)instance;
 
 ///
 /// Deserializes `DBSHARINGSharedFolderMetadataBase` instances.
@@ -118,6 +129,8 @@
 ///
 /// @return An instantiation of the `DBSHARINGSharedFolderMetadataBase` object.
 ///
-+ (DBSHARINGSharedFolderMetadataBase * _Nonnull)deserialize:(NSDictionary * _Nonnull)dict;
++ (DBSHARINGSharedFolderMetadataBase *)deserialize:(NSDictionary *)dict;
 
 @end
+
+NS_ASSUME_NONNULL_END

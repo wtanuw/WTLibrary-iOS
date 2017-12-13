@@ -11,6 +11,8 @@
 @class DBTEAMListMembersDevicesResult;
 @class DBTEAMMemberDevices;
 
+NS_ASSUME_NONNULL_BEGIN
+
 #pragma mark - API Object
 
 ///
@@ -24,23 +26,23 @@
 
 #pragma mark - Instance fields
 
-/// The devices of each member of the team
-@property (nonatomic, readonly) NSArray<DBTEAMMemberDevices *> * _Nonnull devices;
+/// The devices of each member of the team.
+@property (nonatomic, readonly) NSArray<DBTEAMMemberDevices *> *devices;
 
 /// If true, then there are more devices available. Pass the cursor to
 /// `devicesListMembersDevices` to retrieve the rest.
-@property (nonatomic, readonly) NSNumber * _Nonnull hasMore;
+@property (nonatomic, readonly) NSNumber *hasMore;
 
 /// Pass the cursor into `devicesListMembersDevices` to receive the next sub
 /// list of team's devices.
-@property (nonatomic, readonly, copy) NSString * _Nullable cursor;
+@property (nonatomic, readonly, copy, nullable) NSString *cursor;
 
 #pragma mark - Constructors
 
 ///
 /// Full constructor for the struct (exposes all instance variables).
 ///
-/// @param devices The devices of each member of the team
+/// @param devices The devices of each member of the team.
 /// @param hasMore If true, then there are more devices available. Pass the
 /// cursor to `devicesListMembersDevices` to retrieve the rest.
 /// @param cursor Pass the cursor into `devicesListMembersDevices` to receive
@@ -48,24 +50,23 @@
 ///
 /// @return An initialized instance.
 ///
-- (nonnull instancetype)initWithDevices:(NSArray<DBTEAMMemberDevices *> * _Nonnull)devices
-                                hasMore:(NSNumber * _Nonnull)hasMore
-                                 cursor:(NSString * _Nullable)cursor;
+- (instancetype)initWithDevices:(NSArray<DBTEAMMemberDevices *> *)devices
+                        hasMore:(NSNumber *)hasMore
+                         cursor:(nullable NSString *)cursor;
 
 ///
 /// Convenience constructor (exposes only non-nullable instance variables with
 /// no default value).
 ///
-/// @param devices The devices of each member of the team
+/// @param devices The devices of each member of the team.
 /// @param hasMore If true, then there are more devices available. Pass the
 /// cursor to `devicesListMembersDevices` to retrieve the rest.
 ///
 /// @return An initialized instance.
 ///
-- (nonnull instancetype)initWithDevices:(NSArray<DBTEAMMemberDevices *> * _Nonnull)devices
-                                hasMore:(NSNumber * _Nonnull)hasMore;
+- (instancetype)initWithDevices:(NSArray<DBTEAMMemberDevices *> *)devices hasMore:(NSNumber *)hasMore;
 
-- (nonnull instancetype)init NS_UNAVAILABLE;
+- (instancetype)init NS_UNAVAILABLE;
 
 @end
 
@@ -85,7 +86,7 @@
 /// @return A json-compatible dictionary representation of the
 /// `DBTEAMListMembersDevicesResult` API object.
 ///
-+ (NSDictionary * _Nonnull)serialize:(DBTEAMListMembersDevicesResult * _Nonnull)instance;
++ (nullable NSDictionary *)serialize:(DBTEAMListMembersDevicesResult *)instance;
 
 ///
 /// Deserializes `DBTEAMListMembersDevicesResult` instances.
@@ -95,6 +96,8 @@
 ///
 /// @return An instantiation of the `DBTEAMListMembersDevicesResult` object.
 ///
-+ (DBTEAMListMembersDevicesResult * _Nonnull)deserialize:(NSDictionary * _Nonnull)dict;
++ (DBTEAMListMembersDevicesResult *)deserialize:(NSDictionary *)dict;
 
 @end
+
+NS_ASSUME_NONNULL_END

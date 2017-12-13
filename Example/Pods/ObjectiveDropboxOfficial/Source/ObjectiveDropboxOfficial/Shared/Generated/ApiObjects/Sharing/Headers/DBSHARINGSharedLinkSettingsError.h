@@ -10,6 +10,8 @@
 
 @class DBSHARINGSharedLinkSettingsError;
 
+NS_ASSUME_NONNULL_BEGIN
+
 #pragma mark - API Object
 
 ///
@@ -31,13 +33,13 @@ typedef NS_ENUM(NSInteger, DBSHARINGSharedLinkSettingsErrorTag) {
   /// SharedLinkSettings are empty, the requested visibility is `password` in
   /// `DBSHARINGRequestedVisibility` but the `linkPassword` in
   /// `DBSHARINGSharedLinkSettings` is missing, `expires` in
-  /// `DBSHARINGSharedLinkSettings` is set to the past, etc.)
+  /// `DBSHARINGSharedLinkSettings` is set to the past, etc.).
   DBSHARINGSharedLinkSettingsErrorInvalidSettings,
 
   /// User is not allowed to modify the settings of this link. Note that basic
   /// users can only set `public` in `DBSHARINGRequestedVisibility` as the
   /// `requestedVisibility` in `DBSHARINGSharedLinkSettings` and cannot set
-  /// `expires` in `DBSHARINGSharedLinkSettings`
+  /// `expires` in `DBSHARINGSharedLinkSettings`.
   DBSHARINGSharedLinkSettingsErrorNotAuthorized,
 
 };
@@ -54,11 +56,11 @@ typedef NS_ENUM(NSInteger, DBSHARINGSharedLinkSettingsErrorTag) {
 /// invalid (for example, all attributes of the SharedLinkSettings are empty,
 /// the requested visibility is `password` in `DBSHARINGRequestedVisibility` but
 /// the `linkPassword` in `DBSHARINGSharedLinkSettings` is missing, `expires` in
-/// `DBSHARINGSharedLinkSettings` is set to the past, etc.)
+/// `DBSHARINGSharedLinkSettings` is set to the past, etc.).
 ///
 /// @return An initialized instance.
 ///
-- (nonnull instancetype)initWithInvalidSettings;
+- (instancetype)initWithInvalidSettings;
 
 ///
 /// Initializes union class with tag state of "not_authorized".
@@ -67,13 +69,13 @@ typedef NS_ENUM(NSInteger, DBSHARINGSharedLinkSettingsErrorTag) {
 /// the settings of this link. Note that basic users can only set `public` in
 /// `DBSHARINGRequestedVisibility` as the `requestedVisibility` in
 /// `DBSHARINGSharedLinkSettings` and cannot set `expires` in
-/// `DBSHARINGSharedLinkSettings`
+/// `DBSHARINGSharedLinkSettings`.
 ///
 /// @return An initialized instance.
 ///
-- (nonnull instancetype)initWithNotAuthorized;
+- (instancetype)initWithNotAuthorized;
 
-- (nonnull instancetype)init NS_UNAVAILABLE;
+- (instancetype)init NS_UNAVAILABLE;
 
 #pragma mark - Tag state methods
 
@@ -97,7 +99,7 @@ typedef NS_ENUM(NSInteger, DBSHARINGSharedLinkSettingsErrorTag) {
 ///
 /// @return A human-readable string representing the union's current tag state.
 ///
-- (NSString * _Nonnull)tagName;
+- (NSString *)tagName;
 
 @end
 
@@ -117,7 +119,7 @@ typedef NS_ENUM(NSInteger, DBSHARINGSharedLinkSettingsErrorTag) {
 /// @return A json-compatible dictionary representation of the
 /// `DBSHARINGSharedLinkSettingsError` API object.
 ///
-+ (NSDictionary * _Nonnull)serialize:(DBSHARINGSharedLinkSettingsError * _Nonnull)instance;
++ (nullable NSDictionary *)serialize:(DBSHARINGSharedLinkSettingsError *)instance;
 
 ///
 /// Deserializes `DBSHARINGSharedLinkSettingsError` instances.
@@ -127,6 +129,8 @@ typedef NS_ENUM(NSInteger, DBSHARINGSharedLinkSettingsErrorTag) {
 ///
 /// @return An instantiation of the `DBSHARINGSharedLinkSettingsError` object.
 ///
-+ (DBSHARINGSharedLinkSettingsError * _Nonnull)deserialize:(NSDictionary * _Nonnull)dict;
++ (DBSHARINGSharedLinkSettingsError *)deserialize:(NSDictionary *)dict;
 
 @end
+
+NS_ASSUME_NONNULL_END

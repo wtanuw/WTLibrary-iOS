@@ -6,6 +6,7 @@
 
 #import <Foundation/Foundation.h>
 
+#import "DBSHARINGShareFolderArgBase.h"
 #import "DBSerializableProtocol.h"
 
 @class DBSHARINGAclUpdatePolicy;
@@ -16,6 +17,8 @@
 @class DBSHARINGSharedLinkPolicy;
 @class DBSHARINGViewerInfoPolicy;
 
+NS_ASSUME_NONNULL_BEGIN
+
 #pragma mark - API Object
 
 ///
@@ -25,40 +28,18 @@
 /// deserialize instance methods), which is required for all Obj-C SDK API route
 /// objects.
 ///
-@interface DBSHARINGShareFolderArg : NSObject <DBSerializable, NSCopying>
+@interface DBSHARINGShareFolderArg : DBSHARINGShareFolderArgBase <DBSerializable, NSCopying>
 
 #pragma mark - Instance fields
 
-/// The path to the folder to share. If it does not exist, then a new one is
-/// created.
-@property (nonatomic, readonly, copy) NSString * _Nonnull path;
-
-/// Who can be a member of this shared folder. Only applicable if the current
-/// user is on a team.
-@property (nonatomic, readonly) DBSHARINGMemberPolicy * _Nullable memberPolicy;
-
-/// Who can add and remove members of this shared folder.
-@property (nonatomic, readonly) DBSHARINGAclUpdatePolicy * _Nullable aclUpdatePolicy;
-
-/// The policy to apply to shared links created for content inside this shared
-/// folder.  The current user must be on a team to set this policy to `members`
-/// in `DBSHARINGSharedLinkPolicy`.
-@property (nonatomic, readonly) DBSHARINGSharedLinkPolicy * _Nullable sharedLinkPolicy;
-
-/// Whether to force the share to happen asynchronously.
-@property (nonatomic, readonly) NSNumber * _Nonnull forceAsync;
-
-/// This is a list indicating whether each returned folder data entry will
-/// include a boolean field `allow` in `DBSHARINGFolderPermission` that
-/// describes whether the current user can perform the `FolderAction` on the
+/// A list of `FolderAction`s corresponding to `FolderPermission`s that should
+/// appear in the  response's `permissions` in `DBSHARINGSharedFolderMetadata`
+/// field describing the actions the  authenticated user can perform on the
 /// folder.
-@property (nonatomic, readonly) NSArray<DBSHARINGFolderAction *> * _Nullable actions;
+@property (nonatomic, readonly, nullable) NSArray<DBSHARINGFolderAction *> *actions;
 
 /// Settings on the link for this folder.
-@property (nonatomic, readonly) DBSHARINGLinkSettings * _Nullable linkSettings;
-
-/// Who can enable/disable viewer info for this shared folder.
-@property (nonatomic, readonly) DBSHARINGViewerInfoPolicy * _Nullable viewerInfoPolicy;
+@property (nonatomic, readonly, nullable) DBSHARINGLinkSettings *linkSettings;
 
 #pragma mark - Constructors
 
@@ -67,31 +48,31 @@
 ///
 /// @param path The path to the folder to share. If it does not exist, then a
 /// new one is created.
+/// @param aclUpdatePolicy Who can add and remove members of this shared folder.
+/// @param forceAsync Whether to force the share to happen asynchronously.
 /// @param memberPolicy Who can be a member of this shared folder. Only
 /// applicable if the current user is on a team.
-/// @param aclUpdatePolicy Who can add and remove members of this shared folder.
 /// @param sharedLinkPolicy The policy to apply to shared links created for
 /// content inside this shared folder.  The current user must be on a team to
 /// set this policy to `members` in `DBSHARINGSharedLinkPolicy`.
-/// @param forceAsync Whether to force the share to happen asynchronously.
-/// @param actions This is a list indicating whether each returned folder data
-/// entry will include a boolean field `allow` in `DBSHARINGFolderPermission`
-/// that describes whether the current user can perform the `FolderAction` on
-/// the folder.
-/// @param linkSettings Settings on the link for this folder.
 /// @param viewerInfoPolicy Who can enable/disable viewer info for this shared
 /// folder.
+/// @param actions A list of `FolderAction`s corresponding to
+/// `FolderPermission`s that should appear in the  response's `permissions` in
+/// `DBSHARINGSharedFolderMetadata` field describing the actions the
+/// authenticated user can perform on the folder.
+/// @param linkSettings Settings on the link for this folder.
 ///
 /// @return An initialized instance.
 ///
-- (nonnull instancetype)initWithPath:(NSString * _Nonnull)path
-                        memberPolicy:(DBSHARINGMemberPolicy * _Nullable)memberPolicy
-                     aclUpdatePolicy:(DBSHARINGAclUpdatePolicy * _Nullable)aclUpdatePolicy
-                    sharedLinkPolicy:(DBSHARINGSharedLinkPolicy * _Nullable)sharedLinkPolicy
-                          forceAsync:(NSNumber * _Nullable)forceAsync
-                             actions:(NSArray<DBSHARINGFolderAction *> * _Nullable)actions
-                        linkSettings:(DBSHARINGLinkSettings * _Nullable)linkSettings
-                    viewerInfoPolicy:(DBSHARINGViewerInfoPolicy * _Nullable)viewerInfoPolicy;
+- (instancetype)initWithPath:(NSString *)path
+             aclUpdatePolicy:(nullable DBSHARINGAclUpdatePolicy *)aclUpdatePolicy
+                  forceAsync:(nullable NSNumber *)forceAsync
+                memberPolicy:(nullable DBSHARINGMemberPolicy *)memberPolicy
+            sharedLinkPolicy:(nullable DBSHARINGSharedLinkPolicy *)sharedLinkPolicy
+            viewerInfoPolicy:(nullable DBSHARINGViewerInfoPolicy *)viewerInfoPolicy
+                     actions:(nullable NSArray<DBSHARINGFolderAction *> *)actions
+                linkSettings:(nullable DBSHARINGLinkSettings *)linkSettings;
 
 ///
 /// Convenience constructor (exposes only non-nullable instance variables with
@@ -102,9 +83,7 @@
 ///
 /// @return An initialized instance.
 ///
-- (nonnull instancetype)initWithPath:(NSString * _Nonnull)path;
-
-- (nonnull instancetype)init NS_UNAVAILABLE;
+- (instancetype)initWithPath:(NSString *)path;
 
 @end
 
@@ -123,7 +102,7 @@
 /// @return A json-compatible dictionary representation of the
 /// `DBSHARINGShareFolderArg` API object.
 ///
-+ (NSDictionary * _Nonnull)serialize:(DBSHARINGShareFolderArg * _Nonnull)instance;
++ (nullable NSDictionary *)serialize:(DBSHARINGShareFolderArg *)instance;
 
 ///
 /// Deserializes `DBSHARINGShareFolderArg` instances.
@@ -133,6 +112,8 @@
 ///
 /// @return An instantiation of the `DBSHARINGShareFolderArg` object.
 ///
-+ (DBSHARINGShareFolderArg * _Nonnull)deserialize:(NSDictionary * _Nonnull)dict;
++ (DBSHARINGShareFolderArg *)deserialize:(NSDictionary *)dict;
 
 @end
+
+NS_ASSUME_NONNULL_END

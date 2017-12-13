@@ -8,8 +8,11 @@
 
 #import "DBSerializableProtocol.h"
 
+@class DBFILEPROPERTIESPropertyGroup;
 @class DBFILESCommitInfo;
 @class DBFILESWriteMode;
+
+NS_ASSUME_NONNULL_BEGIN
 
 #pragma mark - API Object
 
@@ -25,26 +28,29 @@
 #pragma mark - Instance fields
 
 /// Path in the user's Dropbox to save the file.
-@property (nonatomic, readonly, copy) NSString * _Nonnull path;
+@property (nonatomic, readonly, copy) NSString *path;
 
 /// Selects what to do if the file already exists.
-@property (nonatomic, readonly) DBFILESWriteMode * _Nonnull mode;
+@property (nonatomic, readonly) DBFILESWriteMode *mode;
 
 /// If there's a conflict, as determined by mode, have the Dropbox server try to
 /// autorename the file to avoid conflict.
-@property (nonatomic, readonly) NSNumber * _Nonnull autorename;
+@property (nonatomic, readonly) NSNumber *autorename;
 
 /// The value to store as the clientModified timestamp. Dropbox automatically
 /// records the time at which the file was written to the Dropbox servers. It
 /// can also record an additional timestamp, provided by Dropbox desktop
 /// clients, mobile clients, and API apps of when the file was actually created
 /// or modified.
-@property (nonatomic, readonly) NSDate * _Nullable clientModified;
+@property (nonatomic, readonly, nullable) NSDate *clientModified;
 
 /// Normally, users are made aware of any file modifications in their Dropbox
 /// account via notifications in the client software. If true, this tells the
 /// clients that this modification shouldn't result in a user notification.
-@property (nonatomic, readonly) NSNumber * _Nonnull mute;
+@property (nonatomic, readonly) NSNumber *mute;
+
+/// List of custom properties to add to file.
+@property (nonatomic, readonly, nullable) NSArray<DBFILEPROPERTIESPropertyGroup *> *propertyGroups;
 
 #pragma mark - Constructors
 
@@ -64,14 +70,16 @@
 /// their Dropbox account via notifications in the client software. If true,
 /// this tells the clients that this modification shouldn't result in a user
 /// notification.
+/// @param propertyGroups List of custom properties to add to file.
 ///
 /// @return An initialized instance.
 ///
-- (nonnull instancetype)initWithPath:(NSString * _Nonnull)path
-                                mode:(DBFILESWriteMode * _Nullable)mode
-                          autorename:(NSNumber * _Nullable)autorename
-                      clientModified:(NSDate * _Nullable)clientModified
-                                mute:(NSNumber * _Nullable)mute;
+- (instancetype)initWithPath:(NSString *)path
+                        mode:(nullable DBFILESWriteMode *)mode
+                  autorename:(nullable NSNumber *)autorename
+              clientModified:(nullable NSDate *)clientModified
+                        mute:(nullable NSNumber *)mute
+              propertyGroups:(nullable NSArray<DBFILEPROPERTIESPropertyGroup *> *)propertyGroups;
 
 ///
 /// Convenience constructor (exposes only non-nullable instance variables with
@@ -81,9 +89,9 @@
 ///
 /// @return An initialized instance.
 ///
-- (nonnull instancetype)initWithPath:(NSString * _Nonnull)path;
+- (instancetype)initWithPath:(NSString *)path;
 
-- (nonnull instancetype)init NS_UNAVAILABLE;
+- (instancetype)init NS_UNAVAILABLE;
 
 @end
 
@@ -102,7 +110,7 @@
 /// @return A json-compatible dictionary representation of the
 /// `DBFILESCommitInfo` API object.
 ///
-+ (NSDictionary * _Nonnull)serialize:(DBFILESCommitInfo * _Nonnull)instance;
++ (nullable NSDictionary *)serialize:(DBFILESCommitInfo *)instance;
 
 ///
 /// Deserializes `DBFILESCommitInfo` instances.
@@ -112,6 +120,8 @@
 ///
 /// @return An instantiation of the `DBFILESCommitInfo` object.
 ///
-+ (DBFILESCommitInfo * _Nonnull)deserialize:(NSDictionary * _Nonnull)dict;
++ (DBFILESCommitInfo *)deserialize:(NSDictionary *)dict;
 
 @end
+
+NS_ASSUME_NONNULL_END

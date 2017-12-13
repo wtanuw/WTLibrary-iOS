@@ -2,9 +2,9 @@
 /// Copyright (c) 2016 Dropbox, Inc. All rights reserved.
 ///
 
+#import "DBOAuthMobileManager-iOS.h"
 #import "DBOAuthManager+Protected.h"
 #import "DBOAuthMobile-iOS.h"
-#import "DBOAuthMobileManager-iOS.h"
 #import "DBOAuthResult.h"
 #import "DBSharedApplicationProtocol.h"
 
@@ -17,16 +17,15 @@ static NSString *kDBLinkNonce = @"dropbox.sync.nonce";
 }
 
 - (instancetype)initWithAppKey:(NSString *)appKey {
-  self = [super initWithAppKey:appKey];
-  if (self) {
-    _dauthRedirectURL = [NSURL URLWithString:[NSString stringWithFormat:@"db-%@://1/connect", appKey]];
-    [_urls addObject:_dauthRedirectURL];
-  }
-  return self;
+  return [self initWithAppKey:appKey host:nil];
 }
 
 - (instancetype)initWithAppKey:(NSString *)appKey host:(NSString *)host {
-  self = [super initWithAppKey:appKey host:host];
+  return [self initWithAppKey:appKey host:host redirectURL:nil];
+}
+
+- (instancetype)initWithAppKey:(NSString *)appKey host:(NSString *)host redirectURL:(NSString *)redirectURL {
+  self = [super initWithAppKey:appKey host:host redirectURL:redirectURL];
   if (self) {
     _dauthRedirectURL = [NSURL URLWithString:[NSString stringWithFormat:@"db-%@://1/connect", appKey]];
     [_urls addObject:_dauthRedirectURL];

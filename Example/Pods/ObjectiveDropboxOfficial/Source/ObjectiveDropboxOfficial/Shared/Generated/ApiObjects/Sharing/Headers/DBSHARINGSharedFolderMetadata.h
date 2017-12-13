@@ -16,6 +16,8 @@
 @class DBSHARINGSharedFolderMetadata;
 @class DBUSERSTeam;
 
+NS_ASSUME_NONNULL_BEGIN
+
 #pragma mark - API Object
 
 ///
@@ -32,28 +34,29 @@
 #pragma mark - Instance fields
 
 /// The metadata of the shared content link to this shared folder. Absent if
-/// there is no link on the folder.
-@property (nonatomic, readonly) DBSHARINGSharedContentLinkMetadata * _Nullable linkMetadata;
+/// there is no link on the folder. This is for an unreleased feature so it may
+/// not be returned yet.
+@property (nonatomic, readonly, nullable) DBSHARINGSharedContentLinkMetadata *linkMetadata;
 
 /// The name of the this shared folder.
-@property (nonatomic, readonly, copy) NSString * _Nonnull name;
+@property (nonatomic, readonly, copy) NSString *name;
 
 /// Actions the current user may perform on the folder and its contents. The set
 /// of permissions corresponds to the FolderActions in the request.
-@property (nonatomic, readonly) NSArray<DBSHARINGFolderPermission *> * _Nullable permissions;
+@property (nonatomic, readonly, nullable) NSArray<DBSHARINGFolderPermission *> *permissions;
 
 /// Policies governing this shared folder.
-@property (nonatomic, readonly) DBSHARINGFolderPolicy * _Nonnull policy;
+@property (nonatomic, readonly) DBSHARINGFolderPolicy *policy;
 
 /// URL for displaying a web preview of the shared folder.
-@property (nonatomic, readonly, copy) NSString * _Nonnull previewUrl;
+@property (nonatomic, readonly, copy) NSString *previewUrl;
 
 /// The ID of the shared folder.
-@property (nonatomic, readonly, copy) NSString * _Nonnull sharedFolderId;
+@property (nonatomic, readonly, copy) NSString *sharedFolderId;
 
 /// Timestamp indicating when the current user was invited to this shared
 /// folder.
-@property (nonatomic, readonly) NSDate * _Nonnull timeInvited;
+@property (nonatomic, readonly) NSDate *timeInvited;
 
 #pragma mark - Constructors
 
@@ -70,6 +73,9 @@
 /// @param sharedFolderId The ID of the shared folder.
 /// @param timeInvited Timestamp indicating when the current user was invited to
 /// this shared folder.
+/// @param ownerDisplayNames The display names of the users that own the folder.
+/// If the folder is part of a team folder, the display names of the team admins
+/// are also included. Absent if the owner display names cannot be fetched.
 /// @param ownerTeam The team that owns the folder. This field is not present if
 /// the folder is not owned by a team.
 /// @param parentSharedFolderId The ID of the parent shared folder. This field
@@ -77,26 +83,28 @@
 /// @param pathLower The lower-cased full path of this shared folder. Absent for
 /// unmounted folders.
 /// @param linkMetadata The metadata of the shared content link to this shared
-/// folder. Absent if there is no link on the folder.
+/// folder. Absent if there is no link on the folder. This is for an unreleased
+/// feature so it may not be returned yet.
 /// @param permissions Actions the current user may perform on the folder and
 /// its contents. The set of permissions corresponds to the FolderActions in the
 /// request.
 ///
 /// @return An initialized instance.
 ///
-- (nonnull instancetype)initWithAccessType:(DBSHARINGAccessLevel * _Nonnull)accessType
-                        isInsideTeamFolder:(NSNumber * _Nonnull)isInsideTeamFolder
-                              isTeamFolder:(NSNumber * _Nonnull)isTeamFolder
-                                      name:(NSString * _Nonnull)name
-                                    policy:(DBSHARINGFolderPolicy * _Nonnull)policy
-                                previewUrl:(NSString * _Nonnull)previewUrl
-                            sharedFolderId:(NSString * _Nonnull)sharedFolderId
-                               timeInvited:(NSDate * _Nonnull)timeInvited
-                                 ownerTeam:(DBUSERSTeam * _Nullable)ownerTeam
-                      parentSharedFolderId:(NSString * _Nullable)parentSharedFolderId
-                                 pathLower:(NSString * _Nullable)pathLower
-                              linkMetadata:(DBSHARINGSharedContentLinkMetadata * _Nullable)linkMetadata
-                               permissions:(NSArray<DBSHARINGFolderPermission *> * _Nullable)permissions;
+- (instancetype)initWithAccessType:(DBSHARINGAccessLevel *)accessType
+                isInsideTeamFolder:(NSNumber *)isInsideTeamFolder
+                      isTeamFolder:(NSNumber *)isTeamFolder
+                              name:(NSString *)name
+                            policy:(DBSHARINGFolderPolicy *)policy
+                        previewUrl:(NSString *)previewUrl
+                    sharedFolderId:(NSString *)sharedFolderId
+                       timeInvited:(NSDate *)timeInvited
+                 ownerDisplayNames:(nullable NSArray<NSString *> *)ownerDisplayNames
+                         ownerTeam:(nullable DBUSERSTeam *)ownerTeam
+              parentSharedFolderId:(nullable NSString *)parentSharedFolderId
+                         pathLower:(nullable NSString *)pathLower
+                      linkMetadata:(nullable DBSHARINGSharedContentLinkMetadata *)linkMetadata
+                       permissions:(nullable NSArray<DBSHARINGFolderPermission *> *)permissions;
 
 ///
 /// Convenience constructor (exposes only non-nullable instance variables with
@@ -115,14 +123,14 @@
 ///
 /// @return An initialized instance.
 ///
-- (nonnull instancetype)initWithAccessType:(DBSHARINGAccessLevel * _Nonnull)accessType
-                        isInsideTeamFolder:(NSNumber * _Nonnull)isInsideTeamFolder
-                              isTeamFolder:(NSNumber * _Nonnull)isTeamFolder
-                                      name:(NSString * _Nonnull)name
-                                    policy:(DBSHARINGFolderPolicy * _Nonnull)policy
-                                previewUrl:(NSString * _Nonnull)previewUrl
-                            sharedFolderId:(NSString * _Nonnull)sharedFolderId
-                               timeInvited:(NSDate * _Nonnull)timeInvited;
+- (instancetype)initWithAccessType:(DBSHARINGAccessLevel *)accessType
+                isInsideTeamFolder:(NSNumber *)isInsideTeamFolder
+                      isTeamFolder:(NSNumber *)isTeamFolder
+                              name:(NSString *)name
+                            policy:(DBSHARINGFolderPolicy *)policy
+                        previewUrl:(NSString *)previewUrl
+                    sharedFolderId:(NSString *)sharedFolderId
+                       timeInvited:(NSDate *)timeInvited;
 
 @end
 
@@ -142,7 +150,7 @@
 /// @return A json-compatible dictionary representation of the
 /// `DBSHARINGSharedFolderMetadata` API object.
 ///
-+ (NSDictionary * _Nonnull)serialize:(DBSHARINGSharedFolderMetadata * _Nonnull)instance;
++ (nullable NSDictionary *)serialize:(DBSHARINGSharedFolderMetadata *)instance;
 
 ///
 /// Deserializes `DBSHARINGSharedFolderMetadata` instances.
@@ -152,6 +160,8 @@
 ///
 /// @return An instantiation of the `DBSHARINGSharedFolderMetadata` object.
 ///
-+ (DBSHARINGSharedFolderMetadata * _Nonnull)deserialize:(NSDictionary * _Nonnull)dict;
++ (DBSHARINGSharedFolderMetadata *)deserialize:(NSDictionary *)dict;
 
 @end
+
+NS_ASSUME_NONNULL_END

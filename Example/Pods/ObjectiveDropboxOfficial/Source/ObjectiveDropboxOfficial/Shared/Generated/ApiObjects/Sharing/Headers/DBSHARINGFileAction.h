@@ -10,6 +10,8 @@
 
 @class DBSHARINGFileAction;
 
+NS_ASSUME_NONNULL_BEGIN
+
 #pragma mark - API Object
 
 ///
@@ -49,7 +51,7 @@ typedef NS_ENUM(NSInteger, DBSHARINGFileActionTag) {
   /// Relinquish one's own membership to the file.
   DBSHARINGFileActionRelinquishMembership,
 
-  /// This action is deprecated. Use create_link instead.
+  /// Use create_link instead.
   DBSHARINGFileActionShareLink,
 
   /// Create a shared link to the file.
@@ -73,7 +75,7 @@ typedef NS_ENUM(NSInteger, DBSHARINGFileActionTag) {
 ///
 /// @return An initialized instance.
 ///
-- (nonnull instancetype)initWithDisableViewerInfo;
+- (instancetype)initWithDisableViewerInfo;
 
 ///
 /// Initializes union class with tag state of "edit_contents".
@@ -83,7 +85,7 @@ typedef NS_ENUM(NSInteger, DBSHARINGFileActionTag) {
 ///
 /// @return An initialized instance.
 ///
-- (nonnull instancetype)initWithEditContents;
+- (instancetype)initWithEditContents;
 
 ///
 /// Initializes union class with tag state of "enable_viewer_info".
@@ -93,7 +95,7 @@ typedef NS_ENUM(NSInteger, DBSHARINGFileActionTag) {
 ///
 /// @return An initialized instance.
 ///
-- (nonnull instancetype)initWithEnableViewerInfo;
+- (instancetype)initWithEnableViewerInfo;
 
 ///
 /// Initializes union class with tag state of "invite_viewer".
@@ -103,7 +105,7 @@ typedef NS_ENUM(NSInteger, DBSHARINGFileActionTag) {
 ///
 /// @return An initialized instance.
 ///
-- (nonnull instancetype)initWithInviteViewer;
+- (instancetype)initWithInviteViewer;
 
 ///
 /// Initializes union class with tag state of "invite_viewer_no_comment".
@@ -113,7 +115,7 @@ typedef NS_ENUM(NSInteger, DBSHARINGFileActionTag) {
 ///
 /// @return An initialized instance.
 ///
-- (nonnull instancetype)initWithInviteViewerNoComment;
+- (instancetype)initWithInviteViewerNoComment;
 
 ///
 /// Initializes union class with tag state of "unshare".
@@ -122,7 +124,7 @@ typedef NS_ENUM(NSInteger, DBSHARINGFileActionTag) {
 ///
 /// @return An initialized instance.
 ///
-- (nonnull instancetype)initWithUnshare;
+- (instancetype)initWithUnshare;
 
 ///
 /// Initializes union class with tag state of "relinquish_membership".
@@ -132,17 +134,16 @@ typedef NS_ENUM(NSInteger, DBSHARINGFileActionTag) {
 ///
 /// @return An initialized instance.
 ///
-- (nonnull instancetype)initWithRelinquishMembership;
+- (instancetype)initWithRelinquishMembership;
 
 ///
 /// Initializes union class with tag state of "share_link".
 ///
-/// Description of the "share_link" tag state: This action is deprecated. Use
-/// create_link instead.
+/// Description of the "share_link" tag state: Use create_link instead.
 ///
 /// @return An initialized instance.
 ///
-- (nonnull instancetype)initWithShareLink;
+- (instancetype)initWithShareLink;
 
 ///
 /// Initializes union class with tag state of "create_link".
@@ -152,16 +153,16 @@ typedef NS_ENUM(NSInteger, DBSHARINGFileActionTag) {
 ///
 /// @return An initialized instance.
 ///
-- (nonnull instancetype)initWithCreateLink;
+- (instancetype)initWithCreateLink;
 
 ///
 /// Initializes union class with tag state of "other".
 ///
 /// @return An initialized instance.
 ///
-- (nonnull instancetype)initWithOther;
+- (instancetype)initWithOther;
 
-- (nonnull instancetype)init NS_UNAVAILABLE;
+- (instancetype)init NS_UNAVAILABLE;
 
 #pragma mark - Tag state methods
 
@@ -248,7 +249,7 @@ typedef NS_ENUM(NSInteger, DBSHARINGFileActionTag) {
 ///
 /// @return A human-readable string representing the union's current tag state.
 ///
-- (NSString * _Nonnull)tagName;
+- (NSString *)tagName;
 
 @end
 
@@ -267,7 +268,7 @@ typedef NS_ENUM(NSInteger, DBSHARINGFileActionTag) {
 /// @return A json-compatible dictionary representation of the
 /// `DBSHARINGFileAction` API object.
 ///
-+ (NSDictionary * _Nonnull)serialize:(DBSHARINGFileAction * _Nonnull)instance;
++ (nullable NSDictionary *)serialize:(DBSHARINGFileAction *)instance;
 
 ///
 /// Deserializes `DBSHARINGFileAction` instances.
@@ -277,6 +278,8 @@ typedef NS_ENUM(NSInteger, DBSHARINGFileActionTag) {
 ///
 /// @return An instantiation of the `DBSHARINGFileAction` object.
 ///
-+ (DBSHARINGFileAction * _Nonnull)deserialize:(NSDictionary * _Nonnull)dict;
++ (DBSHARINGFileAction *)deserialize:(NSDictionary *)dict;
 
 @end
+
+NS_ASSUME_NONNULL_END

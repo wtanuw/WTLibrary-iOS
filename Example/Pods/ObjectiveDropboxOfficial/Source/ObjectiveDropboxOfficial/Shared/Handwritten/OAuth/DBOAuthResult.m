@@ -2,8 +2,8 @@
 /// Copyright (c) 2016 Dropbox, Inc. All rights reserved.
 ///
 
-#import "DBOAuthManager.h"
 #import "DBOAuthResult.h"
+#import "DBOAuthManager.h"
 
 @implementation DBOAuthResult
 
@@ -24,6 +24,7 @@ static NSDictionary<NSString *, NSNumber *> *errorTypeLookup;
       @"invalid_scope" : [NSNumber numberWithInt:DBAuthInvalidScope],
       @"server_error" : [NSNumber numberWithInt:DBAuthServerError],
       @"temporarily_unavailable" : [NSNumber numberWithInt:DBAuthTemporarilyUnavailable],
+      @"inconsistent_state" : [NSNumber numberWithInt:DBAuthInconsistentState],
       @"" : [NSNumber numberWithInt:DBAuthUnknown],
     };
   }

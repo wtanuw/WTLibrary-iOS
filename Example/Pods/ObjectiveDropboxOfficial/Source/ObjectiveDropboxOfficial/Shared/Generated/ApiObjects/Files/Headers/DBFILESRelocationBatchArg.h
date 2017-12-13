@@ -11,6 +11,8 @@
 @class DBFILESRelocationBatchArg;
 @class DBFILESRelocationPath;
 
+NS_ASSUME_NONNULL_BEGIN
+
 #pragma mark - API Object
 
 ///
@@ -25,17 +27,21 @@
 #pragma mark - Instance fields
 
 /// List of entries to be moved or copied. Each entry is RelocationPath.
-@property (nonatomic, readonly) NSArray<DBFILESRelocationPath *> * _Nonnull entries;
+@property (nonatomic, readonly) NSArray<DBFILESRelocationPath *> *entries;
 
 /// If true, `dCopyBatch` will copy contents in shared folder, otherwise
 /// `cantCopySharedFolder` in `DBFILESRelocationError` will be returned if
 /// `fromPath` in `DBFILESRelocationPath` contains shared folder.  This field is
 /// always true for `moveBatch`.
-@property (nonatomic, readonly) NSNumber * _Nonnull allowSharedFolder;
+@property (nonatomic, readonly) NSNumber *allowSharedFolder;
 
 /// If there's a conflict with any file, have the Dropbox server try to
 /// autorename that file to avoid the conflict.
-@property (nonatomic, readonly) NSNumber * _Nonnull autorename;
+@property (nonatomic, readonly) NSNumber *autorename;
+
+/// Allow moves by owner even if it would result in an ownership transfer for
+/// the content being moved. This does not apply to copies.
+@property (nonatomic, readonly) NSNumber *allowOwnershipTransfer;
 
 #pragma mark - Constructors
 
@@ -50,12 +56,16 @@
 /// This field is always true for `moveBatch`.
 /// @param autorename If there's a conflict with any file, have the Dropbox
 /// server try to autorename that file to avoid the conflict.
+/// @param allowOwnershipTransfer Allow moves by owner even if it would result
+/// in an ownership transfer for the content being moved. This does not apply to
+/// copies.
 ///
 /// @return An initialized instance.
 ///
-- (nonnull instancetype)initWithEntries:(NSArray<DBFILESRelocationPath *> * _Nonnull)entries
-                      allowSharedFolder:(NSNumber * _Nullable)allowSharedFolder
-                             autorename:(NSNumber * _Nullable)autorename;
+- (instancetype)initWithEntries:(NSArray<DBFILESRelocationPath *> *)entries
+              allowSharedFolder:(nullable NSNumber *)allowSharedFolder
+                     autorename:(nullable NSNumber *)autorename
+         allowOwnershipTransfer:(nullable NSNumber *)allowOwnershipTransfer;
 
 ///
 /// Convenience constructor (exposes only non-nullable instance variables with
@@ -66,9 +76,9 @@
 ///
 /// @return An initialized instance.
 ///
-- (nonnull instancetype)initWithEntries:(NSArray<DBFILESRelocationPath *> * _Nonnull)entries;
+- (instancetype)initWithEntries:(NSArray<DBFILESRelocationPath *> *)entries;
 
-- (nonnull instancetype)init NS_UNAVAILABLE;
+- (instancetype)init NS_UNAVAILABLE;
 
 @end
 
@@ -87,7 +97,7 @@
 /// @return A json-compatible dictionary representation of the
 /// `DBFILESRelocationBatchArg` API object.
 ///
-+ (NSDictionary * _Nonnull)serialize:(DBFILESRelocationBatchArg * _Nonnull)instance;
++ (nullable NSDictionary *)serialize:(DBFILESRelocationBatchArg *)instance;
 
 ///
 /// Deserializes `DBFILESRelocationBatchArg` instances.
@@ -97,6 +107,8 @@
 ///
 /// @return An instantiation of the `DBFILESRelocationBatchArg` object.
 ///
-+ (DBFILESRelocationBatchArg * _Nonnull)deserialize:(NSDictionary * _Nonnull)dict;
++ (DBFILESRelocationBatchArg *)deserialize:(NSDictionary *)dict;
 
 @end
+
+NS_ASSUME_NONNULL_END

@@ -6,6 +6,8 @@
 
 @class DBAccessToken;
 
+NS_ASSUME_NONNULL_BEGIN
+
 ///
 /// Union result type from OAuth linking attempt.
 ///
@@ -47,6 +49,9 @@ typedef NS_ENUM(NSInteger, DBOAuthErrorType) {
   /// of the server.
   DBAuthTemporarilyUnavailable,
 
+  /// The state param received from the authorization server does not match the state param stored by the SDK.
+  DBAuthInconsistentState,
+
   /// Some other error (outside of the OAuth2 specification)
   DBAuthUnknown,
 };
@@ -58,7 +63,7 @@ typedef NS_ENUM(NSInteger, DBOAuthErrorType) {
 
 /// The access token that is retrieved in the event of a successful OAuth authorization.
 /// @note Ensure the `isSuccess` method returns true before accessing, otherwise a runtime exception will be raised.
-@property (nonatomic, readonly) DBAccessToken * _Nonnull accessToken;
+@property (nonatomic, readonly) DBAccessToken *accessToken;
 
 /// The type of OAuth error that is returned in the event of an unsuccessful OAuth authorization.
 /// @note Ensure the `isError` method returns true before accessing, otherwise a runtime exception will be raised.
@@ -67,7 +72,7 @@ typedef NS_ENUM(NSInteger, DBOAuthErrorType) {
 /// The error description string associated with the `DBAuthErrorType` that is returned in the event of an unsuccessful
 /// OAuth authorization.
 /// @note Ensure the `isError` method returns true before accessing, otherwise a runtime exception will be raised.
-@property (nonatomic, readonly, copy) NSString * _Nonnull errorDescription;
+@property (nonatomic, readonly, copy) NSString *errorDescription;
 
 #pragma mark - Constructors
 
@@ -79,7 +84,7 @@ typedef NS_ENUM(NSInteger, DBOAuthErrorType) {
 ///
 /// @return An initialized `DBOAuthResult` instance.
 ///
-- (nonnull instancetype)initWithSuccess:(DBAccessToken * _Nonnull)accessToken;
+- (instancetype)initWithSuccess:(DBAccessToken *)accessToken;
 
 ///
 /// Initializes union class with tag state of "error".
@@ -89,15 +94,14 @@ typedef NS_ENUM(NSInteger, DBOAuthErrorType) {
 ///
 /// @return An initialized `DBOAuthResult` instance.
 ///
-- (nonnull instancetype)initWithError:(NSString * _Nonnull)errorType
-                     errorDescription:(NSString * _Nonnull)errorDescription;
+- (instancetype)initWithError:(NSString *)errorType errorDescription:(NSString *)errorDescription;
 
 ///
 /// Initializes union class with tag state of "cancel".
 ///
 /// @return An initialized `DBOAuthResult` instance.
 ///
-- (nonnull instancetype)initWithCancel;
+- (instancetype)initWithCancel;
 
 #pragma mark - Tag state methods
 
@@ -130,7 +134,7 @@ typedef NS_ENUM(NSInteger, DBOAuthErrorType) {
 /// @return A human-readable string representing the union's current tag
 /// state.
 ///
-- (NSString * _Nonnull)tagName;
+- (NSString *)tagName;
 
 #pragma mark - Description method
 
@@ -139,6 +143,8 @@ typedef NS_ENUM(NSInteger, DBOAuthErrorType) {
 ///
 /// @return A human-readable representation of the current object.
 ///
-- (NSString * _Nonnull)description;
+- (NSString *)description;
 
 @end
+
+NS_ASSUME_NONNULL_END

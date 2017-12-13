@@ -9,7 +9,10 @@
 #import "DBFILESGetMetadataArg.h"
 #import "DBSerializableProtocol.h"
 
+@class DBFILEPROPERTIESTemplateFilterBase;
 @class DBFILESAlphaGetMetadataArg;
+
+NS_ASSUME_NONNULL_BEGIN
 
 #pragma mark - API Object
 
@@ -26,7 +29,7 @@
 
 /// If set to a valid list of template IDs, `propertyGroups` in
 /// `DBFILESFileMetadata` is set for files with custom properties.
-@property (nonatomic, readonly) NSArray<NSString *> * _Nullable includePropertyTemplates;
+@property (nonatomic, readonly, nullable) NSArray<NSString *> *includePropertyTemplates;
 
 #pragma mark - Constructors
 
@@ -42,17 +45,21 @@
 /// @param includeHasExplicitSharedMembers If true, the results will include a
 /// flag for each file indicating whether or not  that file has any explicit
 /// members.
+/// @param includePropertyGroups If set to a valid list of template IDs,
+/// `propertyGroups` in `DBFILESFileMetadata` is set if there exists property
+/// data associated with the file and each of the listed templates.
 /// @param includePropertyTemplates If set to a valid list of template IDs,
 /// `propertyGroups` in `DBFILESFileMetadata` is set for files with custom
 /// properties.
 ///
 /// @return An initialized instance.
 ///
-- (nonnull instancetype)initWithPath:(NSString * _Nonnull)path
-                    includeMediaInfo:(NSNumber * _Nullable)includeMediaInfo
-                      includeDeleted:(NSNumber * _Nullable)includeDeleted
-     includeHasExplicitSharedMembers:(NSNumber * _Nullable)includeHasExplicitSharedMembers
-            includePropertyTemplates:(NSArray<NSString *> * _Nullable)includePropertyTemplates;
+- (instancetype)initWithPath:(NSString *)path
+                   includeMediaInfo:(nullable NSNumber *)includeMediaInfo
+                     includeDeleted:(nullable NSNumber *)includeDeleted
+    includeHasExplicitSharedMembers:(nullable NSNumber *)includeHasExplicitSharedMembers
+              includePropertyGroups:(nullable DBFILEPROPERTIESTemplateFilterBase *)includePropertyGroups
+           includePropertyTemplates:(nullable NSArray<NSString *> *)includePropertyTemplates;
 
 ///
 /// Convenience constructor (exposes only non-nullable instance variables with
@@ -62,7 +69,7 @@
 ///
 /// @return An initialized instance.
 ///
-- (nonnull instancetype)initWithPath:(NSString * _Nonnull)path;
+- (instancetype)initWithPath:(NSString *)path;
 
 @end
 
@@ -81,7 +88,7 @@
 /// @return A json-compatible dictionary representation of the
 /// `DBFILESAlphaGetMetadataArg` API object.
 ///
-+ (NSDictionary * _Nonnull)serialize:(DBFILESAlphaGetMetadataArg * _Nonnull)instance;
++ (nullable NSDictionary *)serialize:(DBFILESAlphaGetMetadataArg *)instance;
 
 ///
 /// Deserializes `DBFILESAlphaGetMetadataArg` instances.
@@ -91,6 +98,8 @@
 ///
 /// @return An instantiation of the `DBFILESAlphaGetMetadataArg` object.
 ///
-+ (DBFILESAlphaGetMetadataArg * _Nonnull)deserialize:(NSDictionary * _Nonnull)dict;
++ (DBFILESAlphaGetMetadataArg *)deserialize:(NSDictionary *)dict;
 
 @end
+
+NS_ASSUME_NONNULL_END

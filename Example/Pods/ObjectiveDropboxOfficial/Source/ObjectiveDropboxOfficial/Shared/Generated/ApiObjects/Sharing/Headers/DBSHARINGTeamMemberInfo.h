@@ -11,6 +11,8 @@
 @class DBSHARINGTeamMemberInfo;
 @class DBUSERSTeam;
 
+NS_ASSUME_NONNULL_BEGIN
+
 #pragma mark - API Object
 
 ///
@@ -26,44 +28,44 @@
 
 #pragma mark - Instance fields
 
-/// Information about the member's team
-@property (nonatomic, readonly) DBUSERSTeam * _Nonnull teamInfo;
+/// Information about the member's team.
+@property (nonatomic, readonly) DBUSERSTeam *teamInfo;
 
 /// The display name of the user.
-@property (nonatomic, readonly, copy) NSString * _Nonnull displayName;
+@property (nonatomic, readonly, copy) NSString *displayName;
 
 /// ID of user as a member of a team. This field will only be present if the
 /// member is in the same team as current user.
-@property (nonatomic, readonly, copy) NSString * _Nullable memberId;
+@property (nonatomic, readonly, copy, nullable) NSString *memberId;
 
 #pragma mark - Constructors
 
 ///
 /// Full constructor for the struct (exposes all instance variables).
 ///
-/// @param teamInfo Information about the member's team
+/// @param teamInfo Information about the member's team.
 /// @param displayName The display name of the user.
 /// @param memberId ID of user as a member of a team. This field will only be
 /// present if the member is in the same team as current user.
 ///
 /// @return An initialized instance.
 ///
-- (nonnull instancetype)initWithTeamInfo:(DBUSERSTeam * _Nonnull)teamInfo
-                             displayName:(NSString * _Nonnull)displayName
-                                memberId:(NSString * _Nullable)memberId;
+- (instancetype)initWithTeamInfo:(DBUSERSTeam *)teamInfo
+                     displayName:(NSString *)displayName
+                        memberId:(nullable NSString *)memberId;
 
 ///
 /// Convenience constructor (exposes only non-nullable instance variables with
 /// no default value).
 ///
-/// @param teamInfo Information about the member's team
+/// @param teamInfo Information about the member's team.
 /// @param displayName The display name of the user.
 ///
 /// @return An initialized instance.
 ///
-- (nonnull instancetype)initWithTeamInfo:(DBUSERSTeam * _Nonnull)teamInfo displayName:(NSString * _Nonnull)displayName;
+- (instancetype)initWithTeamInfo:(DBUSERSTeam *)teamInfo displayName:(NSString *)displayName;
 
-- (nonnull instancetype)init NS_UNAVAILABLE;
+- (instancetype)init NS_UNAVAILABLE;
 
 @end
 
@@ -82,7 +84,7 @@
 /// @return A json-compatible dictionary representation of the
 /// `DBSHARINGTeamMemberInfo` API object.
 ///
-+ (NSDictionary * _Nonnull)serialize:(DBSHARINGTeamMemberInfo * _Nonnull)instance;
++ (nullable NSDictionary *)serialize:(DBSHARINGTeamMemberInfo *)instance;
 
 ///
 /// Deserializes `DBSHARINGTeamMemberInfo` instances.
@@ -92,6 +94,8 @@
 ///
 /// @return An instantiation of the `DBSHARINGTeamMemberInfo` object.
 ///
-+ (DBSHARINGTeamMemberInfo * _Nonnull)deserialize:(NSDictionary * _Nonnull)dict;
++ (DBSHARINGTeamMemberInfo *)deserialize:(NSDictionary *)dict;
 
 @end
+
+NS_ASSUME_NONNULL_END

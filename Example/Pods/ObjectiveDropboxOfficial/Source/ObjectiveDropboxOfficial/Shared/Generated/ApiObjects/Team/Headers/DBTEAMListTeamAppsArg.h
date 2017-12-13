@@ -10,6 +10,8 @@
 
 @class DBTEAMListTeamAppsArg;
 
+NS_ASSUME_NONNULL_BEGIN
+
 #pragma mark - API Object
 
 ///
@@ -28,8 +30,8 @@
 /// At the first call to the `linkedAppsListTeamLinkedApps` the cursor shouldn't
 /// be passed. Then, if the result of the call includes a cursor, the following
 /// requests should include the received cursors in order to receive the next
-/// sub list of the team applications
-@property (nonatomic, readonly, copy) NSString * _Nullable cursor;
+/// sub list of the team applications.
+@property (nonatomic, readonly, copy, nullable) NSString *cursor;
 
 #pragma mark - Constructors
 
@@ -39,11 +41,11 @@
 /// @param cursor At the first call to the `linkedAppsListTeamLinkedApps` the
 /// cursor shouldn't be passed. Then, if the result of the call includes a
 /// cursor, the following requests should include the received cursors in order
-/// to receive the next sub list of the team applications
+/// to receive the next sub list of the team applications.
 ///
 /// @return An initialized instance.
 ///
-- (nonnull instancetype)initWithCursor:(NSString * _Nullable)cursor;
+- (instancetype)initWithCursor:(nullable NSString *)cursor;
 
 ///
 /// Convenience constructor (exposes only non-nullable instance variables with
@@ -52,9 +54,9 @@
 ///
 /// @return An initialized instance.
 ///
-- (nonnull instancetype)initDefault;
+- (instancetype)initDefault;
 
-- (nonnull instancetype)init NS_UNAVAILABLE;
+- (instancetype)init NS_UNAVAILABLE;
 
 @end
 
@@ -73,7 +75,7 @@
 /// @return A json-compatible dictionary representation of the
 /// `DBTEAMListTeamAppsArg` API object.
 ///
-+ (NSDictionary * _Nonnull)serialize:(DBTEAMListTeamAppsArg * _Nonnull)instance;
++ (nullable NSDictionary *)serialize:(DBTEAMListTeamAppsArg *)instance;
 
 ///
 /// Deserializes `DBTEAMListTeamAppsArg` instances.
@@ -83,6 +85,8 @@
 ///
 /// @return An instantiation of the `DBTEAMListTeamAppsArg` object.
 ///
-+ (DBTEAMListTeamAppsArg * _Nonnull)deserialize:(NSDictionary * _Nonnull)dict;
++ (DBTEAMListTeamAppsArg *)deserialize:(NSDictionary *)dict;
 
 @end
+
+NS_ASSUME_NONNULL_END

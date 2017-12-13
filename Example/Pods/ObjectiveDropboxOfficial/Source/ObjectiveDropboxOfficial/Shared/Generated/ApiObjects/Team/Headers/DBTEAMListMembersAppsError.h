@@ -10,12 +10,14 @@
 
 @class DBTEAMListMembersAppsError;
 
+NS_ASSUME_NONNULL_BEGIN
+
 #pragma mark - API Object
 
 ///
 /// The `ListMembersAppsError` union.
 ///
-/// Error returned by `linkedAppsListMembersLinkedApps`
+/// Error returned by `linkedAppsListMembersLinkedApps`.
 ///
 /// This class implements the `DBSerializable` protocol (serialize and
 /// deserialize instance methods), which is required for all Obj-C SDK API route
@@ -52,16 +54,16 @@ typedef NS_ENUM(NSInteger, DBTEAMListMembersAppsErrorTag) {
 ///
 /// @return An initialized instance.
 ///
-- (nonnull instancetype)initWithReset;
+- (instancetype)initWithReset;
 
 ///
 /// Initializes union class with tag state of "other".
 ///
 /// @return An initialized instance.
 ///
-- (nonnull instancetype)initWithOther;
+- (instancetype)initWithOther;
 
-- (nonnull instancetype)init NS_UNAVAILABLE;
+- (instancetype)init NS_UNAVAILABLE;
 
 #pragma mark - Tag state methods
 
@@ -84,7 +86,7 @@ typedef NS_ENUM(NSInteger, DBTEAMListMembersAppsErrorTag) {
 ///
 /// @return A human-readable string representing the union's current tag state.
 ///
-- (NSString * _Nonnull)tagName;
+- (NSString *)tagName;
 
 @end
 
@@ -103,7 +105,7 @@ typedef NS_ENUM(NSInteger, DBTEAMListMembersAppsErrorTag) {
 /// @return A json-compatible dictionary representation of the
 /// `DBTEAMListMembersAppsError` API object.
 ///
-+ (NSDictionary * _Nonnull)serialize:(DBTEAMListMembersAppsError * _Nonnull)instance;
++ (nullable NSDictionary *)serialize:(DBTEAMListMembersAppsError *)instance;
 
 ///
 /// Deserializes `DBTEAMListMembersAppsError` instances.
@@ -113,6 +115,8 @@ typedef NS_ENUM(NSInteger, DBTEAMListMembersAppsErrorTag) {
 ///
 /// @return An instantiation of the `DBTEAMListMembersAppsError` object.
 ///
-+ (DBTEAMListMembersAppsError * _Nonnull)deserialize:(NSDictionary * _Nonnull)dict;
++ (DBTEAMListMembersAppsError *)deserialize:(NSDictionary *)dict;
 
 @end
+
+NS_ASSUME_NONNULL_END

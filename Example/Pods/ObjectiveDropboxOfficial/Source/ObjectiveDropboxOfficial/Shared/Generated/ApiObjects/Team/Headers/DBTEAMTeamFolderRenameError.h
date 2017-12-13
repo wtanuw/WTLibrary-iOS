@@ -11,6 +11,9 @@
 @class DBTEAMTeamFolderAccessError;
 @class DBTEAMTeamFolderInvalidStatusError;
 @class DBTEAMTeamFolderRenameError;
+@class DBTEAMTeamFolderTeamSharedDropboxError;
+
+NS_ASSUME_NONNULL_BEGIN
 
 #pragma mark - API Object
 
@@ -35,6 +38,9 @@ typedef NS_ENUM(NSInteger, DBTEAMTeamFolderRenameErrorTag) {
   DBTEAMTeamFolderRenameErrorStatusError,
 
   /// (no description).
+  DBTEAMTeamFolderRenameErrorTeamSharedDropboxError,
+
+  /// (no description).
   DBTEAMTeamFolderRenameErrorOther,
 
   /// The provided folder name cannot be used.
@@ -53,11 +59,15 @@ typedef NS_ENUM(NSInteger, DBTEAMTeamFolderRenameErrorTag) {
 
 /// (no description). @note Ensure the `isAccessError` method returns true
 /// before accessing, otherwise a runtime exception will be raised.
-@property (nonatomic, readonly) DBTEAMTeamFolderAccessError * _Nonnull accessError;
+@property (nonatomic, readonly) DBTEAMTeamFolderAccessError *accessError;
 
 /// (no description). @note Ensure the `isStatusError` method returns true
 /// before accessing, otherwise a runtime exception will be raised.
-@property (nonatomic, readonly) DBTEAMTeamFolderInvalidStatusError * _Nonnull statusError;
+@property (nonatomic, readonly) DBTEAMTeamFolderInvalidStatusError *statusError;
+
+/// (no description). @note Ensure the `isTeamSharedDropboxError` method returns
+/// true before accessing, otherwise a runtime exception will be raised.
+@property (nonatomic, readonly) DBTEAMTeamFolderTeamSharedDropboxError *teamSharedDropboxError;
 
 #pragma mark - Constructors
 
@@ -68,7 +78,7 @@ typedef NS_ENUM(NSInteger, DBTEAMTeamFolderRenameErrorTag) {
 ///
 /// @return An initialized instance.
 ///
-- (nonnull instancetype)initWithAccessError:(DBTEAMTeamFolderAccessError * _Nonnull)accessError;
+- (instancetype)initWithAccessError:(DBTEAMTeamFolderAccessError *)accessError;
 
 ///
 /// Initializes union class with tag state of "status_error".
@@ -77,14 +87,23 @@ typedef NS_ENUM(NSInteger, DBTEAMTeamFolderRenameErrorTag) {
 ///
 /// @return An initialized instance.
 ///
-- (nonnull instancetype)initWithStatusError:(DBTEAMTeamFolderInvalidStatusError * _Nonnull)statusError;
+- (instancetype)initWithStatusError:(DBTEAMTeamFolderInvalidStatusError *)statusError;
+
+///
+/// Initializes union class with tag state of "team_shared_dropbox_error".
+///
+/// @param teamSharedDropboxError (no description).
+///
+/// @return An initialized instance.
+///
+- (instancetype)initWithTeamSharedDropboxError:(DBTEAMTeamFolderTeamSharedDropboxError *)teamSharedDropboxError;
 
 ///
 /// Initializes union class with tag state of "other".
 ///
 /// @return An initialized instance.
 ///
-- (nonnull instancetype)initWithOther;
+- (instancetype)initWithOther;
 
 ///
 /// Initializes union class with tag state of "invalid_folder_name".
@@ -94,7 +113,7 @@ typedef NS_ENUM(NSInteger, DBTEAMTeamFolderRenameErrorTag) {
 ///
 /// @return An initialized instance.
 ///
-- (nonnull instancetype)initWithInvalidFolderName;
+- (instancetype)initWithInvalidFolderName;
 
 ///
 /// Initializes union class with tag state of "folder_name_already_used".
@@ -104,7 +123,7 @@ typedef NS_ENUM(NSInteger, DBTEAMTeamFolderRenameErrorTag) {
 ///
 /// @return An initialized instance.
 ///
-- (nonnull instancetype)initWithFolderNameAlreadyUsed;
+- (instancetype)initWithFolderNameAlreadyUsed;
 
 ///
 /// Initializes union class with tag state of "folder_name_reserved".
@@ -114,9 +133,9 @@ typedef NS_ENUM(NSInteger, DBTEAMTeamFolderRenameErrorTag) {
 ///
 /// @return An initialized instance.
 ///
-- (nonnull instancetype)initWithFolderNameReserved;
+- (instancetype)initWithFolderNameReserved;
 
-- (nonnull instancetype)init NS_UNAVAILABLE;
+- (instancetype)init NS_UNAVAILABLE;
 
 #pragma mark - Tag state methods
 
@@ -139,6 +158,19 @@ typedef NS_ENUM(NSInteger, DBTEAMTeamFolderRenameErrorTag) {
 /// @return Whether the union's current tag state has value "status_error".
 ///
 - (BOOL)isStatusError;
+
+///
+/// Retrieves whether the union's current tag state has value
+/// "team_shared_dropbox_error".
+///
+/// @note Call this method and ensure it returns true before accessing the
+/// `teamSharedDropboxError` property, otherwise a runtime exception will be
+/// thrown.
+///
+/// @return Whether the union's current tag state has value
+/// "team_shared_dropbox_error".
+///
+- (BOOL)isTeamSharedDropboxError;
 
 ///
 /// Retrieves whether the union's current tag state has value "other".
@@ -179,7 +211,7 @@ typedef NS_ENUM(NSInteger, DBTEAMTeamFolderRenameErrorTag) {
 ///
 /// @return A human-readable string representing the union's current tag state.
 ///
-- (NSString * _Nonnull)tagName;
+- (NSString *)tagName;
 
 @end
 
@@ -198,7 +230,7 @@ typedef NS_ENUM(NSInteger, DBTEAMTeamFolderRenameErrorTag) {
 /// @return A json-compatible dictionary representation of the
 /// `DBTEAMTeamFolderRenameError` API object.
 ///
-+ (NSDictionary * _Nonnull)serialize:(DBTEAMTeamFolderRenameError * _Nonnull)instance;
++ (nullable NSDictionary *)serialize:(DBTEAMTeamFolderRenameError *)instance;
 
 ///
 /// Deserializes `DBTEAMTeamFolderRenameError` instances.
@@ -208,6 +240,8 @@ typedef NS_ENUM(NSInteger, DBTEAMTeamFolderRenameErrorTag) {
 ///
 /// @return An instantiation of the `DBTEAMTeamFolderRenameError` object.
 ///
-+ (DBTEAMTeamFolderRenameError * _Nonnull)deserialize:(NSDictionary * _Nonnull)dict;
++ (DBTEAMTeamFolderRenameError *)deserialize:(NSDictionary *)dict;
 
 @end
+
+NS_ASSUME_NONNULL_END

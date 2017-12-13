@@ -7,6 +7,7 @@
 #import "DBAUTHAccessError.h"
 #import "DBAUTHAuthError.h"
 #import "DBAUTHRateLimitError.h"
+#import "DBCOMMONPathRootError.h"
 #import "DBRequestErrors.h"
 #import "DBSDKConstants.h"
 #import "DBStoneBase.h"
@@ -15,57 +16,37 @@
 
 #pragma mark - Internal serialization helpers
 
-NSDictionary<NSString *, NSString *> *kV2SDKBaseHosts;
+@interface DBTransportBaseClient ()
+@property (nonatomic, readonly, copy) DBTransportBaseHostnameConfig *hostnameConfig;
+@end
 
 @implementation DBTransportBaseClient
 
-+ (void)initialize {
-  static dispatch_once_t once;
-  dispatch_once(&once, ^{
-    if (!kSDKDebug) {
-      kV2SDKBaseHosts = @{
-        @"api" : @"https://api.dropbox.com/2",
-        @"content" : @"https://api-content.dropbox.com/2",
-        @"notify" : @"https://notify.dropboxapi.com/2",
-      };
-    } else {
-      kV2SDKBaseHosts = @{
-        @"api" : @"https://api-dbdev.dev.corp.dropbox.com/2",
-        @"content" : @"https://api-content-dbdev.dev.corp.dropbox.com/2",
-        @"notify" : @"https://notify-dbdev.dev.corp.dropboxapi.com/2",
-      };
-    }
-
-  });
-}
-
-- (nonnull instancetype)initWithAccessToken:(NSString *)accessToken
-                            transportConfig:(DBTransportBaseConfig *)transportConfig {
+- (instancetype)initWithAccessToken:(NSString *)accessToken
+                           tokenUid:(NSString *)tokenUid
+                    transportConfig:(DBTransportBaseConfig *)transportConfig {
   if (self = [super init]) {
     _accessToken = accessToken;
+    _tokenUid = [tokenUid copy];
     _appKey = transportConfig.appKey;
     _appSecret = transportConfig.appSecret;
+    _hostnameConfig = transportConfig.hostnameConfig ?: [[DBTransportBaseHostnameConfig alloc] init];
     NSString *defaultUserAgent = [NSString stringWithFormat:@"%@/%@", kV2SDKDefaultUserAgentPrefix, kV2SDKVersion];
     _userAgent = transportConfig.userAgent ? [[transportConfig.userAgent stringByAppendingString:@"/"]
                                                  stringByAppendingString:defaultUserAgent]
                                            : defaultUserAgent;
     _asMemberId = transportConfig.asMemberId;
+    _additionalHeaders = transportConfig.additionalHeaders;
   }
   return self;
 }
 
 - (NSDictionary *)headersWithRouteInfo:(NSDictionary<NSString *, NSString *> *)routeAttributes
-                           accessToken:(NSString *)accessToken
                          serializedArg:(NSString *)serializedArg {
-  return [self headersWithRouteInfo:routeAttributes
-                        accessToken:accessToken
-                      serializedArg:serializedArg
-                    byteOffsetStart:nil
-                      byteOffsetEnd:nil];
+  return [self headersWithRouteInfo:routeAttributes serializedArg:serializedArg byteOffsetStart:nil byteOffsetEnd:nil];
 }
 
 - (NSDictionary *)headersWithRouteInfo:(NSDictionary<NSString *, NSString *> *)routeAttributes
-                           accessToken:(NSString *)accessToken
                          serializedArg:(NSString *)serializedArg
                        byteOffsetStart:(NSNumber *)byteOffsetStart
                          byteOffsetEnd:(NSNumber *)byteOffsetEnd {
@@ -85,14 +66,14 @@ NSDictionary<NSString *, NSString *> *kV2SDKBaseHosts;
 
     if (routeAuth && [routeAuth isEqualToString:@"app"]) {
       if (!_appKey || !_appSecret) {
-        NSLog(@"App key and/or secret not properly configured. Use custom `DBTransportClient` instance to set.");
+        NSLog(@"App key and/or secret not properly configured. Use custom `DBTransportDefaultConfig` instance to set.");
       }
       NSString *authString = [NSString stringWithFormat:@"%@:%@", _appKey, _appSecret];
       NSData *authData = [authString dataUsingEncoding:NSUTF8StringEncoding];
       [headers setObject:[NSString stringWithFormat:@"Basic %@", [authData base64EncodedStringWithOptions:0]]
                   forKey:@"Authorization"];
     } else {
-      [headers setObject:[NSString stringWithFormat:@"Bearer %@", accessToken] forKey:@"Authorization"];
+      [headers setObject:[NSString stringWithFormat:@"Bearer %@", _accessToken] forKey:@"Authorization"];
     }
   }
 
@@ -117,13 +98,17 @@ NSDictionary<NSString *, NSString *> *kV2SDKBaseHosts;
     [headers setObject:bytesRangeSpecifier forKey:@"Range"];
   }
 
+  if (_additionalHeaders != nil) {
+    [headers addEntriesFromDictionary:_additionalHeaders];
+  }
+
   return headers;
 }
 
-+ (NSURLRequest *)requestWithHeaders:(NSDictionary *)httpHeaders
-                                 url:(NSURL *)url
-                             content:(NSData *)content
-                              stream:(NSInputStream *)stream {
++ (NSMutableURLRequest *)requestWithHeaders:(NSDictionary *)httpHeaders
+                                        url:(NSURL *)url
+                                    content:(NSData *)content
+                                     stream:(NSInputStream *)stream {
   NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:url];
   for (NSString *key in httpHeaders) {
     [request addValue:httpHeaders[key] forHTTPHeaderField:key];
@@ -138,9 +123,9 @@ NSDictionary<NSString *, NSString *> *kV2SDKBaseHosts;
   return request;
 }
 
-+ (NSURL *)urlWithRoute:(DBRoute *)route {
-  return [NSURL URLWithString:[NSString stringWithFormat:@"%@/%@/%@", kV2SDKBaseHosts[route.attrs[@"host"]],
-                                                         route.namespace_, route.name]];
+- (NSURL *)urlWithRoute:(DBRoute *)route {
+  NSString *routePrefix = [_hostnameConfig apiV2PrefixWithRouteType:route.attrs[@"host"]];
+  return [NSURL URLWithString:[NSString stringWithFormat:@"%@/%@/%@", routePrefix, route.namespace_, route.name]];
 }
 
 + (NSData *)serializeDataWithRoute:(DBRoute *)route routeArg:(id<DBSerializable>)arg {
@@ -148,9 +133,8 @@ NSDictionary<NSString *, NSString *> *kV2SDKBaseHosts;
     return nil;
   }
 
-  if (route.arraySerialBlock) {
-    NSArray *serializedArray = route.arraySerialBlock(arg);
-    return [[self class] jsonDataWithJsonObj:serializedArray];
+  if (route.dataStructSerialBlock) {
+    return [[self class] jsonDataWithJsonObj:route.dataStructSerialBlock(arg)];
   }
 
   NSDictionary *serializedDict = [[arg class] serialize:arg];
@@ -162,6 +146,9 @@ NSDictionary<NSString *, NSString *> *kV2SDKBaseHosts;
     return nil;
   }
   NSData *jsonData = [self serializeDataWithRoute:route routeArg:arg];
+  if (!jsonData) {
+    return nil;
+  }
   NSString *asciiEscapedStr = [[self class] asciiEscapeWithString:[[self class] utf8StringWithData:jsonData]];
   NSMutableString *filteredStr = [[NSMutableString alloc] initWithString:asciiEscapedStr];
   [filteredStr replaceOccurrencesOfString:@"\\/"
@@ -210,7 +197,7 @@ NSDictionary<NSString *, NSString *> *kV2SDKBaseHosts;
                                     httpHeaders:(NSDictionary *)httpHeaders {
   DBRequestError *dbxError;
 
-  if (clientError) {
+  if (clientError && errorData == nil) {
     return [[DBRequestError alloc] initAsClientError:clientError];
   }
 
@@ -259,6 +246,13 @@ NSDictionary<NSString *, NSString *> *kV2SDKBaseHosts;
                                             errorContent:errorContent
                                              userMessage:userMessage
                                    structuredAccessError:accessError];
+  } else if (statusCode == 422) {
+    DBCOMMONPathRootError *pathRootError = [DBCOMMONPathRootErrorSerializer deserialize:deserializedData[@"error"]];
+    dbxError = [[DBRequestError alloc] initAsPathRootError:requestId
+                                                statusCode:@(statusCode)
+                                              errorContent:errorContent
+                                               userMessage:userMessage
+                                   structuredPathRootError:pathRootError];
   } else if (statusCode == 429) {
     DBAUTHRateLimitError *rateLimitError = [DBAUTHRateLimitErrorSerializer deserialize:deserializedData[@"error"]];
     NSString *retryAfter = httpHeaders[@"Retry-After"];
@@ -319,8 +313,8 @@ NSDictionary<NSString *, NSString *> *kV2SDKBaseHosts;
   }
 
   if (route.resultType) {
-    if (route.arrayDeserialBlock) {
-      return route.arrayDeserialBlock(jsonData);
+    if (route.dataStructDeserialBlock) {
+      return route.dataStructDeserialBlock(jsonData);
     }
     return [(Class)route.resultType deserialize:jsonData];
   }
@@ -332,11 +326,15 @@ NSDictionary<NSString *, NSString *> *kV2SDKBaseHosts;
   return statusCode == 409;
 }
 
-+ (NSString *)caseInsensitiveLookupWithKey:(NSString *)lookupKey dictionary:(NSDictionary<id, id> *)dictionary {
-  for (id key in dictionary) {
-    NSString *keyString = (NSString *)key;
-    if ([keyString.lowercaseString isEqualToString:lookupKey.lowercaseString]) {
-      return (NSString *)dictionary[key];
++ (nullable id)caseInsensitiveLookupWithKey:(nullable NSString *)lookupKey
+                     headerFieldsDictionary:(nullable NSDictionary<id, id> *)headerFieldsDictionary {
+  NSString *lowercaseLookupKey = lookupKey.lowercaseString;
+  for (id key in headerFieldsDictionary) {
+    if ([key isKindOfClass:[NSString class]]) {
+      NSString *keyString = (NSString *)key;
+      if ([keyString.lowercaseString isEqualToString:lowercaseLookupKey]) {
+        return headerFieldsDictionary[key];
+      }
     }
   }
   return nil;

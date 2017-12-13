@@ -11,6 +11,8 @@
 @class DBFILESFileMetadata;
 @class DBFILESListRevisionsResult;
 
+NS_ASSUME_NONNULL_BEGIN
+
 #pragma mark - API Object
 
 ///
@@ -24,27 +26,48 @@
 
 #pragma mark - Instance fields
 
-/// If the file is deleted.
-@property (nonatomic, readonly) NSNumber * _Nonnull isDeleted;
+/// If the file identified by the latest revision in the response is either
+/// deleted or moved.
+@property (nonatomic, readonly) NSNumber *isDeleted;
 
-/// The revisions for the file. Only non-delete revisions will show up here.
-@property (nonatomic, readonly) NSArray<DBFILESFileMetadata *> * _Nonnull entries;
+/// The time of deletion if the file was deleted.
+@property (nonatomic, readonly, nullable) NSDate *serverDeleted;
+
+/// The revisions for the file. Only revisions that are not deleted will show up
+/// here.
+@property (nonatomic, readonly) NSArray<DBFILESFileMetadata *> *entries;
 
 #pragma mark - Constructors
 
 ///
 /// Full constructor for the struct (exposes all instance variables).
 ///
-/// @param isDeleted If the file is deleted.
-/// @param entries The revisions for the file. Only non-delete revisions will
-/// show up here.
+/// @param isDeleted If the file identified by the latest revision in the
+/// response is either deleted or moved.
+/// @param entries The revisions for the file. Only revisions that are not
+/// deleted will show up here.
+/// @param serverDeleted The time of deletion if the file was deleted.
 ///
 /// @return An initialized instance.
 ///
-- (nonnull instancetype)initWithIsDeleted:(NSNumber * _Nonnull)isDeleted
-                                  entries:(NSArray<DBFILESFileMetadata *> * _Nonnull)entries;
+- (instancetype)initWithIsDeleted:(NSNumber *)isDeleted
+                          entries:(NSArray<DBFILESFileMetadata *> *)entries
+                    serverDeleted:(nullable NSDate *)serverDeleted;
 
-- (nonnull instancetype)init NS_UNAVAILABLE;
+///
+/// Convenience constructor (exposes only non-nullable instance variables with
+/// no default value).
+///
+/// @param isDeleted If the file identified by the latest revision in the
+/// response is either deleted or moved.
+/// @param entries The revisions for the file. Only revisions that are not
+/// deleted will show up here.
+///
+/// @return An initialized instance.
+///
+- (instancetype)initWithIsDeleted:(NSNumber *)isDeleted entries:(NSArray<DBFILESFileMetadata *> *)entries;
+
+- (instancetype)init NS_UNAVAILABLE;
 
 @end
 
@@ -63,7 +86,7 @@
 /// @return A json-compatible dictionary representation of the
 /// `DBFILESListRevisionsResult` API object.
 ///
-+ (NSDictionary * _Nonnull)serialize:(DBFILESListRevisionsResult * _Nonnull)instance;
++ (nullable NSDictionary *)serialize:(DBFILESListRevisionsResult *)instance;
 
 ///
 /// Deserializes `DBFILESListRevisionsResult` instances.
@@ -73,6 +96,8 @@
 ///
 /// @return An instantiation of the `DBFILESListRevisionsResult` object.
 ///
-+ (DBFILESListRevisionsResult * _Nonnull)deserialize:(NSDictionary * _Nonnull)dict;
++ (DBFILESListRevisionsResult *)deserialize:(NSDictionary *)dict;
 
 @end
+
+NS_ASSUME_NONNULL_END

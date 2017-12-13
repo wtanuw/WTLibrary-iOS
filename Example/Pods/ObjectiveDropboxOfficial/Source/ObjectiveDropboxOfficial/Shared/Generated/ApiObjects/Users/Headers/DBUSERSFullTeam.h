@@ -9,8 +9,11 @@
 #import "DBSerializableProtocol.h"
 #import "DBUSERSTeam.h"
 
+@class DBTEAMPOLICIESOfficeAddInPolicy;
 @class DBTEAMPOLICIESTeamSharingPolicies;
 @class DBUSERSFullTeam;
+
+NS_ASSUME_NONNULL_BEGIN
 
 #pragma mark - API Object
 
@@ -28,7 +31,10 @@
 #pragma mark - Instance fields
 
 /// Team policies governing sharing.
-@property (nonatomic, readonly) DBTEAMPOLICIESTeamSharingPolicies * _Nonnull sharingPolicies;
+@property (nonatomic, readonly) DBTEAMPOLICIESTeamSharingPolicies *sharingPolicies;
+
+/// Team policy governing the use of the Office Add-In.
+@property (nonatomic, readonly) DBTEAMPOLICIESOfficeAddInPolicy *officeAddinPolicy;
 
 #pragma mark - Constructors
 
@@ -38,12 +44,14 @@
 /// @param id_ The team's unique ID.
 /// @param name The name of the team.
 /// @param sharingPolicies Team policies governing sharing.
+/// @param officeAddinPolicy Team policy governing the use of the Office Add-In.
 ///
 /// @return An initialized instance.
 ///
-- (nonnull instancetype)initWithId_:(NSString * _Nonnull)id_
-                               name:(NSString * _Nonnull)name
-                    sharingPolicies:(DBTEAMPOLICIESTeamSharingPolicies * _Nonnull)sharingPolicies;
+- (instancetype)initWithId_:(NSString *)id_
+                       name:(NSString *)name
+            sharingPolicies:(DBTEAMPOLICIESTeamSharingPolicies *)sharingPolicies
+          officeAddinPolicy:(DBTEAMPOLICIESOfficeAddInPolicy *)officeAddinPolicy;
 
 @end
 
@@ -62,7 +70,7 @@
 /// @return A json-compatible dictionary representation of the `DBUSERSFullTeam`
 /// API object.
 ///
-+ (NSDictionary * _Nonnull)serialize:(DBUSERSFullTeam * _Nonnull)instance;
++ (nullable NSDictionary *)serialize:(DBUSERSFullTeam *)instance;
 
 ///
 /// Deserializes `DBUSERSFullTeam` instances.
@@ -72,6 +80,8 @@
 ///
 /// @return An instantiation of the `DBUSERSFullTeam` object.
 ///
-+ (DBUSERSFullTeam * _Nonnull)deserialize:(NSDictionary * _Nonnull)dict;
++ (DBUSERSFullTeam *)deserialize:(NSDictionary *)dict;
 
 @end
+
+NS_ASSUME_NONNULL_END

@@ -12,6 +12,8 @@
 @class DBSHARINGCreateSharedLinkWithSettingsError;
 @class DBSHARINGSharedLinkSettingsError;
 
+NS_ASSUME_NONNULL_BEGIN
+
 #pragma mark - API Object
 
 ///
@@ -32,16 +34,17 @@ typedef NS_ENUM(NSInteger, DBSHARINGCreateSharedLinkWithSettingsErrorTag) {
   /// (no description).
   DBSHARINGCreateSharedLinkWithSettingsErrorPath,
 
-  /// User's email should be verified
+  /// User's email should be verified.
   DBSHARINGCreateSharedLinkWithSettingsErrorEmailNotVerified,
 
-  /// The shared link already exists
+  /// The shared link already exists. You can call `listSharedLinks` to get
+  /// the existing link.
   DBSHARINGCreateSharedLinkWithSettingsErrorSharedLinkAlreadyExists,
 
-  /// There is an error with the given settings
+  /// There is an error with the given settings.
   DBSHARINGCreateSharedLinkWithSettingsErrorSettingsError,
 
-  /// Access to the requested path is forbidden
+  /// Access to the requested path is forbidden.
   DBSHARINGCreateSharedLinkWithSettingsErrorAccessDenied,
 
 };
@@ -51,12 +54,12 @@ typedef NS_ENUM(NSInteger, DBSHARINGCreateSharedLinkWithSettingsErrorTag) {
 
 /// (no description). @note Ensure the `isPath` method returns true before
 /// accessing, otherwise a runtime exception will be raised.
-@property (nonatomic, readonly) DBFILESLookupError * _Nonnull path;
+@property (nonatomic, readonly) DBFILESLookupError *path;
 
-/// There is an error with the given settings @note Ensure the `isSettingsError`
-/// method returns true before accessing, otherwise a runtime exception will be
-/// raised.
-@property (nonatomic, readonly) DBSHARINGSharedLinkSettingsError * _Nonnull settingsError;
+/// There is an error with the given settings. @note Ensure the
+/// `isSettingsError` method returns true before accessing, otherwise a runtime
+/// exception will be raised.
+@property (nonatomic, readonly) DBSHARINGSharedLinkSettingsError *settingsError;
 
 #pragma mark - Constructors
 
@@ -67,51 +70,51 @@ typedef NS_ENUM(NSInteger, DBSHARINGCreateSharedLinkWithSettingsErrorTag) {
 ///
 /// @return An initialized instance.
 ///
-- (nonnull instancetype)initWithPath:(DBFILESLookupError * _Nonnull)path;
+- (instancetype)initWithPath:(DBFILESLookupError *)path;
 
 ///
 /// Initializes union class with tag state of "email_not_verified".
 ///
 /// Description of the "email_not_verified" tag state: User's email should be
-/// verified
+/// verified.
 ///
 /// @return An initialized instance.
 ///
-- (nonnull instancetype)initWithEmailNotVerified;
+- (instancetype)initWithEmailNotVerified;
 
 ///
 /// Initializes union class with tag state of "shared_link_already_exists".
 ///
 /// Description of the "shared_link_already_exists" tag state: The shared link
-/// already exists
+/// already exists. You can call `listSharedLinks` to get the existing link.
 ///
 /// @return An initialized instance.
 ///
-- (nonnull instancetype)initWithSharedLinkAlreadyExists;
+- (instancetype)initWithSharedLinkAlreadyExists;
 
 ///
 /// Initializes union class with tag state of "settings_error".
 ///
 /// Description of the "settings_error" tag state: There is an error with the
-/// given settings
+/// given settings.
 ///
-/// @param settingsError There is an error with the given settings
+/// @param settingsError There is an error with the given settings.
 ///
 /// @return An initialized instance.
 ///
-- (nonnull instancetype)initWithSettingsError:(DBSHARINGSharedLinkSettingsError * _Nonnull)settingsError;
+- (instancetype)initWithSettingsError:(DBSHARINGSharedLinkSettingsError *)settingsError;
 
 ///
 /// Initializes union class with tag state of "access_denied".
 ///
 /// Description of the "access_denied" tag state: Access to the requested path
-/// is forbidden
+/// is forbidden.
 ///
 /// @return An initialized instance.
 ///
-- (nonnull instancetype)initWithAccessDenied;
+- (instancetype)initWithAccessDenied;
 
-- (nonnull instancetype)init NS_UNAVAILABLE;
+- (instancetype)init NS_UNAVAILABLE;
 
 #pragma mark - Tag state methods
 
@@ -165,7 +168,7 @@ typedef NS_ENUM(NSInteger, DBSHARINGCreateSharedLinkWithSettingsErrorTag) {
 ///
 /// @return A human-readable string representing the union's current tag state.
 ///
-- (NSString * _Nonnull)tagName;
+- (NSString *)tagName;
 
 @end
 
@@ -186,7 +189,7 @@ typedef NS_ENUM(NSInteger, DBSHARINGCreateSharedLinkWithSettingsErrorTag) {
 /// @return A json-compatible dictionary representation of the
 /// `DBSHARINGCreateSharedLinkWithSettingsError` API object.
 ///
-+ (NSDictionary * _Nonnull)serialize:(DBSHARINGCreateSharedLinkWithSettingsError * _Nonnull)instance;
++ (nullable NSDictionary *)serialize:(DBSHARINGCreateSharedLinkWithSettingsError *)instance;
 
 ///
 /// Deserializes `DBSHARINGCreateSharedLinkWithSettingsError` instances.
@@ -197,6 +200,8 @@ typedef NS_ENUM(NSInteger, DBSHARINGCreateSharedLinkWithSettingsErrorTag) {
 /// @return An instantiation of the `DBSHARINGCreateSharedLinkWithSettingsError`
 /// object.
 ///
-+ (DBSHARINGCreateSharedLinkWithSettingsError * _Nonnull)deserialize:(NSDictionary * _Nonnull)dict;
++ (DBSHARINGCreateSharedLinkWithSettingsError *)deserialize:(NSDictionary *)dict;
 
 @end
+
+NS_ASSUME_NONNULL_END

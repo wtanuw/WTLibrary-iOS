@@ -10,48 +10,61 @@
 @class DBRequestError;
 @class DBRoute;
 
+NS_ASSUME_NONNULL_BEGIN
+
 /// Used by internal classes of `DBTransportBaseClient`
 @interface DBTransportBaseClient (Internal)
 
-- (NSDictionary * _Nonnull)headersWithRouteInfo:(NSDictionary<NSString *, NSString *> * _Nonnull)routeAttributes
-                                   accessToken:(NSString * _Nonnull)accessToken
-                                 serializedArg:(NSString * _Nonnull)serializedArg;
+- (NSDictionary *)headersWithRouteInfo:(NSDictionary<NSString *, NSString *> *)routeAttributes
+                         serializedArg:(NSString *)serializedArg;
 
-- (NSDictionary * _Nonnull)headersWithRouteInfo:(NSDictionary<NSString *, NSString *> * _Nonnull)routeAttributes
-                                   accessToken:(NSString * _Nonnull)accessToken
-                                 serializedArg:(NSString * _Nonnull)serializedArg
-                               byteOffsetStart:(NSNumber * _Nullable)byteOffsetStart
-                                 byteOffsetEnd:(NSNumber * _Nullable)byteOffsetEnd;
+- (NSDictionary *)headersWithRouteInfo:(NSDictionary<NSString *, NSString *> *)routeAttributes
+                         serializedArg:(NSString *)serializedArg
+                       byteOffsetStart:(nullable NSNumber *)byteOffsetStart
+                         byteOffsetEnd:(nullable NSNumber *)byteOffsetEnd;
 
-+ (NSURLRequest * _Nonnull)requestWithHeaders:(NSDictionary * _Nonnull)httpHeaders
-                                         url:(NSURL * _Nonnull)url
-                                     content:(NSData * _Nullable)content
-                                      stream:(NSInputStream * _Nullable)stream;
++ (NSMutableURLRequest *)requestWithHeaders:(NSDictionary *)httpHeaders
+                                        url:(NSURL *)url
+                                    content:(nullable NSData *)content
+                                     stream:(nullable NSInputStream *)stream;
 
-+ (NSURL * _Nonnull)urlWithRoute:(DBRoute * _Nonnull)route;
+- (NSURL *)urlWithRoute:(DBRoute *)route;
 
-+ (NSData * _Nonnull)serializeDataWithRoute:(DBRoute * _Nonnull)route routeArg:(id<DBSerializable> _Nonnull)arg;
++ (NSData *)serializeDataWithRoute:(DBRoute *)route routeArg:(id<DBSerializable>)arg;
 
-+ (NSString * _Nonnull)serializeStringWithRoute:(DBRoute * _Nonnull)route routeArg:(id<DBSerializable> _Nonnull)arg;
++ (NSString *)serializeStringWithRoute:(DBRoute *)route routeArg:(id<DBSerializable>)arg;
 
-+ (DBRequestError * _Nullable)dBRequestErrorWithErrorData:(NSData * _Nullable)errorData
-                                             clientError:(NSError * _Nullable)clientError
++ (nullable DBRequestError *)dBRequestErrorWithErrorData:(nullable NSData *)errorData
+                                             clientError:(nullable NSError *)clientError
                                               statusCode:(int)statusCode
-                                             httpHeaders:(NSDictionary * _Nullable)httpHeaders;
+                                             httpHeaders:(nullable NSDictionary *)httpHeaders;
 
-+ (id _Nullable)routeErrorWithRoute:(DBRoute * _Nullable)route data:(NSData * _Nullable)data statusCode:(int)statusCode;
++ (nullable id)routeErrorWithRoute:(nullable DBRoute *)route data:(nullable NSData *)data statusCode:(int)statusCode;
 
-+ (id _Nullable)routeResultWithRoute:(DBRoute * _Nullable)route
-                                data:(NSData * _Nullable)data
-                  serializationError:(NSError * _Nullable * _Nullable)serializationError;
++ (nullable id)routeResultWithRoute:(nullable DBRoute *)route
+                               data:(nullable NSData *)data
+                 serializationError:(NSError *_Nullable *_Nullable)serializationError;
 
 + (BOOL)statusCodeIsRouteError:(int)statusCode;
 
-+ (NSString * _Nullable)caseInsensitiveLookupWithKey:(NSString * _Nullable)lookupKey
-                                         dictionary:(NSDictionary<id, id> * _Nullable)dictionary;
+/**
+ *  This method performs a lookup for the passed in @p lookupKey on the given @p headerFieldsDictionary. However, since
+ *  HTTP header field keys are case insensitive, it compares the keys in the dictionary to @p lookupKey in a case
+ *  insensitive way.
+ *
+ *  @param lookupKey              The key that we want to fetch from the header dictionary. Irrespective of case
+ *  @param headerFieldsDictionary HTTP headers fiels dictionary (e.g. the result of calling allHeaderFields in an
+ *                                NSHTTPURLResponse instance)
+ *
+ *  @return The value corresponding to the passed in @p lookupKey or nil if none is found.
+ */
++ (nullable id)caseInsensitiveLookupWithKey:(nullable NSString *)lookupKey
+                     headerFieldsDictionary:(nullable NSDictionary<id, id> *)headerFieldsDictionary;
 
-+ (NSString * _Nonnull)sdkVersion;
++ (NSString *)sdkVersion;
 
-+ (NSString * _Nonnull)defaultUserAgent;
++ (NSString *)defaultUserAgent;
 
 @end
+
+NS_ASSUME_NONNULL_END

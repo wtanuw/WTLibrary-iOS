@@ -11,6 +11,8 @@
 @class DBSHARINGCreateSharedLinkWithSettingsArg;
 @class DBSHARINGSharedLinkSettings;
 
+NS_ASSUME_NONNULL_BEGIN
+
 #pragma mark - API Object
 
 ///
@@ -24,35 +26,35 @@
 
 #pragma mark - Instance fields
 
-/// The path to be shared by the shared link
-@property (nonatomic, readonly, copy) NSString * _Nonnull path;
+/// The path to be shared by the shared link.
+@property (nonatomic, readonly, copy) NSString *path;
 
-/// The requested settings for the newly created shared link
-@property (nonatomic, readonly) DBSHARINGSharedLinkSettings * _Nullable settings;
+/// The requested settings for the newly created shared link.
+@property (nonatomic, readonly, nullable) DBSHARINGSharedLinkSettings *settings;
 
 #pragma mark - Constructors
 
 ///
 /// Full constructor for the struct (exposes all instance variables).
 ///
-/// @param path The path to be shared by the shared link
-/// @param settings The requested settings for the newly created shared link
+/// @param path The path to be shared by the shared link.
+/// @param settings The requested settings for the newly created shared link.
 ///
 /// @return An initialized instance.
 ///
-- (nonnull instancetype)initWithPath:(NSString * _Nonnull)path settings:(DBSHARINGSharedLinkSettings * _Nullable)settings;
+- (instancetype)initWithPath:(NSString *)path settings:(nullable DBSHARINGSharedLinkSettings *)settings;
 
 ///
 /// Convenience constructor (exposes only non-nullable instance variables with
 /// no default value).
 ///
-/// @param path The path to be shared by the shared link
+/// @param path The path to be shared by the shared link.
 ///
 /// @return An initialized instance.
 ///
-- (nonnull instancetype)initWithPath:(NSString * _Nonnull)path;
+- (instancetype)initWithPath:(NSString *)path;
 
-- (nonnull instancetype)init NS_UNAVAILABLE;
+- (instancetype)init NS_UNAVAILABLE;
 
 @end
 
@@ -72,7 +74,7 @@
 /// @return A json-compatible dictionary representation of the
 /// `DBSHARINGCreateSharedLinkWithSettingsArg` API object.
 ///
-+ (NSDictionary * _Nonnull)serialize:(DBSHARINGCreateSharedLinkWithSettingsArg * _Nonnull)instance;
++ (nullable NSDictionary *)serialize:(DBSHARINGCreateSharedLinkWithSettingsArg *)instance;
 
 ///
 /// Deserializes `DBSHARINGCreateSharedLinkWithSettingsArg` instances.
@@ -83,6 +85,8 @@
 /// @return An instantiation of the `DBSHARINGCreateSharedLinkWithSettingsArg`
 /// object.
 ///
-+ (DBSHARINGCreateSharedLinkWithSettingsArg * _Nonnull)deserialize:(NSDictionary * _Nonnull)dict;
++ (DBSHARINGCreateSharedLinkWithSettingsArg *)deserialize:(NSDictionary *)dict;
 
 @end
+
+NS_ASSUME_NONNULL_END

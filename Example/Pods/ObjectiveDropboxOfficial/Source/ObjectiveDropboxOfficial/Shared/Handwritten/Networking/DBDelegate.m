@@ -6,16 +6,12 @@
 #import "DBSDKConstants.h"
 #import "DBSessionData.h"
 
-@interface DBDelegate ()
-
-@property (nonatomic) NSOperationQueue * _Nonnull delegateQueue;
-@property (nonatomic) NSMutableDictionary<NSString *, DBSessionData *> * _Nonnull sessionData;
-
-@end
-
 #pragma mark - Initializers
 
-@implementation DBDelegate
+@implementation DBDelegate {
+  NSOperationQueue *_delegateQueue;
+  NSMutableDictionary<NSString *, DBSessionData *> *_sessionData;
+}
 
 - (instancetype)initWithQueue:(NSOperationQueue *)delegateQueue {
   self = [super init];
@@ -47,16 +43,11 @@
   if (error && [task isKindOfClass:[NSURLSessionDownloadTask class]]) {
     DBDownloadResponseBlockStorage responseHandler = sessionData.downloadHandlers[taskId];
     if (responseHandler) {
-      NSOperationQueue *handlerQueue = sessionData.responseHandlerQueues[taskId];
-      if (handlerQueue) {
-        [handlerQueue addOperationWithBlock:^{
-          responseHandler(nil, task.response, error);
-        }];
-      } else {
-        [[NSOperationQueue mainQueue] addOperationWithBlock:^{
-          responseHandler(nil, task.response, error);
-        }];
-      }
+      NSOperationQueue *queueToUse = sessionData.responseHandlerQueues[taskId] ?: [NSOperationQueue mainQueue];
+      [queueToUse addOperationWithBlock:^{
+        responseHandler(nil, task.response, error);
+      }];
+
       [sessionData.downloadHandlers removeObjectForKey:taskId];
       [sessionData.progressHandlers removeObjectForKey:taskId];
       [sessionData.progressData removeObjectForKey:taskId];
@@ -73,17 +64,11 @@
     NSMutableData *responseData = sessionData.responsesData[taskId];
     DBUploadResponseBlockStorage responseHandler = sessionData.uploadHandlers[taskId];
     if (responseHandler) {
-      NSOperationQueue *handlerQueue = sessionData.responseHandlerQueues[taskId];
-      if (handlerQueue) {
-        [handlerQueue addOperationWithBlock:^{
-          responseHandler(responseData, task.response, error);
-        }];
-      } else {
-        [[NSOperationQueue mainQueue] addOperationWithBlock:^{
-          responseHandler(responseData, task.response, error);
-        }];
-      }
-      [sessionData.responsesData removeObjectForKey:taskId];
+      NSOperationQueue *queueToUse = sessionData.responseHandlerQueues[taskId] ?: [NSOperationQueue mainQueue];
+      [queueToUse addOperationWithBlock:^{
+        responseHandler(responseData, task.response, error);
+      }];
+
       [sessionData.uploadHandlers removeObjectForKey:taskId];
       [sessionData.progressHandlers removeObjectForKey:taskId];
       [sessionData.progressData removeObjectForKey:taskId];
@@ -100,17 +85,11 @@
     NSMutableData *responseData = sessionData.responsesData[taskId];
     DBRpcResponseBlockStorage responseHandler = sessionData.rpcHandlers[taskId];
     if (responseHandler) {
-      NSOperationQueue *handlerQueue = sessionData.responseHandlerQueues[taskId];
-      if (handlerQueue) {
-        [handlerQueue addOperationWithBlock:^{
-          responseHandler(responseData, task.response, error);
-        }];
-      } else {
-        [[NSOperationQueue mainQueue] addOperationWithBlock:^{
-          responseHandler(responseData, task.response, error);
-        }];
-      }
-      [sessionData.responsesData removeObjectForKey:taskId];
+      NSOperationQueue *queueToUse = sessionData.responseHandlerQueues[taskId] ?: [NSOperationQueue mainQueue];
+      [queueToUse addOperationWithBlock:^{
+        responseHandler(responseData, task.response, error);
+      }];
+
       [sessionData.rpcHandlers removeObjectForKey:taskId];
       [sessionData.progressHandlers removeObjectForKey:taskId];
       [sessionData.progressData removeObjectForKey:taskId];
@@ -137,16 +116,10 @@
   if ([task isKindOfClass:[NSURLSessionDataTask class]]) {
     DBProgressBlock progressHandler = sessionData.progressHandlers[taskId];
     if (progressHandler) {
-      NSOperationQueue *handlerQueue = sessionData.progressHandlerQueues[taskId];
-      if (handlerQueue) {
-        [handlerQueue addOperationWithBlock:^{
-          progressHandler(bytesSent, totalBytesSent, totalBytesExpectedToSend);
-        }];
-      } else {
-        [[NSOperationQueue mainQueue] addOperationWithBlock:^{
-          progressHandler(bytesSent, totalBytesSent, totalBytesExpectedToSend);
-        }];
-      }
+      NSOperationQueue *queueToUse = sessionData.progressHandlerQueues[taskId] ?: [NSOperationQueue mainQueue];
+      [queueToUse addOperationWithBlock:^{
+        progressHandler(bytesSent, totalBytesSent, totalBytesExpectedToSend);
+      }];
     } else {
       sessionData.progressData[taskId] = [[DBProgressData alloc] initWithProgressData:bytesSent
                                                                        totalCommitted:totalBytesSent
@@ -165,16 +138,10 @@
 
   DBProgressBlock progressHandler = sessionData.progressHandlers[taskId];
   if (progressHandler) {
-    NSOperationQueue *handlerQueue = sessionData.progressHandlerQueues[taskId];
-    if (handlerQueue) {
-      [handlerQueue addOperationWithBlock:^{
-        progressHandler(bytesWritten, totalBytesWritten, totalBytesExpectedToWrite);
-      }];
-    } else {
-      [[NSOperationQueue mainQueue] addOperationWithBlock:^{
-        progressHandler(bytesWritten, totalBytesWritten, totalBytesExpectedToWrite);
-      }];
-    }
+    NSOperationQueue *queueToUse = sessionData.progressHandlerQueues[taskId] ?: [NSOperationQueue mainQueue];
+    [queueToUse addOperationWithBlock:^{
+      progressHandler(bytesWritten, totalBytesWritten, totalBytesExpectedToWrite);
+    }];
   } else {
     sessionData.progressData[taskId] = [[DBProgressData alloc] initWithProgressData:bytesWritten
                                                                      totalCommitted:totalBytesWritten
@@ -189,18 +156,17 @@
   NSNumber *taskId = @(downloadTask.taskIdentifier);
 
   DBDownloadResponseBlockStorage responseHandler = sessionData.downloadHandlers[taskId];
+
+  NSError *fileError = nil;
+  NSString *tmpOutputPath = [self moveFileToTempStorage:location fileError:&fileError];
+  NSURL *tmpOutputUrl = fileError == nil ? [NSURL URLWithString:tmpOutputPath] : nil;
+
   if (responseHandler) {
-    NSOperationQueue *handlerQueue = sessionData.responseHandlerQueues[taskId];
-    if (handlerQueue) {
-      NSString *tmpOutputPath = [self moveFileToTempStorage:location];
-      [handlerQueue addOperationWithBlock:^{
-        responseHandler([NSURL URLWithString:tmpOutputPath], downloadTask.response, nil);
-      }];
-    } else {
-      [[NSOperationQueue mainQueue] addOperationWithBlock:^{
-        responseHandler(location, downloadTask.response, nil);
-      }];
-    }
+    NSOperationQueue *queueToUse = sessionData.responseHandlerQueues[taskId] ?: [NSOperationQueue mainQueue];
+    [queueToUse addOperationWithBlock:^{
+      responseHandler(tmpOutputUrl, downloadTask.response, fileError);
+    }];
+
     [sessionData.downloadHandlers removeObjectForKey:taskId];
     [sessionData.progressHandlers removeObjectForKey:taskId];
     [sessionData.progressData removeObjectForKey:taskId];
@@ -208,23 +174,30 @@
     [sessionData.responseHandlerQueues removeObjectForKey:taskId];
     [sessionData.progressHandlerQueues removeObjectForKey:taskId];
   } else {
-    NSString *tmpOutputPath = [self moveFileToTempStorage:location];
-    sessionData.completionData[taskId] =
-        [[DBCompletionData alloc] initWithCompletionData:nil
-                                        responseMetadata:downloadTask.response
-                                           responseError:nil
-                                               urlOutput:[NSURL URLWithString:tmpOutputPath]];
+    sessionData.completionData[taskId] = [[DBCompletionData alloc] initWithCompletionData:nil
+                                                                         responseMetadata:downloadTask.response
+                                                                            responseError:fileError
+                                                                                urlOutput:tmpOutputUrl];
   }
 }
 
-- (NSString *)moveFileToTempStorage:(NSURL *)startingLocation {
-  NSFileManager *fileManager = [NSFileManager defaultManager];
-  NSString *tmpOutputPath = [NSTemporaryDirectory() stringByAppendingPathComponent:[NSUUID UUID].UUIDString];
+- (NSString *)moveFileToTempStorage:(NSURL *)startingLocation fileError:(NSError **)fileError {
+  NSString *tmpOutputPath = nil;
 
-  NSError *fileMoveError;
-  [fileManager moveItemAtPath:[startingLocation path] toPath:tmpOutputPath error:&fileMoveError];
-  if (fileMoveError) {
-    NSLog(@"Error moving file to temporary storage location: %@", fileMoveError);
+  NSFileManager *fileManager = [NSFileManager defaultManager];
+
+  NSString *tmpDirPath = NSTemporaryDirectory();
+  BOOL isDir = NO;
+  BOOL success = YES;
+
+  if (![fileManager fileExistsAtPath:tmpDirPath isDirectory:&isDir]) {
+    success =
+        [fileManager createDirectoryAtPath:tmpDirPath withIntermediateDirectories:YES attributes:nil error:fileError];
+  }
+
+  if (success) {
+    tmpOutputPath = [tmpDirPath stringByAppendingPathComponent:[NSUUID UUID].UUIDString];
+    [fileManager moveItemAtPath:[startingLocation path] toPath:tmpOutputPath error:fileError];
   }
 
   return tmpOutputPath;
@@ -240,15 +213,11 @@
     DBSessionData *sessionData = [self sessionDataWithSession:session];
     DBProgressData *progressData = sessionData.progressData[taskId];
     if (progressData) {
-      if (handlerQueue) {
-        [handlerQueue addOperationWithBlock:^{
-          handler(progressData.committed, progressData.totalCommitted, progressData.expectedToCommit);
-        }];
-      } else {
-        [[NSOperationQueue mainQueue] addOperationWithBlock:^{
-          handler(progressData.committed, progressData.totalCommitted, progressData.expectedToCommit);
-        }];
-      }
+      NSOperationQueue *queueToUse = handlerQueue ?: [NSOperationQueue mainQueue];
+      [queueToUse addOperationWithBlock:^{
+        handler(progressData.committed, progressData.totalCommitted, progressData.expectedToCommit);
+      }];
+
       [sessionData.progressData removeObjectForKey:taskId];
     } else {
       sessionData.progressHandlers[taskId] = handler;
@@ -271,15 +240,11 @@
 
     DBCompletionData *completionData = sessionData.completionData[taskId];
     if (completionData) {
-      if (handlerQueue) {
-        [handlerQueue addOperationWithBlock:^{
-          handler(completionData.responseBody, completionData.responseMetadata, completionData.responseError);
-        }];
-      } else {
-        [[NSOperationQueue mainQueue] addOperationWithBlock:^{
-          handler(completionData.responseBody, completionData.responseMetadata, completionData.responseError);
-        }];
-      }
+      NSOperationQueue *queueToUse = handlerQueue ?: [NSOperationQueue mainQueue];
+      [queueToUse addOperationWithBlock:^{
+        handler(completionData.responseBody, completionData.responseMetadata, completionData.responseError);
+      }];
+
       [sessionData.progressData removeObjectForKey:taskId];
       [sessionData.completionData removeObjectForKey:taskId];
       [sessionData.rpcHandlers removeObjectForKey:taskId];
@@ -307,15 +272,11 @@
 
     DBCompletionData *completionData = sessionData.completionData[taskId];
     if (completionData) {
-      if (handlerQueue) {
-        [handlerQueue addOperationWithBlock:^{
-          handler(completionData.responseBody, completionData.responseMetadata, completionData.responseError);
-        }];
-      } else {
-        [[NSOperationQueue mainQueue] addOperationWithBlock:^{
-          handler(completionData.responseBody, completionData.responseMetadata, completionData.responseError);
-        }];
-      }
+      NSOperationQueue *queueToUse = handlerQueue ?: [NSOperationQueue mainQueue];
+      [queueToUse addOperationWithBlock:^{
+        handler(completionData.responseBody, completionData.responseMetadata, completionData.responseError);
+      }];
+
       [sessionData.progressData removeObjectForKey:taskId];
       [sessionData.completionData removeObjectForKey:taskId];
       [sessionData.uploadHandlers removeObjectForKey:taskId];
@@ -343,15 +304,11 @@
 
     DBCompletionData *completionData = sessionData.completionData[taskId];
     if (completionData) {
-      if (handlerQueue) {
-        [handlerQueue addOperationWithBlock:^{
-          handler(completionData.urlOutput, completionData.responseMetadata, completionData.responseError);
-        }];
-      } else {
-        [[NSOperationQueue mainQueue] addOperationWithBlock:^{
-          handler(completionData.urlOutput, completionData.responseMetadata, completionData.responseError);
-        }];
-      }
+      NSOperationQueue *queueToUse = handlerQueue ?: [NSOperationQueue mainQueue];
+      [queueToUse addOperationWithBlock:^{
+        handler(completionData.urlOutput, completionData.responseMetadata, completionData.responseError);
+      }];
+
       [sessionData.progressData removeObjectForKey:taskId];
       [sessionData.completionData removeObjectForKey:taskId];
       [sessionData.downloadHandlers removeObjectForKey:taskId];

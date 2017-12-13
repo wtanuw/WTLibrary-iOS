@@ -10,6 +10,8 @@
 
 @class DBTEAMDeviceSession;
 
+NS_ASSUME_NONNULL_BEGIN
+
 #pragma mark - API Object
 
 ///
@@ -23,52 +25,52 @@
 
 #pragma mark - Instance fields
 
-/// The session id
-@property (nonatomic, readonly, copy) NSString * _Nonnull sessionId;
+/// The session id.
+@property (nonatomic, readonly, copy) NSString *sessionId;
 
-/// The IP address of the last activity from this session
-@property (nonatomic, readonly, copy) NSString * _Nullable ipAddress;
+/// The IP address of the last activity from this session.
+@property (nonatomic, readonly, copy, nullable) NSString *ipAddress;
 
-/// The country from which the last activity from this session was made
-@property (nonatomic, readonly, copy) NSString * _Nullable country;
+/// The country from which the last activity from this session was made.
+@property (nonatomic, readonly, copy, nullable) NSString *country;
 
-/// The time this session was created
-@property (nonatomic, readonly) NSDate * _Nullable created;
+/// The time this session was created.
+@property (nonatomic, readonly, nullable) NSDate *created;
 
-/// The time of the last activity from this session
-@property (nonatomic, readonly) NSDate * _Nullable updated;
+/// The time of the last activity from this session.
+@property (nonatomic, readonly, nullable) NSDate *updated;
 
 #pragma mark - Constructors
 
 ///
 /// Full constructor for the struct (exposes all instance variables).
 ///
-/// @param sessionId The session id
-/// @param ipAddress The IP address of the last activity from this session
+/// @param sessionId The session id.
+/// @param ipAddress The IP address of the last activity from this session.
 /// @param country The country from which the last activity from this session
-/// was made
-/// @param created The time this session was created
-/// @param updated The time of the last activity from this session
+/// was made.
+/// @param created The time this session was created.
+/// @param updated The time of the last activity from this session.
 ///
 /// @return An initialized instance.
 ///
-- (nonnull instancetype)initWithSessionId:(NSString * _Nonnull)sessionId
-                                ipAddress:(NSString * _Nullable)ipAddress
-                                  country:(NSString * _Nullable)country
-                                  created:(NSDate * _Nullable)created
-                                  updated:(NSDate * _Nullable)updated;
+- (instancetype)initWithSessionId:(NSString *)sessionId
+                        ipAddress:(nullable NSString *)ipAddress
+                          country:(nullable NSString *)country
+                          created:(nullable NSDate *)created
+                          updated:(nullable NSDate *)updated;
 
 ///
 /// Convenience constructor (exposes only non-nullable instance variables with
 /// no default value).
 ///
-/// @param sessionId The session id
+/// @param sessionId The session id.
 ///
 /// @return An initialized instance.
 ///
-- (nonnull instancetype)initWithSessionId:(NSString * _Nonnull)sessionId;
+- (instancetype)initWithSessionId:(NSString *)sessionId;
 
-- (nonnull instancetype)init NS_UNAVAILABLE;
+- (instancetype)init NS_UNAVAILABLE;
 
 @end
 
@@ -87,7 +89,7 @@
 /// @return A json-compatible dictionary representation of the
 /// `DBTEAMDeviceSession` API object.
 ///
-+ (NSDictionary * _Nonnull)serialize:(DBTEAMDeviceSession * _Nonnull)instance;
++ (nullable NSDictionary *)serialize:(DBTEAMDeviceSession *)instance;
 
 ///
 /// Deserializes `DBTEAMDeviceSession` instances.
@@ -97,6 +99,8 @@
 ///
 /// @return An instantiation of the `DBTEAMDeviceSession` object.
 ///
-+ (DBTEAMDeviceSession * _Nonnull)deserialize:(NSDictionary * _Nonnull)dict;
++ (DBTEAMDeviceSession *)deserialize:(NSDictionary *)dict;
 
 @end
+
+NS_ASSUME_NONNULL_END

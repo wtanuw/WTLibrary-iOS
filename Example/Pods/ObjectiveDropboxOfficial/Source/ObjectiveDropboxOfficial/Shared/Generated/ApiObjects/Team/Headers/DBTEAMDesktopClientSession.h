@@ -12,12 +12,14 @@
 @class DBTEAMDesktopClientSession;
 @class DBTEAMDesktopPlatform;
 
+NS_ASSUME_NONNULL_BEGIN
+
 #pragma mark - API Object
 
 ///
 /// The `DesktopClientSession` struct.
 ///
-/// Information about linked Dropbox desktop client sessions
+/// Information about linked Dropbox desktop client sessions.
 ///
 /// This class implements the `DBSerializable` protocol (serialize and
 /// deserialize instance methods), which is required for all Obj-C SDK API route
@@ -27,72 +29,72 @@
 
 #pragma mark - Instance fields
 
-/// Name of the hosting desktop
-@property (nonatomic, readonly, copy) NSString * _Nonnull hostName;
+/// Name of the hosting desktop.
+@property (nonatomic, readonly, copy) NSString *hostName;
 
-/// The Dropbox desktop client type
-@property (nonatomic, readonly) DBTEAMDesktopPlatform * _Nonnull clientType;
+/// The Dropbox desktop client type.
+@property (nonatomic, readonly) DBTEAMDesktopPlatform *clientType;
 
-/// The Dropbox client version
-@property (nonatomic, readonly, copy) NSString * _Nonnull clientVersion;
+/// The Dropbox client version.
+@property (nonatomic, readonly, copy) NSString *clientVersion;
 
-/// Information on the hosting platform
-@property (nonatomic, readonly, copy) NSString * _Nonnull platform;
+/// Information on the hosting platform.
+@property (nonatomic, readonly, copy) NSString *platform;
 
-/// Whether it's possible to delete all of the account files upon unlinking
-@property (nonatomic, readonly) NSNumber * _Nonnull isDeleteOnUnlinkSupported;
+/// Whether it's possible to delete all of the account files upon unlinking.
+@property (nonatomic, readonly) NSNumber *isDeleteOnUnlinkSupported;
 
 #pragma mark - Constructors
 
 ///
 /// Full constructor for the struct (exposes all instance variables).
 ///
-/// @param sessionId The session id
-/// @param hostName Name of the hosting desktop
-/// @param clientType The Dropbox desktop client type
-/// @param clientVersion The Dropbox client version
-/// @param platform Information on the hosting platform
+/// @param sessionId The session id.
+/// @param hostName Name of the hosting desktop.
+/// @param clientType The Dropbox desktop client type.
+/// @param clientVersion The Dropbox client version.
+/// @param platform Information on the hosting platform.
 /// @param isDeleteOnUnlinkSupported Whether it's possible to delete all of the
-/// account files upon unlinking
-/// @param ipAddress The IP address of the last activity from this session
+/// account files upon unlinking.
+/// @param ipAddress The IP address of the last activity from this session.
 /// @param country The country from which the last activity from this session
-/// was made
-/// @param created The time this session was created
-/// @param updated The time of the last activity from this session
+/// was made.
+/// @param created The time this session was created.
+/// @param updated The time of the last activity from this session.
 ///
 /// @return An initialized instance.
 ///
-- (nonnull instancetype)initWithSessionId:(NSString * _Nonnull)sessionId
-                                 hostName:(NSString * _Nonnull)hostName
-                               clientType:(DBTEAMDesktopPlatform * _Nonnull)clientType
-                            clientVersion:(NSString * _Nonnull)clientVersion
-                                 platform:(NSString * _Nonnull)platform
-                isDeleteOnUnlinkSupported:(NSNumber * _Nonnull)isDeleteOnUnlinkSupported
-                                ipAddress:(NSString * _Nullable)ipAddress
-                                  country:(NSString * _Nullable)country
-                                  created:(NSDate * _Nullable)created
-                                  updated:(NSDate * _Nullable)updated;
+- (instancetype)initWithSessionId:(NSString *)sessionId
+                         hostName:(NSString *)hostName
+                       clientType:(DBTEAMDesktopPlatform *)clientType
+                    clientVersion:(NSString *)clientVersion
+                         platform:(NSString *)platform
+        isDeleteOnUnlinkSupported:(NSNumber *)isDeleteOnUnlinkSupported
+                        ipAddress:(nullable NSString *)ipAddress
+                          country:(nullable NSString *)country
+                          created:(nullable NSDate *)created
+                          updated:(nullable NSDate *)updated;
 
 ///
 /// Convenience constructor (exposes only non-nullable instance variables with
 /// no default value).
 ///
-/// @param sessionId The session id
-/// @param hostName Name of the hosting desktop
-/// @param clientType The Dropbox desktop client type
-/// @param clientVersion The Dropbox client version
-/// @param platform Information on the hosting platform
+/// @param sessionId The session id.
+/// @param hostName Name of the hosting desktop.
+/// @param clientType The Dropbox desktop client type.
+/// @param clientVersion The Dropbox client version.
+/// @param platform Information on the hosting platform.
 /// @param isDeleteOnUnlinkSupported Whether it's possible to delete all of the
-/// account files upon unlinking
+/// account files upon unlinking.
 ///
 /// @return An initialized instance.
 ///
-- (nonnull instancetype)initWithSessionId:(NSString * _Nonnull)sessionId
-                                 hostName:(NSString * _Nonnull)hostName
-                               clientType:(DBTEAMDesktopPlatform * _Nonnull)clientType
-                            clientVersion:(NSString * _Nonnull)clientVersion
-                                 platform:(NSString * _Nonnull)platform
-                isDeleteOnUnlinkSupported:(NSNumber * _Nonnull)isDeleteOnUnlinkSupported;
+- (instancetype)initWithSessionId:(NSString *)sessionId
+                         hostName:(NSString *)hostName
+                       clientType:(DBTEAMDesktopPlatform *)clientType
+                    clientVersion:(NSString *)clientVersion
+                         platform:(NSString *)platform
+        isDeleteOnUnlinkSupported:(NSNumber *)isDeleteOnUnlinkSupported;
 
 @end
 
@@ -111,7 +113,7 @@
 /// @return A json-compatible dictionary representation of the
 /// `DBTEAMDesktopClientSession` API object.
 ///
-+ (NSDictionary * _Nonnull)serialize:(DBTEAMDesktopClientSession * _Nonnull)instance;
++ (nullable NSDictionary *)serialize:(DBTEAMDesktopClientSession *)instance;
 
 ///
 /// Deserializes `DBTEAMDesktopClientSession` instances.
@@ -121,6 +123,8 @@
 ///
 /// @return An instantiation of the `DBTEAMDesktopClientSession` object.
 ///
-+ (DBTEAMDesktopClientSession * _Nonnull)deserialize:(NSDictionary * _Nonnull)dict;
++ (DBTEAMDesktopClientSession *)deserialize:(NSDictionary *)dict;
 
 @end
+
+NS_ASSUME_NONNULL_END

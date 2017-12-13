@@ -10,6 +10,8 @@
 
 @class DBTEAMListMemberDevicesArg;
 
+NS_ASSUME_NONNULL_BEGIN
+
 #pragma mark - API Object
 
 ///
@@ -23,48 +25,48 @@
 
 #pragma mark - Instance fields
 
-/// The team's member id
-@property (nonatomic, readonly, copy) NSString * _Nonnull teamMemberId;
+/// The team's member id.
+@property (nonatomic, readonly, copy) NSString *teamMemberId;
 
-/// Whether to list web sessions of the team's member
-@property (nonatomic, readonly) NSNumber * _Nonnull includeWebSessions;
+/// Whether to list web sessions of the team's member.
+@property (nonatomic, readonly) NSNumber *includeWebSessions;
 
-/// Whether to list linked desktop devices of the team's member
-@property (nonatomic, readonly) NSNumber * _Nonnull includeDesktopClients;
+/// Whether to list linked desktop devices of the team's member.
+@property (nonatomic, readonly) NSNumber *includeDesktopClients;
 
-/// Whether to list linked mobile devices of the team's member
-@property (nonatomic, readonly) NSNumber * _Nonnull includeMobileClients;
+/// Whether to list linked mobile devices of the team's member.
+@property (nonatomic, readonly) NSNumber *includeMobileClients;
 
 #pragma mark - Constructors
 
 ///
 /// Full constructor for the struct (exposes all instance variables).
 ///
-/// @param teamMemberId The team's member id
-/// @param includeWebSessions Whether to list web sessions of the team's member
+/// @param teamMemberId The team's member id.
+/// @param includeWebSessions Whether to list web sessions of the team's member.
 /// @param includeDesktopClients Whether to list linked desktop devices of the
-/// team's member
+/// team's member.
 /// @param includeMobileClients Whether to list linked mobile devices of the
-/// team's member
+/// team's member.
 ///
 /// @return An initialized instance.
 ///
-- (nonnull instancetype)initWithTeamMemberId:(NSString * _Nonnull)teamMemberId
-                          includeWebSessions:(NSNumber * _Nullable)includeWebSessions
-                       includeDesktopClients:(NSNumber * _Nullable)includeDesktopClients
-                        includeMobileClients:(NSNumber * _Nullable)includeMobileClients;
+- (instancetype)initWithTeamMemberId:(NSString *)teamMemberId
+                  includeWebSessions:(nullable NSNumber *)includeWebSessions
+               includeDesktopClients:(nullable NSNumber *)includeDesktopClients
+                includeMobileClients:(nullable NSNumber *)includeMobileClients;
 
 ///
 /// Convenience constructor (exposes only non-nullable instance variables with
 /// no default value).
 ///
-/// @param teamMemberId The team's member id
+/// @param teamMemberId The team's member id.
 ///
 /// @return An initialized instance.
 ///
-- (nonnull instancetype)initWithTeamMemberId:(NSString * _Nonnull)teamMemberId;
+- (instancetype)initWithTeamMemberId:(NSString *)teamMemberId;
 
-- (nonnull instancetype)init NS_UNAVAILABLE;
+- (instancetype)init NS_UNAVAILABLE;
 
 @end
 
@@ -83,7 +85,7 @@
 /// @return A json-compatible dictionary representation of the
 /// `DBTEAMListMemberDevicesArg` API object.
 ///
-+ (NSDictionary * _Nonnull)serialize:(DBTEAMListMemberDevicesArg * _Nonnull)instance;
++ (nullable NSDictionary *)serialize:(DBTEAMListMemberDevicesArg *)instance;
 
 ///
 /// Deserializes `DBTEAMListMemberDevicesArg` instances.
@@ -93,6 +95,8 @@
 ///
 /// @return An instantiation of the `DBTEAMListMemberDevicesArg` object.
 ///
-+ (DBTEAMListMemberDevicesArg * _Nonnull)deserialize:(NSDictionary * _Nonnull)dict;
++ (DBTEAMListMemberDevicesArg *)deserialize:(NSDictionary *)dict;
 
 @end
+
+NS_ASSUME_NONNULL_END
