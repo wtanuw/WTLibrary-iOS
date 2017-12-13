@@ -749,20 +749,22 @@
 
 -(int)getNumberOfLoadNextArtworkAdvance:(NSUInteger)_arrayCount{
     
+    int count = (int)_arrayCount;
     int numberNext = numberToLoadNextArtworkAdvance;
     
-    if(_arrayCount < 1+numberToLoadNextArtworkAdvance+numberToLoadPrevArtworkAdvance){
-        numberNext = ceil((_arrayCount-1)/2.0);
+    if(count < 1+numberToLoadNextArtworkAdvance+numberToLoadPrevArtworkAdvance){
+        numberNext = BOUNDARY(ceil((count-1)/2.0), 0, numberToLoadNextArtworkAdvance);
     }
     return numberNext;
 }
 
 -(int)getNumberOfLoadPrevArtworkAdvance:(NSUInteger)_arrayCount{
     
+    int count = (int)_arrayCount;
     int numberPrev = numberToLoadPrevArtworkAdvance;
     
-    if(_arrayCount < 1+numberToLoadNextArtworkAdvance+numberToLoadPrevArtworkAdvance){
-        numberPrev = floor((_arrayCount-1)/2.0);
+    if(count < 1+numberToLoadNextArtworkAdvance+numberToLoadPrevArtworkAdvance){
+        numberPrev = BOUNDARY(floor((count-1)/2.0), 0, numberToLoadPrevArtworkAdvance);
     }
     return numberPrev;
 }
