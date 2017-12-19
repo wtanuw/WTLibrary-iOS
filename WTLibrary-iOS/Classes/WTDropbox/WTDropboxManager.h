@@ -22,6 +22,7 @@
 
 + (instancetype)sharedManager;
 
+- (BOOL)isSetup;
 - (void)beginSessionForRootAppFolderWithAppKey:(NSString*)appkey withCompletion:(void(^)(BOOL linkSuccess))completion;
 - (BOOL)isLogin;
 - (BOOL)handleOpenURL:(NSURL *)url;

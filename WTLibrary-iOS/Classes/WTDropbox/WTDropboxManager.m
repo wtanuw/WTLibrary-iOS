@@ -91,9 +91,17 @@
 
 #pragma mark - core api
 
+- (BOOL)isSetup
+{
+    if ([DBClientsManager appKey]) {
+        return YES;
+    }
+    return NO;
+}
+
 - (void)beginSessionForRootAppFolderWithAppKey:(NSString*)key withCompletion:(void (^)(BOOL linkSuccess))completion
 {
-    if (![DBClientsManager appKey]) {
+    if (![self isSetup]) {
         [DBClientsManager setupWithAppKey:key];
     }
     
