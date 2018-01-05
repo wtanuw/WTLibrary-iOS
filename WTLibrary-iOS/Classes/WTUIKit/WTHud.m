@@ -270,11 +270,23 @@
 //    }
 	if(string) {
         CGSize stringSize;
-        if(SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"8.0")){
-            stringSize = [string boundingRectWithSize:CGSizeMake(200, 300) options:NSStringDrawingTruncatesLastVisibleLine attributes:nil context:nil].size;
-        }else{
-            stringSize = [string sizeWithFont:self.stringLabel.font constrainedToSize:CGSizeMake(200, 300)];
+        CGSize expectSize = CGSizeZero;
+        UIFont *font = self.stringLabel.font;
+#if IS_IOS_BASE_SDK_ATLEAST(__IPHONE_7_0)
+        if(SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")){
+            NSDictionary *attributesDict = @{NSFontAttributeName:font};
+            expectSize = [string boundingRectWithSize:CGSizeMake(200, 300) options:NSStringDrawingTruncatesLastVisibleLine attributes:attributesDict context:nil].size;
         }
+#if IS_IOS_DEPLOY_TARGET_BELOW(__IPHONE_7_0)
+        else
+#endif
+#endif
+#if IS_IOS_DEPLOY_TARGET_BELOW(__IPHONE_7_0)
+        {
+            expectSize = [string sizeWithFont:font constrainedToSize:CGSizeMake(200, 300)];
+        }
+#endif
+        stringSize = expectSize;
         stringWidth = stringSize.width;
         stringHeight = stringSize.height;
         if (imageUsed)

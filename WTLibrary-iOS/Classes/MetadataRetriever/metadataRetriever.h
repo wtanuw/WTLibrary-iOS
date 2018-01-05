@@ -12,11 +12,8 @@
 #import <AssetsLibrary/AssetsLibrary.h>
 #import <AVFoundation/AVFoundation.h>
 
-#define showUnknownArtistForNil
-#define showUnknownAlbumForNil
 #define UnknownArtist   @"Unknown Artist"
 #define UnknownAlbum    @"Unknown Album"
-#define showLastPathForTitle
 
 @interface metadataRetriever : NSObject{
     NSURL *url;

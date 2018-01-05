@@ -10,6 +10,9 @@
 #import <CoreFoundation/CoreFoundation.h>
 #import "WTMacro.h"
 
+#define showUnknownArtistForNil
+#define showUnknownAlbumForNil
+
 #define UseMetaDataLog 0
 #if UseMetaDataLog && WATLOG_DEBUG_ENABLE
 #    define MetaDataLog(...) NSLog(__VA_ARGS__)
@@ -205,11 +208,7 @@
         if (titleIsNil) {
             [initArray addObject:titleNil];
         } else {
-#ifdef showLastPathForTitle
-            [initArray addObject:titleNil];
-#else
             [initArray addObject:title];
-#endif
         }
         if (albumIsNil) {
             [initArray addObject:albumNil];

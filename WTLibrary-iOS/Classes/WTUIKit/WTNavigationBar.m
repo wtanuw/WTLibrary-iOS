@@ -316,8 +316,26 @@
 // Set the text on the custom back button
 -(void) setText:(NSString*)text onBackButton:(UIButton*)backButton
 {
+    CGSize expectSize = CGSizeZero;
+    UIFont *font = backButton.titleLabel.font;
+    
     // Measure the width of the text
-    CGSize textSize = [text sizeWithFont:backButton.titleLabel.font];
+#if IS_IOS_BASE_SDK_ATLEAST(__IPHONE_7_0)
+    if(SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")){
+        NSDictionary *attributesDict = @{NSFontAttributeName:font};
+        expectSize = [text sizeWithAttributes:attributesDict];
+    }
+#if IS_IOS_DEPLOY_TARGET_BELOW(__IPHONE_7_0)
+    else
+#endif
+#endif
+#if IS_IOS_DEPLOY_TARGET_BELOW(__IPHONE_7_0)
+    {
+        expectSize = [text sizeWithFont:font];
+    }
+#endif
+    CGSize textSize = expectSize;
+    
     // Change the button's frame. The width is either the width of the new text or the max width
 //    backButton.frame = CGRectMake(backButton.frame.origin.x, backButton.frame.origin.y, (textSize.width + (backButtonCapWidth * 1.5)) > MAX_BACK_BUTTON_WIDTH ? MAX_BACK_BUTTON_WIDTH : (textSize.width + (backButtonCapWidth * 1.5)), backButton.frame.size.height);
     backButton.frame = CGRectMake(backButton.frame.origin.x, backButton.frame.origin.y,MIN(MAX_BACK_BUTTON_WIDTH, (textSize.width + (backButtonCapWidth * 1.5))), backButton.frame.size.height);

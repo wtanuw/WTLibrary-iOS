@@ -166,10 +166,17 @@
     return YES;
 }
 
+#if IS_IOS_BASE_SDK_ATLEAST(__IPHONE_6_0)
+- (UIInterfaceOrientationMask)supportedInterfaceOrientations
+{
+    return (UIInterfaceOrientationMaskPortrait | UIInterfaceOrientationMaskPortraitUpsideDown);
+}
+#else
 - (NSUInteger)supportedInterfaceOrientations
 {
     return (1 << UIInterfaceOrientationPortrait | 1 << UIInterfaceOrientationPortraitUpsideDown);
 }
+#endif
 
 //- (UIInterfaceOrientation)preferredInterfaceOrientationForPresentation
 //{
