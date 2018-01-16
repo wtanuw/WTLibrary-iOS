@@ -1,6 +1,6 @@
 {
   "name": "WTLibrary-iOS",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "summary": "summary with WTLibrary-iOS.",
   "description": "TODO: Add long description of the pod here.\nA simple life with WTLibrary-iOS.",
   "homepage": "https://github.com/wtanuw/WTLibrary-iOS",
@@ -13,10 +13,11 @@
   },
   "source": {
     "git": "https://github.com/wtanuw/WTLibrary-iOS.git",
-    "tag": "0.3.0"
+    "tag": "0.4.0"
   },
   "platforms": {
-    "ios": "8.0"
+    "ios": "8.0",
+    "osx": "10.12"
   },
   "default_subspecs": "WTObjC",
   "subspecs": [

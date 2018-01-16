@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
 s.name             = 'WTLibrary-iOS'
-s.version          = '0.3.0'
+s.version          = '0.4.0'
 s.summary          = 'summary with WTLibrary-iOS.'
 
 # This description is used to generate tags and improve search results.
@@ -30,6 +30,7 @@ s.source           = { :git => 'https://github.com/wtanuw/WTLibrary-iOS.git', :t
 # s.social_media_url = 'https://twitter.com/<TWITTER_USERNAME>'
 
 s.ios.deployment_target = '8.0'
+s.osx.deployment_target = '10.12'
 
 # s.source_files = 'WTLibrary-iOS/Classes/**/*'
 

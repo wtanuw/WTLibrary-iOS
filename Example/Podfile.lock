@@ -26,43 +26,43 @@ PODS:
   - Quick (1.0.0)
   - Reachability (3.2)
   - Specta (1.0.7)
-  - WTLibrary-iOS (0.3.0):
-    - WTLibrary-iOS/WTObjC (= 0.3.0)
-  - WTLibrary-iOS/AQGridViewHorizontal (0.3.0):
+  - WTLibrary-iOS (0.4.0):
+    - WTLibrary-iOS/WTObjC (= 0.4.0)
+  - WTLibrary-iOS/AQGridViewHorizontal (0.4.0):
     - WTLibrary-iOS/WTObjC
-  - WTLibrary-iOS/CategoriesExtension (0.3.0):
+  - WTLibrary-iOS/CategoriesExtension (0.4.0):
     - WTLibrary-iOS/WTObjC
-  - WTLibrary-iOS/CategoriesExtensionMD5 (0.3.0):
+  - WTLibrary-iOS/CategoriesExtensionMD5 (0.4.0):
     - WTLibrary-iOS/WTObjC
-  - WTLibrary-iOS/MetadataRetriever (0.3.0):
+  - WTLibrary-iOS/MetadataRetriever (0.4.0):
     - WTLibrary-iOS/WTObjC
-  - WTLibrary-iOS/WTDatabase (0.3.0):
+  - WTLibrary-iOS/WTDatabase (0.4.0):
     - FMDB (~> 2.0)
     - WTLibrary-iOS/WTObjC
-  - WTLibrary-iOS/WTDropbox (0.3.0):
+  - WTLibrary-iOS/WTDropbox (0.4.0):
     - ObjectiveDropboxOfficial
     - WTLibrary-iOS/WTObjC
-  - WTLibrary-iOS/WTGoogle (0.3.0):
+  - WTLibrary-iOS/WTGoogle (0.4.0):
     - GoogleAPIClientForREST/Drive (~> 1.1.1)
     - GTMAppAuth
     - GTMOAuth2 (~> 1.1.4)
     - WTLibrary-iOS/WTObjC
-  - WTLibrary-iOS/WTLocation (0.3.0):
+  - WTLibrary-iOS/WTLocation (0.4.0):
     - WTLibrary-iOS/WTObjC
-  - WTLibrary-iOS/WTObjC (0.3.0)
-  - WTLibrary-iOS/WTSNS (0.3.0):
+  - WTLibrary-iOS/WTObjC (0.4.0)
+  - WTLibrary-iOS/WTSNS (0.4.0):
     - WTLibrary-iOS/WTObjC
-  - WTLibrary-iOS/WTStoreKit (0.3.0):
+  - WTLibrary-iOS/WTStoreKit (0.4.0):
     - Reachability (~> 3.2)
     - WTLibrary-iOS/WTObjC
-  - WTLibrary-iOS/WTSwift (0.3.0):
+  - WTLibrary-iOS/WTSwift (0.4.0):
     - AFDateHelper (~> 4.1)
-  - WTLibrary-iOS/WTSwipeModalView (0.3.0):
+  - WTLibrary-iOS/WTSwipeModalView (0.4.0):
     - AGWindowView (~> 0.1)
     - WTLibrary-iOS/WTObjC
-  - WTLibrary-iOS/WTUIKit (0.3.0):
+  - WTLibrary-iOS/WTUIKit (0.4.0):
     - WTLibrary-iOS/WTObjC
-  - WTLibrary-iOS/WTUtaPlayer (0.3.0):
+  - WTLibrary-iOS/WTUtaPlayer (0.4.0):
     - WTLibrary-iOS/WTObjC
 
 DEPENDENCIES:
@@ -105,7 +105,7 @@ SPEC CHECKSUMS:
   Quick: 8024e4a47e6cc03a9d5245ef0948264fc6d27cff
   Reachability: 33e18b67625424e47b6cde6d202dce689ad7af96
   Specta: 3e1bd89c3517421982dc4d1c992503e48bd5fe66
-  WTLibrary-iOS: 61715c49a213e0eb48846aa22ad0aa0955de578b
+  WTLibrary-iOS: 7cbe96d2daa2e7bfe3a6dc40e8af5104eee39c4d
 
 PODFILE CHECKSUM: 6c8d49693a9b0a65fd329ddc86cdd183f2342e11
 
