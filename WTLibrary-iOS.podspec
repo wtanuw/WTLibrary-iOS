@@ -33,6 +33,8 @@ s.ios.deployment_target = '8.0'
 s.osx.deployment_target = '10.12'
 
 # s.source_files = 'WTLibrary-iOS/Classes/**/*'
+# s.ios.source_files   = 'CoordinatorType-iOS/*.swift'
+# s.osx.source_files   = 'CoordinatorType-macOS/*.swift'
 
 # s.resource_bundles = {
 #   'WTLibrary-iOS' => ['WTLibrary-iOS/Assets/*.png']

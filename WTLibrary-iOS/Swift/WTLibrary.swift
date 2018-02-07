@@ -52,8 +52,10 @@ public extension String {
 }
 
 //MARK:
-public func runAfterDelay(delay: TimeInterval, block: @escaping () -> Void) {
+public func runAfterDelay(_ delay: TimeInterval, block: @escaping () -> Void) {
     DispatchQueue.main.asyncAfter(deadline: .now() + delay, execute: block)
+//    let time = DispatchTime.now() + Double(Int64(delay * Double(NSEC_PER_SEC))) / Double(NSEC_PER_SEC)
+//    DispatchQueue.main.asyncAfter(deadline: time, execute: block)
 }
 
 //MARK:

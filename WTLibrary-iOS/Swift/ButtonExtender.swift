@@ -10,21 +10,21 @@ import UIKit
 import QuartzCore
 
 @IBDesignable
-public class ButtonExtender: UIButton {
+open class ButtonExtender: UIButton {
     //MARK: PROPERTIES
-    @IBInspectable var borderColor: UIColor = UIColor.white {
+    @IBInspectable open var borderColor: UIColor = UIColor.white {
         didSet {
             layer.borderColor = borderColor.cgColor
         }
     }
     
-    @IBInspectable var borderWidth: CGFloat = 1.0 {
+    @IBInspectable open var borderWidth: CGFloat = 1.0 {
         didSet {
             layer.borderWidth = borderWidth
         }
     }
     
-    @IBInspectable var cornurRadius: CGFloat = 1.0 {
+    @IBInspectable open var cornurRadius: CGFloat = 1.0 {
         didSet {
             layer.cornerRadius = cornurRadius
             clipsToBounds = true
