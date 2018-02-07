@@ -44,20 +44,20 @@ open class ButtonExtender: UIButton {
         configure()
     }
     
-    required public init?(coder aDecoder: NSCoder) {
+    required open init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         setup()
         configure()
     }
     
     
-    override public func awakeFromNib() {
+    override open func awakeFromNib() {
         super.awakeFromNib()
         setup()
         configure()
     }
     
-    override public func prepareForInterfaceBuilder() {
+    override open func prepareForInterfaceBuilder() {
         super.prepareForInterfaceBuilder()
         setup()
         configure()
@@ -75,7 +75,7 @@ open class ButtonExtender: UIButton {
         layer.cornerRadius = cornurRadius
     }
     
-    override public func layoutSubviews() {
+    override open func layoutSubviews() {
         super.layoutSubviews()
     }
 }
