@@ -32,13 +32,13 @@ open class ButtonExtender: UIButton {
     }
     
     //MARK: Initializers
-    override init(frame : CGRect) {
+    override public init(frame : CGRect) {
         super.init(frame : frame)
         setup()
         configure()
     }
     
-    convenience init() {
+    convenience public init() {
         self.init(frame:CGRect.zero)
         setup()
         configure()
