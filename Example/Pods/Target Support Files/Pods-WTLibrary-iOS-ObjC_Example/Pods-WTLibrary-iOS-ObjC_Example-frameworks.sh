@@ -98,7 +98,7 @@ if [[ "$CONFIGURATION" == "Debug" ]]; then
   install_framework "$BUILT_PRODUCTS_DIR/GoogleAPIClientForREST/GoogleAPIClientForREST.framework"
   install_framework "$BUILT_PRODUCTS_DIR/ObjectiveDropboxOfficial/ObjectiveDropboxOfficial.framework"
   install_framework "$BUILT_PRODUCTS_DIR/Reachability/Reachability.framework"
-  install_framework "$BUILT_PRODUCTS_DIR/WTLibrary-iOS-60a34f5a/WTLibrary_iOS.framework"
+  install_framework "$BUILT_PRODUCTS_DIR/WTLibrary-iOS-023264eb/WTLibrary_iOS.framework"
 fi
 if [[ "$CONFIGURATION" == "Release" ]]; then
   install_framework "$BUILT_PRODUCTS_DIR/AGWindowView/AGWindowView.framework"
@@ -110,7 +110,7 @@ if [[ "$CONFIGURATION" == "Release" ]]; then
   install_framework "$BUILT_PRODUCTS_DIR/GoogleAPIClientForREST/GoogleAPIClientForREST.framework"
   install_framework "$BUILT_PRODUCTS_DIR/ObjectiveDropboxOfficial/ObjectiveDropboxOfficial.framework"
   install_framework "$BUILT_PRODUCTS_DIR/Reachability/Reachability.framework"
-  install_framework "$BUILT_PRODUCTS_DIR/WTLibrary-iOS-60a34f5a/WTLibrary_iOS.framework"
+  install_framework "$BUILT_PRODUCTS_DIR/WTLibrary-iOS-023264eb/WTLibrary_iOS.framework"
 fi
 if [ "${COCOAPODS_PARALLEL_CODE_SIGN}" == "true" ]; then
   wait

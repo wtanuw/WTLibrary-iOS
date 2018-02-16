@@ -107,7 +107,7 @@ s.subspec 'WTGoogle' do |subspec|
 subspec.dependency 'WTLibrary-iOS/WTObjC'
 subspec.dependency 'GoogleAPIClientForREST/Drive', '~> 1.1.1'
 subspec.dependency 'GTMOAuth2', '~> 1.1.4'
-subspec.dependency 'GTMAppAuth'
+subspec.dependency 'GTMAppAuth', '~> 0.6.1'
 #subspec.dependency 'Google/SignIn'
 subspec.source_files = 'WTLibrary-iOS/Classes/WTGoogle/*.{h,m}'
 subspec.vendored_frameworks = ['WTLibrary-iOS/Classes/WTGoogle/GoogleAppUtilities.framework', 'WTLibrary-iOS/Classes/WTGoogle/GoogleSignIn.framework', 'WTLibrary-iOS/Classes/WTGoogle/GoogleSignInDependencies.framework', 'WTLibrary-iOS/Classes/WTGoogle/GoogleSymbolUtilities.framework']
@@ -175,6 +175,27 @@ s.subspec 'WTSwift' do |subspec|
 subspec.dependency 'AFDateHelper', '~> 4.1'
 subspec.source_files = 'WTLibrary-iOS/Swift/*'
 subspec.pod_target_xcconfig = { 'SWIFT_VERSION' => '3.0' }
+end
+
+##################################################
+
+s.subspec 'WTRuntime' do |subspec|
+subspec.source_files = 'WTLibrary-iOS/Classes/WTRuntime/*.{h,m}'
+subspec.dependency 'WTLibrary-iOS/WTObjC'
+end
+
+##################################################
+
+s.subspec 'WTiOS' do |subspec|
+subspec.source_files = 'WTLibrary-iOS/Classes/WTiOS/*.{h,m}'
+subspec.dependency 'WTLibrary-iOS/WTObjC'
+end
+
+##################################################
+
+s.subspec 'WTmacOS' do |subspec|
+subspec.source_files = 'WTLibrary-iOS/Classes/WTmacOS/*.{h,m}'
+subspec.dependency 'WTLibrary-iOS/WTObjC'
 end
 
 ##################################################

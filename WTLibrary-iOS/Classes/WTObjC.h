@@ -17,8 +17,6 @@ extern "C" {
     
 #import "WTMacro.h"
 #import "WTPath.h"
-#import "WTBox.h"
-#import "WTSharedBox.h"
     
 #ifdef __cplusplus
 }

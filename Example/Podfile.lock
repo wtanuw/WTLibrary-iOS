@@ -16,11 +16,11 @@ PODS:
     - GTMSessionFetcher (~> 1.1)
   - GTMOAuth2 (1.1.6):
     - GTMSessionFetcher (~> 1.1)
-  - GTMSessionFetcher (1.1.12):
-    - GTMSessionFetcher/Full (= 1.1.12)
-  - GTMSessionFetcher/Core (1.1.12)
-  - GTMSessionFetcher/Full (1.1.12):
-    - GTMSessionFetcher/Core (= 1.1.12)
+  - GTMSessionFetcher (1.1.13):
+    - GTMSessionFetcher/Full (= 1.1.13)
+  - GTMSessionFetcher/Core (1.1.13)
+  - GTMSessionFetcher/Full (1.1.13):
+    - GTMSessionFetcher/Core (= 1.1.13)
   - Nimble (5.1.1)
   - ObjectiveDropboxOfficial (3.4.0)
   - Quick (1.0.0)
@@ -44,12 +44,18 @@ PODS:
     - WTLibrary-iOS/WTObjC
   - WTLibrary-iOS/WTGoogle (0.4.0):
     - GoogleAPIClientForREST/Drive (~> 1.1.1)
-    - GTMAppAuth
+    - GTMAppAuth (~> 0.6.1)
     - GTMOAuth2 (~> 1.1.4)
+    - WTLibrary-iOS/WTObjC
+  - WTLibrary-iOS/WTiOS (0.4.0):
     - WTLibrary-iOS/WTObjC
   - WTLibrary-iOS/WTLocation (0.4.0):
     - WTLibrary-iOS/WTObjC
+  - WTLibrary-iOS/WTmacOS (0.4.0):
+    - WTLibrary-iOS/WTObjC
   - WTLibrary-iOS/WTObjC (0.4.0)
+  - WTLibrary-iOS/WTRuntime (0.4.0):
+    - WTLibrary-iOS/WTObjC
   - WTLibrary-iOS/WTSNS (0.4.0):
     - WTLibrary-iOS/WTObjC
   - WTLibrary-iOS/WTStoreKit (0.4.0):
@@ -78,7 +84,10 @@ DEPENDENCIES:
   - WTLibrary-iOS/WTDatabase (from `../`)
   - WTLibrary-iOS/WTDropbox (from `../`)
   - WTLibrary-iOS/WTGoogle (from `../`)
+  - WTLibrary-iOS/WTiOS (from `../`)
   - WTLibrary-iOS/WTLocation (from `../`)
+  - WTLibrary-iOS/WTmacOS (from `../`)
+  - WTLibrary-iOS/WTRuntime (from `../`)
   - WTLibrary-iOS/WTSNS (from `../`)
   - WTLibrary-iOS/WTStoreKit (from `../`)
   - WTLibrary-iOS/WTSwift (from `../`)
@@ -99,14 +108,14 @@ SPEC CHECKSUMS:
   GoogleAPIClientForREST: f272e35f7fe9f80ab232756c798adc32245ece8c
   GTMAppAuth: ae710e1e53431e2bcdd57f9f92daa16a58a2947d
   GTMOAuth2: c77fe325e4acd453837e72d91e3b5f13116857b2
-  GTMSessionFetcher: ebaa1f79a5366922c1735f1566901f50beba23b7
+  GTMSessionFetcher: 5bb1eae636127de695590f50e7d248483eb891e6
   Nimble: 415e3aa3267e7bc2c96b05fa814ddea7bb686a29
   ObjectiveDropboxOfficial: 250ce53218773ba687201614ad6de03b8cb14de6
   Quick: 8024e4a47e6cc03a9d5245ef0948264fc6d27cff
   Reachability: 33e18b67625424e47b6cde6d202dce689ad7af96
   Specta: 3e1bd89c3517421982dc4d1c992503e48bd5fe66
-  WTLibrary-iOS: 7cbe96d2daa2e7bfe3a6dc40e8af5104eee39c4d
+  WTLibrary-iOS: cc277b4222dd47976116f1d8ea1673c2188e331e
 
-PODFILE CHECKSUM: 6c8d49693a9b0a65fd329ddc86cdd183f2342e11
+PODFILE CHECKSUM: 1cf7684bce3726772d542134f8668e52cb105b39
 
 COCOAPODS: 1.2.0

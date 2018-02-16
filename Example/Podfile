@@ -15,6 +15,9 @@ target 'WTLibrary-iOS-ObjC_Example' do
   pod 'WTLibrary-iOS/WTSwipeModalView', :path => '../'
   pod 'WTLibrary-iOS/WTUIKit', :path => '../'
   pod 'WTLibrary-iOS/WTUtaPlayer', :path => '../'
+  pod 'WTLibrary-iOS/WTRuntime', :path => '../'
+  pod 'WTLibrary-iOS/WTiOS', :path => '../'
+  pod 'WTLibrary-iOS/WTmacOS', :path => '../'
   
   target 'WTLibrary-iOS-ObjC_Tests' do
     inherit! :search_paths

@@ -116,7 +116,7 @@
           "~> 1.1.4"
         ],
         "GTMAppAuth": [
-
+          "~> 0.6.1"
         ]
       },
       "source_files": "WTLibrary-iOS/Classes/WTGoogle/*.{h,m}",
@@ -227,6 +227,33 @@
       "source_files": "WTLibrary-iOS/Swift/*",
       "pod_target_xcconfig": {
         "SWIFT_VERSION": "3.0"
+      }
+    },
+    {
+      "name": "WTRuntime",
+      "source_files": "WTLibrary-iOS/Classes/WTRuntime/*.{h,m}",
+      "dependencies": {
+        "WTLibrary-iOS/WTObjC": [
+
+        ]
+      }
+    },
+    {
+      "name": "WTiOS",
+      "source_files": "WTLibrary-iOS/Classes/WTiOS/*.{h,m}",
+      "dependencies": {
+        "WTLibrary-iOS/WTObjC": [
+
+        ]
+      }
+    },
+    {
+      "name": "WTmacOS",
+      "source_files": "WTLibrary-iOS/Classes/WTmacOS/*.{h,m}",
+      "dependencies": {
+        "WTLibrary-iOS/WTObjC": [
+
+        ]
       }
     }
   ]
