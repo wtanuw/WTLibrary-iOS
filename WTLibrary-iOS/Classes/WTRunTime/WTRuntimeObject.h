@@ -30,32 +30,48 @@
  
  
  */
+
+@class WTRTProjectObject;
+@class WTRTClassObject;
+@class WTRTVariableObject;
+@class WTRTPropertyObject;
+@class WTRTMethodObject;
+
 @interface WTRuntimeObject : NSObject
 
 @end
 
 @interface WTRTProjectObject : NSObject
-
+@property (nonatomic, readonly) NSArray<WTRTClassObject *> *classes;
+@property (nonatomic, readonly) NSArray<WTRTClassObject *> *userDefineClasses;
+-(NSString *)exportjson;
 @end
 
 @interface WTRTClassObject : NSObject
-@property (nonatomic, assign) NSArray *properties;
-@property (nonatomic, assign) NSArray *methods;
--(NSString *)exportcsv;
+@property (nonatomic, readonly) NSArray<WTRTVariableObject *> *variables;
+@property (nonatomic, readonly) NSArray<WTRTPropertyObject *> *properties;
+@property (nonatomic, readonly) NSArray<WTRTMethodObject *> *methods;
+-(NSString *)exportjson;
 @end
 
 @interface WTRTVariableObject : NSObject
-@property (nonatomic, assign) NSString *name;
+@property (nonatomic, readonly) NSString *name;
+-(NSString *)exportjson;
 @end
 
 @interface WTRTPropertyObject : NSObject
-@property (nonatomic, assign) NSString *name;
-@property (nonatomic, assign) WTRTVariableObject *variable;
-@property (nonatomic, assign) NSString *getter;
-@property (nonatomic, assign) NSString *setter;
+@property (nonatomic, readonly) NSString *name;
+@property (nonatomic, readonly) WTRTVariableObject *variable;
+@property (nonatomic, readonly) NSString *getter;
+@property (nonatomic, readonly) NSString *setter;
+@property (nonatomic, readonly) BOOL haveGetter;
+@property (nonatomic, readonly) BOOL haveSetter;
+@property (nonatomic, readonly) BOOL isVisible;
+-(NSString *)exportjson;
 @end
 
 @interface WTRTMethodObject : NSObject
-@property (nonatomic, assign) NSArray<WTRTVariableObject*> *params;
-
+@property (nonatomic, readonly) NSArray<WTRTVariableObject *> *params;
+@property (nonatomic, readonly) BOOL isVisible;
+-(NSString *)exportjson;
 @end

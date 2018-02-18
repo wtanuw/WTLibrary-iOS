@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "WTRuntimeObject.h"
 /*
  untime.h ‣ 
  #import <objc/runtime.h> ‣ 
@@ -32,5 +33,6 @@
  */
 
 @interface WTRuntimeReader : NSObject
-+ (void)startGetList;
++ (void)start;
+- (void)start;
 @end

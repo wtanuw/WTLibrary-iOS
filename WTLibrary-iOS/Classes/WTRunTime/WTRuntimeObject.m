@@ -21,11 +21,11 @@
 
 @end
 
-@implementation WTRTVariableObject
+@implementation WTRTClassObject
 
 @end
 
-@implementation WTRTClassObject
+@implementation WTRTVariableObject
 
 @end
 

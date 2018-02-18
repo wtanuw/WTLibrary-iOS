@@ -15,6 +15,10 @@
 #import <objc/runtime.h>
 //#include <Cocoa.h>
 #import "WTMacro.h"
+#import "WTBundleInfo.h"
+
+
+//http://www.cocoawithlove.com/2010/01/getting-subclasses-of-objective-c-class.html
 
 /*
  
@@ -37,46 +41,108 @@
  
  */
 
+
+#define kProjectLevel @"kProject"
+#define kClassLevel @"kProject"
+
+@interface WTRuntimeReader()
+
+@property (nonatomic, strong) NSMutableDictionary *dict;
+@property (nonatomic, strong) WTRTProjectObject *project;
+
+
+@end
+
+
 @implementation WTRuntimeReader
 
-+(void)startGetList{
-    [self getClassListArray];
++ (instancetype)sharedReader {
+    DEFINE_SHARED_INSTANCE_USING_BLOCK(^{
+        return [[self alloc] init];
+    });
 }
 
-+(NSString*)displayName
-{
-    NSDictionary *info = [[NSBundle mainBundle] infoDictionary];
-    NSString *displayName = [NSString stringWithFormat:@"%@", [info objectForKey:@"CFBundleDisplayName"]];
-    return displayName;
+- (instancetype)init {
+    self = [super init];
+    if (self) {
+        [self initialize];
+    }
+    return self;
 }
 
-+(NSString*)bundleName
-{
-    NSDictionary *info = [[NSBundle mainBundle] infoDictionary];
-    NSString *bundleName = [NSString stringWithFormat:@"%@", [info objectForKey:@"CFBundleName"]];
-    return bundleName;
-}
-
-+(NSString*)versionNumber
-{
-    NSDictionary *info = [[NSBundle mainBundle] infoDictionary];
-    NSString *versionNumber = [NSString stringWithFormat:@"%@", [info objectForKey:@"CFBundleShortVersionString"]];
-    return versionNumber;
-}
-
-+(NSString*)buildNumber
-{
-    NSDictionary *info = [[NSBundle mainBundle] infoDictionary];
-    NSString *buildNumber = [NSString stringWithFormat:@"%@", [info objectForKey:@"CFBundleVersion"]];
-    return buildNumber;
-}
-
-+(void)getClassListArray{
+- (void)setup {
+    _dict = [NSMutableDictionary dictionary];
     
+}
+
+- (void)initialize {
+    [_dict removeAllObjects];
+    [_dict addEntriesFromDictionary:@{}];
+}
+
+- (void)start {
+    [self readProject];
+}
+
+- (void)readProject {
+    
+    int numClasses = objc_getClassList(NULL, 0);
+    Class *classes = NULL;
+    
+    classes = malloc(sizeof(Class) * numClasses);
+    numClasses = objc_getClassList(classes, numClasses);
+    
+    // do something with classes
+    [self readClass:numClasses class:classes];
+    
+    free(classes);
+}
+
+- (void)readClass:(int)numClasses class:(Class*)classes {
+    NSMutableArray *result = [NSMutableArray array];
+    for (NSInteger i = 0; i < numClasses; i++)
+    {
+        Class superClass = classes[i];
+        do
+        {
+            superClass = class_getSuperclass(superClass);
+        } while(superClass && superClass != parentClass);
+        
+        if (superClass == nil)
+        {
+            continue;
+        }
+        
+        [result addObject:classes[i]];
+    }
+
+}
+typedef void *Cache;
+#import "objc-runtime-new.h"
+
+void AddSubclassesToArray(Class parentClass, NSMutableArray *subclasses)
+{
+    struct class_t *internalRep = (struct class_t *)parentClass;
+    
+    // Traverse depth first
+    Class subclass = (Class)internalRep->data->firstSubclass;
+    while (subclass)
+    {
+        [subclasses addObject:subclass];
+        AddSubclassesToArray(subclass, subclasses);
+        
+        // Then traverse breadth-wise
+        struct class_t *subclassInternalRep = (struct class_t *)subclass;
+        subclass = (Class)subclassInternalRep->data->nextSiblingClass;
+    }
+}
+
+- (void)read {
+
     WatLog(@"\n");
-    WatLog(@"###------- Project %@(%@) ------", [self displayName], [self versionNumber]);
-    WatLog(@"###------- Project %@(%@) ------", [self bundleName], [self buildNumber]);
     
+    WatLog(@"%@------- Project %@(v.%@) ------", @"###", [WTBundleInfo displayName], [WTBundleInfo versionNumber]);
+    WatLog(@"%@------- Bundle %@(build %@) ------", @"###", [WTBundleInfo bundleName], [WTBundleInfo buildNumber]);
     
     Class *classes = NULL;
     int numberOfClasses = objc_getClassList(NULL, 0);
@@ -84,7 +150,7 @@
     if (numberOfClasses < 0 ) {
         return;
     }
-    WatLog(@"### found class");
+    WatLog(@"%@ found class", @"###");
     
     classes = (__unsafe_unretained Class *)malloc(sizeof(Class) * numberOfClasses);
     numberOfClasses = objc_getClassList(classes, numberOfClasses);
