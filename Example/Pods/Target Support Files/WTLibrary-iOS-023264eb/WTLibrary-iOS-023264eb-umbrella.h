@@ -41,6 +41,7 @@
 #import "WTDropboxManager.h"
 #import "WTGoogleDriveManager.h"
 #import "WTLocation.h"
+#import "WTBundleInfo.h"
 #import "WTMacro.h"
 #import "WTObjC.h"
 #import "WTPath.h"

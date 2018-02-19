@@ -91,6 +91,7 @@ strip_invalid_archs() {
 if [[ "$CONFIGURATION" == "Debug" ]]; then
   install_framework "$BUILT_PRODUCTS_DIR/AGWindowView/AGWindowView.framework"
   install_framework "$BUILT_PRODUCTS_DIR/AppAuth/AppAuth.framework"
+  install_framework "$BUILT_PRODUCTS_DIR/CHCSVParser/CHCSVParser.framework"
   install_framework "$BUILT_PRODUCTS_DIR/FMDB/FMDB.framework"
   install_framework "$BUILT_PRODUCTS_DIR/GTMAppAuth/GTMAppAuth.framework"
   install_framework "$BUILT_PRODUCTS_DIR/GTMOAuth2/GTMOAuth2.framework"
@@ -98,11 +99,13 @@ if [[ "$CONFIGURATION" == "Debug" ]]; then
   install_framework "$BUILT_PRODUCTS_DIR/GoogleAPIClientForREST/GoogleAPIClientForREST.framework"
   install_framework "$BUILT_PRODUCTS_DIR/ObjectiveDropboxOfficial/ObjectiveDropboxOfficial.framework"
   install_framework "$BUILT_PRODUCTS_DIR/Reachability/Reachability.framework"
+  install_framework "$BUILT_PRODUCTS_DIR/SBJson/SBJson.framework"
   install_framework "$BUILT_PRODUCTS_DIR/WTLibrary-iOS-023264eb/WTLibrary_iOS.framework"
 fi
 if [[ "$CONFIGURATION" == "Release" ]]; then
   install_framework "$BUILT_PRODUCTS_DIR/AGWindowView/AGWindowView.framework"
   install_framework "$BUILT_PRODUCTS_DIR/AppAuth/AppAuth.framework"
+  install_framework "$BUILT_PRODUCTS_DIR/CHCSVParser/CHCSVParser.framework"
   install_framework "$BUILT_PRODUCTS_DIR/FMDB/FMDB.framework"
   install_framework "$BUILT_PRODUCTS_DIR/GTMAppAuth/GTMAppAuth.framework"
   install_framework "$BUILT_PRODUCTS_DIR/GTMOAuth2/GTMOAuth2.framework"
@@ -110,6 +113,7 @@ if [[ "$CONFIGURATION" == "Release" ]]; then
   install_framework "$BUILT_PRODUCTS_DIR/GoogleAPIClientForREST/GoogleAPIClientForREST.framework"
   install_framework "$BUILT_PRODUCTS_DIR/ObjectiveDropboxOfficial/ObjectiveDropboxOfficial.framework"
   install_framework "$BUILT_PRODUCTS_DIR/Reachability/Reachability.framework"
+  install_framework "$BUILT_PRODUCTS_DIR/SBJson/SBJson.framework"
   install_framework "$BUILT_PRODUCTS_DIR/WTLibrary-iOS-023264eb/WTLibrary_iOS.framework"
 fi
 if [ "${COCOAPODS_PARALLEL_CODE_SIGN}" == "true" ]; then

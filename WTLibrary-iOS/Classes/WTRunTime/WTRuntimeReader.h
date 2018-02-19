@@ -33,6 +33,5 @@
  */
 
 @interface WTRuntimeReader : NSObject
-+ (void)start;
-- (void)start;
++ (void)startReader;
 @end

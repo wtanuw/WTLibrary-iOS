@@ -235,6 +235,12 @@
       "dependencies": {
         "WTLibrary-iOS/WTObjC": [
 
+        ],
+        "CHCSVParser": [
+          "~> 2.1"
+        ],
+        "SBJson": [
+          "~> 5.0"
         ]
       }
     },

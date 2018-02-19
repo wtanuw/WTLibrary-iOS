@@ -20,6 +20,17 @@
 		6003F5BA195388D20070C39A /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 6003F5B8195388D20070C39A /* InfoPlist.strings */; };
 		6003F5BC195388D20070C39A /* Tests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6003F5BB195388D20070C39A /* Tests.m */; };
 		71719F9F1E33DC2100824A3D /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 71719F9D1E33DC2100824A3D /* LaunchScreen.storyboard */; };
+		8812B8B5203A900F00C05D1F /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 8812B8B4203A900F00C05D1F /* AppDelegate.m */; };
+		8812B8B8203A900F00C05D1F /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 8812B8B7203A900F00C05D1F /* main.m */; };
+		8812B8BB203A900F00C05D1F /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8812B8BA203A900F00C05D1F /* ViewController.m */; };
+		8812B8BD203A900F00C05D1F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8812B8BC203A900F00C05D1F /* Assets.xcassets */; };
+		8812B8C0203A900F00C05D1F /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8812B8BE203A900F00C05D1F /* Main.storyboard */; };
+		8812B8C9203A91AD00C05D1F /* IMLImageView+DragDrop.m in Sources */ = {isa = PBXBuildFile; fileRef = 8812B8C6203A91AD00C05D1F /* IMLImageView+DragDrop.m */; };
+		8812B8CA203A91AD00C05D1F /* LTUtilites.m in Sources */ = {isa = PBXBuildFile; fileRef = 8812B8C8203A91AD00C05D1F /* LTUtilites.m */; };
+		8812B8CE203A921100C05D1F /* AndroidIconSize.plist in Resources */ = {isa = PBXBuildFile; fileRef = 8812B8CB203A921100C05D1F /* AndroidIconSize.plist */; };
+		8812B8CF203A921100C05D1F /* Contents.json in Resources */ = {isa = PBXBuildFile; fileRef = 8812B8CC203A921100C05D1F /* Contents.json */; };
+		8812B8D0203A921100C05D1F /* IconSize.plist in Resources */ = {isa = PBXBuildFile; fileRef = 8812B8CD203A921100C05D1F /* IconSize.plist */; };
+		8812B8D2203A924500C05D1F /* droppanel.png in Resources */ = {isa = PBXBuildFile; fileRef = 8812B8D1203A924500C05D1F /* droppanel.png */; };
 		885D77101F0CE8E90008AD51 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 885D77051F0CE8E90008AD51 /* Main.storyboard */; };
 		885D77111F0CE8E90008AD51 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 885D77071F0CE8E90008AD51 /* InfoPlist.strings */; };
 		885D77121F0CE8E90008AD51 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 885D77091F0CE8E90008AD51 /* main.m */; };
@@ -83,6 +94,23 @@
 		7FD3D64F340C05F4111F2CA8 /* README.md */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = net.daringfireball.markdown; name = README.md; path = ../README.md; sourceTree = "<group>"; };
 		83AD2B8F400B377566D35A7E /* Pods-WTLibrary-iOS-ObjC_Tests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WTLibrary-iOS-ObjC_Tests.release.xcconfig"; path = "Pods/Target Support Files/Pods-WTLibrary-iOS-ObjC_Tests/Pods-WTLibrary-iOS-ObjC_Tests.release.xcconfig"; sourceTree = "<group>"; };
 		850D6E3FE437E17BFB6F20FB /* Pods_WTLibrary_iOS_Tests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_WTLibrary_iOS_Tests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		8812B8B1203A900F00C05D1F /* Mobile Apps Icon Generator.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Mobile Apps Icon Generator.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		8812B8B3203A900F00C05D1F /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
+		8812B8B4203A900F00C05D1F /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		8812B8B7203A900F00C05D1F /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		8812B8B9203A900F00C05D1F /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
+		8812B8BA203A900F00C05D1F /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
+		8812B8BC203A900F00C05D1F /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		8812B8BF203A900F00C05D1F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		8812B8C1203A901000C05D1F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		8812B8C5203A91AD00C05D1F /* IMLImageView+DragDrop.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "IMLImageView+DragDrop.h"; sourceTree = "<group>"; };
+		8812B8C6203A91AD00C05D1F /* IMLImageView+DragDrop.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "IMLImageView+DragDrop.m"; sourceTree = "<group>"; };
+		8812B8C7203A91AD00C05D1F /* LTUtilites.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LTUtilites.h; sourceTree = "<group>"; };
+		8812B8C8203A91AD00C05D1F /* LTUtilites.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LTUtilites.m; sourceTree = "<group>"; };
+		8812B8CB203A921100C05D1F /* AndroidIconSize.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = AndroidIconSize.plist; sourceTree = "<group>"; };
+		8812B8CC203A921100C05D1F /* Contents.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = Contents.json; sourceTree = "<group>"; };
+		8812B8CD203A921100C05D1F /* IconSize.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = IconSize.plist; sourceTree = "<group>"; };
+		8812B8D1203A924500C05D1F /* droppanel.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = droppanel.png; sourceTree = "<group>"; };
 		885D77061F0CE8E90008AD51 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		885D77081F0CE8E90008AD51 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		885D77091F0CE8E90008AD51 /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -136,6 +164,13 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		8812B8AE203A900F00C05D1F /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		885D771D1F0CEB0D0008AD51 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -168,6 +203,7 @@
 				885D772F1F0CEB790008AD51 /* WTLibrary-iOS-Swift */,
 				6003F593195388D20070C39A /* Example for WTLibrary-iOS */,
 				6003F5B5195388D20070C39A /* Tests */,
+				8812B8B2203A900F00C05D1F /* Mobile Apps Icon Generator */,
 				6003F58C195388D20070C39A /* Frameworks */,
 				6003F58B195388D20070C39A /* Products */,
 				B74499097817F4A8F03C723C /* Pods */,
@@ -181,6 +217,7 @@
 				6003F5AE195388D20070C39A /* WTLibrary-iOS-ObjC_Tests.xctest */,
 				885D772D1F0CEB0D0008AD51 /* WTLibrary-iOS-Swift_Example.app */,
 				885D774C1F0CECBD0008AD51 /* WTLibrary-iOS-Swift_Tests.xctest */,
+				8812B8B1203A900F00C05D1F /* Mobile Apps Icon Generator.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -241,6 +278,37 @@
 				9355B05B3543D2FD1AE695D0 /* LICENSE */,
 			);
 			name = "Podspec Metadata";
+			sourceTree = "<group>";
+		};
+		8812B8B2203A900F00C05D1F /* Mobile Apps Icon Generator */ = {
+			isa = PBXGroup;
+			children = (
+				8812B8D1203A924500C05D1F /* droppanel.png */,
+				8812B8CB203A921100C05D1F /* AndroidIconSize.plist */,
+				8812B8CC203A921100C05D1F /* Contents.json */,
+				8812B8CD203A921100C05D1F /* IconSize.plist */,
+				8812B8B3203A900F00C05D1F /* AppDelegate.h */,
+				8812B8B4203A900F00C05D1F /* AppDelegate.m */,
+				8812B8B9203A900F00C05D1F /* ViewController.h */,
+				8812B8BA203A900F00C05D1F /* ViewController.m */,
+				8812B8C5203A91AD00C05D1F /* IMLImageView+DragDrop.h */,
+				8812B8C6203A91AD00C05D1F /* IMLImageView+DragDrop.m */,
+				8812B8C7203A91AD00C05D1F /* LTUtilites.h */,
+				8812B8C8203A91AD00C05D1F /* LTUtilites.m */,
+				8812B8BC203A900F00C05D1F /* Assets.xcassets */,
+				8812B8BE203A900F00C05D1F /* Main.storyboard */,
+				8812B8C1203A901000C05D1F /* Info.plist */,
+				8812B8B6203A900F00C05D1F /* Supporting Files */,
+			);
+			path = "Mobile Apps Icon Generator";
+			sourceTree = "<group>";
+		};
+		8812B8B6203A900F00C05D1F /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				8812B8B7203A900F00C05D1F /* main.m */,
+			);
+			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
 		885D77041F0CE8E90008AD51 /* WTLibrary-iOS-ObjC */ = {
@@ -350,6 +418,23 @@
 			productReference = 6003F5AE195388D20070C39A /* WTLibrary-iOS-ObjC_Tests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
+		8812B8B0203A900F00C05D1F /* Mobile Apps Icon Generator */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 8812B8C4203A901000C05D1F /* Build configuration list for PBXNativeTarget "Mobile Apps Icon Generator" */;
+			buildPhases = (
+				8812B8AD203A900F00C05D1F /* Sources */,
+				8812B8AE203A900F00C05D1F /* Frameworks */,
+				8812B8AF203A900F00C05D1F /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "Mobile Apps Icon Generator";
+			productName = "Mobile Apps Icon Generator";
+			productReference = 8812B8B1203A900F00C05D1F /* Mobile Apps Icon Generator.app */;
+			productType = "com.apple.product-type.application";
+		};
 		885D77171F0CEB0D0008AD51 /* WTLibrary-iOS-Swift_Example */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 885D772A1F0CEB0D0008AD51 /* Build configuration list for PBXNativeTarget "WTLibrary-iOS-Swift_Example" */;
@@ -405,6 +490,10 @@
 					6003F5AD195388D20070C39A = {
 						TestTargetID = 6003F589195388D20070C39A;
 					};
+					8812B8B0203A900F00C05D1F = {
+						CreatedOnToolsVersion = 8.3.2;
+						ProvisioningStyle = Automatic;
+					};
 					885D773A1F0CECBD0008AD51 = {
 						LastSwiftMigration = 0830;
 					};
@@ -427,6 +516,7 @@
 				6003F5AD195388D20070C39A /* WTLibrary-iOS-ObjC_Tests */,
 				885D77171F0CEB0D0008AD51 /* WTLibrary-iOS-Swift_Example */,
 				885D773A1F0CECBD0008AD51 /* WTLibrary-iOS-Swift_Tests */,
+				8812B8B0203A900F00C05D1F /* Mobile Apps Icon Generator */,
 			);
 		};
 /* End PBXProject section */
@@ -448,6 +538,19 @@
 			buildActionMask = 2147483647;
 			files = (
 				6003F5BA195388D20070C39A /* InfoPlist.strings in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		8812B8AF203A900F00C05D1F /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8812B8BD203A900F00C05D1F /* Assets.xcassets in Resources */,
+				8812B8C0203A900F00C05D1F /* Main.storyboard in Resources */,
+				8812B8D0203A921100C05D1F /* IconSize.plist in Resources */,
+				8812B8D2203A924500C05D1F /* droppanel.png in Resources */,
+				8812B8CE203A921100C05D1F /* AndroidIconSize.plist in Resources */,
+				8812B8CF203A921100C05D1F /* Contents.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -700,6 +803,18 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		8812B8AD203A900F00C05D1F /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8812B8C9203A91AD00C05D1F /* IMLImageView+DragDrop.m in Sources */,
+				8812B8BB203A900F00C05D1F /* ViewController.m in Sources */,
+				8812B8B8203A900F00C05D1F /* main.m in Sources */,
+				8812B8B5203A900F00C05D1F /* AppDelegate.m in Sources */,
+				8812B8CA203A91AD00C05D1F /* LTUtilites.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		885D77191F0CEB0D0008AD51 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -747,6 +862,14 @@
 				71719F9E1E33DC2100824A3D /* Base */,
 			);
 			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+		8812B8BE203A900F00C05D1F /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				8812B8BF203A900F00C05D1F /* Base */,
+			);
+			name = Main.storyboard;
 			sourceTree = "<group>";
 		};
 		885D77051F0CE8E90008AD51 /* Main.storyboard */ = {
@@ -955,6 +1078,57 @@
 			};
 			name = Release;
 		};
+		8812B8C2203A901000C05D1F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CODE_SIGN_IDENTITY = "-";
+				COMBINE_HIDPI_IMAGES = YES;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_NO_COMMON_BLOCKS = YES;
+				INFOPLIST_FILE = "Mobile Apps Icon Generator/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 10.12;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = "info.ace-tech.Mobile-Apps-Icon-Generator";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+			};
+			name = Debug;
+		};
+		8812B8C3203A901000C05D1F /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CODE_SIGN_IDENTITY = "-";
+				COMBINE_HIDPI_IMAGES = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_NO_COMMON_BLOCKS = YES;
+				INFOPLIST_FILE = "Mobile Apps Icon Generator/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 10.12;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				PRODUCT_BUNDLE_IDENTIFIER = "info.ace-tech.Mobile-Apps-Icon-Generator";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+			};
+			name = Release;
+		};
 		885D772B1F0CEB0D0008AD51 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 154958584C148835D5C4EF4C /* Pods-WTLibrary-iOS-Swift_Example.debug.xcconfig */;
@@ -1093,6 +1267,14 @@
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
+		};
+		8812B8C4203A901000C05D1F /* Build configuration list for PBXNativeTarget "Mobile Apps Icon Generator" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				8812B8C2203A901000C05D1F /* Debug */,
+				8812B8C3203A901000C05D1F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
 		};
 		885D772A1F0CEB0D0008AD51 /* Build configuration list for PBXNativeTarget "WTLibrary-iOS-Swift_Example" */ = {
 			isa = XCConfigurationList;

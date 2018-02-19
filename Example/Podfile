@@ -37,3 +37,12 @@ target 'WTLibrary-iOS-Swift_Example' do
     pod 'Nimble', '~> 5.1.1'
   end
 end
+
+
+
+
+# example
+
+# pod 'WTLibrary-iOS', :git => 'https://github.com/wtanuw/WTLibrary-iOS.git', :subspecs => ['AQGridViewHorizontal', 'CategoriesExtension', 'CategoriesExtensionMD5', 'MetadataRetriever', 'WTDropbox', 'WTGoogle', 'WTStoreKit', 'WTSwipeModalView', 'WTUIKit', 'WTRuntime']
+
+# pod 'WTLibrary-iOS', :path => '~/Desktop/Wat/WTLibrary/WTLibrary-iOS', :subspecs => ['AQGridViewHorizontal', 'CategoriesExtension', 'CategoriesExtensionMD5', 'MetadataRetriever', 'WTDropbox', 'WTGoogle', 'WTStoreKit', 'WTSwipeModalView', 'WTUIKit', 'WTRuntime'] 

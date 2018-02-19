@@ -2,6 +2,7 @@ PODS:
   - AFDateHelper (4.1.2)
   - AGWindowView (0.1.9)
   - AppAuth (0.9.1)
+  - CHCSVParser (2.1.0)
   - Expecta (1.0.6)
   - FMDB (2.7.2):
     - FMDB/standard (= 2.7.2)
@@ -25,6 +26,7 @@ PODS:
   - ObjectiveDropboxOfficial (3.4.0)
   - Quick (1.0.0)
   - Reachability (3.2)
+  - SBJson (5.0.0)
   - Specta (1.0.7)
   - WTLibrary-iOS (0.4.0):
     - WTLibrary-iOS/WTObjC (= 0.4.0)
@@ -55,6 +57,8 @@ PODS:
     - WTLibrary-iOS/WTObjC
   - WTLibrary-iOS/WTObjC (0.4.0)
   - WTLibrary-iOS/WTRuntime (0.4.0):
+    - CHCSVParser (~> 2.1)
+    - SBJson (~> 5.0)
     - WTLibrary-iOS/WTObjC
   - WTLibrary-iOS/WTSNS (0.4.0):
     - WTLibrary-iOS/WTObjC
@@ -103,6 +107,7 @@ SPEC CHECKSUMS:
   AFDateHelper: b19c83daa132e398b34fbea085a1554ce07adfe9
   AGWindowView: 08dc8d448b8c96430e78b3945a9c2cf5b0fde754
   AppAuth: f7d9a2ce4ffe79a62a8b0c1d0938e88d9809b846
+  CHCSVParser: 3bcc7bdb72111a31222e95d57eacceefe4e537e8
   Expecta: 3b6bd90a64b9a1dcb0b70aa0e10a7f8f631667d5
   FMDB: 6198a90e7b6900cfc046e6bc0ef6ebb7be9236aa
   GoogleAPIClientForREST: f272e35f7fe9f80ab232756c798adc32245ece8c
@@ -113,9 +118,10 @@ SPEC CHECKSUMS:
   ObjectiveDropboxOfficial: 250ce53218773ba687201614ad6de03b8cb14de6
   Quick: 8024e4a47e6cc03a9d5245ef0948264fc6d27cff
   Reachability: 33e18b67625424e47b6cde6d202dce689ad7af96
+  SBJson: 73c848dc34be51fda282fab12bda6c426f5ead08
   Specta: 3e1bd89c3517421982dc4d1c992503e48bd5fe66
-  WTLibrary-iOS: cc277b4222dd47976116f1d8ea1673c2188e331e
+  WTLibrary-iOS: dca99e424312e6fd05513848740157e33fd776f5
 
-PODFILE CHECKSUM: 1cf7684bce3726772d542134f8668e52cb105b39
+PODFILE CHECKSUM: 2ce3d7dc401c2fa8be83dcf27d369c2fb054fe07
 
 COCOAPODS: 1.2.0

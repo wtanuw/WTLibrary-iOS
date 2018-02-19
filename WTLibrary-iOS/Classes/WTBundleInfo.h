@@ -15,4 +15,11 @@
 + (NSString*)versionNumber;
 + (NSString*)buildNumber;
 
++ (instancetype)bundleInfoWithBundle:(NSBundle*)bundle;
+
+- (NSString*)displayName;
+- (NSString*)bundleName;
+- (NSString*)versionNumber;
+- (NSString*)buildNumber;
+
 @end

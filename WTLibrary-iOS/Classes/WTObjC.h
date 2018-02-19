@@ -17,6 +17,7 @@ extern "C" {
     
 #import "WTMacro.h"
 #import "WTPath.h"
+#import "WTBundleInfo.h"
     
 #ifdef __cplusplus
 }
