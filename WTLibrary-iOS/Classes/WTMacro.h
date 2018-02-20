@@ -11,7 +11,7 @@
 #define WTMacro_VERSION 0x00020003
 
 //#ifndef WATLOG_DEBUG
-#define WATLOG_DEBUG
+//#define WATLOG_DEBUG
 //#endif
 
 // show "WatLog()" only when define both WATLOG_DEBUG and DEBUG
