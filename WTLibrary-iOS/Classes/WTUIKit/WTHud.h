@@ -11,8 +11,6 @@
 #import "WTMacro.h"
 
 #define WTHud_VERSION VERSIONHEX_FROM_DECIMAL(2,0,0)
-//#define WTMacro_VERSION 0x00020001
-
 
 @class WTHud;
 

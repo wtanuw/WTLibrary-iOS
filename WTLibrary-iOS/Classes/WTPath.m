@@ -105,6 +105,7 @@
 
 + (void)openItunes
 {
+#if TARGET_OS_IPHONE
     //open link in app store
     NSString *itmsString = [self itunesAppstorePath];
     
@@ -119,13 +120,18 @@
     {
         [[UIApplication sharedApplication] openURL:[NSURL URLWithString:httpString]];
     }
+#elif TARGET_OS_MAC
+#endif
 }
 
 + (void)openSettingApp;
 {
+#if TARGET_OS_IPHONE
     if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"8.0")) {
         [[UIApplication sharedApplication] openURL:[NSURL URLWithString:UIApplicationOpenSettingsURLString]];
     }
+#elif TARGET_OS_MAC
+#endif
 }
 
 @end

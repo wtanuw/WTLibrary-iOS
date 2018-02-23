@@ -17,7 +17,6 @@
 #import "WTMacro.h"
 #import "WTBundleInfo.h"
 
-
 //http://www.cocoawithlove.com/2010/01/getting-subclasses-of-objective-c-class.html
 
 /*
@@ -87,6 +86,11 @@
 
 - (void)startReader {
     [self readProject];
+}
+
+- (void)exportToFile:(NSString*)path
+{
+    
 }
 
 - (void)readProject {
@@ -295,7 +299,7 @@
         const char *type = method_getTypeEncoding(ivar);
         NSString *s = [NSString stringWithFormat:@"%s",type];
         NSMethodSignature * sig = [NSMethodSignature signatureWithObjCTypes:type];
-        printf("\t %d  %s",[sig numberOfArguments], [sig getArgumentTypeAtIndex:0]);
+//        printf("\t %d  %s",[sig numberOfArguments], [sig getArgumentTypeAtIndex:0]);
     }
     for (unsigned int i = 0; i < methodCount; i++) {
         Method method = methods[i];

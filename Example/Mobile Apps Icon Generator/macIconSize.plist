@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>Icon16</key>
+	<integer>16</integer>
+	<key>Icon16@2x</key>
+	<integer>32</integer>
+	<key>Icon32</key>
+	<string>32</string>
+	<key>Icon32@2x</key>
+	<integer>64</integer>
+	<key>Icon128</key>
+	<integer>128</integer>
+	<key>Icon128@2x</key>
+	<integer>256</integer>
+	<key>Icon256</key>
+	<integer>256</integer>
+	<key>Icon256@2x</key>
+	<integer>512</integer>
+	<key>Icon512</key>
+	<string>512</string>
+	<key>Icon512@2x</key>
+	<string>1024</string>
+</dict>
+</plist>

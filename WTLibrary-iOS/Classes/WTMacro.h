@@ -189,7 +189,7 @@
 #if WATLOG_DEBUG_ENABLE
     #define WatLog( s, ... ) NSLog( @"WatLog <%@:%d> %@", [[NSString stringWithUTF8String:__FILE__] lastPathComponent], __LINE__,  [NSString stringWithFormat:(s), ##__VA_ARGS__] )
 #else
-    #define WatLog( s, ... ) 
+    #define WatLog( s, ... )
 #endif
 
 //void WTSharedBoxNicoLog(NSString *s);//in WTSharedBox
