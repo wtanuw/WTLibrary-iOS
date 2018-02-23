@@ -137,7 +137,7 @@
       ],
       "xcconfig": {
         "OTHER_LDFLAGS": "-ObjC",
-        "FRAMEWORK_SEARCH_PATHS": "\"${PODS_ROOT}/WTLibrary-iOS/WTLibrary-iOS/Classes/WTGoogle\" \"${PODS_ROOT}/../../WTLibrary-iOS/Classes/WTGoogle\""
+        "FRAMEWORK_SEARCH_PATHS": "\"${PODS_ROOT}/WTLibrary-iOS/WTLibrary-iOS/Classes/WTGoogle\" \"${PODS_ROOT}/../../WTLibrary-iOS/Classes/WTGoogle\" \"~/Desktop/Wat/WTLibrary/WTLibrary-iOS/WTLibrary-iOS/Classes/WTGoogle\""
       }
     },
     {
@@ -231,7 +231,7 @@
     },
     {
       "name": "WTRuntime",
-      "source_files": "WTLibrary-iOS/Classes/WTRuntime/*.{h,m}",
+      "source_files": "WTLibrary-iOS/Classes/WTRuntimeReader/*.{h,m}",
       "dependencies": {
         "WTLibrary-iOS/WTObjC": [
 

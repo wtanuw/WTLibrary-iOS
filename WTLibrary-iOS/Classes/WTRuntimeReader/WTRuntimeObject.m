@@ -10,7 +10,6 @@
 #import <Foundation/Foundation.h>
 #import <objc/runtime.h>
 #import "WTMacro.h"
-#import "SBJson5.h"
 
 @implementation WTRuntimeObject
 
