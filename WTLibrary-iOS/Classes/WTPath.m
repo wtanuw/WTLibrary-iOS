@@ -62,6 +62,11 @@
     return NSTemporaryDirectory();
 }
 
++ (NSString*)desktopDirectoryPath
+{
+    return [WTPath pathToDirectory:NSDesktopDirectory];
+}
+
 + (void)aaa
 {
 //    [[NSFileManager defaultManager] createDirectoryAtPath:<#(NSString *)#> withIntermediateDirectories:<#(BOOL)#> attributes:<#(NSDictionary *)#> error:<#(NSError *__autoreleasing *)#>];

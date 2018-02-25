@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		104414109D378AA5A0C51E10 /* Pods_WTLibrary_iOS_Tests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 850D6E3FE437E17BFB6F20FB /* Pods_WTLibrary_iOS_Tests.framework */; };
-		2F9099055DEFB84B8276BEE0 /* Pods_WTLibrary_iOS_Example.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 290FBE94303EF50D80051B59 /* Pods_WTLibrary_iOS_Example.framework */; };
 		4FF2900DA1110E03B6C13362 /* Pods_WTLibrary_iOS_ObjC_Example.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 499BEBBC69EAC1B28DF780E4 /* Pods_WTLibrary_iOS_ObjC_Example.framework */; };
 		6003F58E195388D20070C39A /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6003F58D195388D20070C39A /* Foundation.framework */; };
 		6003F590195388D20070C39A /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6003F58F195388D20070C39A /* CoreGraphics.framework */; };
@@ -39,7 +38,6 @@
 		885D771E1F0CEB0D0008AD51 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6003F58F195388D20070C39A /* CoreGraphics.framework */; };
 		885D771F1F0CEB0D0008AD51 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6003F591195388D20070C39A /* UIKit.framework */; };
 		885D77201F0CEB0D0008AD51 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6003F58D195388D20070C39A /* Foundation.framework */; };
-		885D77211F0CEB0D0008AD51 /* Pods_WTLibrary_iOS_Example.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 290FBE94303EF50D80051B59 /* Pods_WTLibrary_iOS_Example.framework */; };
 		885D77241F0CEB0D0008AD51 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 71719F9D1E33DC2100824A3D /* LaunchScreen.storyboard */; };
 		885D77251F0CEB0D0008AD51 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6003F5A8195388D20070C39A /* Images.xcassets */; };
 		885D77351F0CEB790008AD51 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 885D77301F0CEB790008AD51 /* AppDelegate.swift */; };
@@ -149,7 +147,6 @@
 				6003F590195388D20070C39A /* CoreGraphics.framework in Frameworks */,
 				6003F592195388D20070C39A /* UIKit.framework in Frameworks */,
 				6003F58E195388D20070C39A /* Foundation.framework in Frameworks */,
-				2F9099055DEFB84B8276BEE0 /* Pods_WTLibrary_iOS_Example.framework in Frameworks */,
 				4FF2900DA1110E03B6C13362 /* Pods_WTLibrary_iOS_ObjC_Example.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -180,7 +177,6 @@
 				885D771E1F0CEB0D0008AD51 /* CoreGraphics.framework in Frameworks */,
 				885D771F1F0CEB0D0008AD51 /* UIKit.framework in Frameworks */,
 				885D77201F0CEB0D0008AD51 /* Foundation.framework in Frameworks */,
-				885D77211F0CEB0D0008AD51 /* Pods_WTLibrary_iOS_Example.framework in Frameworks */,
 				DF20197AB7C7C374CE90E9FF /* Pods_WTLibrary_iOS_Swift_Example.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

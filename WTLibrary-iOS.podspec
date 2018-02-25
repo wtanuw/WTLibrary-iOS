@@ -51,7 +51,7 @@ s.default_subspec = 'WTObjC'
 
 s.subspec 'WTObjC' do |subspec|
 subspec.source_files = 'WTLibrary-iOS/Classes/WT*.{h,m}'
-subspec.frameworks = 'UIKit', 'QuartzCore'
+subspec.frameworks = 'QuartzCore'
 end
 
 ##################################################
@@ -192,6 +192,7 @@ end
 s.subspec 'WTiOS' do |subspec|
 subspec.source_files = 'WTLibrary-iOS/Classes/WTiOS/*.{h,m}'
 subspec.dependency 'WTLibrary-iOS/WTObjC'
+subspec.frameworks = 'UIKit', 'QuartzCore'
 end
 
 ##################################################

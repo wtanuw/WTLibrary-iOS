@@ -23,6 +23,10 @@
 @end
 
 @interface WTRTProjectObject : WTRuntimeObject
+@property (nonatomic, strong) NSString *projectName;
+@property (nonatomic, readonly) NSMutableArray<WTRTApplicationObject *> *applications;
++ (instancetype)projectObject;
+- (NSString *)exportJSONData;
 @end
 
 @interface WTRTApplicationObject : WTRuntimeObject
@@ -36,21 +40,27 @@
 @end
 
 @interface WTRTClassObject : WTRuntimeObject
+@property (nonatomic, strong) NSString *className;
+@property (nonatomic, strong) NSString *superClassName;
+@property (nonatomic, strong) NSString *bundleName;
 @property (nonatomic, readonly) NSMutableArray<NSString *> *superClass;
 @property (nonatomic, readonly) NSMutableArray<WTRTVariableObject *> *variables;
 @property (nonatomic, readonly) NSMutableArray<WTRTPropertyObject *> *properties;
-@property (nonatomic, readonly) NSMutableArray<WTRTMethodObject *> *methods;
+@property (nonatomic, readonly) NSMutableArray<WTRTMethodObject *> *classMethods;
+@property (nonatomic, readonly) NSMutableArray<WTRTMethodObject *> *instanceMethods;
 + (instancetype)classObject;
 @end
 
 @interface WTRTVariableObject : WTRuntimeObject
-@property (nonatomic, readonly) NSString *name;
+@property (nonatomic, strong) NSString *variableName;
+@property (nonatomic, strong) NSString *typeName;
+@property (nonatomic, strong) WTRTPropertyObject *property;
 + (instancetype)variableObject;
 @end
 
 @interface WTRTPropertyObject : WTRuntimeObject
-@property (nonatomic, readonly) NSString *name;
-@property (nonatomic, readonly) WTRTVariableObject *variable;
+@property (nonatomic, strong) NSString *PropertyName;
+@property (nonatomic, strong) WTRTVariableObject *variable;
 @property (nonatomic, readonly) NSString *getter;
 @property (nonatomic, readonly) NSString *setter;
 @property (nonatomic, readonly) BOOL haveGetter;
@@ -60,7 +70,9 @@
 @end
 
 @interface WTRTMethodObject : WTRuntimeObject
+@property (nonatomic, strong) NSString *methodName;
+@property (nonatomic, assign) int numberOfArgument;
 @property (nonatomic, readonly) NSArray<WTRTVariableObject *> *params;
-@property (nonatomic, readonly) BOOL isVisible;
+@property (nonatomic, assign) BOOL isVisible;
 + (instancetype)methodObject;
 @end

@@ -11,11 +11,15 @@
 //#import "objc/objc-class.h"
 //#import <objc/objc-runtime.h>
 
+
+#define WATLOG_DEBUG
+
 #import <Foundation/Foundation.h>
 #import <objc/runtime.h>
 //#include <Cocoa.h>
 #import "WTMacro.h"
 #import "WTBundleInfo.h"
+#import "WTPath.h"
 
 //http://www.cocoawithlove.com/2010/01/getting-subclasses-of-objective-c-class.html
 
@@ -47,6 +51,7 @@
 @interface WTRuntimeReader()
 
 @property (nonatomic, strong) NSMutableDictionary *dict;
+@property (nonatomic, strong) WTRTProjectObject *project;
 @property (nonatomic, strong) WTRTApplicationObject *application;
 
 
@@ -77,7 +82,6 @@
 
 - (void)initialize {
     [_dict removeAllObjects];
-    [_dict addEntriesFromDictionary:@{}];
 }
 
 + (void)startReader {
@@ -86,24 +90,35 @@
 
 - (void)startReader {
     [self readProject];
+    [self exportToFile:nil];
 }
 
 - (void)exportToFile:(NSString*)path
 {
-    
+    NSString *json = [_project exportJSONString];
+    NSData *data = [_project exportJSONData];
+    NSString *desktopPath = @"/Users/wat/Desktop";
+    NSString *filePath = [desktopPath stringByAppendingPathComponent:@"test.txt"];
+    BOOL success = [json writeToFile:filePath atomically:YES encoding:NSUTF8StringEncoding error:nil];
+    WatLog(@"%@",WTBOOL(success));
 }
 
 - (void)readProject {
     
     WatLog(@"\n");
-    WatLog(@"%@------- Project %@(v.%@) ------", @"###", [WTBundleInfo displayName], [WTBundleInfo versionNumber]);
-    WatLog(@"%@------- Bundle %@(build %@) ------", @"###", [WTBundleInfo bundleName], [WTBundleInfo buildNumber]);
+//    WatLog(@"%@------- Project %@(v.%@) ------", @"###", [WTBundleInfo displayName], [WTBundleInfo versionNumber]);
+//    WatLog(@"%@------- Bundle %@(build %@) ------", @"###", [WTBundleInfo bundleName], [WTBundleInfo buildNumber]);
+    
+    _project = [WTRTProjectObject projectObject];
+    _project.projectName = [WTBundleInfo bundleName];
     
     _application = [WTRTApplicationObject applicationObject];
     _application.displayName = [WTBundleInfo displayName];
     _application.versionNumber = [WTBundleInfo versionNumber];
     _application.bundleName = [WTBundleInfo bundleName];
     _application.buildNumber = [WTBundleInfo buildNumber];
+    
+    [_project.applications addObject:_application];
     
     int numClasses = objc_getClassList(NULL, 0);
     Class *classes = NULL;
@@ -137,10 +152,13 @@
             NSString *superClass = [NSString stringWithFormat:@"%@",class_getSuperclass(c)];
             
             if (superClass) {
-                WatLog(@"@@@ name - %@  (%@)",name, superClass);
+                WatLog(@"@@@ name - %@ (%@)",name, superClass);
             }
             
             WTRTClassObject *class = [WTRTClassObject classObject];
+            class.className = name;
+            class.superClassName = superClass;
+            [class.superClass addObject:superClass];
             [_application.classes addObject:class];
             
             if(![superClass isEqualToString:@"(null)"]){
@@ -148,8 +166,9 @@
                 //                if([name hasPrefix:@"TAG"] || [name hasPrefix:@"TID"] || [name hasPrefix:@"AF"] || [name hasPrefix:@"GAI"]){
                 //
                 //                }else{
-                                    [self getVarInClass:c Name:name];
-                                    [self getMethodInClass:c Name:name];
+                //                                    [self getVarInClass:c Name:name];
+                [self getClassMethodInClass:c classObject:class];
+                [self getInstanceMethodInClass:c classObject:class];
                 //                }
             }
 
@@ -225,94 +244,197 @@
 
 - (void)getPropertyInClass:(Class)c Name:(NSString *)name {
 }
+//
+////Get Method in Class
+//- (void)getMethodInClass:(Class)c classObject:(WTRTClassObject *)classObject {
+//    
+//    WatLog(@"\n");
+//    
+//    WatLog(@"%@------- METHOD ------", @"***");
+//    WatLog(@"%@--- %@ ---", @"***", classObject.className);
+//    
+//    
+//    Class class = [c class];
+////    unsigned int count;
+////    
+////    // get class method of class
+//////    class_copyMethodList(object_getClass(class), &count);
+////    
+////    // get method of class
+////    Method *methods = class_copyMethodList(class, &count);
+////
+////    //get super class method
+//////    class_getInstanceMethod(Class cls, SEL name)
+//////    
+//////    class_getClassMethod(Class cls, SEL name)
+////    
+////    // iterate over them and print out the method name
+////    for (int i=0; i<count; i++) {
+////        Method *method = &methods[i];
+////        SEL selector = method_getName(*method);
+////        WatLog(@"%@ Method: %@", @"===", NSStringFromSelector(selector));
+////        
+////        const char *type = method_getTypeEncoding(*method);
+////        if (type) {
+////            
+////        }
+////        NSString *s = [NSString stringWithFormat:@"%s",type];
+////        s = [s stringByReplacingOccurrencesOfString:@"\"" withString:@""];
+////        s = [s stringByReplacingOccurrencesOfString:@"@" withString:@""];
+////        
+////        WatLog(@"%@ Method: %@", @"===", s);
+////        
+////    }
+//    
+//    unsigned int methodCount = 0;
+//    Method *methods = class_copyMethodList(class, &methodCount);
+//    for (int i = 0; i < methodCount; i++)
+//    {
+//        Method method = methods[i];
+//        SEL methodSelector = method_getName(method);
+//        const char* methodName = sel_getName(methodSelector);
+//        
+//        const char *typeEncodings = method_getTypeEncoding(method);
+//        
+//        char returnType[80];
+//        method_getReturnType(method, returnType, 80);
+//        
+//        NSLog(@"%2.2d %@ ==> %s (%s)", 0, classObject.className, methodName, (typeEncodings == Nil) ? "" : typeEncodings);
+//        
+//        int ac = method_getNumberOfArguments(method);
+//        int a = 0;
+//        for (a = 0; a < ac; a++) {
+//            char argumentType[80];
+//            method_getArgumentType(method, a, argumentType, 80);
+//            NSLog(@"   Argument no #%d: %s", a, argumentType);
+//        }
+//    }
+//    
+//    printf("Found %d methods on '%s'\n", methodCount, class_getName(class));
+//    for(const Method* p = methods; p < methods+methodCount; p++){
+//        Method const ivar = *p;
+//        NSString *name = [NSString stringWithUTF8String:ivar_getName(ivar)];
+//        const char *type = method_getTypeEncoding(ivar);
+//        NSString *s = [NSString stringWithFormat:@"%s",type];
+//        NSMethodSignature * sig = [NSMethodSignature signatureWithObjCTypes:type];
+////        printf("\t %d  %s",[sig numberOfArguments], [sig getArgumentTypeAtIndex:0]);
+//    }
+//    for (unsigned int i = 0; i < methodCount; i++) {
+//        Method method = methods[i];
+//        const char *type = method_getTypeEncoding(method);
+//        printf("\t'%s' has method named '%s' of encoding '%s'\n",
+//               class_getName(class),
+//               sel_getName(method_getName(method)),
+//               method_getTypeEncoding(method));
+//        
+//        /**
+//         *  Or do whatever you need here...
+//         */
+//    }
+//    
+//    free(methods);
+//    
+//    
+//    
+//    
+//    // verify with private method [[UIApplication sharedApplication] _methodDescription]
+//}
 
-//Get Method in Class
-- (void)getMethodInClass:(Class)c Name:(NSString *)name {
+
+//Get Class Method in Class
+- (void)getClassMethodInClass:(Class)c classObject:(WTRTClassObject *)classObject {
     
     WatLog(@"\n");
     
     WatLog(@"%@------- METHOD ------", @"***");
-    WatLog(@"%@--- %@ ---", @"***", name);
+    WatLog(@"%@--- %@ ---", @"***", classObject.className);
     
     
     Class class = [c class];
-//    unsigned int count;
-//    
-//    // get class method of class
-////    class_copyMethodList(object_getClass(class), &count);
-//    
-//    // get method of class
-//    Method *methods = class_copyMethodList(class, &count);
-//
-//    //get super class method
-////    class_getInstanceMethod(Class cls, SEL name)
-////    
-////    class_getClassMethod(Class cls, SEL name)
-//    
-//    // iterate over them and print out the method name
-//    for (int i=0; i<count; i++) {
-//        Method *method = &methods[i];
-//        SEL selector = method_getName(*method);
-//        WatLog(@"%@ Method: %@", @"===", NSStringFromSelector(selector));
-//        
-//        const char *type = method_getTypeEncoding(*method);
-//        if (type) {
-//            
-//        }
-//        NSString *s = [NSString stringWithFormat:@"%s",type];
-//        s = [s stringByReplacingOccurrencesOfString:@"\"" withString:@""];
-//        s = [s stringByReplacingOccurrencesOfString:@"@" withString:@""];
-//        
-//        WatLog(@"%@ Method: %@", @"===", s);
-//        
-//    }
+    //    unsigned int count;
+    //
+    //    // get class method of class
+    ////    class_copyMethodList(object_getClass(class), &count);
+    //
+    //    // get method of class
+    //    Method *methods = class_copyMethodList(class, &count);
+    //
+    //    //get super class method
+    ////    class_getInstanceMethod(Class cls, SEL name)
+    ////
+    ////    class_getClassMethod(Class cls, SEL name)
+    //
+    //    // iterate over them and print out the method name
+    //    for (int i=0; i<count; i++) {
+    //        Method *method = &methods[i];
+    //        SEL selector = method_getName(*method);
+    //        WatLog(@"%@ Method: %@", @"===", NSStringFromSelector(selector));
+    //
+    //        const char *type = method_getTypeEncoding(*method);
+    //        if (type) {
+    //
+    //        }
+    //        NSString *s = [NSString stringWithFormat:@"%s",type];
+    //        s = [s stringByReplacingOccurrencesOfString:@"\"" withString:@""];
+    //        s = [s stringByReplacingOccurrencesOfString:@"@" withString:@""];
+    //
+    //        WatLog(@"%@ Method: %@", @"===", s);
+    //
+    //    }
     
+    Class currentClass = c;
+//    do {
     unsigned int methodCount = 0;
-    Method *methods = class_copyMethodList(class, &methodCount);
-    
+    Method *methods = class_copyMethodList(object_getClass(currentClass), &methodCount);
     for (int i = 0; i < methodCount; i++)
     {
         Method method = methods[i];
         SEL methodSelector = method_getName(method);
-        const char* methodName = sel_getName(methodSelector);
-        
+        NSString *methodName = [NSString stringWithFormat:@"%s",sel_getName(methodSelector)];
         const char *typeEncodings = method_getTypeEncoding(method);
         
         char returnType[80];
         method_getReturnType(method, returnType, 80);
         
-        NSLog(@"%2.2d %@ ==> %s (%s)", 0, name, methodName, (typeEncodings == Nil) ? "" : typeEncodings);
+        WTRTMethodObject *methodObject = [WTRTMethodObject methodObject];
+        methodObject.methodName = methodName;
+        [classObject.classMethods addObject:methodObject];
         
-        int ac = method_getNumberOfArguments(method);
-        int a = 0;
-        for (a = 0; a < ac; a++) {
-            char argumentType[80];
-            method_getArgumentType(method, a, argumentType, 80);
-            NSLog(@"   Argument no #%d: %s", a, argumentType);
-        }
+        NSLog(@"%2.2d class %@ ==> %@ (%s)", i, classObject.className, methodName, (typeEncodings == Nil) ? "" : typeEncodings);
+        
+        currentClass = [currentClass superclass];
+        
+        //}while ([currentClass superClass]);
+//        int ac = method_getNumberOfArguments(method);
+//        int a = 0;
+//        for (a = 0; a < ac; a++) {
+//            char argumentType[80];
+//            method_getArgumentType(method, a, argumentType, 80);
+//            NSLog(@"   Argument no #%d: %s", a, argumentType);
+//        }
     }
     
-    printf("Found %d methods on '%s'\n", methodCount, class_getName(class));
-    for(const Method* p = methods; p < methods+methodCount; p++){
-        Method const ivar = *p;
-        NSString *name = [NSString stringWithUTF8String:ivar_getName(ivar)];
-        const char *type = method_getTypeEncoding(ivar);
-        NSString *s = [NSString stringWithFormat:@"%s",type];
-        NSMethodSignature * sig = [NSMethodSignature signatureWithObjCTypes:type];
-//        printf("\t %d  %s",[sig numberOfArguments], [sig getArgumentTypeAtIndex:0]);
-    }
-    for (unsigned int i = 0; i < methodCount; i++) {
-        Method method = methods[i];
-        const char *type = method_getTypeEncoding(method);
-        printf("\t'%s' has method named '%s' of encoding '%s'\n",
-               class_getName(class),
-               sel_getName(method_getName(method)),
-               method_getTypeEncoding(method));
-        
-        /**
-         *  Or do whatever you need here...
-         */
-    }
+//    printf("Found %d methods on '%s'\n", methodCount, class_getName(class));
+//    for(const Method* p = methods; p < methods+methodCount; p++){
+//        Method const ivar = *p;
+//        NSString *name = [NSString stringWithUTF8String:ivar_getName(ivar)];
+//        const char *type = method_getTypeEncoding(ivar);
+//        NSString *s = [NSString stringWithFormat:@"%s",type];
+//        NSMethodSignature * sig = [NSMethodSignature signatureWithObjCTypes:type];
+//        //        printf("\t %d  %s",[sig numberOfArguments], [sig getArgumentTypeAtIndex:0]);
+//    }
+//    for (unsigned int i = 0; i < methodCount; i++) {
+//        Method method = methods[i];
+//        const char *type = method_getTypeEncoding(method);
+//        printf("\t'%s' has method named '%s' of encoding '%s'\n",
+//               class_getName(class),
+//               sel_getName(method_getName(method)),
+//               method_getTypeEncoding(method));
+//        
+//        /**
+//         *  Or do whatever you need here...
+//         */
+//    }
     
     free(methods);
     
@@ -321,4 +443,144 @@
     
     // verify with private method [[UIApplication sharedApplication] _methodDescription]
 }
+
+
+//Get Instance Method in Class
+- (void)getInstanceMethodInClass:(Class)c classObject:(WTRTClassObject *)classObject {
+    
+    WatLog(@"\n");
+    
+    WatLog(@"%@------- METHOD ------", @"***");
+    WatLog(@"%@--- %@ ---", @"***", classObject.className);
+    
+    
+    Class class = [c class];
+    //    unsigned int count;
+    
+    //    // get method of class
+    //    Method *methods = class_copyMethodList(class, &count);
+    //
+    //    //get super class method
+    ////    class_getInstanceMethod(Class cls, SEL name)
+    
+    
+    //    // iterate over them and print out the method name
+    //    for (int i=0; i<count; i++) {
+    //        Method *method = &methods[i];
+    //        SEL selector = method_getName(*method);
+    //        WatLog(@"%@ Method: %@", @"===", NSStringFromSelector(selector));
+    //
+    //        const char *type = method_getTypeEncoding(*method);
+    //        if (type) {
+    //
+    //        }
+    //        NSString *s = [NSString stringWithFormat:@"%s",type];
+    //        s = [s stringByReplacingOccurrencesOfString:@"\"" withString:@""];
+    //        s = [s stringByReplacingOccurrencesOfString:@"@" withString:@""];
+    //
+    //        WatLog(@"%@ Method: %@", @"===", s);
+    //
+    //    }
+    
+    Class currentClass = c;
+//    do {
+    unsigned int methodCount = 0;
+    Method *methods = class_copyMethodList(currentClass, &methodCount);
+    for (int i = 0; i < methodCount; i++)
+    {
+        Method method = methods[i];
+        SEL methodSelector = method_getName(method);
+        NSString *methodName = [NSString stringWithFormat:@"%s",sel_getName(methodSelector)];
+        const char *typeEncodings = method_getTypeEncoding(method);
+        
+        char returnType[80];
+        method_getReturnType(method, returnType, 80);
+        
+        WTRTMethodObject *methodObject = [WTRTMethodObject methodObject];
+        methodObject.methodName = methodName;
+        [classObject.instanceMethods addObject:methodObject];
+        
+        NSLog(@"%2.2d instance %@ ==> %@ (%s)", i, classObject.className, methodName, (typeEncodings == Nil) ? "" : typeEncodings);
+        
+        currentClass = [currentClass superclass];
+        
+//        int ac = method_getNumberOfArguments(method);
+//        int a = 0;
+//        for (a = 0; a < ac; a++) {
+//            char argumentType[80];
+//            method_getArgumentType(method, a, argumentType, 80);
+//            NSLog(@"   Argument no #%d: %s", a, argumentType);
+//        }
+    }
+    //    } while ([currentClass superclass]);
+    
+//    printf("Found %d methods on '%s'\n", methodCount, class_getName(class));
+//    for(const Method* p = methods; p < methods+methodCount; p++){
+//        Method const ivar = *p;
+//        NSString *name = [NSString stringWithUTF8String:ivar_getName(ivar)];
+//        const char *type = method_getTypeEncoding(ivar);
+//        NSString *s = [NSString stringWithFormat:@"%s",type];
+//        NSMethodSignature * sig = [NSMethodSignature signatureWithObjCTypes:type];
+//        //        printf("\t %d  %s",[sig numberOfArguments], [sig getArgumentTypeAtIndex:0]);
+//    }
+//    for (unsigned int i = 0; i < methodCount; i++) {
+//        Method method = methods[i];
+//        const char *type = method_getTypeEncoding(method);
+//        printf("\t'%s' has method named '%s' of encoding '%s'\n",
+//               class_getName(class),
+//               sel_getName(method_getName(method)),
+//               method_getTypeEncoding(method));
+//        
+//        /**
+//         *  Or do whatever you need here...
+//         */
+//    }
+    
+    free(methods);
+    
+    
+    
+    
+    // verify with private method [[UIApplication sharedApplication] _methodDescription]
+}
+
+- (NSArray *)propertyList {
+    Class currentClass = [self class];
+    
+    NSMutableArray *propertyList = [NSMutableArray array];
+    // class_copyPropertyList does not include properties declared in super classes
+    // so we have to follow them until we reach NSObject
+    do {
+        unsigned int outCount, i;
+        objc_property_t *properties = class_copyPropertyList(currentClass, &outCount);
+        
+        for (i = 0; i < outCount; i++) {
+            objc_property_t property = properties[i];
+            
+            NSString *propertyName = [NSString stringWithFormat:@"%s", property_getName(property)];
+            
+            [propertyList addObject:propertyName];
+        }
+        free(properties);
+        currentClass = [currentClass superclass];
+    } while ([currentClass superclass]);
+    
+    return propertyList;
+}
+
+// code from: http://stackoverflow.com/questions/1918972/camelcase-to-underscores-and-back-in-objective-c
+NSString *CamelCaseToUnderscores(NSString *input) {
+    NSMutableString *output = [NSMutableString string];
+    NSCharacterSet *uppercase = [NSCharacterSet uppercaseLetterCharacterSet];
+    for (NSInteger idx = 0; idx < [input length]; idx += 1) {
+        unichar c = [input characterAtIndex:idx];
+        if ([uppercase characterIsMember:c]) {
+            [output appendFormat:@"%s%C", (idx == 0 ? "" : "_"), (unichar)(c & ~0x20)];
+        } else {
+            [output appendFormat:@"%C", c];
+        }
+    }
+    return output;
+}
+
 @end

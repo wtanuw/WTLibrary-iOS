@@ -24,6 +24,8 @@
     
 + (NSString*)temporaryDirectoryPath;
 
++ (NSString*)desktopDirectoryPath;
+
 
 + (NSString*)resourcePath;
 
