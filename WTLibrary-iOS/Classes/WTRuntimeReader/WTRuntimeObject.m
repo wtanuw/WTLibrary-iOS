@@ -11,6 +11,21 @@
 #import <objc/runtime.h>
 #import "WTMacro.h"
 
+// code from: http://stackoverflow.com/questions/1918972/camelcase-to-underscores-and-back-in-objective-c
+NSString *CamelCaseToUnderscores(NSString *input) {
+    NSMutableString *output = [NSMutableString string];
+    NSCharacterSet *uppercase = [NSCharacterSet uppercaseLetterCharacterSet];
+    for (NSInteger idx = 0; idx < [input length]; idx += 1) {
+        unichar c = [input characterAtIndex:idx];
+        if ([uppercase characterIsMember:c]) {
+            [output appendFormat:@"%s%C", (idx == 0 ? "" : "_"), (unichar)(c & ~0x20)];
+        } else {
+            [output appendFormat:@"%C", c];
+        }
+    }
+    return output;
+}
+
 @implementation WTRuntimeObject
 
 -(instancetype)init
@@ -128,27 +143,51 @@
 }
 
 - (void)setup {
-    _applications = [NSMutableArray array];
+    _bundles = [NSMutableDictionary dictionary];
 }
 
 - (void)initialize {
-    [_applications removeAllObjects];
+    [_bundles removeAllObjects];
 }
 
-- (NSArray *)applicationsString
+- (NSDictionary *)bundlesString
 {
-    NSMutableArray *array = [NSMutableArray array];
-    for (WTRTApplicationObject *app in _applications) {
-        [array addObject:[app exportJSONString]];
+    int i = 0;
+    NSMutableDictionary *dict = [NSMutableDictionary dictionary];
+    for (WTRTBundleObject *bundle in _bundles.allValues) {
+        if (bundle.bundleName) {
+            [dict addEntriesFromDictionary:@{
+                                             bundle.bundleName: [bundle exportJSON]
+                                             }];
+        } else {
+            [dict addEntriesFromDictionary:@{
+                                             [NSString stringWithFormat:@"null-%d",i]: [bundle exportJSON]
+                                             }];
+            i++;
+        }
     }
-    return array;
+    return dict;
+}
+
+- (void)importJSON:(NSDictionary *)jsonDict
+{
+    _projectName = jsonDict[@"projectName"];
+    for (NSDictionary *dict in jsonDict[@"bundle"]) {
+        
+    }
+    _mainBundle = [WTRTBundleObject bundleObject];
+    [_mainBundle importJSON:jsonDict[@"mainBundle"]];
 }
 
 - (NSDictionary *)exportJSON
 {
     return @{
              @"projectName": _projectName,
-             @"app": [self applicationsString]
+             @"mainBundleName": _mainBundle.bundleName,
+             @"mainBundle": [_mainBundle exportJSON],
+             @"bundle": [self bundlesString]
+//             @"app": @{@"sds": @"dsds",@"sdsdsds": @"ddgdsds"},
+//             @"asfsfpp": @[@"sds", @"dsds",@"sdsdsds", @"ddgdsds"]
              };
 }
 
@@ -167,11 +206,11 @@
 
 #pragma mark -
 
-@implementation WTRTApplicationObject
+@implementation WTRTBundleObject
 
-+ (instancetype)applicationObject
++ (instancetype)bundleObject
 {
-    return [[WTRTApplicationObject alloc] init];
+    return [[WTRTBundleObject alloc] init];
 }
 
 - (instancetype)init
@@ -195,22 +234,26 @@
     [_userDefineClasses removeAllObjects];
 }
 
-- (NSArray *)userDefineClassesString
+- (NSDictionary *)userDefineClassesString
 {
-    NSMutableArray *array = [NSMutableArray array];
+    NSMutableDictionary *dict = [NSMutableDictionary dictionary];
     for (WTRTClassObject *class in _userDefineClasses) {
-        [array addObject:[class exportJSONString]];
+        [dict addEntriesFromDictionary:@{
+                                         class.className: [class exportJSON]
+                                         }];
     }
-    return array;
+    return dict;
 }
 
-- (NSArray *)classesString
+- (NSDictionary *)classesString
 {
-    NSMutableArray *array = [NSMutableArray array];
+    NSMutableDictionary *dict = [NSMutableDictionary dictionary];
     for (WTRTClassObject *class in _classes) {
-        [array addObject:[class exportJSONString]];
+        [dict addEntriesFromDictionary:@{
+                                         class.className: [class exportJSON]
+                                         }];
     }
-    return array;
+    return dict;
 }
 
 - (NSDictionary *)exportJSON
@@ -261,30 +304,47 @@
     [_instanceMethods removeAllObjects];
 }
 
-- (NSArray *)instanceMethodsString
+- (NSDictionary *)instanceMethodsString
 {
-    NSMutableArray *array = [NSMutableArray array];
+    NSMutableDictionary *dict = [NSMutableDictionary dictionary];
     for (WTRTMethodObject *method in _instanceMethods) {
-        [array addObject:[method exportJSONString]];
+        [dict addEntriesFromDictionary:@{
+                                         method.methodName: [method exportJSON]
+                                         }];
     }
-    return array;
+    return dict;
 }
 
-- (NSArray *)classMethodsString
+- (NSDictionary *)classMethodsString
 {
-    NSMutableArray *array = [NSMutableArray array];
+    NSMutableDictionary *dict = [NSMutableDictionary dictionary];
     for (WTRTMethodObject *method in _classMethods) {
-        [array addObject:[method exportJSONString]];
+        [dict addEntriesFromDictionary:@{
+                                         method.methodName: [method exportJSON]
+                                         }];
     }
-    return array;
+    return dict;
+}
+
+- (NSDictionary *)variablesString
+{
+    NSMutableDictionary *dict = [NSMutableDictionary dictionary];
+    for (WTRTVariableObject *variable in _variables) {
+        [dict addEntriesFromDictionary:@{
+                                         variable.variableName: [variable exportJSON]
+                                         }];
+    }
+    return dict;
 }
 
 - (NSDictionary *)exportJSON
 {
     return @{
              @"className": _className,
+             @"superClass": _superClassName,
              @"instanceMethods": [self instanceMethodsString],
-             @"classMethods": [self classMethodsString]
+             @"classMethods": [self classMethodsString],
+             @"variable": [self variablesString]
              };
 }
 
@@ -310,14 +370,20 @@
 }
 
 - (void)setup {
-    //    _classes = [NSMutableArray array];
-    //    _userDefineClasses = [NSMutableArray array];
     
 }
 
 - (void)initialize {
-    //    [_classes removeAllObjects];
-    //    [_userDefineClasses removeAllObjects];
+    _variableName = @"";
+    _typeName = @"";
+}
+
+- (NSDictionary *)exportJSON
+{
+    return @{
+             @"variableName": _variableName,
+             @"typeName": _typeName,
+             };
 }
 
 @end
@@ -342,14 +408,52 @@
 }
 
 - (void)setup {
-    //    _classes = [NSMutableArray array];
-    //    _userDefineClasses = [NSMutableArray array];
     
 }
 
 - (void)initialize {
-    //    [_classes removeAllObjects];
-    //    [_userDefineClasses removeAllObjects];
+}
+
+- (NSDictionary *)exportJSON
+{
+    return @{
+             @"propertyName": _propertyName,
+             };
+}
+
+@end
+
+#pragma mark -
+
+@implementation WTRTProtocolObject
+
++ (instancetype)protocolObject
+{
+    return [[WTRTProtocolObject alloc] init];
+}
+
+- (instancetype)init
+{
+    self = [super init];
+    if (self) {
+        [self setup];
+        [self initialize];
+    }
+    return self;
+}
+
+- (void)setup {
+    
+}
+
+- (void)initialize {
+}
+
+- (NSDictionary *)exportJSON
+{
+    return @{
+             @"protocolName": _protocolName,
+             };
 }
 
 @end

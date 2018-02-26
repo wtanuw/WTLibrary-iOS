@@ -8,10 +8,12 @@
 
 #import <Foundation/Foundation.h>
 
-@class WTRTApplicationObject;
+@class WTRTProjectObject;
+@class WTRTBundleObject;
 @class WTRTClassObject;
 @class WTRTVariableObject;
 @class WTRTPropertyObject;
+@class WTRTProtocolObject;
 @class WTRTMethodObject;
 
 @interface WTRuntimeObject : NSObject
@@ -24,19 +26,21 @@
 
 @interface WTRTProjectObject : WTRuntimeObject
 @property (nonatomic, strong) NSString *projectName;
-@property (nonatomic, readonly) NSMutableArray<WTRTApplicationObject *> *applications;
+@property (nonatomic, strong) WTRTBundleObject *mainBundle;
+//@property (nonatomic, readonly) NSMutableArray<WTRTBundleObject *> *bundles;
+@property (nonatomic, readonly) NSMutableDictionary<NSString *, WTRTBundleObject *> *bundles;
 + (instancetype)projectObject;
 - (NSString *)exportJSONData;
 @end
 
-@interface WTRTApplicationObject : WTRuntimeObject
+@interface WTRTBundleObject : WTRuntimeObject
 @property (nonatomic, strong) NSString *displayName;
 @property (nonatomic, strong) NSString *versionNumber;
 @property (nonatomic, strong) NSString *bundleName;
 @property (nonatomic, strong) NSString *buildNumber;
 @property (nonatomic, readonly) NSMutableArray<WTRTClassObject *> *classes;
 @property (nonatomic, readonly) NSMutableArray<WTRTClassObject *> *userDefineClasses;
-+ (instancetype)applicationObject;
++ (instancetype)bundleObject;
 @end
 
 @interface WTRTClassObject : WTRuntimeObject
@@ -59,20 +63,27 @@
 @end
 
 @interface WTRTPropertyObject : WTRuntimeObject
-@property (nonatomic, strong) NSString *PropertyName;
+@property (nonatomic, strong) NSString *propertyName;
 @property (nonatomic, strong) WTRTVariableObject *variable;
-@property (nonatomic, readonly) NSString *getter;
-@property (nonatomic, readonly) NSString *setter;
-@property (nonatomic, readonly) BOOL haveGetter;
-@property (nonatomic, readonly) BOOL haveSetter;
-@property (nonatomic, readonly) BOOL isVisible;
+//@property (nonatomic, readonly) NSString *getter;
+//@property (nonatomic, readonly) NSString *setter;
+//@property (nonatomic, readonly) BOOL haveGetter;
+//@property (nonatomic, readonly) BOOL haveSetter;
+//@property (nonatomic, readonly) BOOL isVisible;
 + (instancetype)propertyObject;
+@end
+
+@interface WTRTProtocolObject : WTRuntimeObject
+@property (nonatomic, strong) NSString *protocolName;
+//@property (nonatomic, readonly) NSArray<WTRTVariableObject *> *params;
+//@property (nonatomic, assign) BOOL isVisible;
++ (instancetype)protocolObject;
 @end
 
 @interface WTRTMethodObject : WTRuntimeObject
 @property (nonatomic, strong) NSString *methodName;
-@property (nonatomic, assign) int numberOfArgument;
-@property (nonatomic, readonly) NSArray<WTRTVariableObject *> *params;
-@property (nonatomic, assign) BOOL isVisible;
+//@property (nonatomic, assign) int numberOfArgument;
+//@property (nonatomic, readonly) NSArray<WTRTVariableObject *> *params;
+//@property (nonatomic, assign) BOOL isVisible;
 + (instancetype)methodObject;
 @end
