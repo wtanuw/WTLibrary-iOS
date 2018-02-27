@@ -18,6 +18,17 @@
 
 @interface WTRuntimeObject : NSObject
 @property (nonatomic, assign) BOOL prettyPrinted; // default is YES
+@property (nonatomic, assign) int a;
+@property (nonatomic, assign) signed int b;
+@property (nonatomic, assign) unsigned int c;
+@property (nonatomic, assign) short int d;
+@property (nonatomic, assign) long int e;
+@property (nonatomic, assign) long long int f;
+@property (nonatomic, assign) NSInteger g;
+@property (nonatomic, assign) NSUInteger h;
+@property (nonatomic, assign) float z;
+@property (nonatomic, assign) double y;
+@property (nonatomic, assign) NSUInteger x;
 - (void)importJSON:(NSDictionary *)jsonDict;
 - (NSDictionary *)exportJSON;
 - (void)importJSONString:(NSString *)jsonString;
@@ -50,6 +61,7 @@
 @property (nonatomic, readonly) NSMutableArray<NSString *> *superClass;
 @property (nonatomic, readonly) NSMutableArray<WTRTVariableObject *> *variables;
 @property (nonatomic, readonly) NSMutableArray<WTRTPropertyObject *> *properties;
+@property (nonatomic, readonly) NSMutableArray<WTRTProtocolObject *> *protocols;
 @property (nonatomic, readonly) NSMutableArray<WTRTMethodObject *> *classMethods;
 @property (nonatomic, readonly) NSMutableArray<WTRTMethodObject *> *instanceMethods;
 + (instancetype)classObject;
@@ -58,6 +70,7 @@
 @interface WTRTVariableObject : WTRuntimeObject
 @property (nonatomic, strong) NSString *variableName;
 @property (nonatomic, strong) NSString *typeName;
+@property (nonatomic, strong) NSString *typeKey;
 @property (nonatomic, strong) WTRTPropertyObject *property;
 + (instancetype)variableObject;
 @end

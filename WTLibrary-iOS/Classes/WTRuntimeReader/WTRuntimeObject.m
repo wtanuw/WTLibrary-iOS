@@ -62,18 +62,18 @@ NSString *CamelCaseToUnderscores(NSString *input) {
     NSData *jsonData = [jsonString dataUsingEncoding:NSUTF8StringEncoding];
     NSError *error = nil;
     NSMutableArray *json = [NSJSONSerialization JSONObjectWithData:jsonData options:NSJSONReadingMutableContainers error:&error];
-    NSLog(@"%@", json);
+    WatLog(@"%@", json);
     
     id jsonObject = [NSJSONSerialization JSONObjectWithData:jsonData options:NSJSONReadingMutableContainers error:&error];
     
     if ([jsonObject isKindOfClass:[NSArray class]]) {
-        NSLog(@"its an array!");
+        WatLog(@"its an array!");
         NSArray *jsonArray = (NSArray *)jsonObject;
-        NSLog(@"jsonArray - %@",jsonArray);
+        WatLog(@"jsonArray - %@",jsonArray);
     } else {
-        NSLog(@"its probably a dictionary");
+        WatLog(@"its probably a dictionary");
         NSDictionary *jsonDictionary = (NSDictionary *)jsonObject;
-        NSLog(@"jsonDictionary - %@",jsonDictionary);
+        WatLog(@"jsonDictionary - %@",jsonDictionary);
         [self importJSON:jsonDictionary];
     }
 }
@@ -172,8 +172,16 @@ NSString *CamelCaseToUnderscores(NSString *input) {
 - (void)importJSON:(NSDictionary *)jsonDict
 {
     _projectName = jsonDict[@"projectName"];
+//    NSString *mainBundleName = jsonDict[@"mainBundleName"];
     for (NSDictionary *dict in jsonDict[@"bundle"]) {
-        
+        WTRTBundleObject *bundle = [WTRTBundleObject bundleObject];
+        [bundle importJSON:dict];
+        [_bundles addEntriesFromDictionary:@{
+                                             bundle.bundleName: bundle
+           }];
+//        if ([mainBundleName isEqualToString:bundle.bundleName]) {
+//            _mainBundle = bundle;
+//        }
     }
     _mainBundle = [WTRTBundleObject bundleObject];
     [_mainBundle importJSON:jsonDict[@"mainBundle"]];
@@ -292,6 +300,7 @@ NSString *CamelCaseToUnderscores(NSString *input) {
 - (void)setup {
     _variables = [NSMutableArray array];
     _properties = [NSMutableArray array];
+    _protocols = [NSMutableArray array];
     _classMethods = [NSMutableArray array];
     _instanceMethods = [NSMutableArray array];
     
@@ -300,6 +309,7 @@ NSString *CamelCaseToUnderscores(NSString *input) {
 - (void)initialize {
     [_variables removeAllObjects];
     [_properties removeAllObjects];
+    [_protocols removeAllObjects];
     [_classMethods removeAllObjects];
     [_instanceMethods removeAllObjects];
 }
@@ -326,6 +336,28 @@ NSString *CamelCaseToUnderscores(NSString *input) {
     return dict;
 }
 
+- (NSDictionary *)propertiesString
+{
+    NSMutableDictionary *dict = [NSMutableDictionary dictionary];
+    for (WTRTPropertyObject *property in _properties) {
+        [dict addEntriesFromDictionary:@{
+                                         property.propertyName: [property exportJSON]
+                                         }];
+    }
+    return dict;
+}
+
+- (NSDictionary *)protocolsString
+{
+    NSMutableDictionary *dict = [NSMutableDictionary dictionary];
+    for (WTRTProtocolObject *protocol in _protocols) {
+        [dict addEntriesFromDictionary:@{
+                                         protocol.protocolName: [protocol exportJSON]
+                                         }];
+    }
+    return dict;
+}
+
 - (NSDictionary *)variablesString
 {
     NSMutableDictionary *dict = [NSMutableDictionary dictionary];
@@ -344,7 +376,9 @@ NSString *CamelCaseToUnderscores(NSString *input) {
              @"superClass": _superClassName,
              @"instanceMethods": [self instanceMethodsString],
              @"classMethods": [self classMethodsString],
-             @"variable": [self variablesString]
+             @"variable": [self variablesString],
+             @"properties": [self propertiesString],
+             @"protocols": [self protocolsString]
              };
 }
 
@@ -478,14 +512,10 @@ NSString *CamelCaseToUnderscores(NSString *input) {
 }
 
 - (void)setup {
-//    _classes = [NSMutableArray array];
-//    _userDefineClasses = [NSMutableArray array];
     
 }
 
 - (void)initialize {
-//    [_classes removeAllObjects];
-//    [_userDefineClasses removeAllObjects];
 }
 
 - (NSDictionary *)exportJSON
