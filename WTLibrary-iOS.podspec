@@ -181,7 +181,7 @@ end
 ##################################################
 
 s.subspec 'WTRuntime' do |subspec|
-subspec.source_files = 'WTLibrary-iOS/Classes/WTRuntimeReader/*.{h,m}'
+subspec.source_files = 'WTLibrary-iOS/Classes/WTRuntime/*.{h,m}'
 subspec.dependency 'WTLibrary-iOS/WTObjC'
 subspec.dependency 'CHCSVParser', '~> 2.1'
 subspec.dependency 'SBJson', '~> 5.0'

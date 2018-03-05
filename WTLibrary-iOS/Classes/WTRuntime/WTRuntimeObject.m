@@ -150,6 +150,28 @@ NSString *CamelCaseToUnderscores(NSString *input) {
     [_bundles removeAllObjects];
 }
 
+- (NSString *)debugDescription {
+    return [NSString stringWithFormat:@"project: %@", _projectName];
+}
+
+- (void)importJSON:(NSDictionary *)jsonDict
+{
+    _projectName = jsonDict[@"projectName"];
+//    NSString *mainBundleName = jsonDict[@"mainBundleName"];
+    for (NSDictionary *dict in [jsonDict[@"bundle"] allObjects]) {
+        WTRTBundleObject *bundle = [WTRTBundleObject bundleObject];
+        [bundle importJSON:dict];
+        [_bundles addEntriesFromDictionary:@{
+                                             bundle.bundleName: bundle
+           }];
+//        if ([mainBundleName isEqualToString:bundle.bundleName]) {
+//            _mainBundle = bundle;
+//        }
+    }
+    _mainBundle = [WTRTBundleObject bundleObject];
+    [_mainBundle importJSON:jsonDict[@"mainBundle"]];
+}
+
 - (NSDictionary *)bundlesString
 {
     int i = 0;
@@ -167,24 +189,6 @@ NSString *CamelCaseToUnderscores(NSString *input) {
         }
     }
     return dict;
-}
-
-- (void)importJSON:(NSDictionary *)jsonDict
-{
-    _projectName = jsonDict[@"projectName"];
-//    NSString *mainBundleName = jsonDict[@"mainBundleName"];
-    for (NSDictionary *dict in jsonDict[@"bundle"]) {
-        WTRTBundleObject *bundle = [WTRTBundleObject bundleObject];
-        [bundle importJSON:dict];
-        [_bundles addEntriesFromDictionary:@{
-                                             bundle.bundleName: bundle
-           }];
-//        if ([mainBundleName isEqualToString:bundle.bundleName]) {
-//            _mainBundle = bundle;
-//        }
-    }
-    _mainBundle = [WTRTBundleObject bundleObject];
-    [_mainBundle importJSON:jsonDict[@"mainBundle"]];
 }
 
 - (NSDictionary *)exportJSON
@@ -240,6 +244,24 @@ NSString *CamelCaseToUnderscores(NSString *input) {
 - (void)initialize {
     [_classes removeAllObjects];
     [_userDefineClasses removeAllObjects];
+}
+
+- (void)importJSON:(NSDictionary *)jsonDict
+{
+    _displayName = jsonDict[@"displayName"];
+    _versionNumber = jsonDict[@"versionName"];
+    _bundleName = jsonDict[@"bundleName"];
+    _buildNumber = jsonDict[@"buildNumber"];
+    for (NSDictionary *dict in [jsonDict[@"class"] allObjects]) {
+        WTRTClassObject *class = [WTRTClassObject classObject];
+        [class importJSON:dict];
+        [_classes addObject:class];
+    }
+    for (NSDictionary *dict in [jsonDict[@"userclass"] allObjects]) {
+        WTRTClassObject *class = [WTRTClassObject classObject];
+        [class importJSON:dict];
+        [_userDefineClasses addObject:class];
+    }
 }
 
 - (NSDictionary *)userDefineClassesString
@@ -314,6 +336,37 @@ NSString *CamelCaseToUnderscores(NSString *input) {
     [_instanceMethods removeAllObjects];
 }
 
+- (void)importJSON:(NSDictionary *)jsonDict
+{
+    _className = jsonDict[@"className"];
+    _superClassName = jsonDict[@"superClass"];
+    for (NSDictionary *dict in [jsonDict[@"instanceMethods"] allObjects]) {
+        WTRTMethodObject *method = [WTRTMethodObject methodObject];
+        [method importJSON:dict];
+        [_instanceMethods addObject:method];
+    }
+    for (NSDictionary *dict in [jsonDict[@"classMethods"] allObjects]) {
+        WTRTMethodObject *method = [WTRTMethodObject methodObject];
+        [method importJSON:dict];
+        [_classMethods addObject:method];
+    }
+    for (NSDictionary *dict in [jsonDict[@"variable"] allObjects]) {
+        WTRTVariableObject *variable = [WTRTVariableObject variableObject];
+        [variable importJSON:dict];
+        [_variables addObject:variable];
+    }
+    for (NSDictionary *dict in [jsonDict[@"properties"] allObjects]) {
+        WTRTPropertyObject *property = [WTRTPropertyObject propertyObject];
+        [property importJSON:dict];
+        [_properties addObject:property];
+    }
+    for (NSDictionary *dict in [jsonDict[@"protocols"] allObjects]) {
+        WTRTProtocolObject *protocol = [WTRTProtocolObject protocolObject];
+        [protocol importJSON:dict];
+        [_protocols addObject:protocol];
+    }
+}
+
 - (NSDictionary *)instanceMethodsString
 {
     NSMutableDictionary *dict = [NSMutableDictionary dictionary];
@@ -336,6 +389,17 @@ NSString *CamelCaseToUnderscores(NSString *input) {
     return dict;
 }
 
+- (NSDictionary *)variablesString
+{
+    NSMutableDictionary *dict = [NSMutableDictionary dictionary];
+    for (WTRTVariableObject *variable in _variables) {
+        [dict addEntriesFromDictionary:@{
+                                         variable.variableName: [variable exportJSON]
+                                         }];
+    }
+    return dict;
+}
+
 - (NSDictionary *)propertiesString
 {
     NSMutableDictionary *dict = [NSMutableDictionary dictionary];
@@ -353,17 +417,6 @@ NSString *CamelCaseToUnderscores(NSString *input) {
     for (WTRTProtocolObject *protocol in _protocols) {
         [dict addEntriesFromDictionary:@{
                                          protocol.protocolName: [protocol exportJSON]
-                                         }];
-    }
-    return dict;
-}
-
-- (NSDictionary *)variablesString
-{
-    NSMutableDictionary *dict = [NSMutableDictionary dictionary];
-    for (WTRTVariableObject *variable in _variables) {
-        [dict addEntriesFromDictionary:@{
-                                         variable.variableName: [variable exportJSON]
                                          }];
     }
     return dict;
@@ -412,6 +465,12 @@ NSString *CamelCaseToUnderscores(NSString *input) {
     _typeName = @"";
 }
 
+- (void)importJSON:(NSDictionary *)jsonDict
+{
+    _variableName = jsonDict[@"variableName"];
+    _typeName = jsonDict[@"typeName"];
+}
+
 - (NSDictionary *)exportJSON
 {
     return @{
@@ -446,6 +505,11 @@ NSString *CamelCaseToUnderscores(NSString *input) {
 }
 
 - (void)initialize {
+}
+
+- (void)importJSON:(NSDictionary *)jsonDict
+{
+    _propertyName = jsonDict[@"propertyName"];
 }
 
 - (NSDictionary *)exportJSON
@@ -483,6 +547,11 @@ NSString *CamelCaseToUnderscores(NSString *input) {
 - (void)initialize {
 }
 
+- (void)importJSON:(NSDictionary *)jsonDict
+{
+    _protocolName = jsonDict[@"protocolName"];
+}
+
 - (NSDictionary *)exportJSON
 {
     return @{
@@ -516,6 +585,11 @@ NSString *CamelCaseToUnderscores(NSString *input) {
 }
 
 - (void)initialize {
+}
+
+- (void)importJSON:(NSDictionary *)jsonDict
+{
+    _methodName = jsonDict[@"methodName"];
 }
 
 - (NSDictionary *)exportJSON

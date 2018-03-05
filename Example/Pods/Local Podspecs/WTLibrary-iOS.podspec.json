@@ -24,10 +24,7 @@
     {
       "name": "WTObjC",
       "source_files": "WTLibrary-iOS/Classes/WT*.{h,m}",
-      "frameworks": [
-        "UIKit",
-        "QuartzCore"
-      ]
+      "frameworks": "QuartzCore"
     },
     {
       "name": "AQGridViewHorizontal",
@@ -231,7 +228,7 @@
     },
     {
       "name": "WTRuntime",
-      "source_files": "WTLibrary-iOS/Classes/WTRuntimeReader/*.{h,m}",
+      "source_files": "WTLibrary-iOS/Classes/WTRuntime/*.{h,m}",
       "dependencies": {
         "WTLibrary-iOS/WTObjC": [
 
@@ -251,7 +248,11 @@
         "WTLibrary-iOS/WTObjC": [
 
         ]
-      }
+      },
+      "frameworks": [
+        "UIKit",
+        "QuartzCore"
+      ]
     },
     {
       "name": "WTmacOS",

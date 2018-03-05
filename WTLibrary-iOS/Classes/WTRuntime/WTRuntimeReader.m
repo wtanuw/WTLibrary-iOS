@@ -98,6 +98,7 @@
     NSString *json = [_project exportJSONString];
 //    NSData *data = [_project exportJSONData];
     NSString *desktopPath = @"/Users/imac/Desktop";
+//    NSString *desktopPath = @"/Users/wat/Desktop";
     NSString *txtFilePath = [desktopPath stringByAppendingPathComponent:@"test.json"];
     NSString *jsonFilePath = [desktopPath stringByAppendingPathComponent:@"test.txt"];
     BOOL success = [json writeToFile:jsonFilePath atomically:YES encoding:NSUTF8StringEncoding error:nil];
@@ -469,7 +470,7 @@
 //Get Class Method in Class
 - (void)getClassMethodInClass:(Class)class classObject:(WTRTClassObject *)classObject {
     
-    WatLog(@"%@\n");
+    WatLog(@"%@\n", @"***");
     WatLog(@"%@------- CLASS METHOD ------", @"***");
     WatLog(@"%@--- of class %@ ---", @"***", classObject.className);
     

@@ -47,6 +47,7 @@
 #import "WTPath.h"
 #import "WTRuntime.h"
 #import "WTRuntimeObject.h"
+#import "WTRuntimeParser.h"
 #import "WTRuntimeReader.h"
 #import "WTSNSManager.h"
 #import "WTStoreKit.h"

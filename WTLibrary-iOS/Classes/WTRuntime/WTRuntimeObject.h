@@ -29,8 +29,8 @@
 @property (nonatomic, assign) float z;
 @property (nonatomic, assign) double y;
 @property (nonatomic, assign) NSUInteger x;
-- (void)importJSON:(NSDictionary *)jsonDict;
-- (NSDictionary *)exportJSON;
+- (void)importJSON:(NSDictionary *)jsonDict; // for subclass
+- (NSDictionary *)exportJSON; // for subclass
 - (void)importJSONString:(NSString *)jsonString;
 - (NSString *)exportJSONString;
 @end
@@ -41,6 +41,7 @@
 //@property (nonatomic, readonly) NSMutableArray<WTRTBundleObject *> *bundles;
 @property (nonatomic, readonly) NSMutableDictionary<NSString *, WTRTBundleObject *> *bundles;
 + (instancetype)projectObject;
++ (WTRTProjectObject*)startParser:(NSString*)filePath;
 - (NSString *)exportJSONData;
 @end
 
