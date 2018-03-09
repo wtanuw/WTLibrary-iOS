@@ -113,8 +113,19 @@
 //    WatLog(@"%@------- Project %@(v.%@) ------", @"###", [WTBundleInfo displayName], [WTBundleInfo versionNumber]);
 //    WatLog(@"%@------- Bundle %@(build %@) ------", @"###", [WTBundleInfo bundleName], [WTBundleInfo buildNumber]);
     
+    
+    
     _project = [WTRTProjectObject projectObject];
     _project.projectName = [WTBundleInfo bundleName];
+    
+    
+#if TARGET_OS_IPHONE
+    _project.isIOS = YES;
+    _project.isMacOS = NO;
+#else
+    _project.isIOS = NO;
+    _project.isMacOS = YES;
+#endif
     
     // do something with classes
     [self getClassInProject:_project];
@@ -140,6 +151,13 @@
     for (NSInteger i = 0; i < numClasses; i++) {
         
         Class c = classes[i];
+        
+        // prevent crash
+        NSString *ccc = NSStringFromClass(c);
+        if ([ccc hasPrefix:@"WK"]) {
+            continue;
+        }
+        
         NSBundle *b = [NSBundle bundleForClass:c];
         WTBundleInfo *info = [WTBundleInfo bundleInfoWithBundle:b];
         NSString *bundleName = info.bundleName;
@@ -169,9 +187,10 @@
         if ([info.bundleName isEqualToString:[WTBundleInfo bundleName]]) {
             WatLog(@"@@@ classname: %s in bundle: %@", class_getName(c), info.bundleName);
             NSString *name = [NSString stringWithFormat:@"%s",class_getName(c)];
-            NSString *superClass = [NSString stringWithFormat:@"%@",class_getSuperclass(c)];
+            NSString *superClass = @"";
             
-            if (superClass) {
+            if (class_getSuperclass(c)) {
+                superClass = [NSString stringWithFormat:@"%@",class_getSuperclass(c)];
                 WatLog(@"@@@ name - %@ (%@)",name, superClass);
             }
             
@@ -494,7 +513,7 @@
         
         WatLog(@"%2.2d class %@ ==> %@ (%s)", i, classObject.className, methodName, (typeEncodings == Nil) ? "" : typeEncodings);
         
-        currentClass = [currentClass superclass];
+//        currentClass = [currentClass superclass];
         
     }
     //}while ([currentClass superClass]);
@@ -535,7 +554,7 @@
         
         WatLog(@"%2.2d instance %@ ==> %@ (%s)", i, classObject.className, methodName, (typeEncodings == Nil) ? "" : typeEncodings);
         
-        currentClass = [currentClass superclass];
+//        currentClass = [currentClass superclass];
         
     }
     //} while ([currentClass superclass]);

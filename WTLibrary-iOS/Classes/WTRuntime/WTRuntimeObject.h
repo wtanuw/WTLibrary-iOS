@@ -37,8 +37,9 @@
 
 @interface WTRTProjectObject : WTRuntimeObject
 @property (nonatomic, strong) NSString *projectName;
+@property (nonatomic, assign) BOOL isIOS;
+@property (nonatomic, assign) BOOL isMacOS;
 @property (nonatomic, strong) WTRTBundleObject *mainBundle;
-//@property (nonatomic, readonly) NSMutableArray<WTRTBundleObject *> *bundles;
 @property (nonatomic, readonly) NSMutableDictionary<NSString *, WTRTBundleObject *> *bundles;
 + (instancetype)projectObject;
 + (WTRTProjectObject*)startParser:(NSString*)filePath;

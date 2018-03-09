@@ -157,6 +157,8 @@ NSString *CamelCaseToUnderscores(NSString *input) {
 - (void)importJSON:(NSDictionary *)jsonDict
 {
     _projectName = jsonDict[@"projectName"];
+    _isIOS = [jsonDict[@"isIOS"] boolValue];
+    _isMacOS = [jsonDict[@"isMacOS"] boolValue];
 //    NSString *mainBundleName = jsonDict[@"mainBundleName"];
     for (NSDictionary *dict in [jsonDict[@"bundle"] allObjects]) {
         WTRTBundleObject *bundle = [WTRTBundleObject bundleObject];
@@ -194,6 +196,9 @@ NSString *CamelCaseToUnderscores(NSString *input) {
 - (NSDictionary *)exportJSON
 {
     return @{
+             @"projectName": _projectName,
+             @"isIOS": [NSNumber numberWithBool:_isIOS],
+             @"isMacOS": [NSNumber numberWithBool:_isMacOS],
              @"projectName": _projectName,
              @"mainBundleName": _mainBundle.bundleName,
              @"mainBundle": [_mainBundle exportJSON],
