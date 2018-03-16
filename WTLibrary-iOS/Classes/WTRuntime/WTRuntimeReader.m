@@ -158,7 +158,7 @@
             continue;
         }
         
-        NSBundle *b = [NSBundle bundleForClass:c];
+        NSBundle *b = [NSBundle bundleForClass:[c class]];
         WTBundleInfo *info = [WTBundleInfo bundleInfoWithBundle:b];
         NSString *bundleName = info.bundleName;
         
@@ -197,8 +197,12 @@
             WTRTClassObject *class = [WTRTClassObject classObject];
             class.className = name;
             class.superClassName = superClass;
-            [class.superClass addObject:superClass];
-            [bundle.classes addObject:class];
+            [class.superClass addEntriesFromDictionary:@{
+                                                         superClass: superClass
+                                                         }];
+            [bundle.classes addEntriesFromDictionary:@{
+                                                       class.className: class
+                                                       }];
             
             if(![superClass isEqualToString:@"(null)"]){
                 
@@ -249,7 +253,9 @@
         variable.variableName = variableName;
         variable.typeName = typeName;
         variable.typeKey = s;
-        [classObject.variables addObject:variable];
+        [classObject.variables addEntriesFromDictionary:@{
+                                                          variable.variableName: variable
+                                                          }];
         
         WatLog(@"%2.2d variable %@ ==> %@ ", i, classObject.className, variableName);i++;
         
@@ -326,7 +332,9 @@
         WTRTPropertyObject *property = [WTRTPropertyObject propertyObject];
         property.propertyName = propertyName;
 //        variable.typeName = typeName;
-        [classObject.properties addObject:property];
+        [classObject.properties addEntriesFromDictionary:@{
+                                                           property.propertyName: property
+                                                           }];
     }
     
 }
@@ -351,7 +359,9 @@
         
         WTRTProtocolObject *protocol = [WTRTProtocolObject protocolObject];
         protocol.protocolName = protocolName;
-        [classObject.protocols addObject:protocol];
+        [classObject.protocols addEntriesFromDictionary:@{
+                                                          protocol.protocolName: protocol
+                                                          }];
         
         [self getInstanceMethodInProtocol:ptc protocolObject:protocol];
     }
@@ -509,7 +519,9 @@
         
         WTRTMethodObject *methodObject = [WTRTMethodObject methodObject];
         methodObject.methodName = methodName;
-        [classObject.classMethods addObject:methodObject];
+        [classObject.classMethods addEntriesFromDictionary:@{
+                                                             methodObject.methodName: methodObject
+                                                             }];
         
         WatLog(@"%2.2d class %@ ==> %@ (%s)", i, classObject.className, methodName, (typeEncodings == Nil) ? "" : typeEncodings);
         
@@ -550,7 +562,9 @@
         
         WTRTMethodObject *methodObject = [WTRTMethodObject methodObject];
         methodObject.methodName = methodName;
-        [classObject.instanceMethods addObject:methodObject];
+        [classObject.instanceMethods addEntriesFromDictionary:@{
+                                                                methodObject.methodName: methodObject
+                                                                }];
         
         WatLog(@"%2.2d instance %@ ==> %@ (%s)", i, classObject.className, methodName, (typeEncodings == Nil) ? "" : typeEncodings);
         

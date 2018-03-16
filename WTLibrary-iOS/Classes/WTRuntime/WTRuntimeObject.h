@@ -51,8 +51,8 @@
 @property (nonatomic, strong) NSString *versionNumber;
 @property (nonatomic, strong) NSString *bundleName;
 @property (nonatomic, strong) NSString *buildNumber;
-@property (nonatomic, readonly) NSMutableArray<WTRTClassObject *> *classes;
-@property (nonatomic, readonly) NSMutableArray<WTRTClassObject *> *userDefineClasses;
+@property (nonatomic, readonly) NSMutableDictionary<NSString *, WTRTClassObject *> *classes;
+@property (nonatomic, readonly) NSMutableDictionary<NSString *, WTRTClassObject *> *userDefineClasses;
 + (instancetype)bundleObject;
 @end
 
@@ -60,12 +60,12 @@
 @property (nonatomic, strong) NSString *className;
 @property (nonatomic, strong) NSString *superClassName;
 @property (nonatomic, strong) NSString *bundleName;
-@property (nonatomic, readonly) NSMutableArray<NSString *> *superClass;
-@property (nonatomic, readonly) NSMutableArray<WTRTVariableObject *> *variables;
-@property (nonatomic, readonly) NSMutableArray<WTRTPropertyObject *> *properties;
-@property (nonatomic, readonly) NSMutableArray<WTRTProtocolObject *> *protocols;
-@property (nonatomic, readonly) NSMutableArray<WTRTMethodObject *> *classMethods;
-@property (nonatomic, readonly) NSMutableArray<WTRTMethodObject *> *instanceMethods;
+@property (nonatomic, readonly) NSMutableDictionary<NSString *, NSString *> *superClass;
+@property (nonatomic, readonly) NSMutableDictionary<NSString *, WTRTVariableObject *> *variables;
+@property (nonatomic, readonly) NSMutableDictionary<NSString *, WTRTPropertyObject *> *properties;
+@property (nonatomic, readonly) NSMutableDictionary<NSString *, WTRTProtocolObject *> *protocols;
+@property (nonatomic, readonly) NSMutableDictionary<NSString *, WTRTMethodObject *> *classMethods;
+@property (nonatomic, readonly) NSMutableDictionary<NSString *, WTRTMethodObject *> *instanceMethods;
 + (instancetype)classObject;
 @end
 
