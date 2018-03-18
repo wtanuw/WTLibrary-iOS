@@ -96,9 +96,18 @@
 - (void)exportToFile:(NSString*)fileName
 {
     NSString *json = [_project exportJSONString];
-//    NSData *data = [_project exportJSONData];
-    NSString *desktopPath = @"/Users/imac/Desktop";
+    //    NSData *data = [_project exportJSONData];
+    
+    NSString *tmpPath =  [WTPath desktopDirectoryPath];
+    NSArray *filePathComponent =  [tmpPath componentsSeparatedByString:@"/"];
+    
+    NSString *desktopPath = @"/Users/";
+//    NSString *desktopPath = @"/Users/imac/Desktop";
 //    NSString *desktopPath = @"/Users/wat/Desktop";
+    if ([filePathComponent count] > 2) {
+        desktopPath = [NSString stringWithFormat:@"/Users/%@/Desktop", filePathComponent[2]];
+    }
+    
     NSString *txtFilePath = [desktopPath stringByAppendingPathComponent:@"test.json"];
     NSString *jsonFilePath = [desktopPath stringByAppendingPathComponent:@"test.txt"];
     BOOL success = [json writeToFile:jsonFilePath atomically:YES encoding:NSUTF8StringEncoding error:nil];
@@ -154,7 +163,13 @@
         
         // prevent crash
         NSString *ccc = NSStringFromClass(c);
-        if ([ccc hasPrefix:@"WK"]) {
+        if ([ccc hasPrefix:@"WK"]
+            || [ccc hasPrefix:@"NSLeaf"]
+            || [ccc hasPrefix:@"__NSGenericDeallocHandler"]
+            || [ccc hasPrefix:@"_NSZombie_"]
+            || [ccc hasPrefix:@"__NSMessageBuilder"]
+            || [ccc hasPrefix:@"__NSAtom"]
+            ) {
             continue;
         }
         

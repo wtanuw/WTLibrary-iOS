@@ -142,6 +142,17 @@ NSString *CamelCaseToUnderscores(NSString *input) {
     return [[WTRTProjectObject alloc] init];
 }
 
+-(instancetype)init
+{
+    self = [super init];
+    if (self) {
+    }
+    [self setup];
+    [self initialize];
+    return self;
+}
+
+
 - (void)setup {
     _bundles = [NSMutableDictionary dictionary];
 }
