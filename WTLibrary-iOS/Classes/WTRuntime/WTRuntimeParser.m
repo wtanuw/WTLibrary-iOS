@@ -80,6 +80,7 @@
     
     _project = [WTRTProjectObject projectObject];
     [_project importJSONString:string];
+    _project.json = string;
     
 }
 

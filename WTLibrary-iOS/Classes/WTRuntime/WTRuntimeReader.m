@@ -116,14 +116,10 @@
     WatLog(@"%@",WTBOOL(success));
 }
 
+
 - (void)readProject {
     
-    WatLog(@"\n");
-//    WatLog(@"%@------- Project %@(v.%@) ------", @"###", [WTBundleInfo displayName], [WTBundleInfo versionNumber]);
-//    WatLog(@"%@------- Bundle %@(build %@) ------", @"###", [WTBundleInfo bundleName], [WTBundleInfo buildNumber]);
-    
-    
-    
+    WatLog(@"\n");    
     _project = [WTRTProjectObject projectObject];
     _project.projectName = [WTBundleInfo bundleName];
     
@@ -139,6 +135,22 @@
     // do something with classes
     [self getClassInProject:_project];
     
+}
+
+- (BOOL)checkIgnoreList:(NSString*)classString
+{
+    
+    if (
+        [classString hasPrefix:@"WK"]
+        || [classString hasPrefix:@"NSLeaf"]
+        || [classString hasPrefix:@"__NSGenericDeallocHandler"]
+        || [classString hasPrefix:@"_NSZombie_"]
+        || [classString hasPrefix:@"__NSMessageBuilder"]
+        || [classString hasPrefix:@"__NSAtom"]
+        ) {
+        return YES;
+    }
+    return NO;
 }
 
 - (void)getClassInProject:(WTRTProjectObject *)project {
@@ -163,13 +175,7 @@
         
         // prevent crash
         NSString *ccc = NSStringFromClass(c);
-        if ([ccc hasPrefix:@"WK"]
-            || [ccc hasPrefix:@"NSLeaf"]
-            || [ccc hasPrefix:@"__NSGenericDeallocHandler"]
-            || [ccc hasPrefix:@"_NSZombie_"]
-            || [ccc hasPrefix:@"__NSMessageBuilder"]
-            || [ccc hasPrefix:@"__NSAtom"]
-            ) {
+        if ([self checkIgnoreList:ccc]) {
             continue;
         }
         

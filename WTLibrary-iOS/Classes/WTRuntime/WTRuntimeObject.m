@@ -159,6 +159,7 @@ NSString *CamelCaseToUnderscores(NSString *input) {
 
 - (void)initialize {
     [_bundles removeAllObjects];
+    _json = nil;
 }
 
 - (NSString *)debugDescription {
@@ -230,6 +231,7 @@ NSString *CamelCaseToUnderscores(NSString *input) {
     
     return jsonData;
 }
+
 @end
 
 #pragma mark -
@@ -375,19 +377,19 @@ NSString *CamelCaseToUnderscores(NSString *input) {
     for (NSDictionary *dict in [jsonDict[@"variable"] allObjects]) {
         WTRTVariableObject *variable = [WTRTVariableObject variableObject];
         [variable importJSON:dict];
-        [_classMethods addEntriesFromDictionary:@{
+        [_variables addEntriesFromDictionary:@{
                                                   variable.variableName: variable}];
     }
     for (NSDictionary *dict in [jsonDict[@"properties"] allObjects]) {
         WTRTPropertyObject *property = [WTRTPropertyObject propertyObject];
         [property importJSON:dict];
-        [_classMethods addEntriesFromDictionary:@{
+        [_properties addEntriesFromDictionary:@{
                                                   property.propertyName: property}];
     }
     for (NSDictionary *dict in [jsonDict[@"protocols"] allObjects]) {
         WTRTProtocolObject *protocol = [WTRTProtocolObject protocolObject];
         [protocol importJSON:dict];
-        [_classMethods addEntriesFromDictionary:@{
+        [_protocols addEntriesFromDictionary:@{
                                                   protocol.protocolName: protocol}];
     }
 }

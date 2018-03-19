@@ -41,6 +41,7 @@
 @property (nonatomic, assign) BOOL isMacOS;
 @property (nonatomic, strong) WTRTBundleObject *mainBundle;
 @property (nonatomic, readonly) NSMutableDictionary<NSString *, WTRTBundleObject *> *bundles;
+@property (nonatomic, strong) NSString *json;
 + (instancetype)projectObject;
 + (WTRTProjectObject*)startParser:(NSString*)filePath;
 - (NSString *)exportJSONData;

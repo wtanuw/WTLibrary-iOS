@@ -30,6 +30,11 @@
  
  
  */
+
+#import "WTRuntimeObject.h"
+#import "WTRuntimeParser.h"
+#import "WTRuntimeReader.h"
+
 @interface WTRuntime : NSObject
 
 @end
