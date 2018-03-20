@@ -50,6 +50,7 @@
 
 @interface WTRuntimeReader()
 
+@property (nonatomic, strong) NSArray *prefixIgnoreList;
 @property (nonatomic, strong) NSMutableDictionary *dict;
 @property (nonatomic, strong) WTRTProjectObject *project;
 
@@ -77,6 +78,13 @@
 
 - (void)setup {
     _dict = [NSMutableDictionary dictionary];
+    _prefixIgnoreList = @[
+                   @"WK", @"NSLeaf", @"__NSGenericDeallocHandler",
+                   @"_NSZombie_", @"__NSMessageBuilder", @"__NSAtom",
+                   @"_CNZombie_",
+                   @"JSExport",
+                   @"__ARCLite__"
+                   ];
     
 }
 
@@ -90,13 +98,12 @@
 
 - (void)startReader {
     [self readProject];
-    [self exportToFile:nil];
+    [self exportToFile:_project.projectName];
 }
 
 - (void)exportToFile:(NSString*)fileName
 {
     NSString *json = [_project exportJSONString];
-    //    NSData *data = [_project exportJSONData];
     
     NSString *tmpPath =  [WTPath desktopDirectoryPath];
     NSArray *filePathComponent =  [tmpPath componentsSeparatedByString:@"/"];
@@ -108,8 +115,8 @@
         desktopPath = [NSString stringWithFormat:@"/Users/%@/Desktop", filePathComponent[2]];
     }
     
-    NSString *txtFilePath = [desktopPath stringByAppendingPathComponent:@"test.json"];
-    NSString *jsonFilePath = [desktopPath stringByAppendingPathComponent:@"test.txt"];
+    NSString *txtFilePath = [desktopPath stringByAppendingPathComponent:[fileName stringByAppendingPathExtension:@"json"]];
+    NSString *jsonFilePath = [desktopPath stringByAppendingPathComponent:[fileName stringByAppendingPathExtension:@"txt"]];
     BOOL success = [json writeToFile:jsonFilePath atomically:YES encoding:NSUTF8StringEncoding error:nil];
     WatLog(@"%@",WTBOOL(success));
     success = [json writeToFile:txtFilePath atomically:YES encoding:NSUTF8StringEncoding error:nil];
@@ -139,18 +146,13 @@
 
 - (BOOL)checkIgnoreList:(NSString*)classString
 {
-    
-    if (
-        [classString hasPrefix:@"WK"]
-        || [classString hasPrefix:@"NSLeaf"]
-        || [classString hasPrefix:@"__NSGenericDeallocHandler"]
-        || [classString hasPrefix:@"_NSZombie_"]
-        || [classString hasPrefix:@"__NSMessageBuilder"]
-        || [classString hasPrefix:@"__NSAtom"]
-        ) {
-        return YES;
+    BOOL shouldIgnore = NO;
+    for (NSString *prefix in _prefixIgnoreList) {
+        if ([classString hasPrefix:prefix]) {
+            shouldIgnore = YES;
+        }
     }
-    return NO;
+    return shouldIgnore;
 }
 
 - (void)getClassInProject:(WTRTProjectObject *)project {
@@ -215,6 +217,16 @@
                 WatLog(@"@@@ name - %@ (%@)",name, superClass);
             }
             
+            if ([name isEqualToString:@"TestObject8"]
+                || [name isEqualToString:@"TestObject7"]
+//                || [name isEqualToString:@"Person"]
+//                || [name isEqualToString:@"Ship"]
+//                || [name isEqualToString:@"Ship2"]
+                ) {
+                WatLog(@"stop");
+            }
+            
+            
             WTRTClassObject *class = [WTRTClassObject classObject];
             class.className = name;
             class.superClassName = superClass;
@@ -262,65 +274,76 @@
     {
         Ivar const ivar = *p;
         NSString *variableName = [NSString stringWithUTF8String:ivar_getName(ivar)];
-        const char *type = ivar_getTypeEncoding(ivar);
-        NSString *typeString;
-        
-        NSString *s = [NSString stringWithFormat:@"%s",type];
-        s = [s stringByReplacingOccurrencesOfString:@"\"" withString:@""];
-        s = [s stringByReplacingOccurrencesOfString:@"@" withString:@""];
-        NSString *typeName = s;
         
         WTRTVariableObject *variable = [WTRTVariableObject variableObject];
         variable.variableName = variableName;
-        variable.typeName = typeName;
-        variable.typeKey = s;
         [classObject.variables addEntriesFromDictionary:@{
                                                           variable.variableName: variable
                                                           }];
         
         WatLog(@"%2.2d variable %@ ==> %@ ", i, classObject.className, variableName);i++;
         
-//        switch (type[0]) {
-//            case 'c':
-//                typeString = @"c";//return [NSNumber numberWithChar:(char)ivar->value];
-//            case 'i':
-//                typeString = @"i";//return [NSNumber numberWithInt:(int)ivar.value];
-//            case 's':
-//                typeString = @"s";//return [NSNumber numberWithShort:(short)ivar.value];
-//            case 'l':
-//                typeString = @"l";//return [NSNumber numberWithLong:(long)ivar.value];
-//            case 'q':
-//                typeString = @"q";//return [NSNumber numberWithLongLong:(long long)ivar.value];
-//            case 'C':
-//                typeString = @"C";// return [NSNumber numberWithUnsignedChar:(unsigned char)ivar.value];
-//            case 'I':
-//                typeString = @"I";//return [NSNumber numberWithUnsignedInt:(unsigned int)ivar.value];
-//            case 'S':
-//                typeString = @"S";//return [NSNumber numberWithUnsignedShort:(unsigned short)ivar.value];
-//            case 'L':
-//                typeString = @"L";//return [NSNumber numberWithUnsignedLong:(unsigned long)ivar.value];
-//            case 'Q':
-//                typeString = @"Q";//return [NSNumber numberWithUnsignedLongLong:(unsigned long long)ivar.value];
-//            case 'f':
-//                typeString = @"f";//return [NSNumber numberWithFloat:ivar.f];
-//            case 'd':
-//                typeString = @"d";//return [NSNumber numberWithDouble:ivar.d];
-//            case '*':
-//                typeString = @"*";//return [NSString stringWithUTF8String:(const char *)ivar.value];
-//            case '@':
-//            case '#':
-//                typeString = @"#";//return (id)ivar.value;
-//            case ':':
-//                typeString = @":";//return NSStringFromSelector((SEL)ivar.value);
-//            default:
-//                typeString = @"default";//return [NSValue valueWithBytes:&ivar.value objCType:type];
-//        }
-//        
-//        //        NSLog(@"name - %@",name);
-//        name = [name stringByAppendingString:[NSString stringWithFormat:@" - %@",s]];
-//        
-//        NSLog(@"Variable: %@",name);
+        const char *type = ivar_getTypeEncoding(ivar);
+        NSString *typeString;
         
+        NSString *s = [NSString stringWithFormat:@"%s",type];
+        s = [s stringByReplacingOccurrencesOfString:@"\"" withString:@""];
+        s = [s stringByReplacingOccurrencesOfString:@"@" withString:@""];
+        
+        switch (type[0]) {
+            case 'c':
+                typeString = @"char";
+                break;
+            case 'i':
+                typeString = @"int";
+                break;
+            case 's':
+                typeString = @"short";
+                break;
+            case 'l':
+                typeString = @"long";
+                break;
+            case 'q':
+                typeString = @"long long";
+                break;
+            case 'C':
+                typeString = @"unsigned char";
+                break;
+            case 'I':
+                typeString = @"unsigned int";
+                break;
+            case 'S':
+                typeString = @"unsigned short";
+                break;
+            case 'L':
+                typeString = @"unsigned long";
+                break;
+            case 'Q':
+                typeString = @"unsigned long long";
+                break;
+            case 'f':
+                typeString = @"float";
+                break;
+            case 'd':
+                typeString = @"double";
+                break;
+            case '*':
+                typeString = @"string";
+                break;
+            case '@':
+            case '#':
+                typeString = s;
+                break;
+            case ':':
+                typeString = @"selector";
+                break;
+            default:
+                typeString = @"default";
+                break;
+        }
+        
+        variable.type = s;
+        variable.typeName  = typeString;
     }
     
     free(ivars);
@@ -353,12 +376,96 @@
         WTRTPropertyObject *property = [WTRTPropertyObject propertyObject];
         property.propertyName = propertyName;
 //        variable.typeName = typeName;
+        
+        unsigned int numOfAttributes = 0;
+        objc_property_attribute_t *propertyAttributes = property_copyAttributeList(propertyt, &numOfAttributes);
+        for ( unsigned int ai = 0; ai < numOfAttributes; ai++ ) {
+            const char *name = propertyAttributes[ai].name;
+            const char *value = propertyAttributes[ai].value;
+            switch (name[0]) {
+                case 'V':
+                    property.variableName = [self removeQuoteString:value];;
+                    property.haveVariable = YES;
+                    break;
+                case 'T': // type
+                    property.type = [self removeQuoteString:value];
+                    break;
+                case 'R': // readonly : The property is read-only (readonly).
+                    property.readOnly = YES;
+                    break;
+                case 'C': // copy : The property is a copy of the value last assigned (copy).
+                    property.copy = YES;
+                    break;
+                case '&': // retain : The property is a reference to the value last assigned (retain).
+                    property.strong = YES;
+                    break;
+                case 'N': // nonatomic : The property is non-atomic (nonatomic).
+                    break;
+                case 'G': // custom getter : The property defines a custom getter selector name. The name follows the G (for example, GcustomGetter,).
+                    property.haveCustomGetter = YES;
+                    property.customGetterName = [self removeQuoteString:value];
+                    break;
+                case 'S': // custom setter : The property defines a custom setter selector name. The name follows the S (for example, ScustomSetter:,).
+                    property.haveCustomSetter = YES;
+                    property.customSetterName = [self removeQuoteString:value];
+                    break;
+                case 'D': // dynamic : The property is dynamic (@dynamic).
+                    break;
+                case 'W': // : The property is a weak reference (__weak).
+                    property.weak = YES;
+                    break;
+                case 'P': // : The property is eligible for garbage collection.
+                    break;
+                case 't': // : Specifies the type using old-style encoding.
+                    break;
+                default:
+                    break;
+            }
+        }
+        free(propertyAttributes);
+    
         [classObject.properties addEntriesFromDictionary:@{
                                                            property.propertyName: property
                                                            }];
     }
-    
+    free(propertys);
 }
+
+//https://stackoverflow.com/questions/9252147/objective-c-looping-through-all-properties-in-a-class
+//https://developer.apple.com/library/content/documentation/Cocoa/Conceptual/ObjCRuntimeGuide/Articles/ocrtPropertyIntrospection.html
+//- (void)propertyTypeForClass {
+//    unsigned int numOfProperties;
+//    objc_property_t *properties = class_copyPropertyList([self class], &numOfProperties);
+//    for ( unsigned int pi = 0; pi < numOfProperties; pi++ ) {
+//        // Examine the property attributes
+//        unsigned int numOfAttributes;
+//        objc_property_attribute_t *propertyAttributes = property_copyAttributeList(properties[pi], &numOfAttributes);
+//        for ( unsigned int ai = 0; ai < numOfAttributes; ai++ ) {
+//            switch (propertyAttributes[ai].name[0]) {
+//                case 'T': // type
+//                    break;
+//                case 'R': // readonly
+//                    break;
+//                case 'C': // copy
+//                    break;
+//                case '&': // retain
+//                    break;
+//                case 'N': // nonatomic
+//                    break;
+//                case 'G': // custom getter
+//                    break;
+//                case 'S': // custom setter
+//                    break;
+//                case 'D': // dynamic
+//                    break;
+//                default:
+//                    break;
+//            }
+//        }
+//        free(propertyAttributes);
+//    }
+//    free(properties);
+//}
 
 - (void)getProtocolInClass:(Class)class classObject:(WTRTClassObject *)classObject {
 
@@ -686,5 +793,12 @@
     return propertyList;
 }
 
+- (NSString*)removeQuoteString:(const char *)value
+{
+    NSString *s = [NSString stringWithFormat:@"%s",value];
+    s = [s stringByReplacingOccurrencesOfString:@"\"" withString:@""];
+    s = [s stringByReplacingOccurrencesOfString:@"@" withString:@""];
+    return s;
+}
 
 @end

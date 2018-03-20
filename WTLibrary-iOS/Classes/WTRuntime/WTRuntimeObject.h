@@ -72,20 +72,28 @@
 
 @interface WTRTVariableObject : WTRuntimeObject
 @property (nonatomic, strong) NSString *variableName;
+@property (nonatomic, strong) NSString *type;
 @property (nonatomic, strong) NSString *typeName;
-@property (nonatomic, strong) NSString *typeKey;
-@property (nonatomic, strong) WTRTPropertyObject *property;
+//@property (nonatomic, strong) WTRTPropertyObject *property;
 + (instancetype)variableObject;
 @end
 
 @interface WTRTPropertyObject : WTRuntimeObject
 @property (nonatomic, strong) NSString *propertyName;
-@property (nonatomic, strong) WTRTVariableObject *variable;
-//@property (nonatomic, readonly) NSString *getter;
-//@property (nonatomic, readonly) NSString *setter;
-//@property (nonatomic, readonly) BOOL haveGetter;
-//@property (nonatomic, readonly) BOOL haveSetter;
+@property (nonatomic, strong) NSString *type;
+@property (nonatomic, strong) NSString *typeName;
+@property (nonatomic, assign) BOOL haveCustomGetter;
+@property (nonatomic, strong) NSString *customGetterName;
+@property (nonatomic, assign) BOOL haveCustomSetter;
+@property (nonatomic, strong) NSString *customSetterName;
+@property (nonatomic, assign) BOOL haveVariable;
+@property (nonatomic, strong) NSString *variableName;
+@property (nonatomic, assign) BOOL readOnly;
+@property (nonatomic, assign) BOOL strong;
+@property (nonatomic, assign) BOOL weak;
+@property (nonatomic, assign) BOOL copy;
 //@property (nonatomic, readonly) BOOL isVisible;
+//@property (nonatomic, strong) WTRTVariableObject *variable;
 + (instancetype)propertyObject;
 @end
 

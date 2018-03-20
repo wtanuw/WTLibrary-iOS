@@ -489,12 +489,14 @@ NSString *CamelCaseToUnderscores(NSString *input) {
 
 - (void)initialize {
     _variableName = @"";
+    _type = @"";
     _typeName = @"";
 }
 
 - (void)importJSON:(NSDictionary *)jsonDict
 {
     _variableName = jsonDict[@"variableName"];
+    _type = jsonDict[@"type"];
     _typeName = jsonDict[@"typeName"];
 }
 
@@ -502,6 +504,7 @@ NSString *CamelCaseToUnderscores(NSString *input) {
 {
     return @{
              @"variableName": _variableName,
+             @"type": _type,
              @"typeName": _typeName,
              };
 }
@@ -532,17 +535,54 @@ NSString *CamelCaseToUnderscores(NSString *input) {
 }
 
 - (void)initialize {
+    _propertyName = @"";
+    _type = @"";
+    _typeName = @"";
+    _variableName = @"";
+    _customGetterName = @"";
+    _customSetterName = @"";
+    _haveVariable = NO;
+    _haveCustomGetter = NO;
+    _haveCustomSetter = NO;
+    _readOnly = NO;
+    _strong = NO;
+    _weak = NO;
+    _copy = NO;
 }
 
 - (void)importJSON:(NSDictionary *)jsonDict
 {
     _propertyName = jsonDict[@"propertyName"];
+    _type = jsonDict[@"type"];
+    _typeName = jsonDict[@"typeName"];
+    _variableName = jsonDict[@"variableName"];
+    _customGetterName = jsonDict[@"customGetterName"];
+    _customSetterName = jsonDict[@"customSetterName"];
+    _haveVariable = [jsonDict[@"haveVariable"] boolValue];
+    _haveCustomGetter = [jsonDict[@"haveCustomGetter"] boolValue];
+    _haveCustomSetter = [jsonDict[@"haveCustomSetter"] boolValue];
+    _readOnly = [jsonDict[@"readOnly"] boolValue];
+    _strong = [jsonDict[@"strong"] boolValue];
+    _weak = [jsonDict[@"weak"] boolValue];
+    _copy = [jsonDict[@"copy"] boolValue];
 }
 
 - (NSDictionary *)exportJSON
 {
     return @{
              @"propertyName": _propertyName,
+             @"type": _type,
+             @"typeName": _typeName,
+             @"haveVariable": [NSNumber numberWithBool:_haveVariable],
+             @"variableName": _variableName,
+             @"haveCustomGetter": [NSNumber numberWithBool:_haveCustomGetter],
+             @"customGetterName": _customGetterName,
+             @"haveCustomSetter": [NSNumber numberWithBool:_haveCustomSetter],
+             @"customSetterName": _customSetterName,
+             @"readOnly": [NSNumber numberWithBool:_readOnly],
+             @"strong": [NSNumber numberWithBool:_strong],
+             @"weak": [NSNumber numberWithBool:_weak],
+             @"copy": [NSNumber numberWithBool:_copy],
              };
 }
 
