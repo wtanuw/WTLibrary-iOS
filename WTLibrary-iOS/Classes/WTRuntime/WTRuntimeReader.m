@@ -228,13 +228,13 @@
             
             
             WTRTClassObject *class = [WTRTClassObject classObject];
-            class.className = name;
+            class.currentClassName = name;
             class.superClassName = superClass;
             [class.superClass addEntriesFromDictionary:@{
                                                          superClass: superClass
                                                          }];
             [bundle.classes addEntriesFromDictionary:@{
-                                                       class.className: class
+                                                       class.currentClassName: class
                                                        }];
             
             if(![superClass isEqualToString:@"(null)"]){
@@ -252,6 +252,38 @@
                 
             }
 
+        } else {
+            WatLog(@"@@@ classname: %s in bundle: %@", class_getName(c), info.bundleName);
+            NSString *name = [NSString stringWithFormat:@"%s",class_getName(c)];
+            NSString *superClass = @"";
+            
+            if (class_getSuperclass(c)) {
+                superClass = [NSString stringWithFormat:@"%@",class_getSuperclass(c)];
+                WatLog(@"@@@ name - %@ (%@)",name, superClass);
+            }
+            
+            WTRTClassObject *class = [WTRTClassObject classObject];
+            class.currentClassName = name;
+            class.superClassName = superClass;
+            [class.superClass addEntriesFromDictionary:@{
+                                                         superClass: superClass
+                                                         }];
+            [bundle.classes addEntriesFromDictionary:@{
+                                                       class.currentClassName: class
+                                                       }];
+            
+            if(![superClass isEqualToString:@"(null)"]){
+                
+//                [self getClassMethodInClass:c classObject:class];
+//                [self getInstanceMethodInClass:c classObject:class];
+//                [self getVariableInClass:c classObject:class];
+//                [self getPropertyInClass:c classObject:class];
+//                [self getProtocolInClass:c classObject:class];
+                
+            } else {
+                
+            }
+
         }
     }
     free(classes);
@@ -263,7 +295,7 @@
     
     WatLog(@"\n");
     WatLog(@"%@------- VARIABLE ------", @"***");
-    WatLog(@"%@--- of class %@ ---", @"***", classObject.className);
+    WatLog(@"%@--- of class %@ ---", @"***", classObject.currentClassName);
     
     Class currentClass = class;
     
@@ -281,7 +313,7 @@
                                                           variable.variableName: variable
                                                           }];
         
-        WatLog(@"%2.2d variable %@ ==> %@ ", i, classObject.className, variableName);i++;
+        WatLog(@"%2.2d variable %@ ==> %@ ", i, classObject.currentClassName, variableName);i++;
         
         const char *type = ivar_getTypeEncoding(ivar);
         NSString *typeString;
@@ -354,7 +386,7 @@
     
     WatLog(@"\n");
     WatLog(@"%@------- PROPERTY ------", @"***");
-    WatLog(@"%@--- of class %@ ---", @"***", classObject.className);
+    WatLog(@"%@--- of class %@ ---", @"***", classObject.currentClassName);
     
     Class currentClass = class;
     
@@ -502,7 +534,7 @@
 //    WatLog(@"\n");
 //    
 //    WatLog(@"%@------- METHOD ------", @"***");
-//    WatLog(@"%@--- %@ ---", @"***", classObject.className);
+//    WatLog(@"%@--- %@ ---", @"***", classObject.currentClassName);
 //    
 //    
 //    Class class = [c class];
@@ -550,7 +582,7 @@
 //        char returnType[80];
 //        method_getReturnType(method, returnType, 80);
 //        
-//        NSLog(@"%2.2d %@ ==> %s (%s)", 0, classObject.className, methodName, (typeEncodings == Nil) ? "" : typeEncodings);
+//        NSLog(@"%2.2d %@ ==> %s (%s)", 0, classObject.currentClassName, methodName, (typeEncodings == Nil) ? "" : typeEncodings);
 //        
 //        int ac = method_getNumberOfArguments(method);
 //        int a = 0;
@@ -629,7 +661,7 @@
     
     WatLog(@"%@\n", @"***");
     WatLog(@"%@------- CLASS METHOD ------", @"***");
-    WatLog(@"%@--- of class %@ ---", @"***", classObject.className);
+    WatLog(@"%@--- of class %@ ---", @"***", classObject.currentClassName);
     
     Class currentClass = class;
 //    do {
@@ -651,7 +683,7 @@
                                                              methodObject.methodName: methodObject
                                                              }];
         
-        WatLog(@"%2.2d class %@ ==> %@ (%s)", i, classObject.className, methodName, (typeEncodings == Nil) ? "" : typeEncodings);
+        WatLog(@"%2.2d class %@ ==> %@ (%s)", i, classObject.currentClassName, methodName, (typeEncodings == Nil) ? "" : typeEncodings);
         
 //        currentClass = [currentClass superclass];
         
@@ -672,7 +704,7 @@
     
     WatLog(@"\n");
     WatLog(@"%@------- INSTANCE METHOD ------", @"***");
-    WatLog(@"%@--- of class %@ ---", @"***", classObject.className);
+    WatLog(@"%@--- of class %@ ---", @"***", classObject.currentClassName);
     
     Class currentClass = class;
 //    do {
@@ -694,7 +726,7 @@
                                                                 methodObject.methodName: methodObject
                                                                 }];
         
-        WatLog(@"%2.2d instance %@ ==> %@ (%s)", i, classObject.className, methodName, (typeEncodings == Nil) ? "" : typeEncodings);
+        WatLog(@"%2.2d instance %@ ==> %@ (%s)", i, classObject.currentClassName, methodName, (typeEncodings == Nil) ? "" : typeEncodings);
         
 //        currentClass = [currentClass superclass];
         

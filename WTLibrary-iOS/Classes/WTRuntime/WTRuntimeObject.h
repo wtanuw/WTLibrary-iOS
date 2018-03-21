@@ -58,7 +58,7 @@
 @end
 
 @interface WTRTClassObject : WTRuntimeObject
-@property (nonatomic, strong) NSString *className;
+@property (nonatomic, strong) NSString *currentClassName;
 @property (nonatomic, strong) NSString *superClassName;
 @property (nonatomic, strong) NSString *bundleName;
 @property (nonatomic, readonly) NSMutableDictionary<NSString *, NSString *> *superClass;
