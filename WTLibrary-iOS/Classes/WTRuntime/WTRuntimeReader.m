@@ -230,9 +230,6 @@
             WTRTClassObject *class = [WTRTClassObject classObject];
             class.currentClassName = name;
             class.superClassName = superClass;
-            [class.superClass addEntriesFromDictionary:@{
-                                                         superClass: superClass
-                                                         }];
             [bundle.classes addEntriesFromDictionary:@{
                                                        class.currentClassName: class
                                                        }];
@@ -265,9 +262,7 @@
             WTRTClassObject *class = [WTRTClassObject classObject];
             class.currentClassName = name;
             class.superClassName = superClass;
-            [class.superClass addEntriesFromDictionary:@{
-                                                         superClass: superClass
-                                                         }];
+            class.bundleName = bundleName;
             [bundle.classes addEntriesFromDictionary:@{
                                                        class.currentClassName: class
                                                        }];

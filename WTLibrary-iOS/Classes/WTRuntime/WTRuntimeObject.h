@@ -61,7 +61,7 @@
 @property (nonatomic, strong) NSString *currentClassName;
 @property (nonatomic, strong) NSString *superClassName;
 @property (nonatomic, strong) NSString *bundleName;
-@property (nonatomic, readonly) NSMutableDictionary<NSString *, NSString *> *superClass;
+//@property (nonatomic, readonly) NSMutableDictionary<NSString *, NSString *> *superClass;
 @property (nonatomic, readonly) NSMutableDictionary<NSString *, WTRTVariableObject *> *variables;
 @property (nonatomic, readonly) NSMutableDictionary<NSString *, WTRTPropertyObject *> *properties;
 @property (nonatomic, readonly) NSMutableDictionary<NSString *, WTRTProtocolObject *> *protocols;

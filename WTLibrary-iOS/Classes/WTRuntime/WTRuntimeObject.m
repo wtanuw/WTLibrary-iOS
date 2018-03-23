@@ -362,6 +362,7 @@ NSString *CamelCaseToUnderscores(NSString *input) {
 {
     _currentClassName = jsonDict[@"currentClassName"];
     _superClassName = jsonDict[@"superClassName"];
+    _bundleName = jsonDict[@"bundleName"];
     for (NSDictionary *dict in [jsonDict[@"instanceMethods"] allObjects]) {
         WTRTMethodObject *method = [WTRTMethodObject methodObject];
         [method importJSON:dict];
@@ -454,6 +455,7 @@ NSString *CamelCaseToUnderscores(NSString *input) {
     return @{
              @"currentClassName": _currentClassName,
              @"superClassName": _superClassName,
+//             @"bundleName": _bundleName,
              @"instanceMethods": [self instanceMethodsString],
              @"classMethods": [self classMethodsString],
              @"variable": [self variablesString],
