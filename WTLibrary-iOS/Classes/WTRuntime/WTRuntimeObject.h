@@ -18,6 +18,7 @@
 
 @interface WTRuntimeObject : NSObject
 @property (nonatomic, assign) BOOL prettyPrinted; // default is YES
+@property (nonatomic, assign) double structureVersion;
 @property (nonatomic, assign) int a;
 @property (nonatomic, assign) signed int b;
 @property (nonatomic, assign) unsigned int c;
@@ -36,7 +37,7 @@
 @end
 
 @interface WTRTProjectObject : WTRuntimeObject
-@property (nonatomic, strong) NSString *projectName;
+@property (nonatomic, strong) NSString *projectName; // use bundleName for now
 @property (nonatomic, assign) BOOL isIOS;
 @property (nonatomic, assign) BOOL isMacOS;
 @property (nonatomic, strong) WTRTBundleObject *mainBundle;
@@ -53,7 +54,7 @@
 @property (nonatomic, strong) NSString *bundleName;
 @property (nonatomic, strong) NSString *buildNumber;
 @property (nonatomic, readonly) NSMutableDictionary<NSString *, WTRTClassObject *> *classes;
-@property (nonatomic, readonly) NSMutableDictionary<NSString *, WTRTClassObject *> *userDefineClasses;
+//@property (nonatomic, readonly) NSMutableDictionary<NSString *, WTRTClassObject *> *userDefineClasses;
 + (instancetype)bundleObject;
 @end
 

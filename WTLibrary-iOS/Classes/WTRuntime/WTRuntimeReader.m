@@ -12,7 +12,7 @@
 //#import <objc/objc-runtime.h>
 
 
-#define WATLOG_DEBUG
+//#define WATLOG_DEBUG
 
 #import <Foundation/Foundation.h>
 #import <objc/runtime.h>
@@ -83,7 +83,8 @@
                    @"_NSZombie_", @"__NSMessageBuilder", @"__NSAtom",
                    @"_CNZombie_",
                    @"JSExport",
-                   @"__ARCLite__"
+                   @"__ARCLite__",
+                   @"FigIrisAutoTrimmerMotionSampleExport"
                    ];
     
 }
@@ -93,12 +94,16 @@
 }
 
 + (void)startReader {
+#if DEBUG
     [[WTRuntimeReader sharedReader] startReader];
+#endif
 }
 
 - (void)startReader {
+#if DEBUG
     [self readProject];
     [self exportToFile:_project.projectName];
+#endif
 }
 
 - (void)exportToFile:(NSString*)fileName

@@ -33,6 +33,7 @@ NSString *CamelCaseToUnderscores(NSString *input) {
     self = [super init];
     if (self) {
         _prettyPrinted = YES;
+        _structureVersion = 1.0;
     }
 //    [self setup];
 //    [self initialize];
@@ -168,6 +169,9 @@ NSString *CamelCaseToUnderscores(NSString *input) {
 
 - (void)importJSON:(NSDictionary *)jsonDict
 {
+    double structureVersion = [jsonDict[@"structureVersion"] doubleValue];
+    NSAssert(self.structureVersion == structureVersion, @"differnt reader and parser vresion");
+    
     _projectName = jsonDict[@"projectName"];
     _isIOS = [jsonDict[@"isIOS"] boolValue];
     _isMacOS = [jsonDict[@"isMacOS"] boolValue];
@@ -208,6 +212,7 @@ NSString *CamelCaseToUnderscores(NSString *input) {
 - (NSDictionary *)exportJSON
 {
     return @{
+             @"structureVersion": [NSNumber numberWithDouble:self.structureVersion],
              @"projectName": _projectName,
              @"isIOS": [NSNumber numberWithBool:_isIOS],
              @"isMacOS": [NSNumber numberWithBool:_isMacOS],
@@ -255,19 +260,19 @@ NSString *CamelCaseToUnderscores(NSString *input) {
 
 - (void)setup {
     _classes = [NSMutableDictionary dictionary];
-    _userDefineClasses = [NSMutableDictionary dictionary];
+//    _userDefineClasses = [NSMutableDictionary dictionary];
     
 }
 
 - (void)initialize {
     [_classes removeAllObjects];
-    [_userDefineClasses removeAllObjects];
+//    [_userDefineClasses removeAllObjects];
 }
 
 - (void)importJSON:(NSDictionary *)jsonDict
 {
     _displayName = jsonDict[@"displayName"];
-    _versionNumber = jsonDict[@"versionName"];
+    _versionNumber = jsonDict[@"versionNumber"];
     _bundleName = jsonDict[@"bundleName"];
     _buildNumber = jsonDict[@"buildNumber"];
     for (NSDictionary *dict in [jsonDict[@"class"] allObjects]) {
@@ -277,13 +282,13 @@ NSString *CamelCaseToUnderscores(NSString *input) {
                                              class.currentClassName: class
                                              }];
     }
-    for (NSDictionary *dict in [jsonDict[@"userclass"] allObjects]) {
-        WTRTClassObject *class = [WTRTClassObject classObject];
-        [class importJSON:dict];
-        [_userDefineClasses addEntriesFromDictionary:@{
-                                                       class.currentClassName: class
-                                                       }];
-    }
+//    for (NSDictionary *dict in [jsonDict[@"userDefineClass"] allObjects]) {
+//        WTRTClassObject *class = [WTRTClassObject classObject];
+//        [class importJSON:dict];
+//        [_userDefineClasses addEntriesFromDictionary:@{
+//                                                       class.currentClassName: class
+//                                                       }];
+//    }
 }
 
 - (NSDictionary *)classesString
@@ -297,26 +302,26 @@ NSString *CamelCaseToUnderscores(NSString *input) {
     return dict;
 }
 
-- (NSDictionary *)userDefineClassesString
-{
-    NSMutableDictionary *dict = [NSMutableDictionary dictionary];
-    for (WTRTClassObject *class in _userDefineClasses.allValues) {
-        [dict addEntriesFromDictionary:@{
-                                         class.currentClassName: [class exportJSON]
-                                         }];
-    }
-    return dict;
-}
+//- (NSDictionary *)userDefineClassesString
+//{
+//    NSMutableDictionary *dict = [NSMutableDictionary dictionary];
+//    for (WTRTClassObject *class in _userDefineClasses.allValues) {
+//        [dict addEntriesFromDictionary:@{
+//                                         class.currentClassName: [class exportJSON]
+//                                         }];
+//    }
+//    return dict;
+//}
 
 - (NSDictionary *)exportJSON
 {
     return @{
              @"displayName": _displayName,
-             @"versionName": _versionNumber,
+             @"versionNumber": _versionNumber,
              @"bundleName": _bundleName,
              @"buildNumber": _buildNumber,
              @"class": [self classesString],
-             @"userclass": [self userDefineClassesString]
+//             @"userDefineClass": [self userDefineClassesString]
              };
 }
 

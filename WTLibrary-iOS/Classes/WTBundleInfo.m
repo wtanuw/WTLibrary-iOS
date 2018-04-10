@@ -45,6 +45,11 @@
     _allBundle = [NSBundle allBundles];
 }
 
++ (NSString*)bundleIdentifier
+{
+    return [[WTBundleInfo mainBundleInfo] bundleIdentifier];
+}
+
 + (NSString*)displayName
 {
     return [[WTBundleInfo mainBundleInfo] displayName];
@@ -63,6 +68,12 @@
 + (NSString*)buildNumber
 {
     return [[WTBundleInfo mainBundleInfo] buildNumber];
+}
+
+- (NSString*)bundleIdentifier
+{
+    NSString *bundleIdentifier = _bundle.bundleIdentifier;
+    return bundleIdentifier;
 }
 
 - (NSString*)displayName

@@ -10,6 +10,7 @@
 
 @interface WTBundleInfo : NSObject
 
++ (NSString*)bundleIdentifier;
 + (NSString*)displayName;
 + (NSString*)bundleName;
 + (NSString*)versionNumber;
@@ -17,6 +18,7 @@
 
 + (instancetype)bundleInfoWithBundle:(NSBundle*)bundle;
 
+- (NSString*)bundleIdentifier;
 - (NSString*)displayName;
 - (NSString*)bundleName;
 - (NSString*)versionNumber;
