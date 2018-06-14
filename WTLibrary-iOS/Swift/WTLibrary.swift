@@ -31,7 +31,7 @@ func aLog(_ message: String, filename: String = #file, function: String = #funct
 
 #if DEBUG
     public func WatLog(_ message: String, filename: String = #file, function: String = #function, line: Int = #line) {
-    NSLog("[\(filename.lastPathComponent!):\(line):\(function)] - \(message)")
+    NSLog("WatLog [\(filename.lastPathComponent!):\(line):\(function)] - \(message)")
     }
 #else
     public func WatLog(_ message: String, filename: String = #file, function: String = #function, line: Int = #line) {}

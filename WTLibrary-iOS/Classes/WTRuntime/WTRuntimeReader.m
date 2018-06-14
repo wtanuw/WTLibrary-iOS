@@ -84,7 +84,8 @@
                    @"_CNZombie_",
                    @"JSExport",
                    @"__ARCLite__",
-                   @"FigIrisAutoTrimmerMotionSampleExport"
+                   @"FigIrisAutoTrimmerMotionSampleExport",
+                   @"NSViewServiceApplication"
                    ];
     
 }
@@ -120,12 +121,12 @@
         desktopPath = [NSString stringWithFormat:@"/Users/%@/Desktop", filePathComponent[2]];
     }
     
-    NSString *txtFilePath = [desktopPath stringByAppendingPathComponent:[fileName stringByAppendingPathExtension:@"json"]];
-    NSString *jsonFilePath = [desktopPath stringByAppendingPathComponent:[fileName stringByAppendingPathExtension:@"txt"]];
+    NSString *jsonFilePath = [desktopPath stringByAppendingPathComponent:[fileName stringByAppendingPathExtension:@"json"]];
+//    NSString *txtFilePath = [desktopPath stringByAppendingPathComponent:[fileName stringByAppendingPathExtension:@"txt"]];
     BOOL success = [json writeToFile:jsonFilePath atomically:YES encoding:NSUTF8StringEncoding error:nil];
     WatLog(@"%@",WTBOOL(success));
-    success = [json writeToFile:txtFilePath atomically:YES encoding:NSUTF8StringEncoding error:nil];
-    WatLog(@"%@",WTBOOL(success));
+//    success = [json writeToFile:txtFilePath atomically:YES encoding:NSUTF8StringEncoding error:nil];
+//    WatLog(@"%@",WTBOOL(success));
 }
 
 
@@ -398,7 +399,7 @@
         objc_property_t const propertyt = *p ;
         NSString *propertyName = [NSString stringWithUTF8String:property_getName(propertyt)];
 //        const char *type = ivar_getTypeEncoding(ivar);
-        NSString *typeString;
+        //NSString *typeString;
         
 //        NSString *s = [NSString stringWithFormat:@"%s",type];
 //        s = [s stringByReplacingOccurrencesOfString:@"\"" withString:@""];
@@ -523,7 +524,7 @@
                                                           protocol.protocolName: protocol
                                                           }];
         
-        [self getInstanceMethodInProtocol:ptc protocolObject:protocol];
+        [self getInstanceMethodInProtocol:ptc protocolObject:protocol classObject:classObject];
     }
     
 }
@@ -672,13 +673,14 @@
         Method method = methods[i];
         SEL methodSelector = method_getName(method);
         NSString *methodName = [NSString stringWithFormat:@"%s",sel_getName(methodSelector)];
-        const char *typeEncodings = method_getTypeEncoding(method);
+        //const char *typeEncodings = method_getTypeEncoding(method);
         
         char returnType[80];
         method_getReturnType(method, returnType, 80);
         
         WTRTMethodObject *methodObject = [WTRTMethodObject methodObject];
         methodObject.methodName = methodName;
+        methodObject.isInstance = NO;
         [classObject.classMethods addEntriesFromDictionary:@{
                                                              methodObject.methodName: methodObject
                                                              }];
@@ -715,13 +717,14 @@
         Method method = methods[i];
         SEL methodSelector = method_getName(method);
         NSString *methodName = [NSString stringWithFormat:@"%s",sel_getName(methodSelector)];
-        const char *typeEncodings = method_getTypeEncoding(method);
+        //const char *typeEncodings = method_getTypeEncoding(method);
         
         char returnType[80];
         method_getReturnType(method, returnType, 80);
         
         WTRTMethodObject *methodObject = [WTRTMethodObject methodObject];
         methodObject.methodName = methodName;
+        methodObject.isInstance = YES;
         [classObject.instanceMethods addEntriesFromDictionary:@{
                                                                 methodObject.methodName: methodObject
                                                                 }];
@@ -741,9 +744,12 @@
     // verify with private method [[UIApplication sharedApplication] _methodDescription]
 }
 
-- (void)getInstanceMethodInProtocol:(Protocol *)protocol protocolObject:(WTRTProtocolObject *)protocolObject
+- (void)getInstanceMethodInProtocol:(Protocol *)protocol protocolObject:(WTRTProtocolObject *)protocolObject classObject:(WTRTClassObject *)classObject
 {
 //    Protocol *protocol = @protocol(UITableViewDelegate);
+    
+    NSString *protocolName = protocolObject.protocolName;
+    WatLog(@"protocolObject name %@ :", protocolObject.protocolName);
     
     BOOL isRequiredMethod = YES;
     BOOL isInstanceMethod = YES;
@@ -751,12 +757,22 @@
     unsigned int methodCount = 0;
     struct objc_method_description *methods = protocol_copyMethodDescriptionList(protocol, isRequiredMethod, isInstanceMethod, &methodCount);
     
-    NSLog(@"%d required instance methods found:", methodCount);
+    WatLog(@"%d required instance methods found:", methodCount);
     
     for (int i = 0; i < methodCount; i++)
     {
         struct objc_method_description methodDescription = methods[i];
-        NSLog(@"Method #%d: %@", i, NSStringFromSelector(methodDescription.name));
+        WatLog(@"Method #%d: %@", i, NSStringFromSelector(methodDescription.name));
+        
+        NSString *methodName = NSStringFromSelector(methodDescription.name);
+        WTRTMethodObject *methodObject = [WTRTMethodObject methodObject];
+        methodObject.methodName = methodName;
+        methodObject.fromProtocolName = protocolName;
+        methodObject.isRequireProtocolMethod = YES;
+        methodObject.isInstance = isInstanceMethod;
+        [classObject.protocolMethods addEntriesFromDictionary:@{
+                                                           methodObject.methodName: methodObject
+                                                           }];
     }
     isRequiredMethod = YES;
     isInstanceMethod = NO;
@@ -764,12 +780,22 @@
     methodCount = 0;
     methods = protocol_copyMethodDescriptionList(protocol, isRequiredMethod, isInstanceMethod, &methodCount);
     
-    NSLog(@"%d required class methods found:", methodCount);
+    WatLog(@"%d required class methods found:", methodCount);
     
     for (int i = 0; i < methodCount; i++)
     {
         struct objc_method_description methodDescription = methods[i];
-        NSLog(@"Method #%d: %@", i, NSStringFromSelector(methodDescription.name));
+        WatLog(@"Method #%d: %@", i, NSStringFromSelector(methodDescription.name));
+        
+        NSString *methodName = NSStringFromSelector(methodDescription.name);
+        WTRTMethodObject *methodObject = [WTRTMethodObject methodObject];
+        methodObject.methodName = methodName;
+        methodObject.fromProtocolName = protocolName;
+        methodObject.isRequireProtocolMethod = YES;
+        methodObject.isInstance = isInstanceMethod;
+        [classObject.protocolMethods addEntriesFromDictionary:@{
+                                                           methodObject.methodName: methodObject
+                                                           }];
     }
     isRequiredMethod = NO;
     isInstanceMethod = YES;
@@ -777,12 +803,22 @@
     methodCount = 0;
     methods = protocol_copyMethodDescriptionList(protocol, isRequiredMethod, isInstanceMethod, &methodCount);
     
-    NSLog(@"%d optional instance methods found:", methodCount);
+    WatLog(@"%d optional instance methods found:", methodCount);
     
     for (int i = 0; i < methodCount; i++)
     {
         struct objc_method_description methodDescription = methods[i];
-        NSLog(@"Method #%d: %@", i, NSStringFromSelector(methodDescription.name));
+        WatLog(@"Method #%d: %@", i, NSStringFromSelector(methodDescription.name));
+        
+        NSString *methodName = NSStringFromSelector(methodDescription.name);
+        WTRTMethodObject *methodObject = [WTRTMethodObject methodObject];
+        methodObject.methodName = methodName;
+        methodObject.fromProtocolName = protocolName;
+        methodObject.isOptionalProtocolMethod = YES;
+        methodObject.isInstance = isInstanceMethod;
+        [classObject.protocolMethods addEntriesFromDictionary:@{
+                                                           methodObject.methodName: methodObject
+                                                           }];
     }
     isRequiredMethod = NO;
     isInstanceMethod = NO;
@@ -790,12 +826,22 @@
     methodCount = 0;
     methods = protocol_copyMethodDescriptionList(protocol, isRequiredMethod, isInstanceMethod, &methodCount);
     
-    NSLog(@"%d optinal class methods found:", methodCount);
+    WatLog(@"%d optinal class methods found:", methodCount);
     
     for (int i = 0; i < methodCount; i++)
     {
         struct objc_method_description methodDescription = methods[i];
-        NSLog(@"Method #%d: %@", i, NSStringFromSelector(methodDescription.name));
+        WatLog(@"Method #%d: %@", i, NSStringFromSelector(methodDescription.name));
+        
+        NSString *methodName = NSStringFromSelector(methodDescription.name);
+        WTRTMethodObject *methodObject = [WTRTMethodObject methodObject];
+        methodObject.methodName = methodName;
+        methodObject.fromProtocolName = protocolName;
+        methodObject.isOptionalProtocolMethod = YES;
+        methodObject.isInstance = isInstanceMethod;
+        [classObject.protocolMethods addEntriesFromDictionary:@{
+                                                           methodObject.methodName: methodObject
+                                                           }];
     }
     
     free(methods);

@@ -68,6 +68,7 @@
 @property (nonatomic, readonly) NSMutableDictionary<NSString *, WTRTProtocolObject *> *protocols;
 @property (nonatomic, readonly) NSMutableDictionary<NSString *, WTRTMethodObject *> *classMethods;
 @property (nonatomic, readonly) NSMutableDictionary<NSString *, WTRTMethodObject *> *instanceMethods;
+@property (nonatomic, readonly) NSMutableDictionary<NSString *, WTRTMethodObject *> *protocolMethods;
 + (instancetype)classObject;
 @end
 
@@ -107,6 +108,10 @@
 
 @interface WTRTMethodObject : WTRuntimeObject
 @property (nonatomic, strong) NSString *methodName;
+@property (nonatomic, assign) BOOL isInstance;
+@property (nonatomic, strong) NSString *fromProtocolName;
+@property (nonatomic, assign) BOOL isRequireProtocolMethod;
+@property (nonatomic, assign) BOOL isOptionalProtocolMethod;
 //@property (nonatomic, assign) int numberOfArgument;
 //@property (nonatomic, readonly) NSArray<WTRTVariableObject *> *params;
 //@property (nonatomic, assign) BOOL isVisible;

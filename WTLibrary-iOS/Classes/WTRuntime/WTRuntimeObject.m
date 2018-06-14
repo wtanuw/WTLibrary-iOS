@@ -33,7 +33,7 @@ NSString *CamelCaseToUnderscores(NSString *input) {
     self = [super init];
     if (self) {
         _prettyPrinted = YES;
-        _structureVersion = 1.0;
+        _structureVersion = 0.7;
     }
 //    [self setup];
 //    [self initialize];
@@ -213,6 +213,7 @@ NSString *CamelCaseToUnderscores(NSString *input) {
 {
     return @{
              @"structureVersion": [NSNumber numberWithDouble:self.structureVersion],
+             @"structureVersion": [NSNumber numberWithDouble:self.structureVersion],
              @"projectName": _projectName,
              @"isIOS": [NSNumber numberWithBool:_isIOS],
              @"isMacOS": [NSNumber numberWithBool:_isMacOS],
@@ -352,7 +353,7 @@ NSString *CamelCaseToUnderscores(NSString *input) {
     _protocols = [NSMutableDictionary dictionary];
     _classMethods = [NSMutableDictionary dictionary];
     _instanceMethods = [NSMutableDictionary dictionary];
-    
+    _protocolMethods = [NSMutableDictionary dictionary];
 }
 
 - (void)initialize {
@@ -361,6 +362,7 @@ NSString *CamelCaseToUnderscores(NSString *input) {
     [_protocols removeAllObjects];
     [_classMethods removeAllObjects];
     [_instanceMethods removeAllObjects];
+    [_protocolMethods removeAllObjects];
 }
 
 - (void)importJSON:(NSDictionary *)jsonDict
@@ -379,6 +381,12 @@ NSString *CamelCaseToUnderscores(NSString *input) {
         [method importJSON:dict];
         [_classMethods addEntriesFromDictionary:@{
                                                      method.methodName: method}];
+    }
+    for (NSDictionary *dict in [jsonDict[@"protocolMethods"] allObjects]) {
+        WTRTMethodObject *method = [WTRTMethodObject methodObject];
+        [method importJSON:dict];
+        [_protocolMethods addEntriesFromDictionary:@{
+                                                  method.methodName: method}];
     }
     for (NSDictionary *dict in [jsonDict[@"variable"] allObjects]) {
         WTRTVariableObject *variable = [WTRTVariableObject variableObject];
@@ -415,6 +423,17 @@ NSString *CamelCaseToUnderscores(NSString *input) {
 {
     NSMutableDictionary *dict = [NSMutableDictionary dictionary];
     for (WTRTMethodObject *method in _classMethods.allValues) {
+        [dict addEntriesFromDictionary:@{
+                                         method.methodName: [method exportJSON]
+                                         }];
+    }
+    return dict;
+}
+
+- (NSDictionary *)protocolMethodsString
+{
+    NSMutableDictionary *dict = [NSMutableDictionary dictionary];
+    for (WTRTMethodObject *method in _protocolMethods.allValues) {
         [dict addEntriesFromDictionary:@{
                                          method.methodName: [method exportJSON]
                                          }];
@@ -463,6 +482,7 @@ NSString *CamelCaseToUnderscores(NSString *input) {
 //             @"bundleName": _bundleName,
              @"instanceMethods": [self instanceMethodsString],
              @"classMethods": [self classMethodsString],
+             @"protocolMethods": [self protocolMethodsString],
              @"variable": [self variablesString],
              @"properties": [self propertiesString],
              @"protocols": [self protocolsString]
@@ -619,6 +639,7 @@ NSString *CamelCaseToUnderscores(NSString *input) {
 }
 
 - (void)initialize {
+    
 }
 
 - (void)importJSON:(NSDictionary *)jsonDict
@@ -659,18 +680,37 @@ NSString *CamelCaseToUnderscores(NSString *input) {
 }
 
 - (void)initialize {
+    _isInstance = YES;
+    _fromProtocolName = @"non";
+    _isRequireProtocolMethod = NO;
+    _isOptionalProtocolMethod = NO;
 }
 
 - (void)importJSON:(NSDictionary *)jsonDict
 {
     _methodName = jsonDict[@"methodName"];
+    _isInstance = [jsonDict[@"isInstance"] boolValue];
+    _fromProtocolName = jsonDict[@"fromProtocolName"];
+    _isRequireProtocolMethod = [jsonDict[@"isRequireProtocolMethod"] boolValue];
+    _isOptionalProtocolMethod = [jsonDict[@"isOptionalProtocolMethod"] boolValue];
 }
 
 - (NSDictionary *)exportJSON
 {
-    return @{
-             @"methodName": _methodName,
-             };
+    if (_isRequireProtocolMethod || _isOptionalProtocolMethod) {
+        return @{
+                 @"methodName": _methodName,
+                 @"isInstance": [NSNumber numberWithBool:_isInstance],
+                 @"fromProtocolName": _fromProtocolName,
+                 @"isRequireProtocolMethod": [NSNumber numberWithBool:_isRequireProtocolMethod],
+                 @"isOptionalProtocolMethod": [NSNumber numberWithBool:_isOptionalProtocolMethod],
+                 };
+    } else {
+        return @{
+                 @"methodName": _methodName,
+                 @"isInstance": [NSNumber numberWithBool:_isInstance]
+                 };
+    }
 }
 
 @end
