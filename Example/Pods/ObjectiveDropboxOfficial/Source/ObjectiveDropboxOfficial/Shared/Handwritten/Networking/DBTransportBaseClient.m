@@ -13,6 +13,7 @@
 #import "DBStoneBase.h"
 #import "DBTransportBaseClient.h"
 #import "DBTransportBaseConfig.h"
+#import "DBTransportBaseHostnameConfig.h"
 
 #pragma mark - Internal serialization helpers
 
@@ -36,6 +37,7 @@
                                                  stringByAppendingString:defaultUserAgent]
                                            : defaultUserAgent;
     _asMemberId = transportConfig.asMemberId;
+    _pathRoot = transportConfig.pathRoot;
     _additionalHeaders = transportConfig.additionalHeaders;
   }
   return self;
@@ -62,6 +64,11 @@
   if (!noauth) {
     if (_asMemberId) {
       [headers setObject:_asMemberId forKey:@"Dropbox-Api-Select-User"];
+    }
+
+    if (_pathRoot) {
+      NSString *pathRootStr = [[self class] serializeStringWithRoute:nil routeArg:_pathRoot];
+      [headers setObject:pathRootStr forKey:@"Dropbox-Api-Path-Root"];
     }
 
     if (routeAuth && [routeAuth isEqualToString:@"app"]) {
@@ -124,7 +131,7 @@
 }
 
 - (NSURL *)urlWithRoute:(DBRoute *)route {
-  NSString *routePrefix = [_hostnameConfig apiV2PrefixWithRouteType:route.attrs[@"host"]];
+  NSString *routePrefix = [_hostnameConfig apiV2PrefixWithRoute:route];
   return [NSURL URLWithString:[NSString stringWithFormat:@"%@/%@/%@", routePrefix, route.namespace_, route.name]];
 }
 
@@ -133,7 +140,7 @@
     return nil;
   }
 
-  if (route.dataStructSerialBlock) {
+  if (route != nil && route.dataStructSerialBlock) {
     return [[self class] jsonDataWithJsonObj:route.dataStructSerialBlock(arg)];
   }
 

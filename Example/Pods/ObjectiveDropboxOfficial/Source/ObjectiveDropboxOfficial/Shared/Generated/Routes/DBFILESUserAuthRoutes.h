@@ -25,6 +25,10 @@
 @class DBFILEPROPERTIESUpdatePropertiesError;
 @class DBFILESAlphaGetMetadataError;
 @class DBFILESCommitInfo;
+@class DBFILESCreateFolderBatchError;
+@class DBFILESCreateFolderBatchJobStatus;
+@class DBFILESCreateFolderBatchLaunch;
+@class DBFILESCreateFolderBatchResult;
 @class DBFILESCreateFolderError;
 @class DBFILESCreateFolderResult;
 @class DBFILESDeleteArg;
@@ -35,6 +39,8 @@
 @class DBFILESDeleteError;
 @class DBFILESDeleteResult;
 @class DBFILESDownloadError;
+@class DBFILESDownloadZipError;
+@class DBFILESDownloadZipResult;
 @class DBFILESFileMetadata;
 @class DBFILESFileSharingInfo;
 @class DBFILESFolderMetadata;
@@ -78,9 +84,11 @@
 @class DBFILESSearchMode;
 @class DBFILESSearchResult;
 @class DBFILESSharedLink;
+@class DBFILESSymlinkInfo;
 @class DBFILESThumbnailArg;
 @class DBFILESThumbnailError;
 @class DBFILESThumbnailFormat;
+@class DBFILESThumbnailMode;
 @class DBFILESThumbnailSize;
 @class DBFILESUploadError;
 @class DBFILESUploadErrorWithProperties;
@@ -406,6 +414,50 @@ alphaUploadStream:(NSString *)path
     __deprecated_msg("createFolder is deprecated. Use createFolderV2.");
 
 ///
+/// Create multiple folders at once. This route is asynchronous for large batches, which returns a job ID immediately
+/// and runs the create folder batch asynchronously. Otherwise, creates the folders and returns the result synchronously
+/// for smaller inputs. You can force asynchronous behaviour by using the `forceAsync` in `DBFILESCreateFolderBatchArg`
+/// flag.  Use `createFolderBatchCheck` to check the job status.
+///
+/// @param paths List of paths to be created in the user's Dropbox. Duplicate path arguments in the batch are considered
+/// only once.
+///
+/// @return Through the response callback, the caller will receive a `DBFILESCreateFolderBatchLaunch` object on success
+/// or a `void` object on failure.
+///
+- (DBRpcTask<DBFILESCreateFolderBatchLaunch *, DBNilObject *> *)createFolderBatch:(NSArray<NSString *> *)paths;
+
+///
+/// Create multiple folders at once. This route is asynchronous for large batches, which returns a job ID immediately
+/// and runs the create folder batch asynchronously. Otherwise, creates the folders and returns the result synchronously
+/// for smaller inputs. You can force asynchronous behaviour by using the `forceAsync` in `DBFILESCreateFolderBatchArg`
+/// flag.  Use `createFolderBatchCheck` to check the job status.
+///
+/// @param paths List of paths to be created in the user's Dropbox. Duplicate path arguments in the batch are considered
+/// only once.
+/// @param autorename If there's a conflict, have the Dropbox server try to autorename the folder to avoid the conflict.
+/// @param forceAsync Whether to force the create to happen asynchronously.
+///
+/// @return Through the response callback, the caller will receive a `DBFILESCreateFolderBatchLaunch` object on success
+/// or a `void` object on failure.
+///
+- (DBRpcTask<DBFILESCreateFolderBatchLaunch *, DBNilObject *> *)createFolderBatch:(NSArray<NSString *> *)paths
+                                                                       autorename:(nullable NSNumber *)autorename
+                                                                       forceAsync:(nullable NSNumber *)forceAsync;
+
+///
+/// Returns the status of an asynchronous job for `createFolderBatch`. If success, it returns list of result for each
+/// entry.
+///
+/// @param asyncJobId Id of the asynchronous job. This is the value of a response returned from the method that launched
+/// the job.
+///
+/// @return Through the response callback, the caller will receive a `DBFILESCreateFolderBatchJobStatus` object on
+/// success or a `DBASYNCPollError` object on failure.
+///
+- (DBRpcTask<DBFILESCreateFolderBatchJobStatus *, DBASYNCPollError *> *)createFolderBatchCheck:(NSString *)asyncJobId;
+
+///
 /// Create a folder at a given path.
 ///
 /// @param path Path in the user's Dropbox to create.
@@ -441,6 +493,22 @@ alphaUploadStream:(NSString *)path
     __deprecated_msg("delete_ is deprecated. Use deleteV2.");
 
 ///
+/// DEPRECATED: Delete the file or folder at a given path. If the path is a folder, all its contents will be deleted
+/// too. A successful response indicates that the file or folder was deleted. The returned metadata will be the
+/// corresponding FileMetadata or FolderMetadata for the item at time of deletion, and not a DeletedMetadata object.
+///
+/// @param path Path in the user's Dropbox to delete.
+/// @param parentRev Perform delete if given "rev" matches the existing file's latest "rev". This field does not support
+/// deleting a folder.
+///
+/// @return Through the response callback, the caller will receive a `DBFILESMetadata` object on success or a
+/// `DBFILESDeleteError` object on failure.
+///
+- (DBRpcTask<DBFILESMetadata *, DBFILESDeleteError *> *)delete_:(NSString *)path
+                                                      parentRev:(nullable NSString *)parentRev
+    __deprecated_msg("delete_ is deprecated. Use deleteV2.");
+
+///
 /// Delete multiple files/folders at once. This route is asynchronous, which returns a job ID immediately and runs the
 /// delete batch asynchronously. Use `deleteBatchCheck` to check the job status.
 ///
@@ -472,6 +540,21 @@ alphaUploadStream:(NSString *)path
 /// `DBFILESDeleteError` object on failure.
 ///
 - (DBRpcTask<DBFILESDeleteResult *, DBFILESDeleteError *> *)deleteV2:(NSString *)path;
+
+///
+/// Delete the file or folder at a given path. If the path is a folder, all its contents will be deleted too. A
+/// successful response indicates that the file or folder was deleted. The returned metadata will be the corresponding
+/// FileMetadata or FolderMetadata for the item at time of deletion, and not a DeletedMetadata object.
+///
+/// @param path Path in the user's Dropbox to delete.
+/// @param parentRev Perform delete if given "rev" matches the existing file's latest "rev". This field does not support
+/// deleting a folder.
+///
+/// @return Through the response callback, the caller will receive a `DBFILESDeleteResult` object on success or a
+/// `DBFILESDeleteError` object on failure.
+///
+- (DBRpcTask<DBFILESDeleteResult *, DBFILESDeleteError *> *)deleteV2:(NSString *)path
+                                                           parentRev:(nullable NSString *)parentRev;
 
 ///
 /// Download a file from a user's Dropbox.
@@ -608,6 +691,75 @@ alphaUploadStream:(NSString *)path
                                                                                 rev:(nullable NSString *)rev
                                                                     byteOffsetStart:(NSNumber *)byteOffsetStart
                                                                       byteOffsetEnd:(NSNumber *)byteOffsetEnd;
+
+///
+/// Download a folder from the user's Dropbox, as a zip file. The folder must be less than 1 GB in size and have fewer
+/// than 10,000 total files. The input cannot be a single file.
+///
+/// @param path The path of the folder to download.
+/// @param overwrite A boolean to set behavior in the event of a naming conflict. `YES` will overwrite conflicting file
+/// at destination. `NO` will take no action, resulting in an `NSError` returned to the response handler in the event of
+/// a file conflict.
+/// @param destination The file url of the desired download output location.
+///
+/// @return Through the response callback, the caller will receive a `DBFILESDownloadZipResult` object on success or a
+/// `DBFILESDownloadZipError` object on failure.
+///
+- (DBDownloadUrlTask<DBFILESDownloadZipResult *, DBFILESDownloadZipError *> *)downloadZipUrl:(NSString *)path
+                                                                                   overwrite:(BOOL)overwrite
+                                                                                 destination:(NSURL *)destination;
+
+///
+/// Download a folder from the user's Dropbox, as a zip file. The folder must be less than 1 GB in size and have fewer
+/// than 10,000 total files. The input cannot be a single file.
+///
+/// @param path The path of the folder to download.
+/// @param overwrite A boolean to set behavior in the event of a naming conflict. `YES` will overwrite conflicting file
+/// at destination. `NO` will take no action, resulting in an `NSError` returned to the response handler in the event of
+/// a file conflict.
+/// @param destination The file url of the desired download output location.
+/// @param byteOffsetStart For partial file download. Download file beginning from this starting byte position. Must
+/// include valid end range value.
+/// @param byteOffsetEnd For partial file download. Download file up until this ending byte position. Must include valid
+/// start range value.
+///
+/// @return Through the response callback, the caller will receive a `DBFILESDownloadZipResult` object on success or a
+/// `DBFILESDownloadZipError` object on failure.
+///
+- (DBDownloadUrlTask<DBFILESDownloadZipResult *, DBFILESDownloadZipError *> *)downloadZipUrl:(NSString *)path
+                                                                                   overwrite:(BOOL)overwrite
+                                                                                 destination:(NSURL *)destination
+                                                                             byteOffsetStart:(NSNumber *)byteOffsetStart
+                                                                               byteOffsetEnd:(NSNumber *)byteOffsetEnd;
+
+///
+/// Download a folder from the user's Dropbox, as a zip file. The folder must be less than 1 GB in size and have fewer
+/// than 10,000 total files. The input cannot be a single file.
+///
+/// @param path The path of the folder to download.
+///
+/// @return Through the response callback, the caller will receive a `DBFILESDownloadZipResult` object on success or a
+/// `DBFILESDownloadZipError` object on failure.
+///
+- (DBDownloadDataTask<DBFILESDownloadZipResult *, DBFILESDownloadZipError *> *)downloadZipData:(NSString *)path;
+
+///
+/// Download a folder from the user's Dropbox, as a zip file. The folder must be less than 1 GB in size and have fewer
+/// than 10,000 total files. The input cannot be a single file.
+///
+/// @param path The path of the folder to download.
+/// @param byteOffsetStart For partial file download. Download file beginning from this starting byte position. Must
+/// include valid end range value.
+/// @param byteOffsetEnd For partial file download. Download file up until this ending byte position. Must include valid
+/// start range value.
+///
+/// @return Through the response callback, the caller will receive a `DBFILESDownloadZipResult` object on success or a
+/// `DBFILESDownloadZipError` object on failure.
+///
+- (DBDownloadDataTask<DBFILESDownloadZipResult *, DBFILESDownloadZipError *> *)
+downloadZipData:(NSString *)path
+byteOffsetStart:(NSNumber *)byteOffsetStart
+  byteOffsetEnd:(NSNumber *)byteOffsetEnd;
 
 ///
 /// Returns the metadata for a file or folder. Note: Metadata for the root folder is unsupported.
@@ -837,6 +989,7 @@ includeHasExplicitSharedMembers:(nullable NSNumber *)includeHasExplicitSharedMem
 /// @param format The format for the thumbnail image, jpeg (default) or png. For  images that are photos, jpeg should be
 /// preferred, while png is  better for screenshots and digital arts.
 /// @param size The size for the thumbnail image.
+/// @param mode How to resize and crop the image to achieve the desired size.
 /// @param overwrite A boolean to set behavior in the event of a naming conflict. `YES` will overwrite conflicting file
 /// at destination. `NO` will take no action, resulting in an `NSError` returned to the response handler in the event of
 /// a file conflict.
@@ -849,6 +1002,7 @@ includeHasExplicitSharedMembers:(nullable NSNumber *)includeHasExplicitSharedMem
 getThumbnailUrl:(NSString *)path
          format:(nullable DBFILESThumbnailFormat *)format
            size:(nullable DBFILESThumbnailSize *)size
+           mode:(nullable DBFILESThumbnailMode *)mode
       overwrite:(BOOL)overwrite
     destination:(NSURL *)destination;
 
@@ -883,6 +1037,7 @@ getThumbnailUrl:(NSString *)path
 /// @param format The format for the thumbnail image, jpeg (default) or png. For  images that are photos, jpeg should be
 /// preferred, while png is  better for screenshots and digital arts.
 /// @param size The size for the thumbnail image.
+/// @param mode How to resize and crop the image to achieve the desired size.
 /// @param overwrite A boolean to set behavior in the event of a naming conflict. `YES` will overwrite conflicting file
 /// at destination. `NO` will take no action, resulting in an `NSError` returned to the response handler in the event of
 /// a file conflict.
@@ -899,6 +1054,7 @@ getThumbnailUrl:(NSString *)path
 getThumbnailUrl:(NSString *)path
          format:(nullable DBFILESThumbnailFormat *)format
            size:(nullable DBFILESThumbnailSize *)size
+           mode:(nullable DBFILESThumbnailMode *)mode
       overwrite:(BOOL)overwrite
     destination:(NSURL *)destination
 byteOffsetStart:(NSNumber *)byteOffsetStart
@@ -923,6 +1079,7 @@ byteOffsetStart:(NSNumber *)byteOffsetStart
 /// @param format The format for the thumbnail image, jpeg (default) or png. For  images that are photos, jpeg should be
 /// preferred, while png is  better for screenshots and digital arts.
 /// @param size The size for the thumbnail image.
+/// @param mode How to resize and crop the image to achieve the desired size.
 ///
 /// @return Through the response callback, the caller will receive a `DBFILESFileMetadata` object on success or a
 /// `DBFILESThumbnailError` object on failure.
@@ -930,7 +1087,8 @@ byteOffsetStart:(NSNumber *)byteOffsetStart
 - (DBDownloadDataTask<DBFILESFileMetadata *, DBFILESThumbnailError *> *)
 getThumbnailData:(NSString *)path
           format:(nullable DBFILESThumbnailFormat *)format
-            size:(nullable DBFILESThumbnailSize *)size;
+            size:(nullable DBFILESThumbnailSize *)size
+            mode:(nullable DBFILESThumbnailMode *)mode;
 
 ///
 /// Get a thumbnail for an image. This method currently supports files with the following file extensions: jpg, jpeg,
@@ -957,6 +1115,7 @@ getThumbnailData:(NSString *)path
 /// @param format The format for the thumbnail image, jpeg (default) or png. For  images that are photos, jpeg should be
 /// preferred, while png is  better for screenshots and digital arts.
 /// @param size The size for the thumbnail image.
+/// @param mode How to resize and crop the image to achieve the desired size.
 /// @param byteOffsetStart For partial file download. Download file beginning from this starting byte position. Must
 /// include valid end range value.
 /// @param byteOffsetEnd For partial file download. Download file up until this ending byte position. Must include valid
@@ -969,6 +1128,7 @@ getThumbnailData:(NSString *)path
 getThumbnailData:(NSString *)path
           format:(nullable DBFILESThumbnailFormat *)format
             size:(nullable DBFILESThumbnailSize *)size
+            mode:(nullable DBFILESThumbnailMode *)mode
  byteOffsetStart:(NSNumber *)byteOffsetStart
    byteOffsetEnd:(NSNumber *)byteOffsetEnd;
 
@@ -1305,6 +1465,20 @@ listRevisions:(NSString *)path
 - (DBRpcTask<DBNilObject *, DBFILESDeleteError *> *)permanentlyDelete:(NSString *)path;
 
 ///
+/// Permanently delete the file or folder at a given path (see https://www.dropbox.com/en/help/40). Note: This endpoint
+/// is only available for Dropbox Business apps.
+///
+/// @param path Path in the user's Dropbox to delete.
+/// @param parentRev Perform delete if given "rev" matches the existing file's latest "rev". This field does not support
+/// deleting a folder.
+///
+/// @return Through the response callback, the caller will receive a `void` object on success or a `DBFILESDeleteError`
+/// object on failure.
+///
+- (DBRpcTask<DBNilObject *, DBFILESDeleteError *> *)permanentlyDelete:(NSString *)path
+                                                            parentRev:(nullable NSString *)parentRev;
+
+///
 /// DEPRECATED: The propertiesAdd route
 ///
 /// @param path A unique identifier for the file or folder.
@@ -1573,7 +1747,8 @@ propertyGroups:(nullable NSArray<DBFILEPROPERTIESPropertyGroup *> *)propertyGrou
    inputStream:(NSInputStream *)inputStream;
 
 ///
-/// DEPRECATED: Append more data to an upload session. A single request should not upload more than 150 MB.
+/// DEPRECATED: Append more data to an upload session. A single request should not upload more than 150 MB. The maximum
+/// size of a file one can upload to an upload session is 350 GB.
 ///
 /// @param sessionId The upload session ID (returned by `uploadSessionStart`).
 /// @param offset The amount of data that has been uploaded so far. We use this to make sure upload data isn't lost or
@@ -1589,7 +1764,8 @@ propertyGroups:(nullable NSArray<DBFILEPROPERTIESPropertyGroup *> *)propertyGrou
     __deprecated_msg("uploadSessionAppend is deprecated. Use uploadSessionAppendV2.");
 
 ///
-/// DEPRECATED: Append more data to an upload session. A single request should not upload more than 150 MB.
+/// DEPRECATED: Append more data to an upload session. A single request should not upload more than 150 MB. The maximum
+/// size of a file one can upload to an upload session is 350 GB.
 ///
 /// @param sessionId The upload session ID (returned by `uploadSessionStart`).
 /// @param offset The amount of data that has been uploaded so far. We use this to make sure upload data isn't lost or
@@ -1605,7 +1781,8 @@ propertyGroups:(nullable NSArray<DBFILEPROPERTIESPropertyGroup *> *)propertyGrou
     __deprecated_msg("uploadSessionAppend is deprecated. Use uploadSessionAppendV2.");
 
 ///
-/// DEPRECATED: Append more data to an upload session. A single request should not upload more than 150 MB.
+/// DEPRECATED: Append more data to an upload session. A single request should not upload more than 150 MB. The maximum
+/// size of a file one can upload to an upload session is 350 GB.
 ///
 /// @param sessionId The upload session ID (returned by `uploadSessionStart`).
 /// @param offset The amount of data that has been uploaded so far. We use this to make sure upload data isn't lost or
@@ -1623,7 +1800,8 @@ propertyGroups:(nullable NSArray<DBFILEPROPERTIESPropertyGroup *> *)propertyGrou
 
 ///
 /// Append more data to an upload session. When the parameter close is set, this call will close the session. A single
-/// request should not upload more than 150 MB.
+/// request should not upload more than 150 MB. The maximum size of a file one can upload to an upload session is 350
+/// GB.
 ///
 /// @param cursor Contains the upload session ID and the offset.
 /// @param inputUrl The file to upload, as an NSString * object.
@@ -1637,7 +1815,8 @@ propertyGroups:(nullable NSArray<DBFILEPROPERTIESPropertyGroup *> *)propertyGrou
 
 ///
 /// Append more data to an upload session. When the parameter close is set, this call will close the session. A single
-/// request should not upload more than 150 MB.
+/// request should not upload more than 150 MB. The maximum size of a file one can upload to an upload session is 350
+/// GB.
 ///
 /// @param cursor Contains the upload session ID and the offset.
 /// @param close If true, the current session will be closed, at which point you won't be able to call
@@ -1654,7 +1833,8 @@ propertyGroups:(nullable NSArray<DBFILEPROPERTIESPropertyGroup *> *)propertyGrou
 
 ///
 /// Append more data to an upload session. When the parameter close is set, this call will close the session. A single
-/// request should not upload more than 150 MB.
+/// request should not upload more than 150 MB. The maximum size of a file one can upload to an upload session is 350
+/// GB.
 ///
 /// @param cursor Contains the upload session ID and the offset.
 /// @param inputData The file to upload, as an NSData * object.
@@ -1668,7 +1848,8 @@ propertyGroups:(nullable NSArray<DBFILEPROPERTIESPropertyGroup *> *)propertyGrou
 
 ///
 /// Append more data to an upload session. When the parameter close is set, this call will close the session. A single
-/// request should not upload more than 150 MB.
+/// request should not upload more than 150 MB. The maximum size of a file one can upload to an upload session is 350
+/// GB.
 ///
 /// @param cursor Contains the upload session ID and the offset.
 /// @param close If true, the current session will be closed, at which point you won't be able to call
@@ -1685,7 +1866,8 @@ propertyGroups:(nullable NSArray<DBFILEPROPERTIESPropertyGroup *> *)propertyGrou
 
 ///
 /// Append more data to an upload session. When the parameter close is set, this call will close the session. A single
-/// request should not upload more than 150 MB.
+/// request should not upload more than 150 MB. The maximum size of a file one can upload to an upload session is 350
+/// GB.
 ///
 /// @param cursor Contains the upload session ID and the offset.
 /// @param inputStream The file to upload, as an NSInputStream * object.
@@ -1699,7 +1881,8 @@ uploadSessionAppendV2Stream:(DBFILESUploadSessionCursor *)cursor
 
 ///
 /// Append more data to an upload session. When the parameter close is set, this call will close the session. A single
-/// request should not upload more than 150 MB.
+/// request should not upload more than 150 MB. The maximum size of a file one can upload to an upload session is 350
+/// GB.
 ///
 /// @param cursor Contains the upload session ID and the offset.
 /// @param close If true, the current session will be closed, at which point you won't be able to call
@@ -1716,7 +1899,7 @@ uploadSessionAppendV2Stream:(DBFILESUploadSessionCursor *)cursor
 
 ///
 /// Finish an upload session and save the uploaded data to the given file path. A single request should not upload more
-/// than 150 MB.
+/// than 150 MB. The maximum size of a file one can upload to an upload session is 350 GB.
 ///
 /// @param cursor Contains the upload session ID and the offset.
 /// @param commit Contains the path and other optional modifiers for the commit.
@@ -1732,7 +1915,7 @@ uploadSessionFinishUrl:(DBFILESUploadSessionCursor *)cursor
 
 ///
 /// Finish an upload session and save the uploaded data to the given file path. A single request should not upload more
-/// than 150 MB.
+/// than 150 MB. The maximum size of a file one can upload to an upload session is 350 GB.
 ///
 /// @param cursor Contains the upload session ID and the offset.
 /// @param commit Contains the path and other optional modifiers for the commit.
@@ -1748,7 +1931,7 @@ uploadSessionFinishData:(DBFILESUploadSessionCursor *)cursor
 
 ///
 /// Finish an upload session and save the uploaded data to the given file path. A single request should not upload more
-/// than 150 MB.
+/// than 150 MB. The maximum size of a file one can upload to an upload session is 350 GB.
 ///
 /// @param cursor Contains the upload session ID and the offset.
 /// @param commit Contains the path and other optional modifiers for the commit.
@@ -1768,10 +1951,10 @@ uploadSessionFinishStream:(DBFILESUploadSessionCursor *)cursor
 /// throughput. Once the file contents have been uploaded, rather than calling `uploadSessionFinish`, use this route to
 /// finish all your upload sessions in a single request. `close` in `DBFILESUploadSessionStartArg` or `close` in
 /// `DBFILESUploadSessionAppendArg` needs to be true for the last `uploadSessionStart` or `uploadSessionAppendV2` call.
-/// This route will return a job_id immediately and do the async commit job in background. Use
-/// `uploadSessionFinishBatchCheck` to check the job status. For the same account, this route should be executed
-/// serially. That means you should not start the next job before current job finishes. We allow up to 1000 entries in a
-/// single request.
+/// The maximum size of a file one can upload to an upload session is 350 GB. This route will return a job_id
+/// immediately and do the async commit job in background. Use `uploadSessionFinishBatchCheck` to check the job status.
+/// For the same account, this route should be executed serially. That means you should not start the next job before
+/// current job finishes. We allow up to 1000 entries in a single request.
 ///
 /// @param entries Commit information for each file in the batch.
 ///
@@ -1798,10 +1981,10 @@ uploadSessionFinishStream:(DBFILESUploadSessionCursor *)cursor
 /// Upload sessions allow you to upload a single file in one or more requests, for example where the size of the file is
 /// greater than 150 MB.  This call starts a new upload session with the given data. You can then use
 /// `uploadSessionAppendV2` to add more data and `uploadSessionFinish` to save all the data to a file in Dropbox. A
-/// single request should not upload more than 150 MB. An upload session can be used for a maximum of 48 hours.
-/// Attempting to use an `sessionId` in `DBFILESUploadSessionStartResult` with `uploadSessionAppendV2` or
-/// `uploadSessionFinish` more than 48 hours after its creation will return a `notFound` in
-/// `DBFILESUploadSessionLookupError`.
+/// single request should not upload more than 150 MB. The maximum size of a file one can upload to an upload session is
+/// 350 GB. An upload session can be used for a maximum of 48 hours. Attempting to use an `sessionId` in
+/// `DBFILESUploadSessionStartResult` with `uploadSessionAppendV2` or `uploadSessionFinish` more than 48 hours after its
+/// creation will return a `notFound` in `DBFILESUploadSessionLookupError`.
 ///
 /// @param inputUrl The file to upload, as an NSString * object.
 ///
@@ -1814,10 +1997,10 @@ uploadSessionFinishStream:(DBFILESUploadSessionCursor *)cursor
 /// Upload sessions allow you to upload a single file in one or more requests, for example where the size of the file is
 /// greater than 150 MB.  This call starts a new upload session with the given data. You can then use
 /// `uploadSessionAppendV2` to add more data and `uploadSessionFinish` to save all the data to a file in Dropbox. A
-/// single request should not upload more than 150 MB. An upload session can be used for a maximum of 48 hours.
-/// Attempting to use an `sessionId` in `DBFILESUploadSessionStartResult` with `uploadSessionAppendV2` or
-/// `uploadSessionFinish` more than 48 hours after its creation will return a `notFound` in
-/// `DBFILESUploadSessionLookupError`.
+/// single request should not upload more than 150 MB. The maximum size of a file one can upload to an upload session is
+/// 350 GB. An upload session can be used for a maximum of 48 hours. Attempting to use an `sessionId` in
+/// `DBFILESUploadSessionStartResult` with `uploadSessionAppendV2` or `uploadSessionFinish` more than 48 hours after its
+/// creation will return a `notFound` in `DBFILESUploadSessionLookupError`.
 ///
 /// @param close If true, the current session will be closed, at which point you won't be able to call
 /// `uploadSessionAppendV2` anymore with the current session.
@@ -1833,10 +2016,10 @@ uploadSessionFinishStream:(DBFILESUploadSessionCursor *)cursor
 /// Upload sessions allow you to upload a single file in one or more requests, for example where the size of the file is
 /// greater than 150 MB.  This call starts a new upload session with the given data. You can then use
 /// `uploadSessionAppendV2` to add more data and `uploadSessionFinish` to save all the data to a file in Dropbox. A
-/// single request should not upload more than 150 MB. An upload session can be used for a maximum of 48 hours.
-/// Attempting to use an `sessionId` in `DBFILESUploadSessionStartResult` with `uploadSessionAppendV2` or
-/// `uploadSessionFinish` more than 48 hours after its creation will return a `notFound` in
-/// `DBFILESUploadSessionLookupError`.
+/// single request should not upload more than 150 MB. The maximum size of a file one can upload to an upload session is
+/// 350 GB. An upload session can be used for a maximum of 48 hours. Attempting to use an `sessionId` in
+/// `DBFILESUploadSessionStartResult` with `uploadSessionAppendV2` or `uploadSessionFinish` more than 48 hours after its
+/// creation will return a `notFound` in `DBFILESUploadSessionLookupError`.
 ///
 /// @param inputData The file to upload, as an NSData * object.
 ///
@@ -1849,10 +2032,10 @@ uploadSessionFinishStream:(DBFILESUploadSessionCursor *)cursor
 /// Upload sessions allow you to upload a single file in one or more requests, for example where the size of the file is
 /// greater than 150 MB.  This call starts a new upload session with the given data. You can then use
 /// `uploadSessionAppendV2` to add more data and `uploadSessionFinish` to save all the data to a file in Dropbox. A
-/// single request should not upload more than 150 MB. An upload session can be used for a maximum of 48 hours.
-/// Attempting to use an `sessionId` in `DBFILESUploadSessionStartResult` with `uploadSessionAppendV2` or
-/// `uploadSessionFinish` more than 48 hours after its creation will return a `notFound` in
-/// `DBFILESUploadSessionLookupError`.
+/// single request should not upload more than 150 MB. The maximum size of a file one can upload to an upload session is
+/// 350 GB. An upload session can be used for a maximum of 48 hours. Attempting to use an `sessionId` in
+/// `DBFILESUploadSessionStartResult` with `uploadSessionAppendV2` or `uploadSessionFinish` more than 48 hours after its
+/// creation will return a `notFound` in `DBFILESUploadSessionLookupError`.
 ///
 /// @param close If true, the current session will be closed, at which point you won't be able to call
 /// `uploadSessionAppendV2` anymore with the current session.
@@ -1868,10 +2051,10 @@ uploadSessionFinishStream:(DBFILESUploadSessionCursor *)cursor
 /// Upload sessions allow you to upload a single file in one or more requests, for example where the size of the file is
 /// greater than 150 MB.  This call starts a new upload session with the given data. You can then use
 /// `uploadSessionAppendV2` to add more data and `uploadSessionFinish` to save all the data to a file in Dropbox. A
-/// single request should not upload more than 150 MB. An upload session can be used for a maximum of 48 hours.
-/// Attempting to use an `sessionId` in `DBFILESUploadSessionStartResult` with `uploadSessionAppendV2` or
-/// `uploadSessionFinish` more than 48 hours after its creation will return a `notFound` in
-/// `DBFILESUploadSessionLookupError`.
+/// single request should not upload more than 150 MB. The maximum size of a file one can upload to an upload session is
+/// 350 GB. An upload session can be used for a maximum of 48 hours. Attempting to use an `sessionId` in
+/// `DBFILESUploadSessionStartResult` with `uploadSessionAppendV2` or `uploadSessionFinish` more than 48 hours after its
+/// creation will return a `notFound` in `DBFILESUploadSessionLookupError`.
 ///
 /// @param inputStream The file to upload, as an NSInputStream * object.
 ///
@@ -1885,10 +2068,10 @@ uploadSessionFinishStream:(DBFILESUploadSessionCursor *)cursor
 /// Upload sessions allow you to upload a single file in one or more requests, for example where the size of the file is
 /// greater than 150 MB.  This call starts a new upload session with the given data. You can then use
 /// `uploadSessionAppendV2` to add more data and `uploadSessionFinish` to save all the data to a file in Dropbox. A
-/// single request should not upload more than 150 MB. An upload session can be used for a maximum of 48 hours.
-/// Attempting to use an `sessionId` in `DBFILESUploadSessionStartResult` with `uploadSessionAppendV2` or
-/// `uploadSessionFinish` more than 48 hours after its creation will return a `notFound` in
-/// `DBFILESUploadSessionLookupError`.
+/// single request should not upload more than 150 MB. The maximum size of a file one can upload to an upload session is
+/// 350 GB. An upload session can be used for a maximum of 48 hours. Attempting to use an `sessionId` in
+/// `DBFILESUploadSessionStartResult` with `uploadSessionAppendV2` or `uploadSessionFinish` more than 48 hours after its
+/// creation will return a `notFound` in `DBFILESUploadSessionLookupError`.
 ///
 /// @param close If true, the current session will be closed, at which point you won't be able to call
 /// `uploadSessionAppendV2` anymore with the current session.

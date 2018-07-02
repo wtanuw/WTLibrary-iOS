@@ -3769,6 +3769,14 @@
   return self;
 }
 
+- (instancetype)initWithHasTeamSelectiveSync {
+  self = [super init];
+  if (self) {
+    _tag = DBTEAMFeatureHasTeamSelectiveSync;
+  }
+  return self;
+}
+
 - (instancetype)initWithOther {
   self = [super init];
   if (self) {
@@ -3793,6 +3801,10 @@
   return _tag == DBTEAMFeatureHasTeamFileEvents;
 }
 
+- (BOOL)isHasTeamSelectiveSync {
+  return _tag == DBTEAMFeatureHasTeamSelectiveSync;
+}
+
 - (BOOL)isOther {
   return _tag == DBTEAMFeatureOther;
 }
@@ -3805,6 +3817,8 @@
     return @"DBTEAMFeatureHasTeamSharedDropbox";
   case DBTEAMFeatureHasTeamFileEvents:
     return @"DBTEAMFeatureHasTeamFileEvents";
+  case DBTEAMFeatureHasTeamSelectiveSync:
+    return @"DBTEAMFeatureHasTeamSelectiveSync";
   case DBTEAMFeatureOther:
     return @"DBTEAMFeatureOther";
   }
@@ -3849,6 +3863,8 @@
     result = prime * result + [[self tagName] hash];
   case DBTEAMFeatureHasTeamFileEvents:
     result = prime * result + [[self tagName] hash];
+  case DBTEAMFeatureHasTeamSelectiveSync:
+    result = prime * result + [[self tagName] hash];
   case DBTEAMFeatureOther:
     result = prime * result + [[self tagName] hash];
   }
@@ -3882,6 +3898,8 @@
     return [[self tagName] isEqual:[aFeature tagName]];
   case DBTEAMFeatureHasTeamFileEvents:
     return [[self tagName] isEqual:[aFeature tagName]];
+  case DBTEAMFeatureHasTeamSelectiveSync:
+    return [[self tagName] isEqual:[aFeature tagName]];
   case DBTEAMFeatureOther:
     return [[self tagName] isEqual:[aFeature tagName]];
   }
@@ -3903,6 +3921,8 @@
     jsonDict[@".tag"] = @"has_team_shared_dropbox";
   } else if ([valueObj isHasTeamFileEvents]) {
     jsonDict[@".tag"] = @"has_team_file_events";
+  } else if ([valueObj isHasTeamSelectiveSync]) {
+    jsonDict[@".tag"] = @"has_team_selective_sync";
   } else if ([valueObj isOther]) {
     jsonDict[@".tag"] = @"other";
   } else {
@@ -3921,6 +3941,8 @@
     return [[DBTEAMFeature alloc] initWithHasTeamSharedDropbox];
   } else if ([tag isEqualToString:@"has_team_file_events"]) {
     return [[DBTEAMFeature alloc] initWithHasTeamFileEvents];
+  } else if ([tag isEqualToString:@"has_team_selective_sync"]) {
+    return [[DBTEAMFeature alloc] initWithHasTeamSelectiveSync];
   } else if ([tag isEqualToString:@"other"]) {
     return [[DBTEAMFeature alloc] initWithOther];
   } else {
@@ -3934,6 +3956,7 @@
 #import "DBStoneValidators.h"
 #import "DBTEAMFeatureValue.h"
 #import "DBTEAMHasTeamFileEventsValue.h"
+#import "DBTEAMHasTeamSelectiveSyncValue.h"
 #import "DBTEAMHasTeamSharedDropboxValue.h"
 #import "DBTEAMUploadApiRateLimitValue.h"
 
@@ -3944,6 +3967,7 @@
 @synthesize uploadApiRateLimit = _uploadApiRateLimit;
 @synthesize hasTeamSharedDropbox = _hasTeamSharedDropbox;
 @synthesize hasTeamFileEvents = _hasTeamFileEvents;
+@synthesize hasTeamSelectiveSync = _hasTeamSelectiveSync;
 
 #pragma mark - Constructors
 
@@ -3970,6 +3994,15 @@
   if (self) {
     _tag = DBTEAMFeatureValueHasTeamFileEvents;
     _hasTeamFileEvents = hasTeamFileEvents;
+  }
+  return self;
+}
+
+- (instancetype)initWithHasTeamSelectiveSync:(DBTEAMHasTeamSelectiveSyncValue *)hasTeamSelectiveSync {
+  self = [super init];
+  if (self) {
+    _tag = DBTEAMFeatureValueHasTeamSelectiveSync;
+    _hasTeamSelectiveSync = hasTeamSelectiveSync;
   }
   return self;
 }
@@ -4008,6 +4041,14 @@
   return _hasTeamFileEvents;
 }
 
+- (DBTEAMHasTeamSelectiveSyncValue *)hasTeamSelectiveSync {
+  if (![self isHasTeamSelectiveSync]) {
+    [NSException raise:@"IllegalStateException"
+                format:@"Invalid tag: required DBTEAMFeatureValueHasTeamSelectiveSync, but was %@.", [self tagName]];
+  }
+  return _hasTeamSelectiveSync;
+}
+
 #pragma mark - Tag state methods
 
 - (BOOL)isUploadApiRateLimit {
@@ -4022,6 +4063,10 @@
   return _tag == DBTEAMFeatureValueHasTeamFileEvents;
 }
 
+- (BOOL)isHasTeamSelectiveSync {
+  return _tag == DBTEAMFeatureValueHasTeamSelectiveSync;
+}
+
 - (BOOL)isOther {
   return _tag == DBTEAMFeatureValueOther;
 }
@@ -4034,6 +4079,8 @@
     return @"DBTEAMFeatureValueHasTeamSharedDropbox";
   case DBTEAMFeatureValueHasTeamFileEvents:
     return @"DBTEAMFeatureValueHasTeamFileEvents";
+  case DBTEAMFeatureValueHasTeamSelectiveSync:
+    return @"DBTEAMFeatureValueHasTeamSelectiveSync";
   case DBTEAMFeatureValueOther:
     return @"DBTEAMFeatureValueOther";
   }
@@ -4078,6 +4125,8 @@
     result = prime * result + [self.hasTeamSharedDropbox hash];
   case DBTEAMFeatureValueHasTeamFileEvents:
     result = prime * result + [self.hasTeamFileEvents hash];
+  case DBTEAMFeatureValueHasTeamSelectiveSync:
+    result = prime * result + [self.hasTeamSelectiveSync hash];
   case DBTEAMFeatureValueOther:
     result = prime * result + [[self tagName] hash];
   }
@@ -4111,6 +4160,8 @@
     return [self.hasTeamSharedDropbox isEqual:aFeatureValue.hasTeamSharedDropbox];
   case DBTEAMFeatureValueHasTeamFileEvents:
     return [self.hasTeamFileEvents isEqual:aFeatureValue.hasTeamFileEvents];
+  case DBTEAMFeatureValueHasTeamSelectiveSync:
+    return [self.hasTeamSelectiveSync isEqual:aFeatureValue.hasTeamSelectiveSync];
   case DBTEAMFeatureValueOther:
     return [[self tagName] isEqual:[aFeatureValue tagName]];
   }
@@ -4138,6 +4189,10 @@
     jsonDict[@"has_team_file_events"] =
         [[DBTEAMHasTeamFileEventsValueSerializer serialize:valueObj.hasTeamFileEvents] mutableCopy];
     jsonDict[@".tag"] = @"has_team_file_events";
+  } else if ([valueObj isHasTeamSelectiveSync]) {
+    jsonDict[@"has_team_selective_sync"] =
+        [[DBTEAMHasTeamSelectiveSyncValueSerializer serialize:valueObj.hasTeamSelectiveSync] mutableCopy];
+    jsonDict[@".tag"] = @"has_team_selective_sync";
   } else if ([valueObj isOther]) {
     jsonDict[@".tag"] = @"other";
   } else {
@@ -4162,6 +4217,10 @@
     DBTEAMHasTeamFileEventsValue *hasTeamFileEvents =
         [DBTEAMHasTeamFileEventsValueSerializer deserialize:valueDict[@"has_team_file_events"]];
     return [[DBTEAMFeatureValue alloc] initWithHasTeamFileEvents:hasTeamFileEvents];
+  } else if ([tag isEqualToString:@"has_team_selective_sync"]) {
+    DBTEAMHasTeamSelectiveSyncValue *hasTeamSelectiveSync =
+        [DBTEAMHasTeamSelectiveSyncValueSerializer deserialize:valueDict[@"has_team_selective_sync"]];
+    return [[DBTEAMFeatureValue alloc] initWithHasTeamSelectiveSync:hasTeamSelectiveSync];
   } else if ([tag isEqualToString:@"other"]) {
     return [[DBTEAMFeatureValue alloc] initWithOther];
   } else {
@@ -11296,6 +11355,171 @@
 
 #import "DBStoneSerializers.h"
 #import "DBStoneValidators.h"
+#import "DBTEAMHasTeamSelectiveSyncValue.h"
+
+#pragma mark - API Object
+
+@implementation DBTEAMHasTeamSelectiveSyncValue
+
+@synthesize hasTeamSelectiveSync = _hasTeamSelectiveSync;
+
+#pragma mark - Constructors
+
+- (instancetype)initWithHasTeamSelectiveSync:(NSNumber *)hasTeamSelectiveSync {
+  self = [super init];
+  if (self) {
+    _tag = DBTEAMHasTeamSelectiveSyncValueHasTeamSelectiveSync;
+    _hasTeamSelectiveSync = hasTeamSelectiveSync;
+  }
+  return self;
+}
+
+- (instancetype)initWithOther {
+  self = [super init];
+  if (self) {
+    _tag = DBTEAMHasTeamSelectiveSyncValueOther;
+  }
+  return self;
+}
+
+#pragma mark - Instance field accessors
+
+- (NSNumber *)hasTeamSelectiveSync {
+  if (![self isHasTeamSelectiveSync]) {
+    [NSException raise:@"IllegalStateException"
+                format:@"Invalid tag: required DBTEAMHasTeamSelectiveSyncValueHasTeamSelectiveSync, but was %@.",
+                       [self tagName]];
+  }
+  return _hasTeamSelectiveSync;
+}
+
+#pragma mark - Tag state methods
+
+- (BOOL)isHasTeamSelectiveSync {
+  return _tag == DBTEAMHasTeamSelectiveSyncValueHasTeamSelectiveSync;
+}
+
+- (BOOL)isOther {
+  return _tag == DBTEAMHasTeamSelectiveSyncValueOther;
+}
+
+- (NSString *)tagName {
+  switch (_tag) {
+  case DBTEAMHasTeamSelectiveSyncValueHasTeamSelectiveSync:
+    return @"DBTEAMHasTeamSelectiveSyncValueHasTeamSelectiveSync";
+  case DBTEAMHasTeamSelectiveSyncValueOther:
+    return @"DBTEAMHasTeamSelectiveSyncValueOther";
+  }
+
+  @throw([NSException exceptionWithName:@"InvalidTag" reason:@"Tag has an unknown value." userInfo:nil]);
+}
+
+#pragma mark - Serialization methods
+
++ (nullable NSDictionary *)serialize:(id)instance {
+  return [DBTEAMHasTeamSelectiveSyncValueSerializer serialize:instance];
+}
+
++ (id)deserialize:(NSDictionary *)dict {
+  return [DBTEAMHasTeamSelectiveSyncValueSerializer deserialize:dict];
+}
+
+#pragma mark - Description method
+
+- (NSString *)description {
+  return [[DBTEAMHasTeamSelectiveSyncValueSerializer serialize:self] description];
+}
+
+#pragma mark - Copyable method
+
+- (instancetype)copyWithZone:(NSZone *)zone {
+#pragma unused(zone)
+  /// object is immutable
+  return self;
+}
+
+#pragma mark - Hash method
+
+- (NSUInteger)hash {
+  NSUInteger prime = 31;
+  NSUInteger result = 1;
+
+  switch (_tag) {
+  case DBTEAMHasTeamSelectiveSyncValueHasTeamSelectiveSync:
+    result = prime * result + [self.hasTeamSelectiveSync hash];
+  case DBTEAMHasTeamSelectiveSyncValueOther:
+    result = prime * result + [[self tagName] hash];
+  }
+
+  return prime * result;
+}
+
+#pragma mark - Equality method
+
+- (BOOL)isEqual:(id)other {
+  if (other == self) {
+    return YES;
+  }
+  if (!other || ![other isKindOfClass:[self class]]) {
+    return NO;
+  }
+  return [self isEqualToHasTeamSelectiveSyncValue:other];
+}
+
+- (BOOL)isEqualToHasTeamSelectiveSyncValue:(DBTEAMHasTeamSelectiveSyncValue *)aHasTeamSelectiveSyncValue {
+  if (self == aHasTeamSelectiveSyncValue) {
+    return YES;
+  }
+  if (self.tag != aHasTeamSelectiveSyncValue.tag) {
+    return NO;
+  }
+  switch (_tag) {
+  case DBTEAMHasTeamSelectiveSyncValueHasTeamSelectiveSync:
+    return [self.hasTeamSelectiveSync isEqual:aHasTeamSelectiveSyncValue.hasTeamSelectiveSync];
+  case DBTEAMHasTeamSelectiveSyncValueOther:
+    return [[self tagName] isEqual:[aHasTeamSelectiveSyncValue tagName]];
+  }
+  return YES;
+}
+
+@end
+
+#pragma mark - Serializer Object
+
+@implementation DBTEAMHasTeamSelectiveSyncValueSerializer
+
++ (NSDictionary *)serialize:(DBTEAMHasTeamSelectiveSyncValue *)valueObj {
+  NSMutableDictionary *jsonDict = [[NSMutableDictionary alloc] init];
+
+  if ([valueObj isHasTeamSelectiveSync]) {
+    jsonDict[@"has_team_selective_sync"] = valueObj.hasTeamSelectiveSync;
+    jsonDict[@".tag"] = @"has_team_selective_sync";
+  } else if ([valueObj isOther]) {
+    jsonDict[@".tag"] = @"other";
+  } else {
+    jsonDict[@".tag"] = @"other";
+  }
+
+  return [jsonDict count] > 0 ? jsonDict : nil;
+}
+
++ (DBTEAMHasTeamSelectiveSyncValue *)deserialize:(NSDictionary *)valueDict {
+  NSString *tag = valueDict[@".tag"];
+
+  if ([tag isEqualToString:@"has_team_selective_sync"]) {
+    NSNumber *hasTeamSelectiveSync = valueDict[@"has_team_selective_sync"];
+    return [[DBTEAMHasTeamSelectiveSyncValue alloc] initWithHasTeamSelectiveSync:hasTeamSelectiveSync];
+  } else if ([tag isEqualToString:@"other"]) {
+    return [[DBTEAMHasTeamSelectiveSyncValue alloc] initWithOther];
+  } else {
+    return [[DBTEAMHasTeamSelectiveSyncValue alloc] initWithOther];
+  }
+}
+
+@end
+
+#import "DBStoneSerializers.h"
+#import "DBStoneValidators.h"
 #import "DBTEAMHasTeamSharedDropboxValue.h"
 
 #pragma mark - API Object
@@ -14048,7 +14272,8 @@
                    memberExternalId:(NSString *)memberExternalId
                  memberPersistentId:(NSString *)memberPersistentId
                    sendWelcomeEmail:(NSNumber *)sendWelcomeEmail
-                               role:(DBTEAMAdminTier *)role {
+                               role:(DBTEAMAdminTier *)role
+              isDirectoryRestricted:(NSNumber *)isDirectoryRestricted {
   [DBStoneValidators nonnullValidator:[DBStoneValidators stringValidator:nil
                                                                maxLength:@(255)
                                                                  pattern:@"^['&A-Za-z0-9._%+-]+@[A-Za-z0-9-][A-Za-z0-9."
@@ -14070,6 +14295,7 @@
     _memberPersistentId = memberPersistentId;
     _sendWelcomeEmail = sendWelcomeEmail ?: @YES;
     _role = role ?: [[DBTEAMAdminTier alloc] initWithMemberOnly];
+    _isDirectoryRestricted = isDirectoryRestricted;
   }
   return self;
 }
@@ -14081,7 +14307,8 @@
                   memberExternalId:nil
                 memberPersistentId:nil
                   sendWelcomeEmail:nil
-                              role:nil];
+                              role:nil
+             isDirectoryRestricted:nil];
 }
 
 #pragma mark - Serialization methods
@@ -14129,6 +14356,9 @@
   }
   result = prime * result + [self.sendWelcomeEmail hash];
   result = prime * result + [self.role hash];
+  if (self.isDirectoryRestricted != nil) {
+    result = prime * result + [self.isDirectoryRestricted hash];
+  }
 
   return prime * result;
 }
@@ -14178,6 +14408,11 @@
   if (![self.role isEqual:aMemberAddArg.role]) {
     return NO;
   }
+  if (self.isDirectoryRestricted) {
+    if (![self.isDirectoryRestricted isEqual:aMemberAddArg.isDirectoryRestricted]) {
+      return NO;
+    }
+  }
   return YES;
 }
 
@@ -14205,6 +14440,9 @@
   }
   jsonDict[@"send_welcome_email"] = valueObj.sendWelcomeEmail;
   jsonDict[@"role"] = [DBTEAMAdminTierSerializer serialize:valueObj.role];
+  if (valueObj.isDirectoryRestricted) {
+    jsonDict[@"is_directory_restricted"] = valueObj.isDirectoryRestricted;
+  }
 
   return [jsonDict count] > 0 ? jsonDict : nil;
 }
@@ -14218,6 +14456,7 @@
   NSNumber *sendWelcomeEmail = valueDict[@"send_welcome_email"] ?: @YES;
   DBTEAMAdminTier *role = valueDict[@"role"] ? [DBTEAMAdminTierSerializer deserialize:valueDict[@"role"]]
                                              : [[DBTEAMAdminTier alloc] initWithMemberOnly];
+  NSNumber *isDirectoryRestricted = valueDict[@"is_directory_restricted"] ?: nil;
 
   return [[DBTEAMMemberAddArg alloc] initWithMemberEmail:memberEmail
                                          memberGivenName:memberGivenName
@@ -14225,7 +14464,8 @@
                                         memberExternalId:memberExternalId
                                       memberPersistentId:memberPersistentId
                                         sendWelcomeEmail:sendWelcomeEmail
-                                                    role:role];
+                                                    role:role
+                                   isDirectoryRestricted:isDirectoryRestricted];
 }
 
 @end
@@ -15049,7 +15289,8 @@
                           externalId:(NSString *)externalId
                            accountId:(NSString *)accountId
                             joinedOn:(NSDate *)joinedOn
-                        persistentId:(NSString *)persistentId {
+                        persistentId:(NSString *)persistentId
+               isDirectoryRestricted:(NSNumber *)isDirectoryRestricted {
   [DBStoneValidators nonnullValidator:nil](teamMemberId);
   [DBStoneValidators nonnullValidator:nil](email);
   [DBStoneValidators nonnullValidator:nil](emailVerified);
@@ -15071,6 +15312,7 @@
     _membershipType = membershipType;
     _joinedOn = joinedOn;
     _persistentId = persistentId;
+    _isDirectoryRestricted = isDirectoryRestricted;
   }
   return self;
 }
@@ -15090,7 +15332,8 @@
                          externalId:nil
                           accountId:nil
                            joinedOn:nil
-                       persistentId:nil];
+                       persistentId:nil
+              isDirectoryRestricted:nil];
 }
 
 #pragma mark - Serialization methods
@@ -15140,6 +15383,9 @@
   }
   if (self.persistentId != nil) {
     result = prime * result + [self.persistentId hash];
+  }
+  if (self.isDirectoryRestricted != nil) {
+    result = prime * result + [self.isDirectoryRestricted hash];
   }
 
   return prime * result;
@@ -15199,6 +15445,11 @@
       return NO;
     }
   }
+  if (self.isDirectoryRestricted) {
+    if (![self.isDirectoryRestricted isEqual:aMemberProfile.isDirectoryRestricted]) {
+      return NO;
+    }
+  }
   return YES;
 }
 
@@ -15229,6 +15480,9 @@
   if (valueObj.persistentId) {
     jsonDict[@"persistent_id"] = valueObj.persistentId;
   }
+  if (valueObj.isDirectoryRestricted) {
+    jsonDict[@"is_directory_restricted"] = valueObj.isDirectoryRestricted;
+  }
 
   return [jsonDict count] > 0 ? jsonDict : nil;
 }
@@ -15247,6 +15501,7 @@
                          ? [DBNSDateSerializer deserialize:valueDict[@"joined_on"] dateFormat:@"%Y-%m-%dT%H:%M:%SZ"]
                          : nil;
   NSString *persistentId = valueDict[@"persistent_id"] ?: nil;
+  NSNumber *isDirectoryRestricted = valueDict[@"is_directory_restricted"] ?: nil;
 
   return [[DBTEAMMemberProfile alloc] initWithTeamMemberId:teamMemberId
                                                      email:email
@@ -15257,7 +15512,8 @@
                                                 externalId:externalId
                                                  accountId:accountId
                                                   joinedOn:joinedOn
-                                              persistentId:persistentId];
+                                              persistentId:persistentId
+                                     isDirectoryRestricted:isDirectoryRestricted];
 }
 
 @end
@@ -18002,6 +18258,14 @@
   return self;
 }
 
+- (instancetype)initWithCannotKeepInvitedUserAccount {
+  self = [super init];
+  if (self) {
+    _tag = DBTEAMMembersRemoveErrorCannotKeepInvitedUserAccount;
+  }
+  return self;
+}
+
 #pragma mark - Instance field accessors
 
 #pragma mark - Tag state methods
@@ -18066,6 +18330,10 @@
   return _tag == DBTEAMMembersRemoveErrorEmailAddressTooLongToBeDisabled;
 }
 
+- (BOOL)isCannotKeepInvitedUserAccount {
+  return _tag == DBTEAMMembersRemoveErrorCannotKeepInvitedUserAccount;
+}
+
 - (NSString *)tagName {
   switch (_tag) {
   case DBTEAMMembersRemoveErrorUserNotFound:
@@ -18098,6 +18366,8 @@
     return @"DBTEAMMembersRemoveErrorCannotKeepAccountAndDeleteData";
   case DBTEAMMembersRemoveErrorEmailAddressTooLongToBeDisabled:
     return @"DBTEAMMembersRemoveErrorEmailAddressTooLongToBeDisabled";
+  case DBTEAMMembersRemoveErrorCannotKeepInvitedUserAccount:
+    return @"DBTEAMMembersRemoveErrorCannotKeepInvitedUserAccount";
   }
 
   @throw([NSException exceptionWithName:@"InvalidTag" reason:@"Tag has an unknown value." userInfo:nil]);
@@ -18164,6 +18434,8 @@
     result = prime * result + [[self tagName] hash];
   case DBTEAMMembersRemoveErrorEmailAddressTooLongToBeDisabled:
     result = prime * result + [[self tagName] hash];
+  case DBTEAMMembersRemoveErrorCannotKeepInvitedUserAccount:
+    result = prime * result + [[self tagName] hash];
   }
 
   return prime * result;
@@ -18219,6 +18491,8 @@
     return [[self tagName] isEqual:[aMembersRemoveError tagName]];
   case DBTEAMMembersRemoveErrorEmailAddressTooLongToBeDisabled:
     return [[self tagName] isEqual:[aMembersRemoveError tagName]];
+  case DBTEAMMembersRemoveErrorCannotKeepInvitedUserAccount:
+    return [[self tagName] isEqual:[aMembersRemoveError tagName]];
   }
   return YES;
 }
@@ -18262,6 +18536,8 @@
     jsonDict[@".tag"] = @"cannot_keep_account_and_delete_data";
   } else if ([valueObj isEmailAddressTooLongToBeDisabled]) {
     jsonDict[@".tag"] = @"email_address_too_long_to_be_disabled";
+  } else if ([valueObj isCannotKeepInvitedUserAccount]) {
+    jsonDict[@".tag"] = @"cannot_keep_invited_user_account";
   } else {
     jsonDict[@".tag"] = @"other";
   }
@@ -18302,6 +18578,8 @@
     return [[DBTEAMMembersRemoveError alloc] initWithCannotKeepAccountAndDeleteData];
   } else if ([tag isEqualToString:@"email_address_too_long_to_be_disabled"]) {
     return [[DBTEAMMembersRemoveError alloc] initWithEmailAddressTooLongToBeDisabled];
+  } else if ([tag isEqualToString:@"cannot_keep_invited_user_account"]) {
+    return [[DBTEAMMembersRemoveError alloc] initWithCannotKeepInvitedUserAccount];
   } else {
     return [[DBTEAMMembersRemoveError alloc] initWithOther];
   }
@@ -18952,11 +19230,12 @@
 #pragma mark - Constructors
 
 - (instancetype)initWithUser:(DBTEAMUserSelectorArg *)user
-                   dNewEmail:(NSString *)dNewEmail
-              dNewExternalId:(NSString *)dNewExternalId
-               dNewGivenName:(NSString *)dNewGivenName
-                 dNewSurname:(NSString *)dNewSurname
-            dNewPersistentId:(NSString *)dNewPersistentId {
+                    dNewEmail:(NSString *)dNewEmail
+               dNewExternalId:(NSString *)dNewExternalId
+                dNewGivenName:(NSString *)dNewGivenName
+                  dNewSurname:(NSString *)dNewSurname
+             dNewPersistentId:(NSString *)dNewPersistentId
+    dNewIsDirectoryRestricted:(NSNumber *)dNewIsDirectoryRestricted {
   [DBStoneValidators nonnullValidator:nil](user);
   [DBStoneValidators nullableValidator:[DBStoneValidators stringValidator:nil
                                                                 maxLength:@(255)
@@ -18977,13 +19256,19 @@
     _dNewGivenName = dNewGivenName;
     _dNewSurname = dNewSurname;
     _dNewPersistentId = dNewPersistentId;
+    _dNewIsDirectoryRestricted = dNewIsDirectoryRestricted;
   }
   return self;
 }
 
 - (instancetype)initWithUser:(DBTEAMUserSelectorArg *)user {
-  return
-      [self initWithUser:user dNewEmail:nil dNewExternalId:nil dNewGivenName:nil dNewSurname:nil dNewPersistentId:nil];
+  return [self initWithUser:user
+                      dNewEmail:nil
+                 dNewExternalId:nil
+                  dNewGivenName:nil
+                    dNewSurname:nil
+               dNewPersistentId:nil
+      dNewIsDirectoryRestricted:nil];
 }
 
 #pragma mark - Serialization methods
@@ -19031,6 +19316,9 @@
   }
   if (self.dNewPersistentId != nil) {
     result = prime * result + [self.dNewPersistentId hash];
+  }
+  if (self.dNewIsDirectoryRestricted != nil) {
+    result = prime * result + [self.dNewIsDirectoryRestricted hash];
   }
 
   return prime * result;
@@ -19080,6 +19368,11 @@
       return NO;
     }
   }
+  if (self.dNewIsDirectoryRestricted) {
+    if (![self.dNewIsDirectoryRestricted isEqual:aMembersSetProfileArg.dNewIsDirectoryRestricted]) {
+      return NO;
+    }
+  }
   return YES;
 }
 
@@ -19108,6 +19401,9 @@
   if (valueObj.dNewPersistentId) {
     jsonDict[@"new_persistent_id"] = valueObj.dNewPersistentId;
   }
+  if (valueObj.dNewIsDirectoryRestricted) {
+    jsonDict[@"new_is_directory_restricted"] = valueObj.dNewIsDirectoryRestricted;
+  }
 
   return [jsonDict count] > 0 ? jsonDict : nil;
 }
@@ -19119,13 +19415,15 @@
   NSString *dNewGivenName = valueDict[@"new_given_name"] ?: nil;
   NSString *dNewSurname = valueDict[@"new_surname"] ?: nil;
   NSString *dNewPersistentId = valueDict[@"new_persistent_id"] ?: nil;
+  NSNumber *dNewIsDirectoryRestricted = valueDict[@"new_is_directory_restricted"] ?: nil;
 
   return [[DBTEAMMembersSetProfileArg alloc] initWithUser:user
                                                 dNewEmail:dNewEmail
                                            dNewExternalId:dNewExternalId
                                             dNewGivenName:dNewGivenName
                                               dNewSurname:dNewSurname
-                                         dNewPersistentId:dNewPersistentId];
+                                         dNewPersistentId:dNewPersistentId
+                                dNewIsDirectoryRestricted:dNewIsDirectoryRestricted];
 }
 
 @end
@@ -19221,6 +19519,14 @@
   return self;
 }
 
+- (instancetype)initWithDirectoryRestrictedOff {
+  self = [super init];
+  if (self) {
+    _tag = DBTEAMMembersSetProfileErrorDirectoryRestrictedOff;
+  }
+  return self;
+}
+
 - (instancetype)initWithOther {
   self = [super init];
   if (self) {
@@ -19273,6 +19579,10 @@
   return _tag == DBTEAMMembersSetProfileErrorPersistentIdUsedByOtherUser;
 }
 
+- (BOOL)isDirectoryRestrictedOff {
+  return _tag == DBTEAMMembersSetProfileErrorDirectoryRestrictedOff;
+}
+
 - (BOOL)isOther {
   return _tag == DBTEAMMembersSetProfileErrorOther;
 }
@@ -19299,6 +19609,8 @@
     return @"DBTEAMMembersSetProfileErrorPersistentIdDisabled";
   case DBTEAMMembersSetProfileErrorPersistentIdUsedByOtherUser:
     return @"DBTEAMMembersSetProfileErrorPersistentIdUsedByOtherUser";
+  case DBTEAMMembersSetProfileErrorDirectoryRestrictedOff:
+    return @"DBTEAMMembersSetProfileErrorDirectoryRestrictedOff";
   case DBTEAMMembersSetProfileErrorOther:
     return @"DBTEAMMembersSetProfileErrorOther";
   }
@@ -19357,6 +19669,8 @@
     result = prime * result + [[self tagName] hash];
   case DBTEAMMembersSetProfileErrorPersistentIdUsedByOtherUser:
     result = prime * result + [[self tagName] hash];
+  case DBTEAMMembersSetProfileErrorDirectoryRestrictedOff:
+    result = prime * result + [[self tagName] hash];
   case DBTEAMMembersSetProfileErrorOther:
     result = prime * result + [[self tagName] hash];
   }
@@ -19404,6 +19718,8 @@
     return [[self tagName] isEqual:[aMembersSetProfileError tagName]];
   case DBTEAMMembersSetProfileErrorPersistentIdUsedByOtherUser:
     return [[self tagName] isEqual:[aMembersSetProfileError tagName]];
+  case DBTEAMMembersSetProfileErrorDirectoryRestrictedOff:
+    return [[self tagName] isEqual:[aMembersSetProfileError tagName]];
   case DBTEAMMembersSetProfileErrorOther:
     return [[self tagName] isEqual:[aMembersSetProfileError tagName]];
   }
@@ -19439,6 +19755,8 @@
     jsonDict[@".tag"] = @"persistent_id_disabled";
   } else if ([valueObj isPersistentIdUsedByOtherUser]) {
     jsonDict[@".tag"] = @"persistent_id_used_by_other_user";
+  } else if ([valueObj isDirectoryRestrictedOff]) {
+    jsonDict[@".tag"] = @"directory_restricted_off";
   } else if ([valueObj isOther]) {
     jsonDict[@".tag"] = @"other";
   } else {
@@ -19471,6 +19789,8 @@
     return [[DBTEAMMembersSetProfileError alloc] initWithPersistentIdDisabled];
   } else if ([tag isEqualToString:@"persistent_id_used_by_other_user"]) {
     return [[DBTEAMMembersSetProfileError alloc] initWithPersistentIdUsedByOtherUser];
+  } else if ([tag isEqualToString:@"directory_restricted_off"]) {
+    return [[DBTEAMMembersSetProfileError alloc] initWithDirectoryRestrictedOff];
   } else if ([tag isEqualToString:@"other"]) {
     return [[DBTEAMMembersSetProfileError alloc] initWithOther];
   } else {
@@ -24565,6 +24885,7 @@
 
 @end
 
+#import "DBFILESSyncSettingArg.h"
 #import "DBStoneSerializers.h"
 #import "DBStoneValidators.h"
 #import "DBTEAMTeamFolderCreateArg.h"
@@ -24575,14 +24896,19 @@
 
 #pragma mark - Constructors
 
-- (instancetype)initWithName:(NSString *)name {
+- (instancetype)initWithName:(NSString *)name syncSetting:(DBFILESSyncSettingArg *)syncSetting {
   [DBStoneValidators nonnullValidator:nil](name);
 
   self = [super init];
   if (self) {
     _name = name;
+    _syncSetting = syncSetting;
   }
   return self;
+}
+
+- (instancetype)initWithName:(NSString *)name {
+  return [self initWithName:name syncSetting:nil];
 }
 
 #pragma mark - Serialization methods
@@ -24616,6 +24942,9 @@
   NSUInteger result = 1;
 
   result = prime * result + [self.name hash];
+  if (self.syncSetting != nil) {
+    result = prime * result + [self.syncSetting hash];
+  }
 
   return prime * result;
 }
@@ -24639,6 +24968,11 @@
   if (![self.name isEqual:aTeamFolderCreateArg.name]) {
     return NO;
   }
+  if (self.syncSetting) {
+    if (![self.syncSetting isEqual:aTeamFolderCreateArg.syncSetting]) {
+      return NO;
+    }
+  }
   return YES;
 }
 
@@ -24652,18 +24986,24 @@
   NSMutableDictionary *jsonDict = [[NSMutableDictionary alloc] init];
 
   jsonDict[@"name"] = valueObj.name;
+  if (valueObj.syncSetting) {
+    jsonDict[@"sync_setting"] = [DBFILESSyncSettingArgSerializer serialize:valueObj.syncSetting];
+  }
 
   return [jsonDict count] > 0 ? jsonDict : nil;
 }
 
 + (DBTEAMTeamFolderCreateArg *)deserialize:(NSDictionary *)valueDict {
   NSString *name = valueDict[@"name"];
+  DBFILESSyncSettingArg *syncSetting =
+      valueDict[@"sync_setting"] ? [DBFILESSyncSettingArgSerializer deserialize:valueDict[@"sync_setting"]] : nil;
 
-  return [[DBTEAMTeamFolderCreateArg alloc] initWithName:name];
+  return [[DBTEAMTeamFolderCreateArg alloc] initWithName:name syncSetting:syncSetting];
 }
 
 @end
 
+#import "DBFILESSyncSettingsError.h"
 #import "DBStoneSerializers.h"
 #import "DBStoneValidators.h"
 #import "DBTEAMTeamFolderCreateError.h"
@@ -24671,6 +25011,8 @@
 #pragma mark - API Object
 
 @implementation DBTEAMTeamFolderCreateError
+
+@synthesize syncSettingsError = _syncSettingsError;
 
 #pragma mark - Constructors
 
@@ -24698,6 +25040,15 @@
   return self;
 }
 
+- (instancetype)initWithSyncSettingsError:(DBFILESSyncSettingsError *)syncSettingsError {
+  self = [super init];
+  if (self) {
+    _tag = DBTEAMTeamFolderCreateErrorSyncSettingsError;
+    _syncSettingsError = syncSettingsError;
+  }
+  return self;
+}
+
 - (instancetype)initWithOther {
   self = [super init];
   if (self) {
@@ -24707,6 +25058,15 @@
 }
 
 #pragma mark - Instance field accessors
+
+- (DBFILESSyncSettingsError *)syncSettingsError {
+  if (![self isSyncSettingsError]) {
+    [NSException
+         raise:@"IllegalStateException"
+        format:@"Invalid tag: required DBTEAMTeamFolderCreateErrorSyncSettingsError, but was %@.", [self tagName]];
+  }
+  return _syncSettingsError;
+}
 
 #pragma mark - Tag state methods
 
@@ -24722,6 +25082,10 @@
   return _tag == DBTEAMTeamFolderCreateErrorFolderNameReserved;
 }
 
+- (BOOL)isSyncSettingsError {
+  return _tag == DBTEAMTeamFolderCreateErrorSyncSettingsError;
+}
+
 - (BOOL)isOther {
   return _tag == DBTEAMTeamFolderCreateErrorOther;
 }
@@ -24734,6 +25098,8 @@
     return @"DBTEAMTeamFolderCreateErrorFolderNameAlreadyUsed";
   case DBTEAMTeamFolderCreateErrorFolderNameReserved:
     return @"DBTEAMTeamFolderCreateErrorFolderNameReserved";
+  case DBTEAMTeamFolderCreateErrorSyncSettingsError:
+    return @"DBTEAMTeamFolderCreateErrorSyncSettingsError";
   case DBTEAMTeamFolderCreateErrorOther:
     return @"DBTEAMTeamFolderCreateErrorOther";
   }
@@ -24778,6 +25144,8 @@
     result = prime * result + [[self tagName] hash];
   case DBTEAMTeamFolderCreateErrorFolderNameReserved:
     result = prime * result + [[self tagName] hash];
+  case DBTEAMTeamFolderCreateErrorSyncSettingsError:
+    result = prime * result + [self.syncSettingsError hash];
   case DBTEAMTeamFolderCreateErrorOther:
     result = prime * result + [[self tagName] hash];
   }
@@ -24811,6 +25179,8 @@
     return [[self tagName] isEqual:[aTeamFolderCreateError tagName]];
   case DBTEAMTeamFolderCreateErrorFolderNameReserved:
     return [[self tagName] isEqual:[aTeamFolderCreateError tagName]];
+  case DBTEAMTeamFolderCreateErrorSyncSettingsError:
+    return [self.syncSettingsError isEqual:aTeamFolderCreateError.syncSettingsError];
   case DBTEAMTeamFolderCreateErrorOther:
     return [[self tagName] isEqual:[aTeamFolderCreateError tagName]];
   }
@@ -24832,6 +25202,10 @@
     jsonDict[@".tag"] = @"folder_name_already_used";
   } else if ([valueObj isFolderNameReserved]) {
     jsonDict[@".tag"] = @"folder_name_reserved";
+  } else if ([valueObj isSyncSettingsError]) {
+    jsonDict[@"sync_settings_error"] =
+        [[DBFILESSyncSettingsErrorSerializer serialize:valueObj.syncSettingsError] mutableCopy];
+    jsonDict[@".tag"] = @"sync_settings_error";
   } else if ([valueObj isOther]) {
     jsonDict[@".tag"] = @"other";
   } else {
@@ -24850,6 +25224,10 @@
     return [[DBTEAMTeamFolderCreateError alloc] initWithFolderNameAlreadyUsed];
   } else if ([tag isEqualToString:@"folder_name_reserved"]) {
     return [[DBTEAMTeamFolderCreateError alloc] initWithFolderNameReserved];
+  } else if ([tag isEqualToString:@"sync_settings_error"]) {
+    DBFILESSyncSettingsError *syncSettingsError =
+        [DBFILESSyncSettingsErrorSerializer deserialize:valueDict[@"sync_settings_error"]];
+    return [[DBTEAMTeamFolderCreateError alloc] initWithSyncSettingsError:syncSettingsError];
   } else if ([tag isEqualToString:@"other"]) {
     return [[DBTEAMTeamFolderCreateError alloc] initWithOther];
   } else {
@@ -25932,6 +26310,8 @@
 
 @end
 
+#import "DBFILESContentSyncSetting.h"
+#import "DBFILESSyncSetting.h"
 #import "DBStoneSerializers.h"
 #import "DBStoneValidators.h"
 #import "DBTEAMTeamFolderMetadata.h"
@@ -25946,12 +26326,19 @@
 - (instancetype)initWithTeamFolderId:(NSString *)teamFolderId
                                 name:(NSString *)name
                               status:(DBTEAMTeamFolderStatus *)status
-                 isTeamSharedDropbox:(NSNumber *)isTeamSharedDropbox {
+                 isTeamSharedDropbox:(NSNumber *)isTeamSharedDropbox
+                         syncSetting:(DBFILESSyncSetting *)syncSetting
+                 contentSyncSettings:(NSArray<DBFILESContentSyncSetting *> *)contentSyncSettings {
   [DBStoneValidators
    nonnullValidator:[DBStoneValidators stringValidator:nil maxLength:nil pattern:@"[-_0-9a-zA-Z:]+"]](teamFolderId);
   [DBStoneValidators nonnullValidator:nil](name);
   [DBStoneValidators nonnullValidator:nil](status);
   [DBStoneValidators nonnullValidator:nil](isTeamSharedDropbox);
+  [DBStoneValidators nonnullValidator:nil](syncSetting);
+  [DBStoneValidators
+   nonnullValidator:[DBStoneValidators arrayValidator:nil
+                                             maxItems:nil
+                                        itemValidator:[DBStoneValidators nonnullValidator:nil]]](contentSyncSettings);
 
   self = [super init];
   if (self) {
@@ -25959,6 +26346,8 @@
     _name = name;
     _status = status;
     _isTeamSharedDropbox = isTeamSharedDropbox;
+    _syncSetting = syncSetting;
+    _contentSyncSettings = contentSyncSettings;
   }
   return self;
 }
@@ -25997,6 +26386,8 @@
   result = prime * result + [self.name hash];
   result = prime * result + [self.status hash];
   result = prime * result + [self.isTeamSharedDropbox hash];
+  result = prime * result + [self.syncSetting hash];
+  result = prime * result + [self.contentSyncSettings hash];
 
   return prime * result;
 }
@@ -26029,6 +26420,12 @@
   if (![self.isTeamSharedDropbox isEqual:aTeamFolderMetadata.isTeamSharedDropbox]) {
     return NO;
   }
+  if (![self.syncSetting isEqual:aTeamFolderMetadata.syncSetting]) {
+    return NO;
+  }
+  if (![self.contentSyncSettings isEqual:aTeamFolderMetadata.contentSyncSettings]) {
+    return NO;
+  }
   return YES;
 }
 
@@ -26045,6 +26442,12 @@
   jsonDict[@"name"] = valueObj.name;
   jsonDict[@"status"] = [DBTEAMTeamFolderStatusSerializer serialize:valueObj.status];
   jsonDict[@"is_team_shared_dropbox"] = valueObj.isTeamSharedDropbox;
+  jsonDict[@"sync_setting"] = [DBFILESSyncSettingSerializer serialize:valueObj.syncSetting];
+  jsonDict[@"content_sync_settings"] =
+      [DBArraySerializer serialize:valueObj.contentSyncSettings
+                         withBlock:^id(id elem0) {
+                           return [DBFILESContentSyncSettingSerializer serialize:elem0];
+                         }];
 
   return [jsonDict count] > 0 ? jsonDict : nil;
 }
@@ -26054,11 +26457,19 @@
   NSString *name = valueDict[@"name"];
   DBTEAMTeamFolderStatus *status = [DBTEAMTeamFolderStatusSerializer deserialize:valueDict[@"status"]];
   NSNumber *isTeamSharedDropbox = valueDict[@"is_team_shared_dropbox"];
+  DBFILESSyncSetting *syncSetting = [DBFILESSyncSettingSerializer deserialize:valueDict[@"sync_setting"]];
+  NSArray<DBFILESContentSyncSetting *> *contentSyncSettings =
+      [DBArraySerializer deserialize:valueDict[@"content_sync_settings"]
+                           withBlock:^id(id elem0) {
+                             return [DBFILESContentSyncSettingSerializer deserialize:elem0];
+                           }];
 
   return [[DBTEAMTeamFolderMetadata alloc] initWithTeamFolderId:teamFolderId
                                                            name:name
                                                          status:status
-                                            isTeamSharedDropbox:isTeamSharedDropbox];
+                                            isTeamSharedDropbox:isTeamSharedDropbox
+                                                    syncSetting:syncSetting
+                                            contentSyncSettings:contentSyncSettings];
 }
 
 @end
@@ -27072,6 +27483,442 @@
 
 @end
 
+#import "DBFILESContentSyncSettingArg.h"
+#import "DBFILESSyncSettingArg.h"
+#import "DBStoneSerializers.h"
+#import "DBStoneValidators.h"
+#import "DBTEAMTeamFolderIdArg.h"
+#import "DBTEAMTeamFolderUpdateSyncSettingsArg.h"
+
+#pragma mark - API Object
+
+@implementation DBTEAMTeamFolderUpdateSyncSettingsArg
+
+#pragma mark - Constructors
+
+- (instancetype)initWithTeamFolderId:(NSString *)teamFolderId
+                         syncSetting:(DBFILESSyncSettingArg *)syncSetting
+                 contentSyncSettings:(NSArray<DBFILESContentSyncSettingArg *> *)contentSyncSettings {
+  [DBStoneValidators
+   nonnullValidator:[DBStoneValidators stringValidator:nil maxLength:nil pattern:@"[-_0-9a-zA-Z:]+"]](teamFolderId);
+  [DBStoneValidators
+   nullableValidator:[DBStoneValidators arrayValidator:nil
+                                              maxItems:nil
+                                         itemValidator:[DBStoneValidators nonnullValidator:nil]]](contentSyncSettings);
+
+  self = [super initWithTeamFolderId:teamFolderId];
+  if (self) {
+    _syncSetting = syncSetting;
+    _contentSyncSettings = contentSyncSettings;
+  }
+  return self;
+}
+
+- (instancetype)initWithTeamFolderId:(NSString *)teamFolderId {
+  return [self initWithTeamFolderId:teamFolderId syncSetting:nil contentSyncSettings:nil];
+}
+
+#pragma mark - Serialization methods
+
++ (nullable NSDictionary *)serialize:(id)instance {
+  return [DBTEAMTeamFolderUpdateSyncSettingsArgSerializer serialize:instance];
+}
+
++ (id)deserialize:(NSDictionary *)dict {
+  return [DBTEAMTeamFolderUpdateSyncSettingsArgSerializer deserialize:dict];
+}
+
+#pragma mark - Description method
+
+- (NSString *)description {
+  return [[DBTEAMTeamFolderUpdateSyncSettingsArgSerializer serialize:self] description];
+}
+
+#pragma mark - Copyable method
+
+- (instancetype)copyWithZone:(NSZone *)zone {
+#pragma unused(zone)
+  /// object is immutable
+  return self;
+}
+
+#pragma mark - Hash method
+
+- (NSUInteger)hash {
+  NSUInteger prime = 31;
+  NSUInteger result = 1;
+
+  result = prime * result + [self.teamFolderId hash];
+  if (self.syncSetting != nil) {
+    result = prime * result + [self.syncSetting hash];
+  }
+  if (self.contentSyncSettings != nil) {
+    result = prime * result + [self.contentSyncSettings hash];
+  }
+
+  return prime * result;
+}
+
+#pragma mark - Equality method
+
+- (BOOL)isEqual:(id)other {
+  if (other == self) {
+    return YES;
+  }
+  if (!other || ![other isKindOfClass:[self class]]) {
+    return NO;
+  }
+  return [self isEqualToTeamFolderUpdateSyncSettingsArg:other];
+}
+
+- (BOOL)isEqualToTeamFolderUpdateSyncSettingsArg:
+    (DBTEAMTeamFolderUpdateSyncSettingsArg *)aTeamFolderUpdateSyncSettingsArg {
+  if (self == aTeamFolderUpdateSyncSettingsArg) {
+    return YES;
+  }
+  if (![self.teamFolderId isEqual:aTeamFolderUpdateSyncSettingsArg.teamFolderId]) {
+    return NO;
+  }
+  if (self.syncSetting) {
+    if (![self.syncSetting isEqual:aTeamFolderUpdateSyncSettingsArg.syncSetting]) {
+      return NO;
+    }
+  }
+  if (self.contentSyncSettings) {
+    if (![self.contentSyncSettings isEqual:aTeamFolderUpdateSyncSettingsArg.contentSyncSettings]) {
+      return NO;
+    }
+  }
+  return YES;
+}
+
+@end
+
+#pragma mark - Serializer Object
+
+@implementation DBTEAMTeamFolderUpdateSyncSettingsArgSerializer
+
++ (NSDictionary *)serialize:(DBTEAMTeamFolderUpdateSyncSettingsArg *)valueObj {
+  NSMutableDictionary *jsonDict = [[NSMutableDictionary alloc] init];
+
+  jsonDict[@"team_folder_id"] = valueObj.teamFolderId;
+  if (valueObj.syncSetting) {
+    jsonDict[@"sync_setting"] = [DBFILESSyncSettingArgSerializer serialize:valueObj.syncSetting];
+  }
+  if (valueObj.contentSyncSettings) {
+    jsonDict[@"content_sync_settings"] =
+        [DBArraySerializer serialize:valueObj.contentSyncSettings
+                           withBlock:^id(id elem0) {
+                             return [DBFILESContentSyncSettingArgSerializer serialize:elem0];
+                           }];
+  }
+
+  return [jsonDict count] > 0 ? jsonDict : nil;
+}
+
++ (DBTEAMTeamFolderUpdateSyncSettingsArg *)deserialize:(NSDictionary *)valueDict {
+  NSString *teamFolderId = valueDict[@"team_folder_id"];
+  DBFILESSyncSettingArg *syncSetting =
+      valueDict[@"sync_setting"] ? [DBFILESSyncSettingArgSerializer deserialize:valueDict[@"sync_setting"]] : nil;
+  NSArray<DBFILESContentSyncSettingArg *> *contentSyncSettings =
+      valueDict[@"content_sync_settings"]
+          ? [DBArraySerializer deserialize:valueDict[@"content_sync_settings"]
+                                 withBlock:^id(id elem0) {
+                                   return [DBFILESContentSyncSettingArgSerializer deserialize:elem0];
+                                 }]
+          : nil;
+
+  return [[DBTEAMTeamFolderUpdateSyncSettingsArg alloc] initWithTeamFolderId:teamFolderId
+                                                                 syncSetting:syncSetting
+                                                         contentSyncSettings:contentSyncSettings];
+}
+
+@end
+
+#import "DBFILESSyncSettingsError.h"
+#import "DBStoneSerializers.h"
+#import "DBStoneValidators.h"
+#import "DBTEAMBaseTeamFolderError.h"
+#import "DBTEAMTeamFolderAccessError.h"
+#import "DBTEAMTeamFolderInvalidStatusError.h"
+#import "DBTEAMTeamFolderTeamSharedDropboxError.h"
+#import "DBTEAMTeamFolderUpdateSyncSettingsError.h"
+
+#pragma mark - API Object
+
+@implementation DBTEAMTeamFolderUpdateSyncSettingsError
+
+@synthesize accessError = _accessError;
+@synthesize statusError = _statusError;
+@synthesize teamSharedDropboxError = _teamSharedDropboxError;
+@synthesize syncSettingsError = _syncSettingsError;
+
+#pragma mark - Constructors
+
+- (instancetype)initWithAccessError:(DBTEAMTeamFolderAccessError *)accessError {
+  self = [super init];
+  if (self) {
+    _tag = DBTEAMTeamFolderUpdateSyncSettingsErrorAccessError;
+    _accessError = accessError;
+  }
+  return self;
+}
+
+- (instancetype)initWithStatusError:(DBTEAMTeamFolderInvalidStatusError *)statusError {
+  self = [super init];
+  if (self) {
+    _tag = DBTEAMTeamFolderUpdateSyncSettingsErrorStatusError;
+    _statusError = statusError;
+  }
+  return self;
+}
+
+- (instancetype)initWithTeamSharedDropboxError:(DBTEAMTeamFolderTeamSharedDropboxError *)teamSharedDropboxError {
+  self = [super init];
+  if (self) {
+    _tag = DBTEAMTeamFolderUpdateSyncSettingsErrorTeamSharedDropboxError;
+    _teamSharedDropboxError = teamSharedDropboxError;
+  }
+  return self;
+}
+
+- (instancetype)initWithOther {
+  self = [super init];
+  if (self) {
+    _tag = DBTEAMTeamFolderUpdateSyncSettingsErrorOther;
+  }
+  return self;
+}
+
+- (instancetype)initWithSyncSettingsError:(DBFILESSyncSettingsError *)syncSettingsError {
+  self = [super init];
+  if (self) {
+    _tag = DBTEAMTeamFolderUpdateSyncSettingsErrorSyncSettingsError;
+    _syncSettingsError = syncSettingsError;
+  }
+  return self;
+}
+
+#pragma mark - Instance field accessors
+
+- (DBTEAMTeamFolderAccessError *)accessError {
+  if (![self isAccessError]) {
+    [NSException raise:@"IllegalStateException"
+                format:@"Invalid tag: required DBTEAMTeamFolderUpdateSyncSettingsErrorAccessError, but was %@.",
+                       [self tagName]];
+  }
+  return _accessError;
+}
+
+- (DBTEAMTeamFolderInvalidStatusError *)statusError {
+  if (![self isStatusError]) {
+    [NSException raise:@"IllegalStateException"
+                format:@"Invalid tag: required DBTEAMTeamFolderUpdateSyncSettingsErrorStatusError, but was %@.",
+                       [self tagName]];
+  }
+  return _statusError;
+}
+
+- (DBTEAMTeamFolderTeamSharedDropboxError *)teamSharedDropboxError {
+  if (![self isTeamSharedDropboxError]) {
+    [NSException
+         raise:@"IllegalStateException"
+        format:@"Invalid tag: required DBTEAMTeamFolderUpdateSyncSettingsErrorTeamSharedDropboxError, but was %@.",
+               [self tagName]];
+  }
+  return _teamSharedDropboxError;
+}
+
+- (DBFILESSyncSettingsError *)syncSettingsError {
+  if (![self isSyncSettingsError]) {
+    [NSException raise:@"IllegalStateException"
+                format:@"Invalid tag: required DBTEAMTeamFolderUpdateSyncSettingsErrorSyncSettingsError, but was %@.",
+                       [self tagName]];
+  }
+  return _syncSettingsError;
+}
+
+#pragma mark - Tag state methods
+
+- (BOOL)isAccessError {
+  return _tag == DBTEAMTeamFolderUpdateSyncSettingsErrorAccessError;
+}
+
+- (BOOL)isStatusError {
+  return _tag == DBTEAMTeamFolderUpdateSyncSettingsErrorStatusError;
+}
+
+- (BOOL)isTeamSharedDropboxError {
+  return _tag == DBTEAMTeamFolderUpdateSyncSettingsErrorTeamSharedDropboxError;
+}
+
+- (BOOL)isOther {
+  return _tag == DBTEAMTeamFolderUpdateSyncSettingsErrorOther;
+}
+
+- (BOOL)isSyncSettingsError {
+  return _tag == DBTEAMTeamFolderUpdateSyncSettingsErrorSyncSettingsError;
+}
+
+- (NSString *)tagName {
+  switch (_tag) {
+  case DBTEAMTeamFolderUpdateSyncSettingsErrorAccessError:
+    return @"DBTEAMTeamFolderUpdateSyncSettingsErrorAccessError";
+  case DBTEAMTeamFolderUpdateSyncSettingsErrorStatusError:
+    return @"DBTEAMTeamFolderUpdateSyncSettingsErrorStatusError";
+  case DBTEAMTeamFolderUpdateSyncSettingsErrorTeamSharedDropboxError:
+    return @"DBTEAMTeamFolderUpdateSyncSettingsErrorTeamSharedDropboxError";
+  case DBTEAMTeamFolderUpdateSyncSettingsErrorOther:
+    return @"DBTEAMTeamFolderUpdateSyncSettingsErrorOther";
+  case DBTEAMTeamFolderUpdateSyncSettingsErrorSyncSettingsError:
+    return @"DBTEAMTeamFolderUpdateSyncSettingsErrorSyncSettingsError";
+  }
+
+  @throw([NSException exceptionWithName:@"InvalidTag" reason:@"Tag has an unknown value." userInfo:nil]);
+}
+
+#pragma mark - Serialization methods
+
++ (nullable NSDictionary *)serialize:(id)instance {
+  return [DBTEAMTeamFolderUpdateSyncSettingsErrorSerializer serialize:instance];
+}
+
++ (id)deserialize:(NSDictionary *)dict {
+  return [DBTEAMTeamFolderUpdateSyncSettingsErrorSerializer deserialize:dict];
+}
+
+#pragma mark - Description method
+
+- (NSString *)description {
+  return [[DBTEAMTeamFolderUpdateSyncSettingsErrorSerializer serialize:self] description];
+}
+
+#pragma mark - Copyable method
+
+- (instancetype)copyWithZone:(NSZone *)zone {
+#pragma unused(zone)
+  /// object is immutable
+  return self;
+}
+
+#pragma mark - Hash method
+
+- (NSUInteger)hash {
+  NSUInteger prime = 31;
+  NSUInteger result = 1;
+
+  switch (_tag) {
+  case DBTEAMTeamFolderUpdateSyncSettingsErrorAccessError:
+    result = prime * result + [self.accessError hash];
+  case DBTEAMTeamFolderUpdateSyncSettingsErrorStatusError:
+    result = prime * result + [self.statusError hash];
+  case DBTEAMTeamFolderUpdateSyncSettingsErrorTeamSharedDropboxError:
+    result = prime * result + [self.teamSharedDropboxError hash];
+  case DBTEAMTeamFolderUpdateSyncSettingsErrorOther:
+    result = prime * result + [[self tagName] hash];
+  case DBTEAMTeamFolderUpdateSyncSettingsErrorSyncSettingsError:
+    result = prime * result + [self.syncSettingsError hash];
+  }
+
+  return prime * result;
+}
+
+#pragma mark - Equality method
+
+- (BOOL)isEqual:(id)other {
+  if (other == self) {
+    return YES;
+  }
+  if (!other || ![other isKindOfClass:[self class]]) {
+    return NO;
+  }
+  return [self isEqualToTeamFolderUpdateSyncSettingsError:other];
+}
+
+- (BOOL)isEqualToTeamFolderUpdateSyncSettingsError:
+    (DBTEAMTeamFolderUpdateSyncSettingsError *)aTeamFolderUpdateSyncSettingsError {
+  if (self == aTeamFolderUpdateSyncSettingsError) {
+    return YES;
+  }
+  if (self.tag != aTeamFolderUpdateSyncSettingsError.tag) {
+    return NO;
+  }
+  switch (_tag) {
+  case DBTEAMTeamFolderUpdateSyncSettingsErrorAccessError:
+    return [self.accessError isEqual:aTeamFolderUpdateSyncSettingsError.accessError];
+  case DBTEAMTeamFolderUpdateSyncSettingsErrorStatusError:
+    return [self.statusError isEqual:aTeamFolderUpdateSyncSettingsError.statusError];
+  case DBTEAMTeamFolderUpdateSyncSettingsErrorTeamSharedDropboxError:
+    return [self.teamSharedDropboxError isEqual:aTeamFolderUpdateSyncSettingsError.teamSharedDropboxError];
+  case DBTEAMTeamFolderUpdateSyncSettingsErrorOther:
+    return [[self tagName] isEqual:[aTeamFolderUpdateSyncSettingsError tagName]];
+  case DBTEAMTeamFolderUpdateSyncSettingsErrorSyncSettingsError:
+    return [self.syncSettingsError isEqual:aTeamFolderUpdateSyncSettingsError.syncSettingsError];
+  }
+  return YES;
+}
+
+@end
+
+#pragma mark - Serializer Object
+
+@implementation DBTEAMTeamFolderUpdateSyncSettingsErrorSerializer
+
++ (NSDictionary *)serialize:(DBTEAMTeamFolderUpdateSyncSettingsError *)valueObj {
+  NSMutableDictionary *jsonDict = [[NSMutableDictionary alloc] init];
+
+  if ([valueObj isAccessError]) {
+    jsonDict[@"access_error"] = [[DBTEAMTeamFolderAccessErrorSerializer serialize:valueObj.accessError] mutableCopy];
+    jsonDict[@".tag"] = @"access_error";
+  } else if ([valueObj isStatusError]) {
+    jsonDict[@"status_error"] =
+        [[DBTEAMTeamFolderInvalidStatusErrorSerializer serialize:valueObj.statusError] mutableCopy];
+    jsonDict[@".tag"] = @"status_error";
+  } else if ([valueObj isTeamSharedDropboxError]) {
+    jsonDict[@"team_shared_dropbox_error"] =
+        [[DBTEAMTeamFolderTeamSharedDropboxErrorSerializer serialize:valueObj.teamSharedDropboxError] mutableCopy];
+    jsonDict[@".tag"] = @"team_shared_dropbox_error";
+  } else if ([valueObj isOther]) {
+    jsonDict[@".tag"] = @"other";
+  } else if ([valueObj isSyncSettingsError]) {
+    jsonDict[@"sync_settings_error"] =
+        [[DBFILESSyncSettingsErrorSerializer serialize:valueObj.syncSettingsError] mutableCopy];
+    jsonDict[@".tag"] = @"sync_settings_error";
+  } else {
+    jsonDict[@".tag"] = @"other";
+  }
+
+  return [jsonDict count] > 0 ? jsonDict : nil;
+}
+
++ (DBTEAMTeamFolderUpdateSyncSettingsError *)deserialize:(NSDictionary *)valueDict {
+  NSString *tag = valueDict[@".tag"];
+
+  if ([tag isEqualToString:@"access_error"]) {
+    DBTEAMTeamFolderAccessError *accessError =
+        [DBTEAMTeamFolderAccessErrorSerializer deserialize:valueDict[@"access_error"]];
+    return [[DBTEAMTeamFolderUpdateSyncSettingsError alloc] initWithAccessError:accessError];
+  } else if ([tag isEqualToString:@"status_error"]) {
+    DBTEAMTeamFolderInvalidStatusError *statusError =
+        [DBTEAMTeamFolderInvalidStatusErrorSerializer deserialize:valueDict[@"status_error"]];
+    return [[DBTEAMTeamFolderUpdateSyncSettingsError alloc] initWithStatusError:statusError];
+  } else if ([tag isEqualToString:@"team_shared_dropbox_error"]) {
+    DBTEAMTeamFolderTeamSharedDropboxError *teamSharedDropboxError =
+        [DBTEAMTeamFolderTeamSharedDropboxErrorSerializer deserialize:valueDict[@"team_shared_dropbox_error"]];
+    return [[DBTEAMTeamFolderUpdateSyncSettingsError alloc] initWithTeamSharedDropboxError:teamSharedDropboxError];
+  } else if ([tag isEqualToString:@"other"]) {
+    return [[DBTEAMTeamFolderUpdateSyncSettingsError alloc] initWithOther];
+  } else if ([tag isEqualToString:@"sync_settings_error"]) {
+    DBFILESSyncSettingsError *syncSettingsError =
+        [DBFILESSyncSettingsErrorSerializer deserialize:valueDict[@"sync_settings_error"]];
+    return [[DBTEAMTeamFolderUpdateSyncSettingsError alloc] initWithSyncSettingsError:syncSettingsError];
+  } else {
+    return [[DBTEAMTeamFolderUpdateSyncSettingsError alloc] initWithOther];
+  }
+}
+
+@end
+
 #import "DBStoneSerializers.h"
 #import "DBStoneValidators.h"
 #import "DBTEAMPOLICIESTeamMemberPolicies.h"
@@ -27347,7 +28194,8 @@
                           externalId:(NSString *)externalId
                            accountId:(NSString *)accountId
                             joinedOn:(NSDate *)joinedOn
-                        persistentId:(NSString *)persistentId {
+                        persistentId:(NSString *)persistentId
+               isDirectoryRestricted:(NSNumber *)isDirectoryRestricted {
   [DBStoneValidators nonnullValidator:nil](teamMemberId);
   [DBStoneValidators nonnullValidator:nil](email);
   [DBStoneValidators nonnullValidator:nil](emailVerified);
@@ -27372,7 +28220,8 @@
                           externalId:externalId
                            accountId:accountId
                             joinedOn:joinedOn
-                        persistentId:persistentId];
+                        persistentId:persistentId
+               isDirectoryRestricted:isDirectoryRestricted];
   if (self) {
     _groups = groups;
     _memberFolderId = memberFolderId;
@@ -27399,7 +28248,8 @@
                          externalId:nil
                           accountId:nil
                            joinedOn:nil
-                       persistentId:nil];
+                       persistentId:nil
+              isDirectoryRestricted:nil];
 }
 
 #pragma mark - Serialization methods
@@ -27451,6 +28301,9 @@
   }
   if (self.persistentId != nil) {
     result = prime * result + [self.persistentId hash];
+  }
+  if (self.isDirectoryRestricted != nil) {
+    result = prime * result + [self.isDirectoryRestricted hash];
   }
 
   return prime * result;
@@ -27516,6 +28369,11 @@
       return NO;
     }
   }
+  if (self.isDirectoryRestricted) {
+    if (![self.isDirectoryRestricted isEqual:aTeamMemberProfile.isDirectoryRestricted]) {
+      return NO;
+    }
+  }
   return YES;
 }
 
@@ -27551,6 +28409,9 @@
   if (valueObj.persistentId) {
     jsonDict[@"persistent_id"] = valueObj.persistentId;
   }
+  if (valueObj.isDirectoryRestricted) {
+    jsonDict[@"is_directory_restricted"] = valueObj.isDirectoryRestricted;
+  }
 
   return [jsonDict count] > 0 ? jsonDict : nil;
 }
@@ -27574,6 +28435,7 @@
                          ? [DBNSDateSerializer deserialize:valueDict[@"joined_on"] dateFormat:@"%Y-%m-%dT%H:%M:%SZ"]
                          : nil;
   NSString *persistentId = valueDict[@"persistent_id"] ?: nil;
+  NSNumber *isDirectoryRestricted = valueDict[@"is_directory_restricted"] ?: nil;
 
   return [[DBTEAMTeamMemberProfile alloc] initWithTeamMemberId:teamMemberId
                                                          email:email
@@ -27586,7 +28448,8 @@
                                                     externalId:externalId
                                                      accountId:accountId
                                                       joinedOn:joinedOn
-                                                  persistentId:persistentId];
+                                                  persistentId:persistentId
+                                         isDirectoryRestricted:isDirectoryRestricted];
 }
 
 @end

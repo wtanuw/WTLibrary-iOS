@@ -9,6 +9,7 @@
 #import "DBStoneBase.h"
 #import "DBTasksImpl.h"
 #import "DBTransportBaseClient+Internal.h"
+#import "DBTransportBaseHostnameConfig.h"
 #import "DBTransportDefaultConfig.h"
 
 @implementation DBTransportDefaultClient {
@@ -98,7 +99,7 @@
   NSURLSession *sessionToUse = _session;
 
   // longpoll requests have a much longer timeout period than other requests
-  if ([route class] == [DBFILESRouteObjects.DBFILESListFolderLongpoll class]) {
+  if (route.host == DBRouteHostNotify) {
     sessionToUse = _longpollSession;
   }
 
@@ -259,6 +260,20 @@
                                                asMemberId:asMemberId
                                             delegateQueue:_delegateQueue
                                    forceForegroundSession:_forceForegroundSession];
+}
+
+- (DBTransportDefaultConfig *)duplicateTransportConfigWithPathRoot:(DBCOMMONPathRoot *)pathRoot {
+  return [[DBTransportDefaultConfig alloc] initWithAppKey:self.appKey
+                                                appSecret:self.appSecret
+                                           hostnameConfig:nil
+                                              redirectURL:nil
+                                                userAgent:self.userAgent
+                                               asMemberId:self.asMemberId
+                                                 pathRoot:pathRoot
+                                        additionalHeaders:nil
+                                            delegateQueue:_delegateQueue
+                                   forceForegroundSession:_forceForegroundSession
+                                sharedContainerIdentifier:nil];
 }
 
 #pragma mark - Session accessors and mutators
