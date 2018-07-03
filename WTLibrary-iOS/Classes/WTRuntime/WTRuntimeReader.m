@@ -110,7 +110,6 @@
 - (void)exportToFile:(NSString*)fileName
 {
     NSString *json = [_project exportJSONString];
-    
     NSString *tmpPath =  [WTPath desktopDirectoryPath];
     NSArray *filePathComponent =  [tmpPath componentsSeparatedByString:@"/"];
     
@@ -136,6 +135,7 @@
     _project = [WTRTProjectObject projectObject];
     _project.projectName = [WTBundleInfo bundleName];
     
+    _project.projectFolderPath = [SAVEPATH stringByDeletingLastPathComponent];
     
 #if TARGET_OS_IPHONE
     _project.isIOS = YES;

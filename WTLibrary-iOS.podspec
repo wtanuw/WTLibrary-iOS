@@ -185,6 +185,7 @@ subspec.source_files = 'WTLibrary-iOS/Classes/WTRuntime/*.{h,m}'
 subspec.dependency 'WTLibrary-iOS/WTObjC'
 #subspec.dependency 'CHCSVParser', '~> 2.1'
 #subspec.dependency 'SBJson', '~> 5.0'
+subspec.pod_target_xcconfig = { 'GCC_PREPROCESSOR_DEFINITIONS' => 'SAVEPATH=@\"$(PROJECT_DIR)\"' }
 end
 
 ##################################################

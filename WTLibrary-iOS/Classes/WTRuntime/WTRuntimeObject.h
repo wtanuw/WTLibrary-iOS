@@ -38,6 +38,7 @@
 
 @interface WTRTProjectObject : WTRuntimeObject
 @property (nonatomic, strong) NSString *projectName; // use bundleName for now
+@property (nonatomic, strong) NSString *projectFolderPath;
 @property (nonatomic, assign) BOOL isIOS;
 @property (nonatomic, assign) BOOL isMacOS;
 @property (nonatomic, strong) WTRTBundleObject *mainBundle;

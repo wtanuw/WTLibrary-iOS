@@ -233,6 +233,9 @@
         "WTLibrary-iOS/WTObjC": [
 
         ]
+      },
+      "pod_target_xcconfig": {
+        "GCC_PREPROCESSOR_DEFINITIONS": "SAVEPATH=@\\\"$(PROJECT_DIR)\\\""
       }
     },
     {

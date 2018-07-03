@@ -33,7 +33,7 @@ NSString *CamelCaseToUnderscores(NSString *input) {
     self = [super init];
     if (self) {
         _prettyPrinted = YES;
-        _structureVersion = 0.7;
+        _structureVersion = 0.8;
     }
 //    [self setup];
 //    [self initialize];
@@ -173,6 +173,7 @@ NSString *CamelCaseToUnderscores(NSString *input) {
     NSAssert(self.structureVersion == structureVersion, @"differnt reader and parser vresion");
     
     _projectName = jsonDict[@"projectName"];
+    _projectFolderPath = jsonDict[@"projectFolderPath"];
     _isIOS = [jsonDict[@"isIOS"] boolValue];
     _isMacOS = [jsonDict[@"isMacOS"] boolValue];
 //    NSString *mainBundleName = jsonDict[@"mainBundleName"];
@@ -218,6 +219,7 @@ NSString *CamelCaseToUnderscores(NSString *input) {
              @"isIOS": [NSNumber numberWithBool:_isIOS],
              @"isMacOS": [NSNumber numberWithBool:_isMacOS],
              @"projectName": _projectName,
+             @"projectFolderPath": _projectFolderPath,
              @"mainBundleName": _mainBundle.bundleName,
              @"mainBundle": [_mainBundle exportJSON],
              @"bundle": [self bundlesString]
