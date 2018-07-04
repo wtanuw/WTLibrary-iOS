@@ -161,6 +161,7 @@ NSString *CamelCaseToUnderscores(NSString *input) {
 - (void)initialize {
     [_bundles removeAllObjects];
     _json = nil;
+    _projectFolderPath = @"";
 }
 
 - (NSString *)debugDescription {
@@ -169,11 +170,13 @@ NSString *CamelCaseToUnderscores(NSString *input) {
 
 - (void)importJSON:(NSDictionary *)jsonDict
 {
-    double structureVersion = [jsonDict[@"structureVersion"] doubleValue];
-    NSAssert(self.structureVersion == structureVersion, @"differnt reader and parser vresion");
+    double jsonStructureVersion = [jsonDict[@"structureVersion"] doubleValue];
+    NSAssert(self.structureVersion >= jsonStructureVersion, @"differnt reader and parser vresion");
     
     _projectName = jsonDict[@"projectName"];
-    _projectFolderPath = jsonDict[@"projectFolderPath"];
+    if (jsonDict[@"projectFolderPath"]) {
+        _projectFolderPath = jsonDict[@"projectFolderPath"];
+    }
     _isIOS = [jsonDict[@"isIOS"] boolValue];
     _isMacOS = [jsonDict[@"isMacOS"] boolValue];
 //    NSString *mainBundleName = jsonDict[@"mainBundleName"];
@@ -213,7 +216,6 @@ NSString *CamelCaseToUnderscores(NSString *input) {
 - (NSDictionary *)exportJSON
 {
     return @{
-             @"structureVersion": [NSNumber numberWithDouble:self.structureVersion],
              @"structureVersion": [NSNumber numberWithDouble:self.structureVersion],
              @"projectName": _projectName,
              @"isIOS": [NSNumber numberWithBool:_isIOS],
