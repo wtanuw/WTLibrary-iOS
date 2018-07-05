@@ -136,7 +136,7 @@
 		C37C785575DC672C9F980777 /* Pods-WTLibrary-iOS_Example.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WTLibrary-iOS_Example.release.xcconfig"; path = "Pods/Target Support Files/Pods-WTLibrary-iOS_Example/Pods-WTLibrary-iOS_Example.release.xcconfig"; sourceTree = "<group>"; };
 		C485CADC11789114A0BD6334 /* Pods-WTLibrary-iOS-Swift_Tests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WTLibrary-iOS-Swift_Tests.release.xcconfig"; path = "Pods/Target Support Files/Pods-WTLibrary-iOS-Swift_Tests/Pods-WTLibrary-iOS-Swift_Tests.release.xcconfig"; sourceTree = "<group>"; };
 		C69DE549F83659157732D953 /* Pods-WTLibrary-iOS_Tests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WTLibrary-iOS_Tests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-WTLibrary-iOS_Tests/Pods-WTLibrary-iOS_Tests.debug.xcconfig"; sourceTree = "<group>"; };
-		EE89FA8FF2008820798428C4 /* WTLibrary-iOS.podspec */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = "WTLibrary-iOS.podspec"; path = "../WTLibrary-iOS.podspec"; sourceTree = "<group>"; };
+		EE89FA8FF2008820798428C4 /* WTLibrary-iOS.podspec */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = "WTLibrary-iOS.podspec"; path = "../WTLibrary-iOS.podspec"; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */

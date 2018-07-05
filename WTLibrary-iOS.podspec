@@ -82,7 +82,7 @@ end
 s.subspec 'MetadataRetriever' do |subspec|
 subspec.dependency 'WTLibrary-iOS/WTObjC'
 subspec.source_files = 'WTLibrary-iOS/Classes/MetadataRetriever/*.{h,m}'
-subspec.frameworks = 'AudioToolbox', 'AssetsLibrary', 'AVFoundation', 'UIKit'
+subspec.frameworks = 'AudioToolbox', 'AssetsLibrary', 'AVFoundation'
 end
 
 ##################################################
@@ -107,7 +107,8 @@ s.subspec 'WTGoogle' do |subspec|
 subspec.dependency 'WTLibrary-iOS/WTObjC'
 subspec.dependency 'GoogleAPIClientForREST/Drive', '~> 1.1.1'
 subspec.dependency 'GTMOAuth2', '~> 1.1.4'
-subspec.dependency 'GTMAppAuth', '~> 0.6.1'
+subspec.dependency 'GTMSessionFetcher'
+subspec.dependency 'GTMAppAuth', '~> 0.7.0'
 #subspec.dependency 'Google/SignIn'
 subspec.source_files = 'WTLibrary-iOS/Classes/WTGoogle/*.{h,m}'
 subspec.vendored_frameworks = ['WTLibrary-iOS/Classes/WTGoogle/GoogleAppUtilities.framework', 'WTLibrary-iOS/Classes/WTGoogle/GoogleSignIn.framework', 'WTLibrary-iOS/Classes/WTGoogle/GoogleSignInDependencies.framework', 'WTLibrary-iOS/Classes/WTGoogle/GoogleSymbolUtilities.framework']
@@ -185,7 +186,7 @@ subspec.source_files = 'WTLibrary-iOS/Classes/WTRuntime/*.{h,m}'
 subspec.dependency 'WTLibrary-iOS/WTObjC'
 #subspec.dependency 'CHCSVParser', '~> 2.1'
 #subspec.dependency 'SBJson', '~> 5.0'
-subspec.pod_target_xcconfig = { 'GCC_PREPROCESSOR_DEFINITIONS' => 'SAVEPATH=@\"$(PROJECT_DIR)\"' }
+subspec.pod_target_xcconfig = { 'GCC_PREPROCESSOR_DEFINITIONS' => '"SAVEPATH=@\"$(PROJECT_DIR)\""' }
 end
 
 ##################################################

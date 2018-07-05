@@ -72,8 +72,7 @@
       "frameworks": [
         "AudioToolbox",
         "AssetsLibrary",
-        "AVFoundation",
-        "UIKit"
+        "AVFoundation"
       ]
     },
     {
@@ -112,8 +111,11 @@
         "GTMOAuth2": [
           "~> 1.1.4"
         ],
+        "GTMSessionFetcher": [
+
+        ],
         "GTMAppAuth": [
-          "~> 0.6.1"
+          "~> 0.7.0"
         ]
       },
       "source_files": "WTLibrary-iOS/Classes/WTGoogle/*.{h,m}",
@@ -235,7 +237,7 @@
         ]
       },
       "pod_target_xcconfig": {
-        "GCC_PREPROCESSOR_DEFINITIONS": "SAVEPATH=@\\\"$(PROJECT_DIR)\\\""
+        "GCC_PREPROCESSOR_DEFINITIONS": "\"SAVEPATH=@\\\"$(PROJECT_DIR)\\\"\""
       }
     },
     {
