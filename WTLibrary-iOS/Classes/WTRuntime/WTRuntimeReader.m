@@ -171,7 +171,7 @@
     }
     WatLog(@"%@ found class", @"###");
     
-    NSBundle *mainBundle = [NSBundle mainBundle];
+    //NSBundle *mainBundle = [NSBundle mainBundle];
     
     classes = (Class *)(malloc(sizeof(Class) * numClasses));
     numClasses = objc_getClassList(classes, numClasses);

@@ -62,15 +62,14 @@ NSString *CamelCaseToUnderscores(NSString *input) {
     //    NSString *jsonString = @"[{\"id\": \"1\", \"name\":\"Aaa\"}, {\"id\": \"2\", \"name\":\"Bbb\"}]";
     NSData *jsonData = [jsonString dataUsingEncoding:NSUTF8StringEncoding];
     NSError *error = nil;
-    NSMutableArray *json = [NSJSONSerialization JSONObjectWithData:jsonData options:NSJSONReadingMutableContainers error:&error];
-    WatLog(@"%@", json);
+    //NSMutableArray *json = [NSJSONSerialization JSONObjectWithData:jsonData options:NSJSONReadingMutableContainers error:&error];
+    //WatLog(@"%@", json);
     
     id jsonObject = [NSJSONSerialization JSONObjectWithData:jsonData options:NSJSONReadingMutableContainers error:&error];
     
     if ([jsonObject isKindOfClass:[NSArray class]]) {
         WatLog(@"its an array!");
-        NSArray *jsonArray = (NSArray *)jsonObject;
-        WatLog(@"jsonArray - %@",jsonArray);
+        WatLog(@"jsonArray - %@",(NSArray *)jsonObject);
     } else {
         WatLog(@"its probably a dictionary");
         NSDictionary *jsonDictionary = (NSDictionary *)jsonObject;

@@ -14,11 +14,13 @@
 typedef NS_ENUM(NSUInteger, WTSwipeModalAnimation)
 {
     WTSwipeModalAnimationNone = 0,
-    WTSwipeModalAnimationDefault = 1,
-    WTSwipeModalAnimationFade = 1,
-    WTSwipeModalAnimationPop = 2,
-    WTSwipeModalAnimationBottom,
-    WTSwipeModalAnimationSlide,
+//    WTSwipeModalAnimationDefault = 1,
+    WTSwipeModalAnimationFade = 1, //FadeIn, FadeOut
+    WTSwipeModalAnimationPop = 2, //
+    WTSwipeModalAnimationBottom, //
+//    WTSwipeModalAnimationSlide,
+//    WTSwipeModalAnimationTransformScale, //
+    WTSwipeModalAnimationTranslate, //
 };
 
 @interface WTSwipeModalView : UIView<UIScrollViewDelegate,UIGestureRecognizerDelegate>
@@ -27,7 +29,7 @@ typedef NS_ENUM(NSUInteger, WTSwipeModalAnimation)
     
     UIScrollView *containerScrollView;
     
-    UIView *panGestureView;
+//    UIView *panGestureView;
     CGPoint speed;
     
     UIView *containerView;
@@ -40,33 +42,45 @@ typedef NS_ENUM(NSUInteger, WTSwipeModalAnimation)
 }
 
 @property (nonatomic,assign) float bounceRange;//
-@property float doubleTapZoomScale;
-@property float maxZoomScale;
-@property float minZoomScale;
+//@property float doubleTapZoomScale;
+//@property float maxZoomScale;
+//@property float minZoomScale;
 @property (nonatomic,assign) WTSwipeModalAnimation showAnimation;
 @property (nonatomic,assign) WTSwipeModalAnimation hideAnimation;
 @property (nonatomic,readonly,getter=isShow) BOOL show;
-@property (nonatomic,assign) BOOL hideOriginalView;
-@property (nonatomic,readonly,getter=isOriginalHidden) BOOL originalViewHidden;
+
+@property (nonatomic,assign) BOOL shouldHideSourceView;
+@property (nonatomic,readonly,getter=isOriginalViewHidden) BOOL originalViewHidden;
 @property (nonatomic,readonly) AGWindowView *parentViewWindow;
 @property (nonatomic,assign) BOOL dimViewAlphaChange;
 @property (nonatomic,assign) float dimViewAlphaMax;
-@property (nonatomic,copy) void (^hideCompletionBlock)();
+@property (nonatomic,copy) void (^hideCompletionBlock)(void);
 
+@property (nonatomic,assign) BOOL useAdaptiveSize;
+@property (nonatomic,assign) BOOL useForceMargin;
+@property (nonatomic,assign) UIEdgeInsets outerMargin;
+
++ (instancetype)BlankView; //without gesture
++ (instancetype)SwipeView; //with gesture
 - (id)initWithInitialFrame:(CGRect)frame;
 
 - (void)addGesture;
 - (void)removeGesture;
 
+- (void)showSwipeFromView:(UIView*)sourceView;
+- (void)hideSwipe;
+- (void)showSwipeFromView:(UIView*)sourceView withAnimation:(WTSwipeModalAnimation)animation;
+- (void)hideSwipeWithAnimation:(WTSwipeModalAnimation)animation;
+
 - (void)addContent:(UIView*)contentView;
 
-- (void)showInToScreen;
-- (void)showFromViewInToScreen:(UIView*)fromView;
-- (void)showFromView:(UIView*)fromView inToView:(UIView*)toView;
+//- (void)showInToScreen DEPRECATED_MSG_ATTRIBUTE("Use show or show: instead.");
+//- (void)showFromViewInToScreen:(UIView*)fromView DEPRECATED_MSG_ATTRIBUTE("Use show or show: instead.");
+//
+//- (void)hideToOriginalView DEPRECATED_MSG_ATTRIBUTE("Use hide or hide: instead.");
+//- (void)hideToView:(UIView*)toView DEPRECATED_MSG_ATTRIBUTE("Use hide or hide: instead.");
+//- (void)hideToFade DEPRECATED_MSG_ATTRIBUTE("Use hide or hide: instead.");
 
-- (void)hideToOriginalView;
-- (void)hideToView:(UIView*)toView;
-- (void)hideToFade;
 @end
 
 @protocol WTSwipeModalViewProtocal <NSObject>

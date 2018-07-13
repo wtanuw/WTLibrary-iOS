@@ -23,11 +23,11 @@
 #define WATNICOLOG_DEBUG_ENABLE DEBUG
 #endif
 
-//<!--------------------------------------------------!>
+///<--------------------------------------------------!>
 
 //build setting->prefix header->path ($(SRCROOT)/filename.pch)
 
-//<!--------------------------------------------------!>
+///<--------------------------------------------------!>
 
 #pragma mark - NON ARC and ARC
 
@@ -71,7 +71,7 @@
 #endif
 */
 
-//<!--------------------------------------------------!>
+//<--------------------------------------------------!>
 
 //#pragma mark - Safe ARC
 //
@@ -182,7 +182,7 @@
 //#define WT_SAFE_ARC_AUTORELEASE_POOL_END() [pool release];
 #endif
 
-//<!--------------------------------------------------!>
+//<--------------------------------------------------!>
 
 #pragma mark - WatLog
 
@@ -225,7 +225,7 @@
 //#if           NO      Error     NO      YES
 //#ifdef        NO       YES      YES     YES
 
-//<!--------------------------------------------------!>
+//<--------------------------------------------------!>
 
 #pragma mark - Trivia
 
@@ -247,7 +247,7 @@ return _sharedObject; \
 #define WTBOOL(bool) NSStringFromBoolean(bool)
 #define ___ 
 
-//<!--------------------------------------------------!>
+//<--------------------------------------------------!>
 //#pragma clang diagnostic push
 //#pragma clang diagnostic ignored "-Warc-performSelector-leaks"
 //NSArray *linkedNodes = [startNode performSelector:nodesArrayAccessor];
@@ -286,7 +286,7 @@ return _sharedObject; \
 #define UI_INTERFACE_IDIOM_IS_IPHONE_SCREEN4_7INCH()      UI_INTERFACE_IDIOM_IS_IPHONE() && ((CGRectGetHeight([UIScreen mainScreen].bounds) * UI_INTERFACE_SCALE()) == 667*UI_INTERFACE_SCALE())
 #define UI_INTERFACE_IDIOM_IS_IPHONE_SCREEN5_5INCH()      UI_INTERFACE_IDIOM_IS_IPHONE() && ((CGRectGetHeight([UIScreen mainScreen].bounds) * UI_INTERFACE_SCALE()) == 736*UI_INTERFACE_SCALE())
 
-//<!--------------------------------------------------!>
+//<--------------------------------------------------!>
 
 #pragma mark - Other
 
@@ -308,7 +308,7 @@ return _sharedObject; \
             blue:((float)(rgbValue & 0xFF))/255.0 alpha:a]
 #endif
 
-//<!--------------------------------------------------!>
+//<--------------------------------------------------!>
 
 #define DEGREE_FROM_RADIAN(rad)         (rad) * (180.0 / M_PI)
 #define RADIAN_FROM_DEGREE(deg)         (deg) * (M_PI / 180.0)
@@ -325,12 +325,12 @@ return _sharedObject; \
 #define RADIAN_ANTI_CLOCKWISE_ONE_QUARTER      ((-90) * (M_PI / 180.0))
 #define RADIAN_ANTI_CLOCKWISE_THREE_QUARTER    ((-270) * (M_PI / 180.0))
 
-//<!--------------------------------------------------!>
+//<--------------------------------------------------!>
 
 #define BOUNDARY(value,low,high)     MIN(MAX(value, low), high)
 #define BOUNDARY2(low,value,high)    MIN(MAX(low, value), high)
 
-//<!--------------------------------------------------!>
+//<--------------------------------------------------!>
 
 #define SuppressPerformSelectorLeakWarning(Stuff) \
 do { \
@@ -340,7 +340,7 @@ Stuff; \
 _Pragma("clang diagnostic pop") \
 } while (0)
 
-//<!--------------------------------------------------!>
+//<--------------------------------------------------!>
 
 //note: maximum of arc4random  = 0x100000000 (4294967296)
 
@@ -355,7 +355,7 @@ _Pragma("clang diagnostic pop") \
 //return bool from random chance 0-99 (100 will alway TRUE)
 #define RANDOM_CHANCE(chance) (RANDOM_BOUNDARY(0, 99)<chance)
 
-//<!--------------------------------------------------!>
+//<--------------------------------------------------!>
 
 #pragma mark - Compile
 
@@ -469,7 +469,7 @@ _Pragma("clang diagnostic pop") \
 //result deploy8.0 sdk8.0
 //    [object methodStartAt_8_0];
 
-//<!--------------------------------------------------!>
+//<--------------------------------------------------!>
 //
 //#pragma mark - New not expensive UIDevice SystemVersion (Apple Transition Guide iOS7)
 //
@@ -493,7 +493,7 @@ _Pragma("clang diagnostic pop") \
 //#define SYSTEM_VERSION_LESS_THAN_OR_EQUAL_TO(v)     ([WTDeviceSystemVersion() compare:v options:NSNumericSearch] != NSOrderedDescending)
 //#define SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO_BUT_LESS_THAN(v,w)  (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(v) && SYSTEM_VERSION_LESS_THAN(w))
 //
-////<!--------------------------------------------------!>
+////<--------------------------------------------------!>
 //
 //#pragma mark - New not expensive UIDevice Interface
 //
@@ -506,13 +506,13 @@ _Pragma("clang diagnostic pop") \
 //#define UI_INTERFACE_IDIOM_IS_IPAD()        (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
 //#define UI_INTERFACE_IDIOM_IS_IPHONE_SCREEN4INCH()      UI_INTERFACE_IDIOM_IS_IPHONE() && (CGRectGetHeight([UIScreen mainScreen].bounds) == 568)
 //
-////<!--------------------------------------------------!>
+////<--------------------------------------------------!>
 
 #define VERSIONHEX_FROM_DECIMAL(a,b,c) ( a<<16+b<<8+c )
 
-//<!--------------------------------------------------!>
+//<--------------------------------------------------!>
 
-//<!--------------------------------------------------!>
+//<--------------------------------------------------!>
 //G－C－D
 #define BACK(block) dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), block)
 #define MAIN(block) dispatch_async(dispatch_get_main_queue(),block)
@@ -530,11 +530,11 @@ _Pragma("clang diagnostic pop") \
 
 // MARK: Midhun
 
-//<!--------------------------------------------------!>
+//<--------------------------------------------------!>
 
 
 
 
 
 
-//<!--------------------------------------------------!>
+//<--------------------------------------------------!>
