@@ -6,7 +6,7 @@
 //  Copyright (c) 2015 Wat Wongtanuwat. All rights reserved.
 //
 
-#define WATLOG_DEBUG
+//#define WATLOG_DEBUG
 #import "WTSwipeModalView.h"
 #import "WTMacro.h"
 #import <AGWindowView/AGWindowView.h>

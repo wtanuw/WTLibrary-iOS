@@ -19,17 +19,17 @@
 @interface WTRuntimeObject : NSObject
 @property (nonatomic, assign) BOOL prettyPrinted; // default is YES
 @property (nonatomic, assign) double structureVersion;
-@property (nonatomic, assign) int a;
-@property (nonatomic, assign) signed int b;
-@property (nonatomic, assign) unsigned int c;
-@property (nonatomic, assign) short int d;
-@property (nonatomic, assign) long int e;
-@property (nonatomic, assign) long long int f;
-@property (nonatomic, assign) NSInteger g;
-@property (nonatomic, assign) NSUInteger h;
-@property (nonatomic, assign) float z;
-@property (nonatomic, assign) double y;
-@property (nonatomic, assign) NSUInteger x;
+//@property (nonatomic, assign) int a;
+//@property (nonatomic, assign) signed int b;
+//@property (nonatomic, assign) unsigned int c;
+//@property (nonatomic, assign) short int d;
+//@property (nonatomic, assign) long int e;
+//@property (nonatomic, assign) long long int f;
+//@property (nonatomic, assign) NSInteger g;
+//@property (nonatomic, assign) NSUInteger h;
+//@property (nonatomic, assign) float z;
+//@property (nonatomic, assign) double y;
+//@property (nonatomic, assign) NSUInteger x;
 - (void)importJSON:(NSDictionary *)jsonDict; // for subclass
 - (NSDictionary *)exportJSON; // for subclass
 - (void)importJSONString:(NSString *)jsonString;
@@ -95,7 +95,6 @@
 @property (nonatomic, assign) BOOL strong;
 @property (nonatomic, assign) BOOL weak;
 @property (nonatomic, assign) BOOL copy;
-//@property (nonatomic, readonly) BOOL isVisible;
 //@property (nonatomic, strong) WTRTVariableObject *variable;
 + (instancetype)propertyObject;
 @end
@@ -103,7 +102,6 @@
 @interface WTRTProtocolObject : WTRuntimeObject
 @property (nonatomic, strong) NSString *protocolName;
 //@property (nonatomic, readonly) NSArray<WTRTVariableObject *> *params;
-//@property (nonatomic, assign) BOOL isVisible;
 + (instancetype)protocolObject;
 @end
 
@@ -115,6 +113,5 @@
 @property (nonatomic, assign) BOOL isOptionalProtocolMethod;
 //@property (nonatomic, assign) int numberOfArgument;
 //@property (nonatomic, readonly) NSArray<WTRTVariableObject *> *params;
-//@property (nonatomic, assign) BOOL isVisible;
 + (instancetype)methodObject;
 @end

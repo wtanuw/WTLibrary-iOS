@@ -97,7 +97,7 @@ end
 
 s.subspec 'WTDropbox' do |subspec|
 subspec.dependency 'WTLibrary-iOS/WTObjC'
-subspec.dependency 'ObjectiveDropboxOfficial'
+subspec.dependency 'ObjectiveDropboxOfficial', '3.9.1'
 subspec.source_files = 'WTLibrary-iOS/Classes/WTDropbox/*.{h,m}'
 end
 
@@ -109,7 +109,7 @@ subspec.dependency 'GoogleAPIClientForREST/Drive', '~> 1.1.1'
 subspec.dependency 'GTMOAuth2', '~> 1.1.4'
 subspec.dependency 'GTMSessionFetcher'
 subspec.dependency 'GTMAppAuth', '~> 0.7.0'
-#subspec.dependency 'Google/SignIn'
+#subspec.dependency 'Google/SignIn' //4.2.0
 subspec.source_files = 'WTLibrary-iOS/Classes/WTGoogle/*.{h,m}'
 subspec.vendored_frameworks = ['WTLibrary-iOS/Classes/WTGoogle/GoogleAppUtilities.framework', 'WTLibrary-iOS/Classes/WTGoogle/GoogleSignIn.framework', 'WTLibrary-iOS/Classes/WTGoogle/GoogleSignInDependencies.framework', 'WTLibrary-iOS/Classes/WTGoogle/GoogleSymbolUtilities.framework']
 subspec.resource = 'WTLibrary-iOS/Classes/WTGoogle/GoogleSignIn.bundle'
@@ -120,7 +120,7 @@ subspec.frameworks = 'SafariServices', 'SystemConfiguration', 'GoogleAppUtilitie
 #subspec.header_dir = '{PODS_ROOT}/../../WTLibrary-iOS/Classes/WTGoogle'
 
 #subspec.xcconfig = { 'OTHER_LDFLAGS' => '-ObjC', 'FRAMEWORK_SEARCH_PATHS' => '"${PODS_ROOT}/WTLibrary-iOS/WTLibrary-iOS/Classes/WTGoogle" "${PODS_ROOT}/../../WTLibrary-iOS/Classes/WTGoogle"' }
-subspec.xcconfig = { 'OTHER_LDFLAGS' => '-ObjC', 'FRAMEWORK_SEARCH_PATHS' => '"${PODS_ROOT}/WTLibrary-iOS/WTLibrary-iOS/Classes/WTGoogle" "${PODS_ROOT}/../../WTLibrary-iOS/Classes/WTGoogle" "~/Desktop/Wat/WTLibrary/WTLibrary-iOS/WTLibrary-iOS/Classes/WTGoogle"' }
+subspec.xcconfig = { 'OTHER_LDFLAGS' => '-ObjC', 'FRAMEWORK_SEARCH_PATHS' => '"${PODS_ROOT}/WTLibrary-iOS/WTLibrary-iOS/Classes/WTGoogle" "${PODS_ROOT}/../../WTLibrary-iOS/Classes/WTGoogle" "~/Desktop/Wat/WTLibrary/WTLibrary-iOS/WTLibrary-iOS/Classes/WTGoogle"', 'HEADER_SEARCH_PATHS' => '"${PODS_ROOT}/WTLibrary-iOS/WTLibrary-iOS/Classes/WTGoogle"' }
 end
 
 ##################################################

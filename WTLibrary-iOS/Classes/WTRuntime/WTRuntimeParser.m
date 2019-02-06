@@ -12,8 +12,7 @@
 //#import <objc/objc-runtime.h>
 
 
-#define WATLOG_DEBUG
-
+//#define WATLOG_DEBUG
 #import <Foundation/Foundation.h>
 #import <objc/runtime.h>
 //#include <Cocoa.h>

@@ -13,7 +13,6 @@
 
 
 //#define WATLOG_DEBUG
-
 #import <Foundation/Foundation.h>
 #import <objc/runtime.h>
 //#include <Cocoa.h>
@@ -85,7 +84,8 @@
                    @"JSExport",
                    @"__ARCLite__",
                    @"FigIrisAutoTrimmerMotionSampleExport",
-                   @"NSViewServiceApplication"
+                   @"NSViewServiceApplication",
+                   @"PFEmbeddedMulticasterImplementation", @"PFMulticasterDistributionMethods"
                    ];
     
 }
@@ -221,15 +221,6 @@
             if (class_getSuperclass(c)) {
                 superClass = [NSString stringWithFormat:@"%@",class_getSuperclass(c)];
                 WatLog(@"@@@ name - %@ (%@)",name, superClass);
-            }
-            
-            if ([name isEqualToString:@"TestObject8"]
-                || [name isEqualToString:@"TestObject7"]
-//                || [name isEqualToString:@"Person"]
-//                || [name isEqualToString:@"Ship"]
-//                || [name isEqualToString:@"Ship2"]
-                ) {
-                WatLog(@"stop");
             }
             
             
@@ -717,10 +708,13 @@
         Method method = methods[i];
         SEL methodSelector = method_getName(method);
         NSString *methodName = [NSString stringWithFormat:@"%s",sel_getName(methodSelector)];
-        //const char *typeEncodings = method_getTypeEncoding(method);
+//        const char *typeEncodings = method_getTypeEncoding(method);
         
-        char returnType[80];
-        method_getReturnType(method, returnType, 80);
+//        char returnType[80];
+//        method_getReturnType(method, returnType, 80);
+//        
+//        const char* const type = method_copyReturnType(method);
+//        printf("%s : %s\n", NSStringFromSelector(methodSelector).UTF8String, type);
         
         WTRTMethodObject *methodObject = [WTRTMethodObject methodObject];
         methodObject.methodName = methodName;

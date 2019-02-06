@@ -661,7 +661,7 @@
     
     NSString* appKey = key;
     NSString* appSecret = secret;
-    NSString *root = kDBRootAppFolder;
+    NSString *root = kDBRootDropbox;
     
     DBSession *dbSession = [[DBSession alloc] initWithAppKey:appKey
                                                    appSecret:appSecret
