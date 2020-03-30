@@ -16,7 +16,7 @@
     "tag": "0.4.0"
   },
   "platforms": {
-    "ios": "8.0",
+    "ios": "9.0",
     "osx": "10.12"
   },
   "default_subspecs": "WTObjC",
@@ -94,7 +94,7 @@
 
         ],
         "ObjectiveDropboxOfficial": [
-
+          "3.9.1"
         ]
       },
       "source_files": "WTLibrary-iOS/Classes/WTDropbox/*.{h,m}"
@@ -171,6 +171,9 @@
         ],
         "Reachability": [
           "~> 3.2"
+        ],
+        "WTLibrary-iOS/CategoriesExtension": [
+
         ]
       },
       "source_files": "WTLibrary-iOS/Classes/WTStoreKit/*.{h,m}",
@@ -226,7 +229,7 @@
       },
       "source_files": "WTLibrary-iOS/Swift/*",
       "pod_target_xcconfig": {
-        "SWIFT_VERSION": "3.0"
+        "SWIFT_VERSION": "4.2"
       }
     },
     {

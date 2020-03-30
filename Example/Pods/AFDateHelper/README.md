@@ -5,7 +5,7 @@
 [![Platform](https://img.shields.io/cocoapods/p/AFDateHelper.svg?style=flat)](http://cocoapods.org/pods/AFDateHelper)
 [![Carthage Compatible](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)](https://github.com/Carthage/Carthage)
 
-A Swift Date extension helper that uses predefined or custom cached formatters for creating dates or converting dates to strings. You can also do date comparisons based on relative times, adjust a component of a date or extract components from it.
+A Swift Date extension for iOS, watchOS, tvOS, and macOS that creates or converts dates to or from strings. It can also compare, modify or extract date components and uses cached formatters for performance gains. 
 
 ![Sample Project Screenshot](https://raw.githubusercontent.com/melvitax/DateHelper/master/logo.png "Date Helper")
 
@@ -45,7 +45,14 @@ Create dates for...
 
 ```Swift
 let startOfWeek = date.dateFor(.startOfWeek)
-let nearest5Hours = date.dateFor(.nearestMinute(hour:5))
+let nearest5Hours = date.dateFor(.nearestHour(hour:5))
+```
+
+Forcing a week to start on monday
+```Swift
+var calendar = Calendar(identifier: .gregorian)
+calendar = 2 // sets the week to start on the second day.. monday
+now.dateFor(.startOfWeek, calendar: calendar)
 ```
 
 Time since...
@@ -115,6 +122,7 @@ case short; "2/27/17, 2:22 PM"
 case medium; "Feb 27, 2017, 2:22:06 PM"
 case long; "February 27, 2017 at 2:22:06 PM EST"
 case full; "Monday, February 27, 2017 at 2:22:06 PM Eastern Standard Time"
+case ordinalDay; 27th
 case weekday; "Monday"
 case shortWeekday; "Mon"
 case veryShortWeekday; "M"
@@ -392,19 +400,22 @@ date.lastDayofWeek()
 
 ## Requirements
 
-Language: Swift 3  
-Minimum: IOS 8, tvOS 9, WatchOS 2
+Language: Swift 5.0
+Minimum: iOS 11, tvOS 12, watchOS 4, macOS 10.14
+
 
 ## Installation
 
-**Carthage** github "melvitax/DateHelper"  
-**Cocoapods** pod 'AFDateHelper', '~> 4.0.1'  
+
+**Carthage** github "melvitax/DateHelper"   
+**Swift Package Manager** https://github.com/melvitax/DateHelper.git   
+**Cocoapods** pod 'AFDateHelper', '~> 4.3.0'   
 **Manually**  Include DateHelper.swift in your project
 
 
 ## Author
 
-Melvin Rivera, melvin@allforces.com
+Melvin Rivera
 
 ## License
 

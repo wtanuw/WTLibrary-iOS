@@ -616,6 +616,11 @@ NSString * const AQGridViewSelectionDidChangeNotification = @"AQGridViewSelectio
 	[self setEditing:value animated:NO];
 }
 
+- (void)setCustomGridData:(AQGridViewData*)gridData
+{
+    _gridData = gridData;
+}
+
 #pragma mark -
 #pragma mark Data Management
 

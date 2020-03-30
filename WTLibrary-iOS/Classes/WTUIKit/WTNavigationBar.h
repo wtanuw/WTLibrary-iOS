@@ -52,6 +52,30 @@
 
 @end
 
+@interface WTNavigationBar3 : WTNavigationBar
+@property (nonatomic, assign) IBInspectable CGFloat customHeight;
+
++ (instancetype)navigationWithImage:(UIImage*)image navigationController:(UINavigationController*)navVCT;
+
+@end
+
+@interface WTNotchNavigationBar: UINavigationBar
+{
+    
+//    UIImage *navigationBarBackgroundImage;
+    CGFloat backButtonCapWidth;
+//    __unsafe_unretained IBOutlet UINavigationController* navigationController;
+    
+    BOOL notGrowPromptIpad;
+}
+@property (nonatomic, strong) UIImage *navigationBarBackgroundImage;
+@property (nonatomic, weak) IBOutlet UINavigationController* navigationController;
+@property (nonatomic, assign) IBInspectable BOOL customFunction;
+@property (nonatomic, assign) IBInspectable CGFloat customHeight;
+@property (nonatomic, assign) CGFloat originY;
+-(void) setBackgroundImage:(UIImage*)backgroundImage;
+@end
+
 @interface UINavigationItem (CustomTitle)
 
 - (void)setCustomTitle:(NSString *)title;

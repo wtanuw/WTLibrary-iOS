@@ -19,6 +19,7 @@
 		6003F5BA195388D20070C39A /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 6003F5B8195388D20070C39A /* InfoPlist.strings */; };
 		6003F5BC195388D20070C39A /* Tests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6003F5BB195388D20070C39A /* Tests.m */; };
 		71719F9F1E33DC2100824A3D /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 71719F9D1E33DC2100824A3D /* LaunchScreen.storyboard */; };
+		771367F1E81AD057000987DF /* Pods_WTStoreKitExample.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D49BA6CC85D66562EC5AE35 /* Pods_WTStoreKitExample.framework */; };
 		8812B8B5203A900F00C05D1F /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 8812B8B4203A900F00C05D1F /* AppDelegate.m */; };
 		8812B8B8203A900F00C05D1F /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 8812B8B7203A900F00C05D1F /* main.m */; };
 		8812B8BB203A900F00C05D1F /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8812B8BA203A900F00C05D1F /* ViewController.m */; };
@@ -45,6 +46,15 @@
 		885D77381F0CEB790008AD51 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 885D77341F0CEB790008AD51 /* ViewController.swift */; };
 		885D77441F0CECBD0008AD51 /* Pods_WTLibrary_iOS_Tests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 850D6E3FE437E17BFB6F20FB /* Pods_WTLibrary_iOS_Tests.framework */; };
 		885D77531F0CED450008AD51 /* Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 885D77511F0CED450008AD51 /* Tests.swift */; };
+		88E179A5225C717700343B26 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 88E179A4225C717700343B26 /* AppDelegate.m */; };
+		88E179A8225C717700343B26 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 88E179A7225C717700343B26 /* ViewController.m */; };
+		88E179AB225C717700343B26 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 88E179A9225C717700343B26 /* Main.storyboard */; };
+		88E179AD225C717800343B26 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 88E179AC225C717800343B26 /* Assets.xcassets */; };
+		88E179B0225C717800343B26 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 88E179AE225C717800343B26 /* LaunchScreen.storyboard */; };
+		88E179B3225C717800343B26 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 88E179B2225C717800343B26 /* main.m */; };
+		88E179BD225C717800343B26 /* WTStoreKitExampleTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 88E179BC225C717800343B26 /* WTStoreKitExampleTests.m */; };
+		88E179C8225C717800343B26 /* WTStoreKitExampleUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = 88E179C7225C717800343B26 /* WTStoreKitExampleUITests.m */; };
+		88E179D4225C7E1F00343B26 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 88E179D3225C7E1F00343B26 /* StoreKit.framework */; };
 		88F0016820401EB800C816C3 /* macIconSize.plist in Resources */ = {isa = PBXBuildFile; fileRef = 88F0016720401EB800C816C3 /* macIconSize.plist */; };
 		BF0E20AE74738F95AF453432 /* Pods_WTLibrary_iOS_Swift_Tests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C02892198289ABDCA303A95B /* Pods_WTLibrary_iOS_Swift_Tests.framework */; };
 		D4B9D33C9B1AC0FCA262A0A1 /* Pods_WTLibrary_iOS_ObjC_Tests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7DF6C7F682198D17F45CF391 /* Pods_WTLibrary_iOS_ObjC_Tests.framework */; };
@@ -66,11 +76,27 @@
 			remoteGlobalIDString = 885D77171F0CEB0D0008AD51;
 			remoteInfo = "WTLibrary-iOS-Swift_Example";
 		};
+		88E179B9225C717800343B26 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 6003F582195388D10070C39A /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 88E179A0225C717600343B26;
+			remoteInfo = WTStoreKitExample;
+		};
+		88E179C4225C717800343B26 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 6003F582195388D10070C39A /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 88E179A0225C717600343B26;
+			remoteInfo = WTStoreKitExample;
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
 		154958584C148835D5C4EF4C /* Pods-WTLibrary-iOS-Swift_Example.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WTLibrary-iOS-Swift_Example.debug.xcconfig"; path = "Pods/Target Support Files/Pods-WTLibrary-iOS-Swift_Example/Pods-WTLibrary-iOS-Swift_Example.debug.xcconfig"; sourceTree = "<group>"; };
+		1D49BA6CC85D66562EC5AE35 /* Pods_WTStoreKitExample.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_WTStoreKitExample.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		290FBE94303EF50D80051B59 /* Pods_WTLibrary_iOS_Example.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_WTLibrary_iOS_Example.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		32F381F00809A0CBA21997FD /* Pods-WTStoreKitExample.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WTStoreKitExample.debug.xcconfig"; path = "Pods/Target Support Files/Pods-WTStoreKitExample/Pods-WTStoreKitExample.debug.xcconfig"; sourceTree = "<group>"; };
 		3A484673F35C596303BE42E7 /* Pods-WTLibrary-iOS_Tests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WTLibrary-iOS_Tests.release.xcconfig"; path = "Pods/Target Support Files/Pods-WTLibrary-iOS_Tests/Pods-WTLibrary-iOS_Tests.release.xcconfig"; sourceTree = "<group>"; };
 		42B0755DA37C989D62F2340F /* Pods_WTLibrary_iOS_Swift_Example.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_WTLibrary_iOS_Swift_Example.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		4380D452C8ECD6BC7DEEDC3B /* Pods-WTLibrary-iOS_Example.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WTLibrary-iOS_Example.debug.xcconfig"; path = "Pods/Target Support Files/Pods-WTLibrary-iOS_Example/Pods-WTLibrary-iOS_Example.debug.xcconfig"; sourceTree = "<group>"; };
@@ -87,6 +113,7 @@
 		6003F5B9195388D20070C39A /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		6003F5BB195388D20070C39A /* Tests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Tests.m; sourceTree = "<group>"; };
 		606FC2411953D9B200FFA9A0 /* Tests-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Tests-Prefix.pch"; sourceTree = "<group>"; };
+		706AA12706833DC1FD02554E /* Pods-WTStoreKitExample.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WTStoreKitExample.release.xcconfig"; path = "Pods/Target Support Files/Pods-WTStoreKitExample/Pods-WTStoreKitExample.release.xcconfig"; sourceTree = "<group>"; };
 		71719F9E1E33DC2100824A3D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		72AC549AE5E323960953C9AC /* Pods-WTLibrary-iOS-Swift_Tests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WTLibrary-iOS-Swift_Tests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-WTLibrary-iOS-Swift_Tests/Pods-WTLibrary-iOS-Swift_Tests.debug.xcconfig"; sourceTree = "<group>"; };
 		7DF6C7F682198D17F45CF391 /* Pods_WTLibrary_iOS_ObjC_Tests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_WTLibrary_iOS_ObjC_Tests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -127,6 +154,23 @@
 		885D774C1F0CECBD0008AD51 /* WTLibrary-iOS-Swift_Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "WTLibrary-iOS-Swift_Tests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		885D77501F0CED450008AD51 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		885D77511F0CED450008AD51 /* Tests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Tests.swift; sourceTree = "<group>"; };
+		88E179A1225C717600343B26 /* WTStoreKitExample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WTStoreKitExample.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		88E179A3225C717700343B26 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
+		88E179A4225C717700343B26 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		88E179A6225C717700343B26 /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
+		88E179A7225C717700343B26 /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
+		88E179AA225C717700343B26 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		88E179AC225C717800343B26 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		88E179AF225C717800343B26 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		88E179B1225C717800343B26 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		88E179B2225C717800343B26 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		88E179B8225C717800343B26 /* WTStoreKitExampleTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = WTStoreKitExampleTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		88E179BC225C717800343B26 /* WTStoreKitExampleTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WTStoreKitExampleTests.m; sourceTree = "<group>"; };
+		88E179BE225C717800343B26 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		88E179C3225C717800343B26 /* WTStoreKitExampleUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = WTStoreKitExampleUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		88E179C7225C717800343B26 /* WTStoreKitExampleUITests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WTStoreKitExampleUITests.m; sourceTree = "<group>"; };
+		88E179C9225C717800343B26 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		88E179D3225C7E1F00343B26 /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 		88F0016720401EB800C816C3 /* macIconSize.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = macIconSize.plist; sourceTree = "<group>"; };
 		90661C0211E4E2267215D20D /* Pods-WTLibrary-iOS-ObjC_Tests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WTLibrary-iOS-ObjC_Tests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-WTLibrary-iOS-ObjC_Tests/Pods-WTLibrary-iOS-ObjC_Tests.debug.xcconfig"; sourceTree = "<group>"; };
 		9355B05B3543D2FD1AE695D0 /* LICENSE */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = LICENSE; path = ../LICENSE; sourceTree = "<group>"; };
@@ -190,6 +234,29 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		88E1799E225C717600343B26 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				771367F1E81AD057000987DF /* Pods_WTStoreKitExample.framework in Frameworks */,
+				88E179D4225C7E1F00343B26 /* StoreKit.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		88E179B5225C717800343B26 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		88E179C0225C717800343B26 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -202,6 +269,7 @@
 				6003F593195388D20070C39A /* Example for WTLibrary-iOS */,
 				6003F5B5195388D20070C39A /* Tests */,
 				8812B8B2203A900F00C05D1F /* Mobile Apps Icon Generator */,
+				88E179A2225C717700343B26 /* WTStoreKitExample */,
 				6003F58C195388D20070C39A /* Frameworks */,
 				6003F58B195388D20070C39A /* Products */,
 				B74499097817F4A8F03C723C /* Pods */,
@@ -216,6 +284,9 @@
 				885D772D1F0CEB0D0008AD51 /* WTLibrary-iOS-Swift_Example.app */,
 				885D774C1F0CECBD0008AD51 /* WTLibrary-iOS-Swift_Tests.xctest */,
 				8812B8B1203A900F00C05D1F /* Mobile Apps Icon Generator.app */,
+				88E179A1225C717600343B26 /* WTStoreKitExample.app */,
+				88E179B8225C717800343B26 /* WTStoreKitExampleTests.xctest */,
+				88E179C3225C717800343B26 /* WTStoreKitExampleUITests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -223,6 +294,7 @@
 		6003F58C195388D20070C39A /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				88E179D3225C7E1F00343B26 /* StoreKit.framework */,
 				6003F58D195388D20070C39A /* Foundation.framework */,
 				6003F58F195388D20070C39A /* CoreGraphics.framework */,
 				6003F591195388D20070C39A /* UIKit.framework */,
@@ -233,6 +305,7 @@
 				7DF6C7F682198D17F45CF391 /* Pods_WTLibrary_iOS_ObjC_Tests.framework */,
 				42B0755DA37C989D62F2340F /* Pods_WTLibrary_iOS_Swift_Example.framework */,
 				C02892198289ABDCA303A95B /* Pods_WTLibrary_iOS_Swift_Tests.framework */,
+				1D49BA6CC85D66562EC5AE35 /* Pods_WTStoreKitExample.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -353,6 +426,42 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
+		88E179A2225C717700343B26 /* WTStoreKitExample */ = {
+			isa = PBXGroup;
+			children = (
+				88E179BB225C717800343B26 /* WTStoreKitExampleTests */,
+				88E179C6225C717800343B26 /* WTStoreKitExampleUITests */,
+				88E179A3225C717700343B26 /* AppDelegate.h */,
+				88E179A4225C717700343B26 /* AppDelegate.m */,
+				88E179A6225C717700343B26 /* ViewController.h */,
+				88E179A7225C717700343B26 /* ViewController.m */,
+				88E179A9225C717700343B26 /* Main.storyboard */,
+				88E179AC225C717800343B26 /* Assets.xcassets */,
+				88E179AE225C717800343B26 /* LaunchScreen.storyboard */,
+				88E179B1225C717800343B26 /* Info.plist */,
+				88E179B2225C717800343B26 /* main.m */,
+			);
+			path = WTStoreKitExample;
+			sourceTree = "<group>";
+		};
+		88E179BB225C717800343B26 /* WTStoreKitExampleTests */ = {
+			isa = PBXGroup;
+			children = (
+				88E179BC225C717800343B26 /* WTStoreKitExampleTests.m */,
+				88E179BE225C717800343B26 /* Info.plist */,
+			);
+			path = WTStoreKitExampleTests;
+			sourceTree = "<group>";
+		};
+		88E179C6225C717800343B26 /* WTStoreKitExampleUITests */ = {
+			isa = PBXGroup;
+			children = (
+				88E179C7225C717800343B26 /* WTStoreKitExampleUITests.m */,
+				88E179C9225C717800343B26 /* Info.plist */,
+			);
+			path = WTStoreKitExampleUITests;
+			sourceTree = "<group>";
+		};
 		B74499097817F4A8F03C723C /* Pods */ = {
 			isa = PBXGroup;
 			children = (
@@ -368,6 +477,8 @@
 				5AA01405CFC51B4712C78B2E /* Pods-WTLibrary-iOS-Swift_Example.release.xcconfig */,
 				72AC549AE5E323960953C9AC /* Pods-WTLibrary-iOS-Swift_Tests.debug.xcconfig */,
 				C485CADC11789114A0BD6334 /* Pods-WTLibrary-iOS-Swift_Tests.release.xcconfig */,
+				32F381F00809A0CBA21997FD /* Pods-WTStoreKitExample.debug.xcconfig */,
+				706AA12706833DC1FD02554E /* Pods-WTStoreKitExample.release.xcconfig */,
 			);
 			name = Pods;
 			sourceTree = "<group>";
@@ -460,7 +571,6 @@
 				885D773E1F0CECBD0008AD51 /* Sources */,
 				885D77401F0CECBD0008AD51 /* Frameworks */,
 				885D77451F0CECBD0008AD51 /* Resources */,
-				885D77471F0CECBD0008AD51 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -472,6 +582,61 @@
 			productReference = 885D774C1F0CECBD0008AD51 /* WTLibrary-iOS-Swift_Tests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
+		88E179A0225C717600343B26 /* WTStoreKitExample */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 88E179D0225C717800343B26 /* Build configuration list for PBXNativeTarget "WTStoreKitExample" */;
+			buildPhases = (
+				9F1449C748B17B9A3A813631 /* [CP] Check Pods Manifest.lock */,
+				88E1799D225C717600343B26 /* Sources */,
+				88E1799E225C717600343B26 /* Frameworks */,
+				88E1799F225C717600343B26 /* Resources */,
+				E59AAB06F62EC55C5E287AC1 /* [CP] Embed Pods Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = WTStoreKitExample;
+			productName = WTStoreKitExample;
+			productReference = 88E179A1225C717600343B26 /* WTStoreKitExample.app */;
+			productType = "com.apple.product-type.application";
+		};
+		88E179B7225C717800343B26 /* WTStoreKitExampleTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 88E179D1225C717800343B26 /* Build configuration list for PBXNativeTarget "WTStoreKitExampleTests" */;
+			buildPhases = (
+				88E179B4225C717800343B26 /* Sources */,
+				88E179B5225C717800343B26 /* Frameworks */,
+				88E179B6225C717800343B26 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				88E179BA225C717800343B26 /* PBXTargetDependency */,
+			);
+			name = WTStoreKitExampleTests;
+			productName = WTStoreKitExampleTests;
+			productReference = 88E179B8225C717800343B26 /* WTStoreKitExampleTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		88E179C2225C717800343B26 /* WTStoreKitExampleUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 88E179D2225C717800343B26 /* Build configuration list for PBXNativeTarget "WTStoreKitExampleUITests" */;
+			buildPhases = (
+				88E179BF225C717800343B26 /* Sources */,
+				88E179C0225C717800343B26 /* Frameworks */,
+				88E179C1225C717800343B26 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				88E179C5225C717800343B26 /* PBXTargetDependency */,
+			);
+			name = WTStoreKitExampleUITests;
+			productName = WTStoreKitExampleUITests;
+			productReference = 88E179C3225C717800343B26 /* WTStoreKitExampleUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -482,15 +647,46 @@
 				LastUpgradeCheck = 0720;
 				ORGANIZATIONNAME = wtanuw;
 				TargetAttributes = {
+					6003F589195388D20070C39A = {
+						DevelopmentTeam = PAHFC4Q7B2;
+					};
 					6003F5AD195388D20070C39A = {
+						DevelopmentTeam = PAHFC4Q7B2;
 						TestTargetID = 6003F589195388D20070C39A;
 					};
 					8812B8B0203A900F00C05D1F = {
 						CreatedOnToolsVersion = 8.3.2;
 						ProvisioningStyle = Automatic;
 					};
+					885D77171F0CEB0D0008AD51 = {
+						DevelopmentTeam = PAHFC4Q7B2;
+					};
 					885D773A1F0CECBD0008AD51 = {
+						DevelopmentTeam = PAHFC4Q7B2;
 						LastSwiftMigration = 0830;
+						TestTargetID = 885D77171F0CEB0D0008AD51;
+					};
+					88E179A0225C717600343B26 = {
+						CreatedOnToolsVersion = 10.1;
+						DevelopmentTeam = PAHFC4Q7B2;
+						ProvisioningStyle = Automatic;
+						SystemCapabilities = {
+							com.apple.InAppPurchase = {
+								enabled = 1;
+							};
+						};
+					};
+					88E179B7225C717800343B26 = {
+						CreatedOnToolsVersion = 10.1;
+						DevelopmentTeam = C2SG64ABWR;
+						ProvisioningStyle = Automatic;
+						TestTargetID = 88E179A0225C717600343B26;
+					};
+					88E179C2225C717800343B26 = {
+						CreatedOnToolsVersion = 10.1;
+						DevelopmentTeam = C2SG64ABWR;
+						ProvisioningStyle = Automatic;
+						TestTargetID = 88E179A0225C717600343B26;
 					};
 				};
 			};
@@ -499,6 +695,7 @@
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
 			knownRegions = (
+				English,
 				en,
 				Base,
 			);
@@ -512,6 +709,9 @@
 				885D77171F0CEB0D0008AD51 /* WTLibrary-iOS-Swift_Example */,
 				885D773A1F0CECBD0008AD51 /* WTLibrary-iOS-Swift_Tests */,
 				8812B8B0203A900F00C05D1F /* Mobile Apps Icon Generator */,
+				88E179A0225C717600343B26 /* WTStoreKitExample */,
+				88E179B7225C717800343B26 /* WTStoreKitExampleTests */,
+				88E179C2225C717800343B26 /* WTStoreKitExampleUITests */,
 			);
 		};
 /* End PBXProject section */
@@ -561,6 +761,30 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		885D77451F0CECBD0008AD51 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		88E1799F225C717600343B26 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				88E179B0225C717800343B26 /* LaunchScreen.storyboard in Resources */,
+				88E179AD225C717800343B26 /* Assets.xcassets in Resources */,
+				88E179AB225C717700343B26 /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		88E179B6225C717800343B26 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		88E179C1225C717800343B26 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -672,26 +896,6 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		885D77471F0CECBD0008AD51 /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-				"${SRCROOT}/Pods/Target Support Files/Pods-WTLibrary-iOS-Swift_Tests/Pods-WTLibrary-iOS-Swift_Tests-frameworks.sh",
-				"${BUILT_PRODUCTS_DIR}/Nimble/Nimble.framework",
-				"${BUILT_PRODUCTS_DIR}/Quick/Quick.framework",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputPaths = (
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Nimble.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Quick.framework",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-WTLibrary-iOS-Swift_Tests/Pods-WTLibrary-iOS-Swift_Tests-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
 		95F7F16302CE5549293BB3FE /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -727,7 +931,7 @@
 				"${BUILT_PRODUCTS_DIR}/GTMSessionFetcher/GTMSessionFetcher.framework",
 				"${BUILT_PRODUCTS_DIR}/GoogleAPIClientForREST/GoogleAPIClientForREST.framework",
 				"${BUILT_PRODUCTS_DIR}/ObjectiveDropboxOfficial/ObjectiveDropboxOfficial.framework",
-				"${BUILT_PRODUCTS_DIR}/Reachability/Reachability.framework",
+				"${BUILT_PRODUCTS_DIR}/Reachability-iOS9.0/Reachability.framework",
 				"${BUILT_PRODUCTS_DIR}/WTLibrary-iOS-023264eb/WTLibrary_iOS.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
@@ -748,6 +952,24 @@
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-WTLibrary-iOS-ObjC_Example/Pods-WTLibrary-iOS-ObjC_Example-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
+		9F1449C748B17B9A3A813631 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-WTStoreKitExample-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
 		DD9D254A22BDC7CE723CDDFF /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -764,6 +986,26 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		E59AAB06F62EC55C5E287AC1 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${SRCROOT}/Pods/Target Support Files/Pods-WTStoreKitExample/Pods-WTStoreKitExample-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/Reachability-iOS12.1/Reachability.framework",
+				"${BUILT_PRODUCTS_DIR}/WTLibrary-iOS-CategoriesExtension-WTObjC-WTStoreKit/WTLibrary_iOS.framework",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Reachability.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/WTLibrary_iOS.framework",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-WTStoreKitExample/Pods-WTStoreKitExample-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -816,6 +1058,32 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		88E1799D225C717600343B26 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				88E179A8225C717700343B26 /* ViewController.m in Sources */,
+				88E179B3225C717800343B26 /* main.m in Sources */,
+				88E179A5225C717700343B26 /* AppDelegate.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		88E179B4225C717800343B26 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				88E179BD225C717800343B26 /* WTStoreKitExampleTests.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		88E179BF225C717800343B26 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				88E179C8225C717800343B26 /* WTStoreKitExampleUITests.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
@@ -828,6 +1096,16 @@
 			isa = PBXTargetDependency;
 			target = 885D77171F0CEB0D0008AD51 /* WTLibrary-iOS-Swift_Example */;
 			targetProxy = 885D774E1F0CECD80008AD51 /* PBXContainerItemProxy */;
+		};
+		88E179BA225C717800343B26 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 88E179A0225C717600343B26 /* WTStoreKitExample */;
+			targetProxy = 88E179B9225C717800343B26 /* PBXContainerItemProxy */;
+		};
+		88E179C5225C717800343B26 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 88E179A0225C717600343B26 /* WTStoreKitExample */;
+			targetProxy = 88E179C4225C717800343B26 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -878,6 +1156,22 @@
 				885D77321F0CEB790008AD51 /* Base */,
 			);
 			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		88E179A9225C717700343B26 /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				88E179AA225C717700343B26 /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		88E179AE225C717800343B26 /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				88E179AF225C717800343B26 /* Base */,
+			);
+			name = LaunchScreen.storyboard;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
@@ -963,6 +1257,7 @@
 			baseConfigurationReference = B50643F554316C0C55192F15 /* Pods-WTLibrary-iOS-ObjC_Example.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEVELOPMENT_TEAM = PAHFC4Q7B2;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"${PODS_ROOT}/../../GoogleSignIn/Frameworks\",",
@@ -994,6 +1289,7 @@
 			baseConfigurationReference = B5AE5D2DA68933B2C07AD325 /* Pods-WTLibrary-iOS-ObjC_Example.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEVELOPMENT_TEAM = PAHFC4Q7B2;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"${PODS_ROOT}/../../GoogleSignIn/Frameworks\",",
@@ -1025,6 +1321,7 @@
 			baseConfigurationReference = 90661C0211E4E2267215D20D /* Pods-WTLibrary-iOS-ObjC_Tests.debug.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
+				DEVELOPMENT_TEAM = PAHFC4Q7B2;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SDKROOT)/Developer/Library/Frameworks",
 					"$(inherited)",
@@ -1039,7 +1336,7 @@
 				INFOPLIST_FILE = "Tests/Tests-Info.plist";
 				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.demo.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/WTLibrary-iOS_Example.app/WTLibrary-iOS_Example";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/WTLibrary-iOS-ObjC_Example.app/WTLibrary-iOS-ObjC_Example";
 				WRAPPER_EXTENSION = xctest;
 			};
 			name = Debug;
@@ -1049,6 +1346,7 @@
 			baseConfigurationReference = 83AD2B8F400B377566D35A7E /* Pods-WTLibrary-iOS-ObjC_Tests.release.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
+				DEVELOPMENT_TEAM = PAHFC4Q7B2;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SDKROOT)/Developer/Library/Frameworks",
 					"$(inherited)",
@@ -1059,7 +1357,7 @@
 				INFOPLIST_FILE = "Tests/Tests-Info.plist";
 				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.demo.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/WTLibrary-iOS_Example.app/WTLibrary-iOS_Example";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/WTLibrary-iOS-ObjC_Example.app/WTLibrary-iOS-ObjC_Example";
 				WRAPPER_EXTENSION = xctest;
 			};
 			name = Release;
@@ -1120,6 +1418,7 @@
 			baseConfigurationReference = 154958584C148835D5C4EF4C /* Pods-WTLibrary-iOS-Swift_Example.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEVELOPMENT_TEAM = PAHFC4Q7B2;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"${PODS_ROOT}/../../GoogleSignIn/Frameworks\",",
@@ -1138,9 +1437,11 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "";
 				INFOPLIST_FILE = "WTLibrary-iOS-Swift/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				MODULE_NAME = ExampleApp;
 				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.demo.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.2;
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -1150,6 +1451,7 @@
 			baseConfigurationReference = 5AA01405CFC51B4712C78B2E /* Pods-WTLibrary-iOS-Swift_Example.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEVELOPMENT_TEAM = PAHFC4Q7B2;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"${PODS_ROOT}/../../GoogleSignIn/Frameworks\",",
@@ -1168,9 +1470,11 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "";
 				INFOPLIST_FILE = "WTLibrary-iOS-Swift/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				MODULE_NAME = ExampleApp;
 				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.demo.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.2;
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;
@@ -1181,6 +1485,7 @@
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CLANG_ENABLE_MODULES = YES;
+				DEVELOPMENT_TEAM = PAHFC4Q7B2;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SDKROOT)/Developer/Library/Frameworks",
 					"$(inherited)",
@@ -1197,7 +1502,8 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.demo.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/WTLibrary-iOS_Example.app/WTLibrary-iOS_Example";
+				SWIFT_VERSION = 4.2;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/WTLibrary-iOS-Swift_Example.app/WTLibrary-iOS-Swift_Example";
 				WRAPPER_EXTENSION = xctest;
 			};
 			name = Debug;
@@ -1208,6 +1514,7 @@
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CLANG_ENABLE_MODULES = YES;
+				DEVELOPMENT_TEAM = PAHFC4Q7B2;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SDKROOT)/Developer/Library/Frameworks",
 					"$(inherited)",
@@ -1219,8 +1526,250 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.demo.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/WTLibrary-iOS_Example.app/WTLibrary-iOS_Example";
+				SWIFT_VERSION = 4.2;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/WTLibrary-iOS-Swift_Example.app/WTLibrary-iOS-Swift_Example";
 				WRAPPER_EXTENSION = xctest;
+			};
+			name = Release;
+		};
+		88E179CA225C717800343B26 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 32F381F00809A0CBA21997FD /* Pods-WTStoreKitExample.debug.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = PAHFC4Q7B2;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				INFOPLIST_FILE = WTStoreKitExample/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.1;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = "jp.m-tank.klang2";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		88E179CB225C717800343B26 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 706AA12706833DC1FD02554E /* Pods-WTStoreKitExample.release.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = PAHFC4Q7B2;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				INFOPLIST_FILE = WTStoreKitExample/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.1;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = "jp.m-tank.klang2";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		88E179CC225C717800343B26 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = C2SG64ABWR;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				INFOPLIST_FILE = WTStoreKitExampleTests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.1;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = info.acetech.WTStoreKitExampleTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/WTStoreKitExample.app/WTStoreKitExample";
+			};
+			name = Debug;
+		};
+		88E179CD225C717800343B26 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = C2SG64ABWR;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				INFOPLIST_FILE = WTStoreKitExampleTests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.1;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = info.acetech.WTStoreKitExampleTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/WTStoreKitExample.app/WTStoreKitExample";
+			};
+			name = Release;
+		};
+		88E179CE225C717800343B26 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = C2SG64ABWR;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				INFOPLIST_FILE = WTStoreKitExampleUITests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.1;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = info.acetech.WTStoreKitExampleUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = WTStoreKitExample;
+			};
+			name = Debug;
+		};
+		88E179CF225C717800343B26 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = C2SG64ABWR;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				INFOPLIST_FILE = WTStoreKitExampleUITests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.1;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = info.acetech.WTStoreKitExampleUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = WTStoreKitExample;
 			};
 			name = Release;
 		};
@@ -1277,6 +1826,33 @@
 			buildConfigurations = (
 				885D774A1F0CECBD0008AD51 /* Debug */,
 				885D774B1F0CECBD0008AD51 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		88E179D0225C717800343B26 /* Build configuration list for PBXNativeTarget "WTStoreKitExample" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				88E179CA225C717800343B26 /* Debug */,
+				88E179CB225C717800343B26 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		88E179D1225C717800343B26 /* Build configuration list for PBXNativeTarget "WTStoreKitExampleTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				88E179CC225C717800343B26 /* Debug */,
+				88E179CD225C717800343B26 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		88E179D2225C717800343B26 /* Build configuration list for PBXNativeTarget "WTStoreKitExampleUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				88E179CE225C717800343B26 /* Debug */,
+				88E179CF225C717800343B26 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

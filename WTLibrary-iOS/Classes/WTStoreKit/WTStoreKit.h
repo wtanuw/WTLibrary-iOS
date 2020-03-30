@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import <StoreKit/StoreKit.h>
 
-#define WTStoreKit_VERSION 0x00020004
+#define WTStoreKit_VERSION 0x00020005
 
 //support Non-Consumable Products
 //not test Consumable Products
@@ -49,13 +49,11 @@
 //#define kWTStoreKitProductPriceFormat @"productPriceFormat"
 //#define kWTStoreKitProductID @"productIdentifier"
 
-#define ITMS_PROD_VERIFY_RECEIPT_URL        @"https://buy.itunes.apple.com/verifyReceipt"
-#define ITMS_SANDBOX_VERIFY_RECEIPT_URL     @"https://sandbox.itunes.apple.com/verifyReceipt"
-
 
 typedef void (^WTStoreProductCompletionBlock)(SKStoreProductViewController *storeProductVCT, BOOL result, NSError *error);
 
 @protocol WTStoreKitDelegate;
+@class WTStoreProduct;
 
 FOUNDATION_EXPORT NSString * const WTStoreKitErrorDomain;
 enum {
@@ -97,7 +95,7 @@ enum {
 //- (void) restorePreviousTransactions __deprecated;
 - (void)restoreTransactions:(NSSet*)setOfProductIdentifier;
 
-- (NSArray*)purchasableObjectsDescription;
+- (NSArray<WTStoreProduct*>*)purchasableObjectsDescription;
 - (NSArray*)storeProductFromProductIdentifierSet:(NSSet*)productIdentifierSet;
 
 - (void)openManageSubscriptionURL;
@@ -108,9 +106,9 @@ enum {
 //- (void) verifyReceiptSubscription:(NSData*)receipt;
 //- (BOOL) isSubscriptionProductIdentifierActive:(NSString*)productIdentifier;
 - (BOOL) isSubscriptionActive:(NSData*)receipt;
-- (BOOL)isSubscriptionActiveForTransactionReceipt:(NSData*)receipt;
-- (BOOL)isSubscriptionActiveForReceipts:(NSData*)receipt;
-- (NSData*) receiptForProduct:(NSString*)productIdentifier;
+//- (BOOL)isSubscriptionActiveForTransactionReceipt:(NSData*)receipt;
+//- (BOOL)isSubscriptionActiveForReceipts:(NSData*)receipt;
+//- (NSData*) receiptForProduct:(NSString*)productIdentifier;
 // for 7.0
 - (void)refreshAppReceipt;
 
@@ -126,10 +124,10 @@ enum {
 //- (BOOL) removeAllKeychainData;
 
 //for 6.0
-- (void)validateTransactionReceiptWithAppStore:(NSData*)receipt withCompletion:(void (^)(BOOL success,NSArray* receiptsInfoArray))completion;
+//- (void)validateTransactionReceiptWithAppStore:(NSData*)receipt withCompletion:(void (^)(BOOL success,NSArray* receiptsInfoArray))completion;
 // for 7.0
 - (NSData*)readReceipt;
-- (void)validateReceiptsLocally;
+//- (void)validateReceiptsLocally;
 - (void)validateReceiptsWithAppStore:(NSString*)productIdentifier withCompletion:(void (^)(BOOL success,NSArray* receiptsInfoArray))completion;
 - (void)validateReceiptsWithAppStoreWithCompletion:(void (^)(BOOL success,NSArray* receiptsInfoArray))completion;
 
@@ -146,7 +144,7 @@ enum {
 
 @optional
 
-- (void)WTStoreKitProductFetchComplete:(NSArray *)productsInformation;
+- (void)WTStoreKitProductFetchComplete:(NSArray<WTStoreProduct*>*)productsInformation;
 
 //    - (void)WTStoreKitFinishPurchaseProduct:(NSString *)productIdentifier successWithValid:(BOOL)valid __deprecated;
 //    - (void)WTStoreKitFinishPurchaseProduct:(NSString *)productIdentifier failWithError:(NSError *)error __deprecated;
@@ -156,6 +154,8 @@ enum {
 - (void)WTStoreKitRestoreProduct:(NSString *)productIdentifier fromTransaction:(SKPaymentTransaction *)transaction successWithValid:(BOOL)valid;//assume to yes
 //    - (void)WTStoreKitRestoreCompleted:(BOOL)complete withError:(NSError *)error __deprecated;
 - (void)WTStoreKitRestoreCompletedWithSuccess:(BOOL)success withError:(NSError *)error;
+
+- (void)WTStoreKitReceiptRefreshComplete;
 
 - (void)WTStoreKitUpdatedDownload:(SKDownload *)download;
 - (void)WTStoreKitUpdatedDownloads:(NSArray *)downloads;
@@ -188,4 +188,10 @@ enum {
 + (instancetype)productFromSKProduct:(SKProduct*)product;
 
 @end
+
+
+@interface WTStoreReceipt : NSObject
+
+@end
+
 

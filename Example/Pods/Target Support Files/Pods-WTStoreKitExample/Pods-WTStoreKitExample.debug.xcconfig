@@ -1,0 +1,9 @@
+FRAMEWORK_SEARCH_PATHS = $(inherited) "${PODS_CONFIGURATION_BUILD_DIR}/Reachability-iOS12.1" "${PODS_CONFIGURATION_BUILD_DIR}/WTLibrary-iOS-CategoriesExtension-WTObjC-WTStoreKit"
+GCC_PREPROCESSOR_DEFINITIONS = $(inherited) COCOAPODS=1
+LD_RUNPATH_SEARCH_PATHS = $(inherited) '@executable_path/Frameworks' '@loader_path/Frameworks'
+OTHER_CFLAGS = $(inherited) -iquote "${PODS_CONFIGURATION_BUILD_DIR}/Reachability-iOS12.1/Reachability.framework/Headers" -iquote "${PODS_CONFIGURATION_BUILD_DIR}/WTLibrary-iOS-CategoriesExtension-WTObjC-WTStoreKit/WTLibrary_iOS.framework/Headers"
+OTHER_LDFLAGS = $(inherited) -framework "Reachability" -framework "WTLibrary_iOS"
+PODS_BUILD_DIR = ${BUILD_DIR}
+PODS_CONFIGURATION_BUILD_DIR = ${PODS_BUILD_DIR}/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)
+PODS_PODFILE_DIR_PATH = ${SRCROOT}/.
+PODS_ROOT = ${SRCROOT}/Pods

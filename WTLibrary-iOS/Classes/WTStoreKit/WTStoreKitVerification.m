@@ -12,6 +12,7 @@
 //
 //#import "WTStoreKitVerification.h"
 //#import "WTStoreKit.h"
+//#import "WTMacro.h"
 //#import "NSData+Base64.h"
 //
 //#ifndef __IPHONE_5_0
@@ -61,11 +62,11 @@
 //
 ////+ (WTStoreKitVerification *)sharedInstance
 ////{
-////	if (singleton == nil)
+////    if (singleton == nil)
 ////    {
-////		singleton = [[WTStoreKitVerification alloc] init];
-////	}
-////	return singleton;
+////        singleton = [[WTStoreKitVerification alloc] init];
+////    }
+////    return singleton;
 ////}
 //
 //+ (instancetype)sharedManager
@@ -77,15 +78,15 @@
 //
 //- (id)init
 //{
-//	self = [super init];
-//	if (self != nil)
+//    self = [super init];
+//    if (self != nil)
 //    {
 //        paymentTransactionDictionary = [[NSMutableDictionary alloc] init];
 //        dataDictionary = [[NSMutableDictionary alloc] init];
 //        jsonReceiptStorageDictionary = [[NSMutableDictionary alloc] init];
 //        transactionsReceiptStorageDictionary = [[NSMutableDictionary alloc] init];
-//	}
-//	return self;
+//    }
+//    return self;
 //}
 //
 //#pragma mark -
@@ -182,7 +183,7 @@
 //    
 //    [conn start];
 //    
-//    [conn release];
+//    //[conn release];
 //}
 //
 //- (BOOL)verifyPurchaseProduct:(SKPaymentTransaction *)transaction onComplete:(WTVerificationCompletionBlock)complete
@@ -256,7 +257,7 @@
 //    }
 //    
 ////    NSDictionary *purchaseInfoDict =     [transactionsReceiptStorageDictionary objectForKey:@""];
-////    
+////
 //    // The transaction looks ok, so start the verify process.
 //    NSDictionary *receiptDict = [self dictionaryFromPlistData:receipt];
 //    NSString *transactionPurchaseInfo = [receiptDict objectForKey:@"purchase-info"];
@@ -277,7 +278,7 @@
 //// we haven't seen before and then decode and save the purchaseInfo from the receipt for later receipt validation.
 ////- (BOOL)isTransactionAndItsReceiptValid:(SKPaymentTransaction *)transaction
 ////{
-////    
+////
 ////}
 //- (BOOL)isTransactionAndItsReceiptValid:(SKPaymentTransaction *)transaction
 //{
@@ -333,7 +334,7 @@
 ////    NSDate *purchaseDate = WTCBDateFromDateString(purchaseDateString);
 //    NSLog(@"%@",[purchaseDateString stringByReplacingOccurrencesOfString:@"Etc/" withString:@""]);
 //#endif
-//    [dateFormat release];
+//    //[dateFormat release];
 //    
 //    if (![self isTransactionIdUnique:transactionId])
 //    {
@@ -417,7 +418,7 @@
 ////    // Save the transactionId to the standardUserDefaults so we can check against that later
 ////    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
 ////    [defaults synchronize];
-////    
+////
 ////    if (![defaults objectForKey:transactionDictionary])
 ////    {
 ////        NSMutableDictionary *dict = [[NSMutableDictionary alloc] init];
@@ -425,7 +426,7 @@
 ////        [defaults synchronize];
 ////        [dict release];
 ////    }
-////    
+////
 ////    if (![[defaults objectForKey:transactionDictionary] objectForKey:transactionId])
 ////    {
 ////        return YES;
@@ -544,11 +545,11 @@
 //#endif
 //    }
 ////    else {
-////        // Pre iOS 6 
+////        // Pre iOS 6
 ////        NSString *localIdentifier           = [UIDevice currentDevice].uniqueIdentifier;
 ////        NSString *purchaseInfoUniqueId      = [purchaseInfoFromTransaction objectForKey:@"unique-identifier"];
-////        
-////        
+////
+////
 ////        if (![purchaseInfoUniqueId isEqualToString:verifiedReceiptUniqueIdentifier]
 ////            || ![purchaseInfoUniqueId isEqualToString:localIdentifier])
 ////        {
@@ -556,7 +557,7 @@
 ////#if !TARGET_IPHONE_SIMULATOR
 ////            failCount++;
 ////#endif
-////        }        
+////        }
 ////    }
 //    
 //    
@@ -594,7 +595,7 @@
 //    WTStoreKitURLConnection *conn = (WTStoreKitURLConnection*)connection;
 //    
 //    [dataDictionary removeObjectForKey:conn.productIdentifier];
-//    [NSURLConnection sendAsynchronousRequest:nil queue:nil completionHandler:nil]
+//    [NSURLConnection sendAsynchronousRequest:nil queue:nil completionHandler:nil];
 //}
 //
 //- (void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response
@@ -638,7 +639,7 @@
 //    
 //    [dataDictionary removeObjectForKey:conn.productIdentifier];
 //    
-//    [responseString release];
+//    //[responseString release];
 //    
 //    if(!isUrlOk){
 //        switchVerifyUrl = YES;
@@ -713,7 +714,7 @@
 //                [[challenge sender] useCredential:credential forAuthenticationChallenge:challenge];
 //                didUseCredential = YES;
 //            }
-//		}
+//        }
 //        if (! didUseCredential) {
 //            [[challenge sender] cancelAuthenticationChallenge:challenge];
 //        }
@@ -738,7 +739,7 @@
 //    {
 //        NSDictionary *trust_info = (NSDictionary *)SecTrustCopyInfo(trust);
 //        id hasEV = [trust_info objectForKey:(NSString *)kSecTrustInfoExtendedValidationKey];
-//        [trust_info release];
+//        //[trust_info release];
 //        trusted =  [hasEV isKindOfClass:[NSValue class]] && [hasEV boolValue];
 //    }
 //    
@@ -1074,42 +1075,42 @@
 ////    SecCertificateRef leaf = NULL, intermediate = NULL;
 ////    SecTrustRef trust = NULL;
 ////    SecPolicyRef policy = SecPolicyCreateBasicX509();
-////    
+////
 ////    NSData *certificate_data;
 ////    NSArray *anchors;
-////    
+////
 ////    /*
 ////     Parse inputs:
 ////     purchase_info_string and signature_string are base64 encoded JSON blobs that need to
 ////     be decoded.
 ////     */
-////    
+////
 ////    require([purchase_info_string canBeConvertedToEncoding:NSASCIIStringEncoding] &&
 ////            [signature_string canBeConvertedToEncoding:NSASCIIStringEncoding], outLabel);
-////    
+////
 ////    size_t purchase_info_length;
 ////    uint8_t *purchase_info_bytes = base64_decode([purchase_info_string cStringUsingEncoding:NSASCIIStringEncoding],
 ////                                                 &purchase_info_length);
-////    
+////
 ////    size_t signature_length;
 ////    uint8_t *signature_bytes = base64_decode([signature_string cStringUsingEncoding:NSASCIIStringEncoding],
 ////                                             &signature_length);
-////    
+////
 ////    require(purchase_info_bytes && signature_bytes, outLabel);
-////    
+////
 ////    /*
 ////     Binary format looks as follows:
-////     
+////
 ////     RECEIPTVERSION | SIGNATURE | CERTIFICATE SIZE | CERTIFICATE
 ////     1 byte           128         4 bytes
 ////     big endian
-////     
+////
 ////     Extract version, signature and certificate(s).
 ////     Check receipt version == 2.
 ////     Sanity check that signature is 128 bytes.
 ////     Sanity check certificate size <= remaining payload data.
 ////     */
-////    
+////
 ////#pragma pack(push, 1)
 ////    struct signature_blob {
 ////        uint8_t version;
@@ -1119,7 +1120,7 @@
 ////    } *signature_blob_ptr = (struct signature_blob *)signature_bytes;
 ////#pragma pack(pop)
 ////    uint32_t certificate_len;
-////    
+////
 ////    /*
 ////     Make sure the signature blob is long enough to safely extract the version and
 ////     cert_len fields, then perform a sanity check on the fields.
@@ -1127,71 +1128,71 @@
 ////    require(signature_length > offsetof(struct signature_blob, certificate), outLabel);
 ////    require(signature_blob_ptr->version == 2, outLabel);
 ////    certificate_len = ntohl(signature_blob_ptr->cert_len);
-////    
+////
 ////    require(signature_length - offsetof(struct signature_blob, certificate) >= certificate_len, outLabel);
-////    
+////
 ////    /*
 ////     Validate certificate chains back to valid receipt signer; policy approximation for now
 ////     set intermediate as a trust anchor; current intermediate lapses in 2016.
 ////     */
-////    
+////
 ////    certificate_data = [NSData dataWithBytes:signature_blob_ptr->certificate length:certificate_len];
 ////    require(leaf = SecCertificateCreateWithData(NULL, (CFDataRef) certificate_data), outLabel);
-////    
+////
 ////    certificate_data = [NSData dataWithBytes:iTS_intermediate_der length:iTS_intermediate_der_len];
 ////    require(intermediate = SecCertificateCreateWithData(NULL, (CFDataRef) certificate_data), outLabel);
-////    
+////
 ////    anchors = [NSArray arrayWithObject:(id)intermediate];
 ////    require(anchors, outLabel);
-////    
+////
 ////    require_noerr(SecTrustCreateWithCertificates(leaf, policy, &trust), outLabel);
 ////    require_noerr(SecTrustSetAnchorCertificates(trust, (CFArrayRef) anchors), outLabel);
-////    
+////
 ////    if (purchaseDate)
 ////    {
 ////        require_noerr(SecTrustSetVerifyDate(trust, purchaseDate), outLabel);
 ////    }
-////    
+////
 ////    SecTrustResultType trust_result;
 ////    require_noerr(SecTrustEvaluate(trust, &trust_result), outLabel);
 ////    require(trust_result == kSecTrustResultUnspecified, outLabel);
-////    
+////
 ////    require(2 == SecTrustGetCertificateCount(trust), outLabel);
-////    
+////
 ////    /*
 ////     Chain is valid, use leaf key to verify signature on receipt by
 ////     calculating SHA1(version|purchaseInfo)
 ////     */
-////    
+////
 ////    CC_SHA1_CTX sha1_ctx;
 ////    uint8_t to_be_verified_data[CC_SHA1_DIGEST_LENGTH];
-////    
+////
 ////    CC_SHA1_Init(&sha1_ctx);
 ////    CC_SHA1_Update(&sha1_ctx, &signature_blob_ptr->version, sizeof(signature_blob_ptr->version));
 ////    CC_SHA1_Update(&sha1_ctx, purchase_info_bytes, purchase_info_length);
 ////    CC_SHA1_Final(to_be_verified_data, &sha1_ctx);
-////    
+////
 ////    SecKeyRef receipt_signing_key = SecTrustCopyPublicKey(trust);
 ////    require(receipt_signing_key, outLabel);
 ////    require_noerr(SecKeyRawVerify(receipt_signing_key, kSecPaddingPKCS1SHA1,
 ////                                  to_be_verified_data, sizeof(to_be_verified_data),
 ////                                  signature_blob_ptr->signature, sizeof(signature_blob_ptr->signature)),
 ////                  outLabel);
-////    
+////
 ////    /*
 ////     Optional:  Verify that the receipt certificate has the 1.2.840.113635.100.6.5.1 Null OID
-////     
+////
 ////     The signature is a 1024-bit RSA signature.
 ////     */
-////    
+////
 ////    valid = YES;
-////    
+////
 ////outLabel:
 ////    if (leaf) CFRelease(leaf);
 ////    if (intermediate) CFRelease(intermediate);
 ////    if (trust) CFRelease(trust);
 ////    if (policy) CFRelease(policy);
-////    
+////
 ////    return valid;
 ////}
 //
@@ -1308,7 +1309,7 @@
 ////    if (c == '+') return 62;
 ////    if (c == '/') return 63;
 ////    if (c == '=') return -1;
-////    
+////
 ////    [NSException raise:@"invalid BASE64 encoding" format:@"Invalid BASE64 encoding"];
 ////    return 0;
 ////}
@@ -1340,19 +1341,19 @@
 //////    const char *inputBuffer = [data bytes];
 //////    char *outputBuffer = malloc(outLength);
 //////    outputBuffer[outLength] = 0;
-//////    
+//////
 //////    //64 digit code
 //////    static char Encode[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
-//////    
+//////
 //////    //start the count
 //////    int cycle = 0;
 //////    int inpos = 0;
 //////    int outpos = 0;
 //////    char temp;
-//////    
+//////
 //////    outputBuffer[outLength-1] = '=';
 //////    outputBuffer[outLength-2] = '=';
-//////    
+//////
 //////    while (inpos < inLength){
 //////        switch (cycle) {
 //////            case 0:
@@ -1368,7 +1369,7 @@
 //////                outputBuffer[outpos++] = Encode[temp|(inputBuffer[inpos]&0xF0)>> 4];
 //////                temp = (inputBuffer[inpos++]&0x0F)<<2;
 //////                outputBuffer[outpos] = Encode[temp];
-//////                cycle = 3;                  
+//////                cycle = 3;
 //////                break;
 //////            case 3:
 //////                outputBuffer[outpos++] = Encode[temp|(inputBuffer[inpos]&0xC0)>>6];
@@ -1377,45 +1378,45 @@
 //////            case 4:
 //////                outputBuffer[outpos++] = Encode[inputBuffer[inpos++]&0x3f];
 //////                cycle = 0;
-//////                break;                          
+//////                break;
 //////            default:
 //////                cycle = 0;
 //////                break;
 //////        }
 //////    }
-//////    
+//////
 //////    NSString *pictemp = [NSString stringWithUTF8String:outputBuffer];
-//////    free(outputBuffer); 
-//////    
+//////    free(outputBuffer);
+//////
 //////    return pictemp;
 //////}
 //////
 //////+(NSString *) decodeString:(NSString *)inString
 //////{
 //////    const char* string = [inString cStringUsingEncoding:NSASCIIStringEncoding];
-//////    
+//////
 //////    NSInteger inputLength = inString.length;
-//////    
+//////
 //////    static char decodingTable[128];
-//////    
+//////
 //////    static char encodingTable[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
-//////    
+//////
 //////    for (NSInteger i = 0; i < 128; i++) {
 //////        decodingTable[encodingTable[i]] = i;
 //////    }
-//////    
+//////
 //////    if ((string == NULL) || (inputLength % 4 != 0)) {
 //////        return nil;
 //////    }
-//////    
+//////
 //////    while (inputLength > 0 && string[inputLength - 1] == '=') {
 //////        inputLength--;
 //////    }
-//////    
+//////
 //////    NSInteger outputLength = inputLength * 3 / 4;
 //////    NSMutableData* data = [NSMutableData dataWithLength:outputLength];
 //////    uint8_t* output = data.mutableBytes;
-//////    
+//////
 //////    NSInteger inputPoint = 0;
 //////    NSInteger outputPoint = 0;
 //////    while (inputPoint < inputLength) {
@@ -1423,7 +1424,7 @@
 //////        char i1 = string[inputPoint++];
 //////        char i2 = inputPoint < inputLength ? string[inputPoint++] : 'A'; /* 'A' will decode to \0 */
 //////        char i3 = inputPoint < inputLength ? string[inputPoint++] : 'A';
-//////        
+//////
 //////        output[outputPoint++] = (decodingTable[i0] << 2) | (decodingTable[i1] >> 4);
 //////        if (outputPoint < outputLength) {
 //////            output[outputPoint++] = ((decodingTable[i1] & 0xf) << 4) | (decodingTable[i2] >> 2);
@@ -1432,16 +1433,16 @@
 //////            output[outputPoint++] = ((decodingTable[i2] & 0x3) << 6) | decodingTable[i3];
 //////        }
 //////    }
-//////    
+//////
 //////    NSLog(@"%@",data);
-//////    
+//////
 //////    NSString *finalString = [[NSString alloc] initWithData:data encoding:NSASCIIStringEncoding];
-//////    
+//////
 //////    return finalString;
 //////}
 //////
 //////char* base64_encode(const void* buf, size_t size)
-//////{ 
+//////{
 //////    NSData* data = [NSData dataWithBytesNoCopy:(void*)buf length:size];
 //////    NSString* string = [[[NSString alloc] initWithData:data encoding:NSASCIIStringEncoding] autorelease];
 //////    return (char *)[[WTStoreKitVerification encodeString:string] UTF8String];
@@ -1457,79 +1458,79 @@
 ////char* base64_encode(const void* buf, size_t size)
 ////{
 ////    static const char base64[] =  "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
-////    
+////
 ////    char* str = (char*) malloc((size+3)*4/3 + 1);
-////    
+////
 ////    char* p = str;
 ////    unsigned char* q = (unsigned char*) buf;
 ////    size_t i = 0;
-////    
+////
 ////    while(i < size) {
 ////        int c = q[i++];
 ////        c *= 256;
 ////        if (i < size) c += q[i];
 ////        i++;
-////        
+////
 ////        c *= 256;
 ////        if (i < size) c += q[i];
 ////        i++;
-////        
+////
 ////        *p++ = base64[(c & 0x00fc0000) >> 18];
 ////        *p++ = base64[(c & 0x0003f000) >> 12];
-////        
+////
 ////        if (i > size + 1)
 ////            *p++ = '=';
 ////        else
 ////            *p++ = base64[(c & 0x00000fc0) >> 6];
-////        
+////
 ////        if (i > size)
 ////            *p++ = '=';
 ////        else
 ////            *p++ = base64[c & 0x0000003f];
 ////    }
-////    
+////
 ////    *p = 0;
-////    
+////
 ////    return str;
 ////}
 ////
 ////void* base64_decode(const char* s, size_t* data_len_ptr)
 ////{
 ////    size_t len = strlen(s);
-////    
+////
 ////    if (len % 4)
 ////        [NSException raise:@"Invalid input in base64_decode" format:@"%d is an invalid length for an input string for BASE64 decoding", (int)len];
-////    
+////
 ////    unsigned char* data = (unsigned char*) malloc(len/4*3);
-////    
+////
 ////    int n[4];
 ////    unsigned char* q = (unsigned char*) data;
-////    
+////
 ////    for(const char*p=s; *p; )
 ////    {
 ////        n[0] = POS(*p++);
 ////        n[1] = POS(*p++);
 ////        n[2] = POS(*p++);
 ////        n[3] = POS(*p++);
-////        
+////
 ////        if (n[0]==-1 || n[1]==-1)
 ////            [NSException raise:@"Invalid input in base64_decode" format:@"Invalid BASE64 encoding"];
-////        
+////
 ////        if (n[2]==-1 && n[3]!=-1)
 ////            [NSException raise:@"Invalid input in base64_decode" format:@"Invalid BASE64 encoding"];
-////        
+////
 ////        q[0] = (n[0] << 2) + (n[1] >> 4);
 ////        if (n[2] != -1) q[1] = ((n[1] & 15) << 4) + (n[2] >> 2);
 ////        if (n[3] != -1) q[2] = ((n[2] & 3) << 6) + n[3];
 ////        q += 3;
 ////    }
-////    
+////
 ////    // make sure that data_len_ptr is not null
 ////    if (!data_len_ptr)
 ////        [NSException raise:@"Invalid input in base64_decode" format:@"Invalid destination for output string length"];
-////    
+////
 ////    *data_len_ptr = q-data - (n[2]==-1) - (n[3]==-1);
-////    
+////
 ////    return data;
 ////}
 //

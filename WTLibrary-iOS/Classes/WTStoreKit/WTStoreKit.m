@@ -11,12 +11,15 @@
 #endif
 
 #import "WTStoreKit.h"
-//#import "WTStoreKitVerification.h"
+#import "WTStoreKitVerification.h"
 #import "WTMacro.h"
 #import "Reachability.h"
 #import "NSData+Base64.h"
 #import <Security/Security.h>
 #import <CommonCrypto/CommonCrypto.h>
+
+#define ITMS_PROD_VERIFY_RECEIPT_URL        @"https://buy.itunes.apple.com/verifyReceipt"
+#define ITMS_SANDBOX_VERIFY_RECEIPT_URL     @"https://sandbox.itunes.apple.com/verifyReceipt"
 
 //#ifndef __IPHONE_5_0
 //#error "uses features (NSJSONSerialization) only available in iOS SDK 5.0 and later."
@@ -170,7 +173,7 @@ static WTStoreKit *sharedMyManager = nil;
 {
 	if ([SKPaymentQueue canMakePayments])
 	{
-        [self buyProductData:productIdentifier quantity:1];
+        [self buyProductData:productIdentifier quantity:0];
 	}
 	else
 	{
@@ -201,7 +204,7 @@ static WTStoreKit *sharedMyManager = nil;
     [self restoreTransactionsData];
 }
 
-- (NSArray*)purchasableObjectsDescription
+- (NSArray<WTStoreProduct*>*)purchasableObjectsDescription
 {
 //	NSMutableArray *purchasableObjectsDescriptions = [[NSMutableArray alloc] initWithCapacity:[self.purchasableObjects count]];
 //    
@@ -341,6 +344,28 @@ static WTStoreKit *sharedMyManager = nil;
         [request start];
     }
 }
+//12
+//
+//It is very simple difference between SKReceiptRefreshRequest vs RestoreCompletedTransactions:
+//
+//SKReceiptRefreshRequest
+//
+//Refreshing the receipt asks the App Store for the latest copy of the receipt. Refreshing a receipt does not create any new transactions. Although you should avoid refreshing multiple times in a row, this action would have same result as refreshing it just once.
+//
+//RestoreCompletedTransactions
+//
+//Restoring completed transactions creates a new transaction for every completed transaction the user made, essentially replaying history for your transaction queue observer. While transactions are being restored, your app maintains its own state to keep track of why it’s restoring completed transactions and how it needs to handle them. Restoring multiple times creates multiple restored transactions for each completed transaction.
+//
+//We can use both SKReceiptRefreshRequest & Restore completed transactions for validating user subscription, But here in below cases we must used to Restore completed transaction instead refreshing receipt:
+//
+//If you use Apple-hosted content, restoring completed transactions gives your app the transaction objects it uses to download the content.
+//
+//If you need to support versions of iOS earlier than iOS 7, where the app receipt isn’t available, restore completed transactions instead.
+//
+//If your app uses non-renewing subscriptions, your app is responsible for the restoration process.
+//
+//Reference: https://developer.apple.com/library/content/documentation/NetworkingInternet/Conceptual/StoreKitGuide/Chapters/Restoring.html#//apple_ref/doc/uid/TP40008267-CH8-SW9
+
 //- (void) startVerifyingSubscriptionReceipts
 //{
 //    NSDictionary *subscriptions = [[MKStoreManager storeKitItems] objectForKey:@"Subscriptions"];
@@ -425,8 +450,19 @@ static WTStoreKit *sharedMyManager = nil;
 
 - (void)validateReceiptsLocally
 {
-    
+//    RMAppReceipt *receipt = [RMAppReceipt bundleReceipt];
+//    const BOOL verified = [self verifyTransaction:transaction inReceipt:receipt success:successBlock failure:nil]; // failureBlock is nil intentionally. See below.
+//    if (verified) return;
+//    
+//    // Apple recommends to refresh the receipt if validation fails on iOS
+//    [[RMStore defaultStore] refreshReceiptOnSuccess:^{
+//        RMAppReceipt *receipt = [RMAppReceipt bundleReceipt];
+//        [self verifyTransaction:transaction inReceipt:receipt success:successBlock failure:failureBlock];
+//    } failure:^(NSError *error) {
+//        [self failWithBlock:failureBlock error:error];
+//    }];
 }
+
 - (void)validateReceiptsWithAppStore:(NSString*)productIdentifier withCompletion:(void (^)(BOOL success,NSArray* receiptsInfoArray))completion
 {
     if(SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")){
@@ -635,14 +671,20 @@ static WTStoreKit *sharedMyManager = nil;
     if([request isKindOfClass:[SKProductsRequest class]]){
         
     }else if ([request isKindOfClass:[SKReceiptRefreshRequest class]]){
-        [self validateReceiptsWithAppStoreWithCompletion:^(BOOL success, NSArray *receiptsInfoArray) {
-            
-        }];
+        if([_storeDelegate respondsToSelector:@selector(WTStoreKitReceiptRefreshComplete)])
+            [_storeDelegate WTStoreKitReceiptRefreshComplete];
     }
 }
 
 - (void)request:(SKRequest *)request didFailWithError:(NSError *)error
 {
+    [self stopDimScreen];
+    
+    if([request isKindOfClass:[SKProductsRequest class]]){
+        if([_storeDelegate respondsToSelector:@selector(WTStoreKitProductFetchComplete:)])
+            [_storeDelegate WTStoreKitProductFetchComplete:@[ ]];
+    }else if ([request isKindOfClass:[SKReceiptRefreshRequest class]]){
+    }
     
 }
 
@@ -650,7 +692,7 @@ static WTStoreKit *sharedMyManager = nil;
 
 - (void)productsRequest:(SKProductsRequest *)request didReceiveResponse:(SKProductsResponse *)response
 {
-    request = nil;
+//    request = nil;
     
     [self stopDimScreen];
     
@@ -989,40 +1031,41 @@ static WTStoreKit *sharedMyManager = nil;
 //}
 //#endif
 
-#pragma mark - SKPaymentQueue delegate
+#pragma mark - SKPaymentQueue, SKPaymentTransactionObserver delegate
 
-- (void)paymentQueue:(SKPaymentQueue *)queue updatedTransactions:(NSArray *)transactions
+// Sent when the transaction array has changed (additions or state changes).  Client should check state of transactions and finish as appropriate.
+- (void)paymentQueue:(SKPaymentQueue *)queue updatedTransactions:(NSArray<SKPaymentTransaction *> *)transactions
 {
-	for (SKPaymentTransaction *transaction in transactions)
-	{
+    for (SKPaymentTransaction *transaction in transactions)
+    {
         [WTStoreKit logTransaction:transaction];
-		switch (transaction.transactionState)
+        switch (transaction.transactionState)
         {
             case SKPaymentTransactionStatePurchasing:
                 
                 break;
                 
-			case SKPaymentTransactionStatePurchased:
-				
+            case SKPaymentTransactionStatePurchased:
+                
                 [self completeTransaction:transaction];
                 
-//                [[SKPaymentQueue defaultQueue] finishTransaction: transaction];
+                               // [[SKPaymentQueue defaultQueue] finishTransaction: transaction];
                 
                 break;
-				
+                
             case SKPaymentTransactionStateFailed:
-				
+                
                 [self failedTransaction:transaction];
                 
                 [[SKPaymentQueue defaultQueue] finishTransaction: transaction];
                 
                 break;
-				
+                
             case SKPaymentTransactionStateRestored:
-				
+                
                 [self restoreTransaction:transaction];
                 
-//                [[SKPaymentQueue defaultQueue] finishTransaction: transaction];
+                //                [[SKPaymentQueue defaultQueue] finishTransaction: transaction];
                 
                 break;
                 
@@ -1033,13 +1076,14 @@ static WTStoreKit *sharedMyManager = nil;
                 break;
                 
             default:
-				
+                
                 break;
-		}			
-	}
+        }
+    }
 }
 
-- (void)paymentQueue:(SKPaymentQueue *)queue removedTransactions:(NSArray *)transactions
+// Sent when transactions are removed from the queue (via finishTransaction:).
+- (void)paymentQueue:(SKPaymentQueue *)queue removedTransactions:(NSArray<SKPaymentTransaction *> *)transactions
 {
     for (SKPaymentTransaction *transaction in transactions)
     {
@@ -1047,14 +1091,22 @@ static WTStoreKit *sharedMyManager = nil;
     }
 }
 
+// Sent when an error is encountered while adding transactions from the user's purchase history back to the queue.
 - (void)paymentQueue:(SKPaymentQueue *)queue restoreCompletedTransactionsFailedWithError:(NSError *)error
 {
     [self restoreCompletedTransactionsFailedWithError:error];
 }
 
+// Sent when all transactions from the user's purchase history have successfully been added back to the queue.
 - (void)paymentQueueRestoreCompletedTransactionsFinished:(SKPaymentQueue *)queue
 {
     [self restoreCompletedTransactionsFinished];
+}
+
+// Sent when a user initiates an IAP buy from the App Store
+- (BOOL)paymentQueue:(SKPaymentQueue *)queue shouldAddStorePayment:(SKPayment *)payment forProduct:(SKProduct *)product
+{
+    return NO;
 }
 
 - (void)processDownload:(SKDownload *)download {
@@ -1113,7 +1165,9 @@ static WTStoreKit *sharedMyManager = nil;
 
 
 // ダウンロード通知処理
-- (void)paymentQueue:(SKPaymentQueue *)queue updatedDownloads:(NSArray *)downloads {
+// Sent when the download state has changed.
+- (void)paymentQueue:(SKPaymentQueue *)queue updatedDownloads:(NSArray<SKDownload *> *)downloads
+{
     for (SKDownload *download in downloads) {
         [WTStoreKit logDownload:download];
         if (download.downloadState == SKDownloadStateFinished) {
@@ -1183,8 +1237,10 @@ static WTStoreKit *sharedMyManager = nil;
 }
 
 -(void)showAlert{
-    _prcAlert = [self processingAlert:nil withMessage:nil];
-    [_prcAlert show];
+    if (!_prcAlert) {
+        _prcAlert = [self processingAlert:nil withMessage:nil];
+        [_prcAlert show];
+    }
 }
 
 -(void)dismissAlert{
@@ -1305,7 +1361,7 @@ static WTStoreKit *sharedMyManager = nil;
     }
     WatLog(@"transaction %@ %@\n\
            -- download %ld item",
-           transaction.payment.productIdentifier,transactionState,(long)[transaction.downloads count]);
+           transaction.payment.productIdentifier, transactionState, (long)[transaction.downloads count]);
 }
 
 + (void)logDownload:(SKDownload*)download
@@ -1380,8 +1436,25 @@ static WTStoreKit *sharedMyManager = nil;
 
 - (NSString *)description
 {
-    
-    return @"";
+    return self.localizedTitle;
 }
 
 @end
+
+
+#pragma mark -
+
+@interface WTStoreReceipt()
+
+//@property (nonatomic,strong) NSString *localizedTitle;
+//@property (nonatomic,strong) NSString *localizedDescription;
+//@property (nonatomic,strong) NSString *price;
+//@property (nonatomic,strong) NSString *priceFormat;
+//@property (nonatomic,strong) NSString *productIdentifier;
+
+@end
+
+@implementation WTStoreReceipt
+
+@end
+

@@ -18,7 +18,11 @@
 
 #import "GTMAppAuthFetcherAuthorization.h"
 
+#ifndef GTMAPPAUTH_USER_IMPORTS
+#import <AppAuth/AppAuth.h>
+#else // GTMAPPAUTH_USER_IMPORTS
 #import "AppAuth.h"
+#endif // GTMAPPAUTH_USER_IMPORTS
 
 #define GTMOAuth2AssertValidSelector GTMBridgeAssertValidSelector
 
@@ -319,11 +323,11 @@ NSString *const GTMAppAuthFetcherAuthorizationErrorRequestKey = @"request";
                                              NSString *_Nullable idToken,
                                              NSError *_Nullable error) {
     // Processes queue.
-    @synchronized(_authorizationQueue) {
-      for (GTMAppAuthFetcherAuthorizationArgs *fetcherArgs in _authorizationQueue) {
+    @synchronized(self->_authorizationQueue) {
+      for (GTMAppAuthFetcherAuthorizationArgs *fetcherArgs in self->_authorizationQueue) {
         [self authorizeRequestImmediateArgs:fetcherArgs accessToken:accessToken error:error];
       }
-      [_authorizationQueue removeAllObjects];
+      [self->_authorizationQueue removeAllObjects];
     }
   }];
 }

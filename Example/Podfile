@@ -27,14 +27,18 @@ target 'WTLibrary-iOS-ObjC_Example' do
   end
 end
 
+target 'WTStoreKitExample' do
+  pod 'WTLibrary-iOS/WTStoreKit', :path => '../'
+end
+
 target 'WTLibrary-iOS-Swift_Example' do
   pod 'WTLibrary-iOS/WTSwift', :path => '../'
 
   target 'WTLibrary-iOS-Swift_Tests' do
     inherit! :search_paths
 
-    pod 'Quick', '~> 1.0.0'
-    pod 'Nimble', '~> 5.1.1'
+#     pod 'Quick', '~> 1.0.0'
+#     pod 'Nimble', '~> 5.1.1'
   end
 end
 

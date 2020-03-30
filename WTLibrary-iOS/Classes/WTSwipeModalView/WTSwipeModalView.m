@@ -12,6 +12,12 @@
 #import <AGWindowView/AGWindowView.h>
 
 @interface WTSwipeModalView ()
+{
+    
+    NSNotification          *_kbShowNotification;
+    CGSize                   _kbSize;
+}
+@property(nonatomic, assign, readonly, getter = isKeyboardShowing) BOOL  keyboardShowing;
 
 @property (nonatomic,strong) AGWindowView *agWindow;
 @property (nonatomic,assign) BOOL isShareWindow;
@@ -107,6 +113,8 @@
     }
     
     _parentViewWindow = _agWindow;
+    
+    [self registerAllNotifications];
 }
 
 - (void)initialize
@@ -690,6 +698,19 @@
 
 - (void)preAnimationPosition
 {
+    [self adjustPosition];
+    
+    UIView *toView = _agWindow;
+    
+    if (self.superview) {
+        [self removeFromSuperview];
+    }
+    [toView addSubview:self];
+    [toView bringSubviewToFront:self];
+}
+
+-(void)adjustPosition
+{
     UIView *toView = _agWindow;
     
     CGRect screenRect = toView.bounds;
@@ -700,6 +721,8 @@
     } else {
         // Fallback on earlier versions
     }
+    screenRect = CGRectMake(screenRect.origin.x, screenRect.origin.y, screenRect.size.width, screenRect.size.height - _kbSize.height);
+    
     CGRect safeAreaMarginRect = UIEdgeInsetsInsetRect(screenRect, _outerMargin);
     
     self.frame = toView.bounds; // should be full screen
@@ -725,12 +748,6 @@
         containerView.frame = containerViewRect;
         containerScrollView.contentSize = containerScrollView.bounds.size;
     }
-    
-    if (self.superview) {
-        [self removeFromSuperview];
-    }
-    [toView addSubview:self];
-    [toView bringSubviewToFront:self];
 }
 
 - (void)showSwipeFromView:(UIView*)sourceView withAnimation:(WTSwipeModalAnimation)animation
@@ -906,5 +923,405 @@
         WatLog(@"hide animation not implemented.");
     }
 }
+
+-(void)registerAllNotifications
+{
+    //  Registering for keyboard notification.
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillShow:) name:UIKeyboardWillShowNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardDidShow:) name:UIKeyboardDidShowNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillHide:) name:UIKeyboardWillHideNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardDidHide:) name:UIKeyboardDidHideNotification object:nil];
+    
+    //  Registering for UITextField notification.
+//    [self registerTextFieldViewClass:[UITextField class]
+//     didBeginEditingNotificationName:UITextFieldTextDidBeginEditingNotification
+//       didEndEditingNotificationName:UITextFieldTextDidEndEditingNotification];
+//
+//    //  Registering for UITextView notification.
+//    [self registerTextFieldViewClass:[UITextView class]
+//     didBeginEditingNotificationName:UITextViewTextDidBeginEditingNotification
+//       didEndEditingNotificationName:UITextViewTextDidEndEditingNotification];
+//
+//    //  Registering for orientation changes notification
+//    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(willChangeStatusBarOrientation:) name:UIApplicationWillChangeStatusBarOrientationNotification object:[UIApplication sharedApplication]];
+}
+
+#pragma mark - UIKeyboad Notification methods
+/*  UIKeyboardWillShowNotification. */
+-(void)keyboardWillShow:(NSNotification*)aNotification
+{
+    _kbShowNotification = aNotification;
+    
+    //  Boolean to know keyboard is showing/hiding
+    _keyboardShowing = YES;
+    
+    //  Getting keyboard animation.
+//    NSInteger curve = [[aNotification userInfo][UIKeyboardAnimationCurveUserInfoKey] integerValue];
+//    _animationCurve = curve<<16;
+    
+    //  Getting keyboard animation duration
+    CGFloat duration = [[aNotification userInfo][UIKeyboardAnimationDurationUserInfoKey] floatValue];
+    
+//    //Saving animation duration
+//    if (duration != 0.0)    _animationDuration = duration;
+    
+    CGSize oldKBSize = _kbSize;
+    
+    //  Getting UIKeyboardSize.
+    CGRect kbFrame = [[aNotification userInfo][UIKeyboardFrameEndUserInfoKey] CGRectValue];
+    
+    CGRect screenSize = [[UIScreen mainScreen] bounds];
+    
+    //Calculating actual keyboard displayed size, keyboard frame may be different when hardware keyboard is attached (Bug ID: #469) (Bug ID: #381)
+    CGRect intersectRect = CGRectIntersection(kbFrame, screenSize);
+    
+    if (CGRectIsNull(intersectRect))
+    {
+        _kbSize = CGSizeMake(screenSize.size.width, 0);
+    }
+    else
+    {
+        _kbSize = intersectRect.size;
+    }
+    
+//    if ([self privateIsEnabled] == NO)    return;
+    
+    CFTimeInterval startTime = CACurrentMediaTime();
+//    [self showLog:[NSString stringWithFormat:@"****** %@ started ******",NSStringFromSelector(_cmd)]];
+    
+//    UIView *textFieldView = _textFieldView;
+//
+//    if (textFieldView && CGPointEqualToPoint(_topViewBeginOrigin, kIQCGPointInvalid))    //  (Bug ID: #5)
+//    {
+//        //  keyboard is not showing(At the beginning only). We should save rootViewRect.
+//        UIViewController *rootController = [textFieldView parentContainerViewController];
+//        _rootViewController = rootController;
+//
+//        if (_rootViewControllerWhilePopGestureRecognizerActive == _rootViewController)
+//        {
+//            _topViewBeginOrigin = _topViewBeginOriginWhilePopGestureRecognizerActive;
+//        }
+//        else
+//        {
+//            _topViewBeginOrigin = rootController.view.frame.origin;
+//        }
+//
+//        _rootViewControllerWhilePopGestureRecognizerActive = nil;
+//        _topViewBeginOriginWhilePopGestureRecognizerActive = kIQCGPointInvalid;
+//
+//        [self showLog:[NSString stringWithFormat:@"Saving %@ beginning origin: %@",[rootController _IQDescription] ,NSStringFromCGPoint(_topViewBeginOrigin)]];
+//    }
+//
+//    //If last restored keyboard size is different(any orientation accure), then refresh. otherwise not.
+//    if (!CGSizeEqualToSize(_kbSize, oldKBSize))
+//    {
+//        //If _textFieldView is inside UIAlertView then do nothing. (Bug ID: #37, #74, #76)
+//        //See notes:- https://developer.apple.com/library/ios/documentation/StringsTextFonts/Conceptual/TextAndWebiPhoneOS/KeyboardManagement/KeyboardManagement.html If it is UIAlertView textField then do not affect anything (Bug ID: #70).
+//        if (_keyboardShowing == YES &&
+//            textFieldView &&
+//            [textFieldView isAlertViewTextField] == NO)
+//        {
+//            [self optimizedAdjustPosition];
+//        }
+//    }
+//
+//    CFTimeInterval elapsedTime = CACurrentMediaTime() - startTime;
+//    [self showLog:[NSString stringWithFormat:@"****** %@ ended: %g seconds ******\n",NSStringFromSelector(_cmd),elapsedTime]];
+}
+
+/*  UIKeyboardDidShowNotification. */
+- (void)keyboardDidShow:(NSNotification*)aNotification
+{
+//    if ([self privateIsEnabled] == NO)    return;
+    
+    CFTimeInterval startTime = CACurrentMediaTime();
+//    [self showLog:[NSString stringWithFormat:@"****** %@ started ******",NSStringFromSelector(_cmd)]];
+    
+//    UIView *textFieldView = _textFieldView;
+    
+    //  Getting topMost ViewController.
+//    UIViewController *controller = [textFieldView topMostController];
+    
+    //If _textFieldView viewController is presented as formSheet, then adjustPosition again because iOS internally update formSheet frame on keyboardShown. (Bug ID: #37, #74, #76)
+//    if (_keyboardShowing == YES &&
+//        textFieldView &&
+//        (controller.modalPresentationStyle == UIModalPresentationFormSheet || controller.modalPresentationStyle == UIModalPresentationPageSheet) &&
+//        [textFieldView isAlertViewTextField] == NO)
+//    {
+//        [self optimizedAdjustPosition];
+    
+    
+//    originalView = sourceView;
+//    originalViewRect = [originalView.superview convertRect:originalView.frame toView:_agWindow];;
+    
+    CGPoint calculateCenter = [originalView.superview convertPoint:originalView.center toView:_agWindow];
+    
+    self.show = YES;
+//    self->containerView.center = calculateCenter;
+    
+    [UIView animateWithDuration:0.3
+                     animations:
+     ^{
+         [self adjustPosition];
+         CGPoint destinationCenter = self->containerView.center;
+         self->containerView.center = destinationCenter;
+     }
+                     completion:
+     ^(BOOL finished) {
+     }];
+    
+//    }
+    
+    CFTimeInterval elapsedTime = CACurrentMediaTime() - startTime;
+//    [self showLog:[NSString stringWithFormat:@"****** %@ ended: %g seconds ******\n",NSStringFromSelector(_cmd),elapsedTime]];
+}
+
+/*  UIKeyboardWillHideNotification. So setting rootViewController to it's default frame. */
+- (void)keyboardWillHide:(NSNotification*)aNotification
+{
+    //If it's not a fake notification generated by [self setEnable:NO].
+    if (aNotification)    _kbShowNotification = nil;
+    
+    //  Boolean to know keyboard is showing/hiding
+    _keyboardShowing = NO;
+    
+    //  Getting keyboard animation duration
+    CGFloat aDuration = [[aNotification userInfo][UIKeyboardAnimationDurationUserInfoKey] floatValue];
+    if (aDuration!= 0.0f)
+    {
+//        _animationDuration = aDuration;
+    }
+    
+    //If not enabled then do nothing.
+//    if ([self privateIsEnabled] == NO)    return;
+    
+    CFTimeInterval startTime = CACurrentMediaTime();
+//    [self showLog:[NSString stringWithFormat:@"****** %@ started ******",NSStringFromSelector(_cmd)]];
+    
+    //Commented due to #56. Added all the conditions below to handle UIWebView's textFields.    (Bug ID: #56)
+    //  We are unable to get textField object while keyboard showing on UIWebView's textField.  (Bug ID: #11)
+    //    if (_textFieldView == nil)   return;
+    
+    //Restoring the contentOffset of the lastScrollView
+//    if (_lastScrollView)
+//    {
+//        __weak typeof(self) weakSelf = self;
+//
+//        [UIView animateWithDuration:_animationDuration delay:0 options:(_animationCurve|UIViewAnimationOptionBeginFromCurrentState) animations:^{
+//
+//            __strong typeof(self) strongSelf = weakSelf;
+//
+//            strongSelf.lastScrollView.contentInset = strongSelf.startingContentInsets;
+//            strongSelf.lastScrollView.scrollIndicatorInsets = strongSelf.startingScrollIndicatorInsets;
+//
+//            if (strongSelf.lastScrollView.shouldRestoreScrollViewContentOffset)
+//            {
+//                strongSelf.lastScrollView.contentOffset = strongSelf.startingContentOffset;
+//            }
+//
+//            [self showLog:[NSString stringWithFormat:@"Restoring %@ contentInset to : %@ and contentOffset to : %@",[strongSelf.lastScrollView _IQDescription],NSStringFromUIEdgeInsets(strongSelf.startingContentInsets),NSStringFromCGPoint(strongSelf.startingContentOffset)]];
+//
+//            // TODO: restore scrollView state
+//            // This is temporary solution. Have to implement the save and restore scrollView state
+//            UIScrollView *superscrollView = strongSelf.lastScrollView;
+//            do
+//            {
+//                CGSize contentSize = CGSizeMake(MAX(superscrollView.contentSize.width, CGRectGetWidth(superscrollView.frame)), MAX(superscrollView.contentSize.height, CGRectGetHeight(superscrollView.frame)));
+//
+//                CGFloat minimumY = contentSize.height-CGRectGetHeight(superscrollView.frame);
+//
+//                if (minimumY<superscrollView.contentOffset.y)
+//                {
+//                    superscrollView.contentOffset = CGPointMake(superscrollView.contentOffset.x, minimumY);
+//
+//                    [self showLog:[NSString stringWithFormat:@"Restoring %@ contentOffset to : %@",[superscrollView _IQDescription],NSStringFromCGPoint(superscrollView.contentOffset)]];
+//                }
+//            } while ((superscrollView = (UIScrollView*)[superscrollView superviewOfClassType:[UIScrollView class]]));
+//
+//        } completion:NULL];
+//    }
+//
+//    [self restorePosition];
+//
+//    //Reset all values
+//    _lastScrollView = nil;
+//    _kbSize = CGSizeZero;
+//    _startingContentInsets = UIEdgeInsetsZero;
+//    _startingScrollIndicatorInsets = UIEdgeInsetsZero;
+//    _startingContentOffset = CGPointZero;
+//
+//    CFTimeInterval elapsedTime = CACurrentMediaTime() - startTime;
+//    [self showLog:[NSString stringWithFormat:@"****** %@ ended: %g seconds ******\n",NSStringFromSelector(_cmd),elapsedTime]];
+}
+
+/*  UIKeyboardDidHideNotification. So topViewBeginRect can be set to CGRectZero. */
+- (void)keyboardDidHide:(NSNotification*)aNotification
+{
+    CFTimeInterval startTime = CACurrentMediaTime();
+//    [self showLog:[NSString stringWithFormat:@"****** %@ started ******",NSStringFromSelector(_cmd)]];
+    
+//    _topViewBeginOrigin = kIQCGPointInvalid;
+    
+    _kbSize = CGSizeZero;
+    
+    CFTimeInterval elapsedTime = CACurrentMediaTime() - startTime;
+//    [self showLog:[NSString stringWithFormat:@"****** %@ ended: %g seconds ******\n",NSStringFromSelector(_cmd),elapsedTime]];
+}
+
+//#pragma mark - UITextFieldView Delegate methods
+///**  UITextFieldTextDidBeginEditingNotification, UITextViewTextDidBeginEditingNotification. Fetching UITextFieldView object. */
+//-(void)textFieldViewDidBeginEditing:(NSNotification*)notification
+//{
+//    CFTimeInterval startTime = CACurrentMediaTime();
+//    [self showLog:[NSString stringWithFormat:@"****** %@ started ******",NSStringFromSelector(_cmd)]];
+//
+//    //  Getting object
+//    _textFieldView = notification.object;
+//
+//    UIView *textFieldView = _textFieldView;
+//
+//    if (_overrideKeyboardAppearance == YES)
+//    {
+//        UITextField *textField = (UITextField*)textFieldView;
+//
+//        if ([textField respondsToSelector:@selector(keyboardAppearance)])
+//        {
+//            //If keyboard appearance is not like the provided appearance
+//            if (textField.keyboardAppearance != _keyboardAppearance)
+//            {
+//                //Setting textField keyboard appearance and reloading inputViews.
+//                textField.keyboardAppearance = _keyboardAppearance;
+//                [textField reloadInputViews];
+//            }
+//        }
+//    }
+//
+//    //If autoToolbar enable, then add toolbar on all the UITextField/UITextView's if required.
+//    if ([self privateIsEnableAutoToolbar])
+//    {
+//        //UITextView special case. Keyboard Notification is firing before textView notification so we need to reload it's inputViews.
+//        if ([textFieldView isKindOfClass:[UITextView class]] &&
+//            textFieldView.inputAccessoryView == nil)
+//        {
+//            __weak typeof(self) weakSelf = self;
+//
+//            [UIView animateWithDuration:0.00001 delay:0 options:(_animationCurve|UIViewAnimationOptionBeginFromCurrentState) animations:^{
+//                [self addToolbarIfRequired];
+//            } completion:^(BOOL finished) {
+//
+//                __strong typeof(self) strongSelf = weakSelf;
+//
+//                //On textView toolbar didn't appear on first time, so forcing textView to reload it's inputViews.
+//                [strongSelf.textFieldView reloadInputViews];
+//            }];
+//        }
+//        //Else adding toolbar
+//        else
+//        {
+//            [self addToolbarIfRequired];
+//        }
+//    }
+//    else
+//    {
+//        [self removeToolbarIfRequired];
+//    }
+//
+//    //Adding Geture recognizer to window    (Enhancement ID: #14)
+//    [_resignFirstResponderGesture setEnabled:[self privateShouldResignOnTouchOutside]];
+//    [textFieldView.window addGestureRecognizer:_resignFirstResponderGesture];
+//
+//    if ([self privateIsEnabled] == YES)
+//    {
+//        if (CGPointEqualToPoint(_topViewBeginOrigin, kIQCGPointInvalid))    //  (Bug ID: #5)
+//        {
+//            //  keyboard is not showing(At the beginning only).
+//            UIViewController *rootController = [textFieldView parentContainerViewController];
+//            _rootViewController = rootController;
+//
+//            if (_rootViewControllerWhilePopGestureRecognizerActive == _rootViewController)
+//            {
+//                _topViewBeginOrigin = _topViewBeginOriginWhilePopGestureRecognizerActive;
+//            }
+//            else
+//            {
+//                _topViewBeginOrigin = rootController.view.frame.origin;
+//            }
+//
+//            _rootViewControllerWhilePopGestureRecognizerActive = nil;
+//            _topViewBeginOriginWhilePopGestureRecognizerActive = kIQCGPointInvalid;
+//
+//            [self showLog:[NSString stringWithFormat:@"Saving %@ beginning origin: %@",[rootController _IQDescription], NSStringFromCGPoint(_topViewBeginOrigin)]];
+//        }
+//
+//        //If textFieldView is inside UIAlertView then do nothing. (Bug ID: #37, #74, #76)
+//        //See notes:- https://developer.apple.com/library/ios/documentation/StringsTextFonts/Conceptual/TextAndWebiPhoneOS/KeyboardManagement/KeyboardManagement.html If it is UIAlertView textField then do not affect anything (Bug ID: #70).
+//        if (_keyboardShowing == YES &&
+//            textFieldView &&
+//            [textFieldView isAlertViewTextField] == NO)
+//        {
+//            //  keyboard is already showing. adjust frame.
+//            [self optimizedAdjustPosition];
+//        }
+//    }
+//
+//    //    if ([textFieldView isKindOfClass:[UITextField class]])
+//    //    {
+//    //        [(UITextField*)textFieldView addTarget:self action:@selector(editingDidEndOnExit:) forControlEvents:UIControlEventEditingDidEndOnExit];
+//    //    }
+//
+//    CFTimeInterval elapsedTime = CACurrentMediaTime() - startTime;
+//    [self showLog:[NSString stringWithFormat:@"****** %@ ended: %g seconds ******\n",NSStringFromSelector(_cmd),elapsedTime]];
+//}
+//
+///**  UITextFieldTextDidEndEditingNotification, UITextViewTextDidEndEditingNotification. Removing fetched object. */
+//-(void)textFieldViewDidEndEditing:(NSNotification*)notification
+//{
+//    CFTimeInterval startTime = CACurrentMediaTime();
+//    [self showLog:[NSString stringWithFormat:@"****** %@ started ******",NSStringFromSelector(_cmd)]];
+//
+//    UIView *textFieldView = _textFieldView;
+//
+//    //Removing gesture recognizer   (Enhancement ID: #14)
+//    [textFieldView.window removeGestureRecognizer:_resignFirstResponderGesture];
+//
+//    //    if ([textFieldView isKindOfClass:[UITextField class]])
+//    //    {
+//    //        [(UITextField*)textFieldView removeTarget:self action:@selector(editingDidEndOnExit:) forControlEvents:UIControlEventEditingDidEndOnExit];
+//    //    }
+//
+//    // We check if there's a change in original frame or not.
+//    if(_isTextViewContentInsetChanged == YES &&
+//       [textFieldView isKindOfClass:[UITextView class]])
+//    {
+//        UITextView *textView = (UITextView*)textFieldView;
+//
+//        __weak typeof(self) weakSelf = self;
+//
+//        [UIView animateWithDuration:_animationDuration delay:0 options:(_animationCurve|UIViewAnimationOptionBeginFromCurrentState) animations:^{
+//
+//            __strong typeof(self) strongSelf = weakSelf;
+//
+//            strongSelf.isTextViewContentInsetChanged = NO;
+//
+//            [self showLog:[NSString stringWithFormat:@"Restoring %@ textView.contentInset to : %@",[strongSelf.textFieldView _IQDescription],NSStringFromUIEdgeInsets(strongSelf.startingTextViewContentInsets)]];
+//
+//            //Setting textField to it's initial contentInset
+//            textView.contentInset = strongSelf.startingTextViewContentInsets;
+//            textView.scrollIndicatorInsets = strongSelf.startingTextViewScrollIndicatorInsets;
+//
+//        } completion:NULL];
+//    }
+//
+//    //Setting object to nil
+//    _textFieldView = nil;
+//
+//    CFTimeInterval elapsedTime = CACurrentMediaTime() - startTime;
+//    [self showLog:[NSString stringWithFormat:@"****** %@ ended: %g seconds ******\n",NSStringFromSelector(_cmd),elapsedTime]];
+//}
+
+//-(void)editingDidEndOnExit:(UITextField*)textField
+//{
+//    [self showLog:[NSString stringWithFormat:@"ReturnKey %@",NSStringFromSelector(_cmd)]];
+//}
 
 @end

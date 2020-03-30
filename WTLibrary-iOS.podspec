@@ -29,7 +29,7 @@ s.author           = { 'wtanuw' => 'wat_wtanuw@hotmail.com' }
 s.source           = { :git => 'https://github.com/wtanuw/WTLibrary-iOS.git', :tag => s.version.to_s }
 # s.social_media_url = 'https://twitter.com/<TWITTER_USERNAME>'
 
-s.ios.deployment_target = '8.0'
+s.ios.deployment_target = '9.0'
 s.osx.deployment_target = '10.12'
 
 # s.source_files = 'WTLibrary-iOS/Classes/**/*'
@@ -143,6 +143,7 @@ end
 s.subspec 'WTStoreKit' do |subspec|
 subspec.dependency 'WTLibrary-iOS/WTObjC'
 subspec.dependency 'Reachability', '~> 3.2'
+subspec.dependency 'WTLibrary-iOS/CategoriesExtension'
 subspec.source_files = 'WTLibrary-iOS/Classes/WTStoreKit/*.{h,m}'
 subspec.frameworks = 'StoreKit', 'Security'
 end
@@ -176,7 +177,7 @@ end
 s.subspec 'WTSwift' do |subspec|
 subspec.dependency 'AFDateHelper', '~> 4.1'
 subspec.source_files = 'WTLibrary-iOS/Swift/*'
-subspec.pod_target_xcconfig = { 'SWIFT_VERSION' => '3.0' }
+subspec.pod_target_xcconfig = { 'SWIFT_VERSION' => '4.2' }
 end
 
 ##################################################

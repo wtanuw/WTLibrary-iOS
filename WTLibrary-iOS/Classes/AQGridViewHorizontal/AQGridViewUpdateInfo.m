@@ -777,7 +777,12 @@
 	// most items were just moved from one location to another
 	for ( NSUInteger oldIndex = [movingSet firstIndex]; oldIndex != NSNotFound; oldIndex = [movingSet indexGreaterThanIndex: oldIndex] )
 	{
-        NSUInteger newIndex = _oldToNewIndexMap[oldIndex];
+        NSUInteger newIndex = NSNotFound;
+        if (_oldToNewIndexMap != nil) {
+            newIndex = _oldToNewIndexMap[oldIndex];
+        } else {
+            newIndex = NSNotFound;
+        }
 //        AQGridViewAnimatorItem * animatingItem = (AQGridViewAnimatorItem *)objc_unretainedObject(CFDictionaryGetValue( animatingCellTable, (void *)oldIndex ));
         AQGridViewAnimatorItem * animatingItem = (AQGridViewAnimatorItem *)((__bridge id)(CFDictionaryGetValue( animatingCellTable, (void *)oldIndex )));
 		

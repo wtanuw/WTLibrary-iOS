@@ -128,14 +128,16 @@
 //    WatLog(@"%@",WTBOOL(success));
 }
 
-
 - (void)readProject {
     
     WatLog(@"\n");    
     _project = [WTRTProjectObject projectObject];
     _project.projectName = [WTBundleInfo bundleName];
     
+#ifdef SAVEPATH
     _project.projectFolderPath = [SAVEPATH stringByDeletingLastPathComponent];
+#else
+#endif
     
 #if TARGET_OS_IPHONE
     _project.isIOS = YES;
@@ -187,7 +189,8 @@
             continue;
         }
         
-        NSBundle *b = [NSBundle bundleForClass:[c class]];
+        NSBundle *b = [NSBundle bundleForClass:c];
+//        NSBundle *b = [NSBundle bundleForClass:[c class]];
         WTBundleInfo *info = [WTBundleInfo bundleInfoWithBundle:b];
         NSString *bundleName = info.bundleName;
         

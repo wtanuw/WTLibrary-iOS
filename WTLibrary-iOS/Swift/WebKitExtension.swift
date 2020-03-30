@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import WebKit
 
 func webviewToImage(webView:WKWebView) -> UIImage
 {
@@ -59,7 +60,7 @@ func webviewToImage(webView:WKWebView) -> UIImage
         }
         webView.scrollView.setContentOffset(CGPoint(x:0, y:scrollByY), animated: false)
         images.append(newImage!)
-        FileManager.default.createFile(atPath: "/Users/imac/Desktop/tmp\(i).png", contents: UIImagePNGRepresentation(newImage!), attributes: nil)
+        FileManager.default.createFile(atPath: "/Users/imac/Desktop/tmp\(i).png", contents: newImage!.pngData(), attributes: nil)
         
     }
     

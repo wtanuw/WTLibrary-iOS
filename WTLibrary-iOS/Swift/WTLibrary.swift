@@ -65,7 +65,7 @@ public extension String {
         
         let boundingBox = self.boundingRect(with: constraintRect,
             options: NSStringDrawingOptions.usesLineFragmentOrigin,
-            attributes: [NSFontAttributeName: font],
+            attributes: convertToOptionalNSAttributedStringKeyDictionary([convertFromNSAttributedStringKey(NSAttributedString.Key.font): font]),
             context: nil)
         
         return boundingBox.height
@@ -76,7 +76,7 @@ public extension UIFont {
     func sizeOfString (string: String, constrainedToWidth width: Double) -> CGSize {
         return (string as NSString).boundingRect(with: CGSize(width: width, height: Double.greatestFiniteMagnitude),
             options: NSStringDrawingOptions.usesLineFragmentOrigin,
-            attributes: [NSFontAttributeName: self],
+            attributes: convertToOptionalNSAttributedStringKeyDictionary([convertFromNSAttributedStringKey(NSAttributedString.Key.font): self]),
             context: nil).size
     }
 }
@@ -292,15 +292,15 @@ prefix func √ (number: Double) -> Double {
     return sqrt(number)
 }
 
-infix operator ± { associativity left precedence 140 }
-func ± (left: Double, right: Double) -> (Double, Double) {
-    return (left + right, left - right)
-}
-
-prefix operator ±
-prefix func ± (value: Double) -> (Double, Double) {
-    return 0 ± value
-}
+//infix operator ± { associativity left precedence 140 }
+//func ± (left: Double, right: Double) -> (Double, Double) {
+//    return (left + right, left - right)
+//}
+//
+//prefix operator ±
+//prefix func ± (value: Double) -> (Double, Double) {
+//    return 0 ± value
+//}
 
 //MARK:
 
@@ -360,4 +360,15 @@ public func + <K,V>(left: Dictionary<K,V>, right: Dictionary<K,V>)
         map[k] = v
     }
     return map
+}
+
+// Helper function inserted by Swift 4.2 migrator.
+fileprivate func convertToOptionalNSAttributedStringKeyDictionary(_ input: [String: Any]?) -> [NSAttributedString.Key: Any]? {
+	guard let input = input else { return nil }
+	return Dictionary(uniqueKeysWithValues: input.map { key, value in (NSAttributedString.Key(rawValue: key), value)})
+}
+
+// Helper function inserted by Swift 4.2 migrator.
+fileprivate func convertFromNSAttributedStringKey(_ input: NSAttributedString.Key) -> String {
+	return input.rawValue
 }

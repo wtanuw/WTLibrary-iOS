@@ -26,7 +26,7 @@ public class WTLocation: NSObject, CLLocationManagerDelegate {
     
     public func openSettingApp() {
         if #available(iOS 8.0, *) {
-            UIApplication.shared.openURL(URL(string: UIApplicationOpenSettingsURLString)!)
+            UIApplication.shared.openURL(URL(string: UIApplication.openSettingsURLString)!)
         }
     }
     
