@@ -679,12 +679,14 @@ static WTStoreKit *sharedMyManager = nil;
 - (void)request:(SKRequest *)request didFailWithError:(NSError *)error
 {
     [self stopDimScreen];
-    
-    if([request isKindOfClass:[SKProductsRequest class]]){
-        if([_storeDelegate respondsToSelector:@selector(WTStoreKitProductFetchComplete:)])
-            [_storeDelegate WTStoreKitProductFetchComplete:@[ ]];
-    }else if ([request isKindOfClass:[SKReceiptRefreshRequest class]]){
-    }
+
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 0), dispatch_get_main_queue(), ^{
+        if([request isKindOfClass:[SKProductsRequest class]]){
+            if([_storeDelegate respondsToSelector:@selector(WTStoreKitProductFetchComplete:)])
+                [_storeDelegate WTStoreKitProductFetchComplete:@[ ]];
+        }else if ([request isKindOfClass:[SKReceiptRefreshRequest class]]){
+        }
+    });
     
 }
 
@@ -702,9 +704,11 @@ static WTStoreKit *sharedMyManager = nil;
     
 //    [self.purchasableObjects removeAllObjects];
 //	[self.purchasableObjects addObjectsFromArray:response.products];
-	
-	if([_storeDelegate respondsToSelector:@selector(WTStoreKitProductFetchComplete:)])
-		[_storeDelegate WTStoreKitProductFetchComplete:[self purchasableObjectsDescription]];
+
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 0), dispatch_get_main_queue(), ^{
+        if([_storeDelegate respondsToSelector:@selector(WTStoreKitProductFetchComplete:)])
+            [_storeDelegate WTStoreKitProductFetchComplete:[self purchasableObjectsDescription]];
+    });
 }
 
 #pragma mark - Purchase
@@ -848,7 +852,10 @@ static WTStoreKit *sharedMyManager = nil;
                                                NSMutableArray *receipts = [jsonResponse[@"latest_receipt_info"] mutableCopy];
                                                NSArray *inAppReceipts = jsonResponse[@"receipt"][@"in_app"];
                                                [receipts addObjectsFromArray:inAppReceipts];
-                                               completion(YES, receipts);
+
+                                               dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 0), dispatch_get_main_queue(), ^{
+                                                   completion(YES, receipts);
+                                               });
                                            }
                                                break;
                                            default:
@@ -856,7 +863,10 @@ static WTStoreKit *sharedMyManager = nil;
                                                NSMutableArray *receipts = [jsonResponse[@"latest_receipt_info"] mutableCopy];
                                                NSArray *inAppReceipts = jsonResponse[@"receipt"][@"in_app"];
                                                [receipts addObjectsFromArray:inAppReceipts];
-                                               completion(NO, nil);
+
+                                               dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 0), dispatch_get_main_queue(), ^{
+                                                   completion(NO, nil);
+                                               });
                                            }
                                                break;
                                        }
@@ -1245,8 +1255,10 @@ static WTStoreKit *sharedMyManager = nil;
 
 -(void)dismissAlert{
     if(_prcAlert){
-        [_prcAlert dismissWithClickedButtonIndex:0 animated:YES];
-        _prcAlert = nil;
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 0), dispatch_get_main_queue(), ^{
+            [_prcAlert dismissWithClickedButtonIndex:0 animated:YES];
+            _prcAlert = nil;
+        });
     }
 }
 

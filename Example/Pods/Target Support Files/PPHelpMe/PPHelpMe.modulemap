@@ -1,0 +1,6 @@
+framework module PPHelpMe {
+  umbrella header "PPHelpMe-umbrella.h"
+
+  export *
+  module * { export * }
+}

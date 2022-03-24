@@ -1,0 +1,6 @@
+framework module WTLibrary_iOS {
+  umbrella header "WTLibrary-iOS-CategoriesExtension-WTIncrement-WTObjC-WTUIKit-umbrella.h"
+
+  export *
+  module * { export * }
+}

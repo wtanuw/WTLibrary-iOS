@@ -11,6 +11,37 @@
 //static NSString *const kKeychainItemName = @"Drive API";
 //static NSString *const kClientID = @"YOUR_CLIENT_ID_HERE";
 
+#if (WTGoogleDriveManager_VERSION >= GOOGLEOAUTH2_VERSION) && (WTGoogleDriveManager_VERSION < GOOGLEAPPAUTH_VERSION)
+
+
+#elif (WTGoogleDriveManager_VERSION >= GOOGLEAPPAUTH_VERSION) && (WTGoogleDriveManager_VERSION < GOOGLEAPPAUTHSIGN6_VERSION)
+
+#elif (WTGoogleDriveManager_VERSION >= GOOGLEAPPAUTHSIGN6_VERSION)
+
+#endif
+
+#if (WTGoogleDriveManager_VERSION <= GOOGLEOAUTH2_VERSION)
+
+#import <GoogleAPIClientForREST/GTLRUtilities.h>
+#import <GTMSessionFetcher/GTMSessionFetcherService.h>
+#import "GTMAppAuth.h"
+
+#elif (WTGoogleDriveManager_VERSION >= GOOGLEAPPAUTH_VERSION)
+
+#import <AppAuth/AppAuth.h>
+#import <GTMAppAuth/GTMAppAuth.h>
+#import <GTMSessionFetcher/GTMSessionFetcherService.h>
+#import <GTMSessionFetcher/GTMSessionFetcherLogging.h>
+#import <GoogleAPIClientForREST/GTLRUtilities.h>
+
+
+@interface WTGoogleDriveManager()
+@property (nonatomic,strong) WTGoogleFetcherAuth *auth;
+@property (nonatomic,strong) NSArray *scope;
+@property (nonatomic,strong) NSArray *grantedScope;
+@end
+#endif
+
 @implementation WTGoogleDriveManager
 
 + (instancetype)sharedManager
@@ -32,6 +63,9 @@
 
 //@synthesize service = _service;
 //@synthesize output = _output;
+#pragma mark - AUTH
+#if (WTGoogleDriveManager_VERSION <= GOOGLEOAUTH2_VERSION)
+#pragma mark OAUTH2
 
 - (void)authWithClientID:(NSString*)clientID keychainForName:(NSString*)keychainItemName withCompletion:(void (^)(BOOL linkSuccess))completion
 {
@@ -39,35 +73,296 @@
     
     // Initialize the Drive API service & load existing credentials from the keychain if available.
     self.service = [[GTLRDriveService alloc] init];
+    
     self.service.authorizer =
     [GTMOAuth2ViewControllerTouch authForGoogleFromKeychainForName:keychainItemName
                                                           clientID:clientID
                                                       clientSecret:nil];
+    
     self.clientID = clientID;
     self.keychainItemName = keychainItemName;
-    
+
     
     [GIDSignIn sharedInstance].clientID = clientID;
     [GIDSignIn sharedInstance].scopes = @[
-    @"https://www.googleapis.com/auth/drive",//	View and manage the files in your Google Drive
-    //@"https://www.googleapis.com/auth/drive.readonly",//	View the files in your Google Drive
-    @"https://www.googleapis.com/auth/drive.appdata",//	View and manage its own configuration data in your Google Drive
+    @"https://www.googleapis.com/auth/drive",//    View and manage the files in your Google Drive
+    //@"https://www.googleapis.com/auth/drive.readonly",//    View the files in your Google Drive
+    @"https://www.googleapis.com/auth/drive.appdata",//    View and manage its own configuration data in your Google Drive
     @"https://www.googleapis.com/auth/drive.file",// View and manage Google Drive files and folders that you have opened or created with this app
-    //@"https://www.googleapis.com/auth/drive.metadata",//	View and manage metadata of files in your Google Drive
-    @"https://www.googleapis.com/auth/drive.metadata.readonly",//	View metadata for files in your Google Drive
-    //@"https://www.googleapis.com/auth/drive.photos.readonly",//	View the photos, videos and albums in your Google Photos
+    //@"https://www.googleapis.com/auth/drive.metadata",//    View and manage metadata of files in your Google Drive
+    @"https://www.googleapis.com/auth/drive.metadata.readonly",//    View metadata for files in your Google Drive
+    //@"https://www.googleapis.com/auth/drive.photos.readonly",//    View the photos, videos and albums in your Google Photos
     //@"https://www.googleapis.com/auth/drive.scripts",// Modify your Google Apps Script scripts' behavior
                                           ];
     [GIDSignIn sharedInstance].delegate = self;
 }
 
+#elif (WTGoogleDriveManager_VERSION <= GOOGLEOAPPAUTH_VERSION)
+#pragma mark APPAUTH + SIGNIN5
+
+- (void)authWithClientID:(NSString*)clientID keychainForName:(NSString*)keychainItemName withCompletion:(void (^)(BOOL linkSuccess))completion
+{
+    self.beginSessionCompletion = completion;
+    
+    // Initialize the Drive API service & load existing credentials from the keychain if available.
+    self.service = [[GTLRDriveService alloc] init];
+        
+#pragma mark todo: fix
+    WTGoogleFetcherAuth *auth = [WTGoogleFetcherAuth withClientID:clientID redirect:@"com.googleusercontent.apps.1033902726278-oasu73dou0am6obvu0erthsnn0nda1i4:/oauthredirect"];
+//    WTGoogleFetcherAuth *auth = [WTGoogleFetcherAuth withClientID:clientID redirect:@"com.googleusercontent.apps.62617891720-s9kjgvv0ll2f3eheknbq5cq9pga0887v:/oauthredirect"];
+    
+    self.auth = auth;
+//    [auth authWithAutoCodeExchange:clientID];
+    
+    self.clientID = clientID;
+    self.keychainItemName = keychainItemName;
+
+    
+    GIDSignIn.sharedInstance.clientID = clientID;
+    [GIDSignIn sharedInstance].scopes = @[
+        kGTLRAuthScopeDrive,//Authorization scope: See, edit, create, and delete all of your Google Drive files
+        kGTLRAuthScopeDriveAppdata,// Authorization scope: See, create, and delete its own configuration data in your Google Drive
+        kGTLRAuthScopeDriveFile,//Authorization scope: View and manage Google Drive files and folders that you have opened or created with this app
+//        kGTLRAuthScopeDriveMetadata,//Authorization scope: View and manage metadata of files in your Google Drive
+        kGTLRAuthScopeDriveMetadataReadonly,//Authorization scope: See information about your Google Drive files
+//        kGTLRAuthScopeDrivePhotosReadonly,//Authorization scope: View the photos, videos and albums in your Google Photos
+//        kGTLRAuthScopeDriveReadonly,//Authorization scope: See and download all your Google Drive files
+//        kGTLRAuthScopeDriveScripts,//Authorization scope: Modify your Google Apps Script scripts' behavior
+    ];
+    [GIDSignIn sharedInstance].delegate = self;
+}
+
+
+#elif (WTGoogleDriveManager_VERSION <= GOOGLEAPPAUTHSIGN6_VERSION)
+#pragma mark APPAUTH + SIGNIN6
+
+- (void)authWithClientID:(NSString*)clientID keychainForName:(NSString*)keychainItemName withCompletion:(void (^)(BOOL linkSuccess))completion
+{
+    self.beginSessionCompletion = completion;
+    
+    // Initialize the Drive API service & load existing credentials from the keychain if available.
+    self.service = [[GTLRDriveService alloc] init];
+        
+    OIDServiceConfiguration *configuration =
+        [GTMAppAuthFetcherAuthorization configurationForGoogle];
+#pragma mark todo: fix
+//    WTGoogleFetcherAuth *auth = [WTGoogleFetcherAuth withClientID:clientID redirect:@"com.googleusercontent.apps.1033902726278-oasu73dou0am6obvu0erthsnn0nda1i4:/oauthredirect"];
+////    WTGoogleFetcherAuth *auth = [WTGoogleFetcherAuth withClientID:clientID redirect:@"com.googleusercontent.apps.62617891720-s9kjgvv0ll2f3eheknbq5cq9pga0887v:/oauthredirect"];
+//
+//    self.auth = auth;
+//    [auth authWithAutoCodeExchange:clientID];
+    
+    self.clientID = clientID;
+    self.keychainItemName = keychainItemName;
+
+//    [GIDSignIn.sharedInstance addScopes:@[] presentingViewController:nil callback:^(GIDGoogleUser * _Nullable user, NSError * _Nullable error) {
+//
+//    }]
+//    GIDSignIn.sharedInstance.clientID = clientID;
+        self.scope = @[
+ ////       kGTLRAuthScopeDrive,//Authorization scope: See, edit, create, and delete all of your Google Drive files
+ ////       kGTLRAuthScopeDriveAppdata,//nonsensitive// Authorization scope: See, create, and delete its own configuration data in your Google Drive
+        kGTLRAuthScopeDriveFile,//nonsensitive//Authorization scope: View and manage Google Drive files and folders that you have opened or created with this app
+//        kGTLRAuthScopeDriveMetadata,//Authorization scope: View and manage metadata of files in your Google Drive
+////        kGTLRAuthScopeDriveMetadataReadonly,//Authorization scope: See information about your Google Drive files
+//        kGTLRAuthScopeDrivePhotosReadonly,//Authorization scope: View the photos, videos and albums in your Google Photos
+        kGTLRAuthScopeDriveReadonly,//Authorization scope: See and download all your Google Drive files
+//        kGTLRAuthScopeDriveScripts,//Authorization scope: Modify your Google Apps Script scripts' behavior
+    ];
+    
+}
+
+#endif
+
+#pragma mark - GIDSignIn
+
+#if (WTGoogleDriveManager_VERSION <= GOOGLEOAUTH2_VERSION)
+#pragma mark OAUTH
+-(BOOL)signInSilently
+{
+    return NO;
+}
+
+- (BOOL)signIn
+{
+    return NO;
+}
+
+- (BOOL)signIn:(UIViewController*)vct
+{
+    return NO;
+}
+
+#elif (WTGoogleDriveManager_VERSION <= GOOGLEAPPAUTH_VERSION)
+#pragma mark APPAUTH + SIGNIN5
+-(BOOL)signInSilently
+{
+    if ([[GIDSignIn sharedInstance] hasPreviousSignIn]) {
+        [[GIDSignIn sharedInstance] restorePreviousSignIn];
+        return YES;
+    }
+    return NO;
+}
+
+- (BOOL)signIn
+{
+//    [[GIDSignIn sharedInstance] setPresentingViewController:self];
+    [[GIDSignIn sharedInstance] signIn];
+    return [[GIDSignIn sharedInstance] hasPreviousSignIn];
+}
+
+- (BOOL)signIn:(UIViewController*)vct
+{
+    UIViewController * a =[GIDSignIn sharedInstance].presentingViewController;
+    [self linkFromViewController:a];
+    return [[GIDSignIn sharedInstance] hasPreviousSignIn];
+}
+
+#elif (WTGoogleDriveManager_VERSION <= GOOGLEAPPAUTHSIGN6_VERSION)
+#pragma mark APPAUTH + SIGNIN6
+-(BOOL)signInSilently
+{
+    if ([[GIDSignIn sharedInstance] hasPreviousSignIn]) {
+        [[GIDSignIn sharedInstance] restorePreviousSignInWithCallback:^(GIDGoogleUser * _Nullable user, NSError * _Nullable error) {
+            self.grantedScope = user.grantedScopes;
+            [self signIn:nil didSignInForUser:user withError:error];
+        }];
+        return YES;
+    }
+    return NO;
+}
+
+- (BOOL)signIn
+{
+    GIDConfiguration *signInConfig = [[GIDConfiguration alloc] initWithClientID:self.clientID];
+    [[GIDSignIn sharedInstance] signInWithConfiguration:signInConfig presentingViewController:self.vct callback:^(GIDGoogleUser * _Nullable user, NSError * _Nullable error) {
+        self.grantedScope = user.grantedScopes;
+//        if ([self checkScope:self.scope]) {
+            [self signIn:nil didSignInForUser:user withError:error];
+//        } else {
+//            [GIDSignIn.sharedInstance addScopes:self.scope presentingViewController:self.vct callback:^(GIDGoogleUser * _Nullable user, NSError * _Nullable error) {
+//                self.grantedScope = user.grantedScopes;
+//                [self signIn:nil didSignInForUser:user withError:error];
+//            }];
+//        }
+    }];
+    return [[GIDSignIn sharedInstance] hasPreviousSignIn];
+}
+
+- (BOOL)signIn:(UIViewController*)vct
+{
+//    UIViewController * a =[GIDSignIn sharedInstance].presentingViewController;
+//    [self linkFromViewController:a];
+//    return [[GIDSignIn sharedInstance] hasPreviousSignIn];
+    self.vct = vct;
+    GIDConfiguration *signInConfig = [[GIDConfiguration alloc] initWithClientID:self.clientID];
+    [GIDSignIn.sharedInstance signInWithConfiguration:signInConfig
+                             presentingViewController:self.vct
+                                             callback:^(GIDGoogleUser * _Nullable user,
+                                                        NSError * _Nullable error) {
+      if (error) {
+        return;
+      }
+        self.grantedScope = user.grantedScopes;
+
+      // If sign in succeeded, display the app's main content View.
+        [GIDSignIn.sharedInstance addScopes:self.scope presentingViewController:self.vct callback:^(GIDGoogleUser * _Nullable user, NSError * _Nullable error) {
+            [self signIn:nil didSignInForUser:user withError:error];
+        }];
+//        [self signIn:nil didSignInForUser:user withError:error];
+    }];
+    return [[GIDSignIn sharedInstance] hasPreviousSignIn];
+}
+
+
+- (BOOL)checkScope:(NSArray* _Nonnull)scopes
+{
+    NSSet<NSString *> *grantedScopes =
+        [NSSet setWithArray:self.grantedScope];
+    NSSet<NSString *> *requestedScopes =
+        [NSSet setWithArray:scopes];
+    if ([requestedScopes isSubsetOfSet:grantedScopes]) {
+        return YES;
+    } else {
+        return NO;
+    }
+}
+
+- (BOOL)addScope:(NSArray *)scopes withCompletion:(void (^)(BOOL))completion
+{
+    if ([self checkScope:scopes]) {
+        completion(YES);
+    } else {
+        [GIDSignIn.sharedInstance addScopes:scopes presentingViewController:self.vct callback:^(GIDGoogleUser * _Nullable user, NSError * _Nullable error) {
+            if (error) {
+                completion(NO);
+                return;
+            }
+            [WTGoogleDriveManager sharedManager].service.authorizer = [user.authentication fetcherAuthorizer];
+            self.grantedScope = user.grantedScopes;
+            if ([self checkScope:scopes]) {
+                completion(YES);
+            } else {
+                completion(NO);
+            }
+        }];
+    }
+    return [[GIDSignIn sharedInstance] hasPreviousSignIn];
+}
+
+#endif
+
+#pragma mark - openurl
+
+#if (WTGoogleDriveManager_VERSION <= GOOGLEOAUTH2_VERSION)
+#pragma mark OAUTH
+
+- (BOOL)handleOpenURL:(NSURL *)url
+{
+    return NO;
+}
+
+#elif (WTGoogleDriveManager_VERSION <= GOOGLEAPPAUTH_VERSION)
+#pragma mark APPAUTH + SIGNIN5
+
+- (BOOL)handleOpenURL:(NSURL *)url
+{
+    BOOL open = [self.auth application:nil openURL:url options:nil];
+    return open;
+}
+
+#elif (WTGoogleDriveManager_VERSION <= GOOGLEAPPAUTHSIGN6_VERSION)
+#pragma mark APPAUTH + SIGNIN6
+
+- (BOOL)handleOpenURL:(NSURL *)url
+{
+    BOOL handled = [GIDSignIn.sharedInstance handleURL:url];
+    return handled;
+}
+
+- (UIButton*)googleButton
+{
+    GIDSignInButton *button = [[GIDSignInButton alloc] init];
+    button.style = kGIDSignInButtonStyleStandard;
+    button.colorScheme = kGIDSignInButtonColorSchemeLight;
+    return button;
+}
+
+#endif
+
+#pragma mark - link
+#if (WTGoogleDriveManager_VERSION <= GOOGLEOAUTH2_VERSION)
+
+#pragma mark OAUTH
 - (void)linkFromViewController:(UIViewController*)vct
 {
+    
     if (!self.service.authorizer.canAuthorize) {
         UIViewController *auth = [self createAuthController];
         [vct presentViewController:auth animated:YES completion:nil];
     }
 }
+
 - (void)unlink
 {
     if (self.service.authorizer.canAuthorize) {
@@ -80,6 +375,54 @@
 {
     return self.service.authorizer.canAuthorize;
 }
+#elif (WTGoogleDriveManager_VERSION <= GOOGLEAPPAUTH_VERSION)
+#pragma mark APPAUTH + SIGNIN5
+- (void)linkFromViewController:(UIViewController*)vct
+{
+    id<GTMFetcherAuthorizationProtocol> a = self.service.authorizer;
+    if (!a.canAuthorize) {
+#pragma mark todo: fix
+//        UIViewController *auth = [self createAuthController];
+//        [vct presentViewController:auth animated:YES completion:nil];
+        [self.auth authWithAutoCodeExchange:vct];
+    }
+}
+
+- (void)unlink
+{
+    if (self.service.authorizer.canAuthorize) {
+        [[GIDSignIn sharedInstance] signOut];
+        self.service = nil;
+    }
+}
+
+- (BOOL)isLogin
+{
+    return self.service.authorizer.canAuthorize;
+}
+#elif (WTGoogleDriveManager_VERSION <= GOOGLEAPPAUTHSIGN6_VERSION)
+#pragma mark APPAUTH + SIGNIN6
+- (void)linkFromViewController:(UIViewController*)vct
+{
+    
+}
+
+- (void)unlink
+{
+    if (self.service.authorizer.canAuthorize) {
+        [[GIDSignIn sharedInstance] signOut];
+        self.service = nil;
+    }
+}
+
+- (BOOL)isLogin
+{
+    return self.service.authorizer.canAuthorize;
+}
+
+#endif
+
+#pragma mark - drive
 
 -(void)listFolderCompletion:(void (^)(GTLRServiceTicket *ticket,
                            GTLRDrive_FileList *files,
@@ -247,6 +590,7 @@
 //    [self.restClient cancelFileLoad:metadata.path];
 //    
 //    [self.restClient cancelAllRequests];
+    
     [self.service.fetcherService stopAllFetchers];
     
     
@@ -426,6 +770,8 @@
     }
 }
 
+#if (WTGoogleDriveManager_VERSION <= GOOGLEOAUTH2_VERSION)
+
 // Creates the auth controller for authorizing access to Drive API.
 - (GTMOAuth2ViewControllerTouch *)createAuthController {
     GTMOAuth2ViewControllerTouch *authController;
@@ -457,6 +803,13 @@
     }
 }
 
+#elif (WTGoogleDriveManager_VERSION <= GOOGLEAPPAUTH_VERSION)
+
+#pragma mark todo: fix
+
+#endif
+
+
 // Helper for showing an alert
 - (void)showAlert:(NSString *)title message:(NSString *)message {
     UIAlertController *alert =
@@ -476,7 +829,7 @@
 }
 
 
-#pragma mark -
+#pragma mark - protocol GIDSignInDelegate
 
 - (void)signIn:(GIDSignIn *)signIn
 didSignInForUser:(GIDGoogleUser *)user
@@ -569,12 +922,6 @@ didDisconnectWithUser:(GIDGoogleUser *)user
 - (void)downloadFileFromPaths:(NSArray*)paths toFolderPath:(NSString*)localFolderPath
 {
     
-}
-
-
-- (BOOL)handleOpenURL:(NSURL *)url
-{
-    return NO;
 }
 
 @end

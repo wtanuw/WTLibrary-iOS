@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
 s.name             = 'WTLibrary-iOS'
-s.version          = '0.4.0'
+s.version          = '0.4.1'
 s.summary          = 'summary with WTLibrary-iOS.'
 
 # This description is used to generate tags and improve search results.
@@ -97,22 +97,24 @@ end
 
 s.subspec 'WTDropbox' do |subspec|
 subspec.dependency 'WTLibrary-iOS/WTObjC'
-subspec.dependency 'ObjectiveDropboxOfficial', '3.9.1'
+#subspec.dependency 'ObjectiveDropboxOfficial', '3.9.1'
+subspec.dependency 'ObjectiveDropboxOfficial', '6.0.0'
 subspec.source_files = 'WTLibrary-iOS/Classes/WTDropbox/*.{h,m}'
 end
 
 ##################################################
 
-s.subspec 'WTGoogle' do |subspec|
+#use with use_frameworks!
+s.subspec 'WTGoogle1' do |subspec|
 subspec.dependency 'WTLibrary-iOS/WTObjC'
 subspec.dependency 'GoogleAPIClientForREST/Drive', '~> 1.1.1'
 subspec.dependency 'GTMOAuth2', '~> 1.1.4'
-subspec.dependency 'GTMSessionFetcher'
+subspec.dependency 'GTMSessionFetcher', ' 1.3.0'
 subspec.dependency 'GTMAppAuth', '~> 0.7.0'
 #subspec.dependency 'Google/SignIn' //4.2.0
-subspec.source_files = 'WTLibrary-iOS/Classes/WTGoogle/*.{h,m}'
-subspec.vendored_frameworks = ['WTLibrary-iOS/Classes/WTGoogle/GoogleAppUtilities.framework', 'WTLibrary-iOS/Classes/WTGoogle/GoogleSignIn.framework', 'WTLibrary-iOS/Classes/WTGoogle/GoogleSignInDependencies.framework', 'WTLibrary-iOS/Classes/WTGoogle/GoogleSymbolUtilities.framework']
-subspec.resource = 'WTLibrary-iOS/Classes/WTGoogle/GoogleSignIn.bundle'
+subspec.source_files = 'WTLibrary-iOS/Classes/WTGoogle1/*.{h,m}'
+subspec.vendored_frameworks = ['WTLibrary-iOS/Classes/WTGoogle1/GoogleAppUtilities.framework', 'WTLibrary-iOS/Classes/WTGoogle1/GoogleSignIn.framework', 'WTLibrary-iOS/Classes/WTGoogle1/GoogleSignInDependencies.framework', 'WTLibrary-iOS/Classes/WTGoogle1/GoogleSymbolUtilities.framework']
+subspec.resource = 'WTLibrary-iOS/Classes/WTGoogle1/GoogleSignIn.bundle'
 subspec.frameworks = 'SafariServices', 'SystemConfiguration', 'GoogleAppUtilities', 'GoogleSignIn', 'GoogleSignInDependencies', 'GoogleSymbolUtilities'
 
 #subspec.xcconfig = { 'OTHER_LDFLAGS' => '-ObjC', 'LIBRARY_SEARCH_PATHS' => '"${PODS_ROOT}/GoogleSignIn/Frameworks"', 'HEADER_SEARCH_PATHS' => '"${PODS_ROOT}/GoogleSignIn/Frameworks"', 'FRAMEWORK_SEARCH_PATHS' => '"${PODS_ROOT}/GoogleSignIn/Frameworks"' }
@@ -120,7 +122,30 @@ subspec.frameworks = 'SafariServices', 'SystemConfiguration', 'GoogleAppUtilitie
 #subspec.header_dir = '{PODS_ROOT}/../../WTLibrary-iOS/Classes/WTGoogle'
 
 #subspec.xcconfig = { 'OTHER_LDFLAGS' => '-ObjC', 'FRAMEWORK_SEARCH_PATHS' => '"${PODS_ROOT}/WTLibrary-iOS/WTLibrary-iOS/Classes/WTGoogle" "${PODS_ROOT}/../../WTLibrary-iOS/Classes/WTGoogle"' }
-subspec.xcconfig = { 'OTHER_LDFLAGS' => '-ObjC', 'FRAMEWORK_SEARCH_PATHS' => '"${PODS_ROOT}/WTLibrary-iOS/WTLibrary-iOS/Classes/WTGoogle" "${PODS_ROOT}/../../WTLibrary-iOS/Classes/WTGoogle" "~/Desktop/Wat/WTLibrary/WTLibrary-iOS/WTLibrary-iOS/Classes/WTGoogle"', 'HEADER_SEARCH_PATHS' => '"${PODS_ROOT}/WTLibrary-iOS/WTLibrary-iOS/Classes/WTGoogle"' }
+subspec.xcconfig = { 'OTHER_LDFLAGS' => '-ObjC', 'FRAMEWORK_SEARCH_PATHS' => '"${PODS_ROOT}/WTLibrary-iOS/WTLibrary-iOS/Classes/WTGoogle1" "${PODS_ROOT}/../../WTLibrary-iOS/Classes/WTGoogle1" "~/Desktop/Wat/WTLibrary/WTLibrary-iOS/WTLibrary-iOS/Classes/WTGoogle1"', 'HEADER_SEARCH_PATHS' => '"${PODS_ROOT}/WTLibrary-iOS/WTLibrary-iOS/Classes/WTGoogle1"' }
+end
+
+##################################################
+
+s.subspec 'WTGoogle' do |subspec|
+#subspec.ios.deployment_target = '11.0'
+subspec.dependency 'WTLibrary-iOS/WTObjC'
+subspec.dependency 'GoogleAPIClientForREST/Drive'#, '~> 1.1.1' # drive
+#subspec.dependency 'GTMOAuth2', '~> 1.1.4'
+#subspec.dependency 'GTMSessionFetcher'
+subspec.dependency 'GTMAppAuth' ,'~> 1.2.2' # login
+subspec.dependency 'GoogleSignIn', '~> 6.1'
+subspec.source_files = 'WTLibrary-iOS/Classes/WTGoogle/*.{h,m}'
+#subspec.vendored_frameworks = ['WTLibrary-iOS/Classes/WTGoogle/GoogleAppUtilities.framework', 'WTLibrary-iOS/Classes/WTGoogle/GoogleSignIn.framework', 'WTLibrary-iOS/Classes/WTGoogle/GoogleSignInDependencies.framework', 'WTLibrary-iOS/Classes/WTGoogle/GoogleSymbolUtilities.framework']
+#subspec.resource = 'WTLibrary-iOS/Classes/WTGoogle/GoogleSignIn.bundle'
+#subspec.frameworks = 'SafariServices', 'SystemConfiguration', 'GoogleAppUtilities', 'GoogleSignIn', 'GoogleSignInDependencies', 'GoogleSymbolUtilities'
+
+#subspec.xcconfig = { 'OTHER_LDFLAGS' => '-ObjC', 'LIBRARY_SEARCH_PATHS' => '"${PODS_ROOT}/GoogleSignIn/Frameworks"', 'HEADER_SEARCH_PATHS' => '"${PODS_ROOT}/GoogleSignIn/Frameworks"', 'FRAMEWORK_SEARCH_PATHS' => '"${PODS_ROOT}/GoogleSignIn/Frameworks"' }
+#subspec.xcconfig = { 'OTHER_LDFLAGS' => '-ObjC', 'FRAMEWORK_SEARCH_PATHS' => '"${PODS_ROOT}/GoogleSignIn/Frameworks", "${PODS_ROOT}/WTLibrary-iOS/WTLibrary-iOS/Classes/WTGoogle"' }
+#subspec.header_dir = '{PODS_ROOT}/../../WTLibrary-iOS/Classes/WTGoogle'
+
+#subspec.xcconfig = { 'OTHER_LDFLAGS' => '-ObjC', 'FRAMEWORK_SEARCH_PATHS' => '"${PODS_ROOT}/WTLibrary-iOS/WTLibrary-iOS/Classes/WTGoogle" "${PODS_ROOT}/../../WTLibrary-iOS/Classes/WTGoogle"' }
+#subspec.xcconfig = { 'OTHER_LDFLAGS' => '-ObjC', 'FRAMEWORK_SEARCH_PATHS' => '"${PODS_ROOT}/WTLibrary-iOS/WTLibrary-iOS/Classes/WTGoogle" "${PODS_ROOT}/../../WTLibrary-iOS/Classes/WTGoogle" "~/Desktop/Wat/WTLibrary/WTLibrary-iOS/WTLibrary-iOS/Classes/WTGoogle"', 'HEADER_SEARCH_PATHS' => '"${PODS_ROOT}/WTLibrary-iOS/WTLibrary-iOS/Classes/WTGoogle"' }
 end
 
 ##################################################
@@ -207,5 +232,27 @@ end
 
 ##################################################
 
+s.subspec 'WTIncrement' do |subspec|
+#    no source files, resources, resource_bundles, preserve paths, vendored_libraries, vendored_frameworks, dependencies, nor subspecs
+    subspec.dependency 'WTLibrary-iOS/WTObjC'
+#s.ios.script_phase = {
+#    :name => 'WTSubIncrement',
+#    :script => '
+#echo "INFOPLIST_FILE PODS_TARGET_SRCROOT is  "    "${PODS_TARGET_SRCROOT}/$INFOPLIST_FILE"
+#echo "INFOPLIST_FILE INFOPLIST_FILE is  "    "$INFOPLIST_FILE"
+#buildNumber=$(/usr/libexec/PlistBuddy -c "Print CFBundleVersion" "$INFOPLIST_FILE")
+#buildNumber=$(($buildNumber + 1))
+#/usr/libexec/PlistBuddy -c "Set :CFBundleVersion $buildNumber" "$INFOPLIST_FILE"',
+#    :execution_position => :after_compile
+#}
+end
+
+##################################################
+
+#s.subspec 'WTAppName' do |subspec|
+#s.script_phase = { :name => 'WTAppName', :script => 'echo "Hello World"' }
+#end
+
+##################################################
 
 end

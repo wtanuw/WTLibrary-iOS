@@ -1,6 +1,6 @@
 {
   "name": "WTLibrary-iOS",
-  "version": "0.4.0",
+  "version": "0.4.1",
   "summary": "summary with WTLibrary-iOS.",
   "description": "TODO: Add long description of the pod here.\nA simple life with WTLibrary-iOS.",
   "homepage": "https://github.com/wtanuw/WTLibrary-iOS",
@@ -13,7 +13,7 @@
   },
   "source": {
     "git": "https://github.com/wtanuw/WTLibrary-iOS.git",
-    "tag": "0.4.0"
+    "tag": "0.4.1"
   },
   "platforms": {
     "ios": "9.0",
@@ -94,13 +94,13 @@
 
         ],
         "ObjectiveDropboxOfficial": [
-          "3.9.1"
+          "6.0.0"
         ]
       },
       "source_files": "WTLibrary-iOS/Classes/WTDropbox/*.{h,m}"
     },
     {
-      "name": "WTGoogle",
+      "name": "WTGoogle1",
       "dependencies": {
         "WTLibrary-iOS/WTObjC": [
 
@@ -112,20 +112,20 @@
           "~> 1.1.4"
         ],
         "GTMSessionFetcher": [
-
+          " 1.3.0"
         ],
         "GTMAppAuth": [
           "~> 0.7.0"
         ]
       },
-      "source_files": "WTLibrary-iOS/Classes/WTGoogle/*.{h,m}",
+      "source_files": "WTLibrary-iOS/Classes/WTGoogle1/*.{h,m}",
       "vendored_frameworks": [
-        "WTLibrary-iOS/Classes/WTGoogle/GoogleAppUtilities.framework",
-        "WTLibrary-iOS/Classes/WTGoogle/GoogleSignIn.framework",
-        "WTLibrary-iOS/Classes/WTGoogle/GoogleSignInDependencies.framework",
-        "WTLibrary-iOS/Classes/WTGoogle/GoogleSymbolUtilities.framework"
+        "WTLibrary-iOS/Classes/WTGoogle1/GoogleAppUtilities.framework",
+        "WTLibrary-iOS/Classes/WTGoogle1/GoogleSignIn.framework",
+        "WTLibrary-iOS/Classes/WTGoogle1/GoogleSignInDependencies.framework",
+        "WTLibrary-iOS/Classes/WTGoogle1/GoogleSymbolUtilities.framework"
       ],
-      "resources": "WTLibrary-iOS/Classes/WTGoogle/GoogleSignIn.bundle",
+      "resources": "WTLibrary-iOS/Classes/WTGoogle1/GoogleSignIn.bundle",
       "frameworks": [
         "SafariServices",
         "SystemConfiguration",
@@ -136,9 +136,27 @@
       ],
       "xcconfig": {
         "OTHER_LDFLAGS": "-ObjC",
-        "FRAMEWORK_SEARCH_PATHS": "\"${PODS_ROOT}/WTLibrary-iOS/WTLibrary-iOS/Classes/WTGoogle\" \"${PODS_ROOT}/../../WTLibrary-iOS/Classes/WTGoogle\" \"~/Desktop/Wat/WTLibrary/WTLibrary-iOS/WTLibrary-iOS/Classes/WTGoogle\"",
-        "HEADER_SEARCH_PATHS": "\"${PODS_ROOT}/WTLibrary-iOS/WTLibrary-iOS/Classes/WTGoogle\""
+        "FRAMEWORK_SEARCH_PATHS": "\"${PODS_ROOT}/WTLibrary-iOS/WTLibrary-iOS/Classes/WTGoogle1\" \"${PODS_ROOT}/../../WTLibrary-iOS/Classes/WTGoogle1\" \"~/Desktop/Wat/WTLibrary/WTLibrary-iOS/WTLibrary-iOS/Classes/WTGoogle1\"",
+        "HEADER_SEARCH_PATHS": "\"${PODS_ROOT}/WTLibrary-iOS/WTLibrary-iOS/Classes/WTGoogle1\""
       }
+    },
+    {
+      "name": "WTGoogle",
+      "dependencies": {
+        "WTLibrary-iOS/WTObjC": [
+
+        ],
+        "GoogleAPIClientForREST/Drive": [
+
+        ],
+        "GTMAppAuth": [
+          "~> 1.2.2"
+        ],
+        "GoogleSignIn": [
+          "~> 5.0"
+        ]
+      },
+      "source_files": "WTLibrary-iOS/Classes/WTGoogle/*.{h,m}"
     },
     {
       "name": "WTLocation",
@@ -260,6 +278,14 @@
     {
       "name": "WTmacOS",
       "source_files": "WTLibrary-iOS/Classes/WTmacOS/*.{h,m}",
+      "dependencies": {
+        "WTLibrary-iOS/WTObjC": [
+
+        ]
+      }
+    },
+    {
+      "name": "WTIncrement",
       "dependencies": {
         "WTLibrary-iOS/WTObjC": [
 

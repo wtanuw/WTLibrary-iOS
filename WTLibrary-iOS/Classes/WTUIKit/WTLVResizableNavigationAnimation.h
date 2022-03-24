@@ -23,6 +23,7 @@
 
 @interface WTLVResizableNavigationAnimation : NSObject <UINavigationControllerDelegate, UIViewControllerTransitioningDelegate>
 
+@property (nonatomic,weak) UINavigationController *navigationController;
 - (void)updateNavigationBarForViewController:(UIViewController *)viewController;
 
 @end

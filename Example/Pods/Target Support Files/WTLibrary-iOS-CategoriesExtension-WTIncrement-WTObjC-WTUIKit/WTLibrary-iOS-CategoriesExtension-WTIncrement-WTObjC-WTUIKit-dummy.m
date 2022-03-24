@@ -1,0 +1,5 @@
+#import <Foundation/Foundation.h>
+@interface PodsDummy_WTLibrary_iOS_CategoriesExtension_WTIncrement_WTObjC_WTUIKit : NSObject
+@end
+@implementation PodsDummy_WTLibrary_iOS_CategoriesExtension_WTIncrement_WTObjC_WTUIKit
+@end

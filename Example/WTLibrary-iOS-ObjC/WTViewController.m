@@ -7,8 +7,8 @@
 //
 
 #import "WTViewController.h"
-#import "WTGoogleDriveManager.h"
-#import "WTDropboxManager.h"
+//#import "WTGoogleDriveManager.h"
+//#import "WTDropboxManager.h"
 //#import <GoogleSignIn/GoogleSignIn.h>
 //#import "GoogleSignIn/GoogleSignIn.h"
 
@@ -32,8 +32,8 @@
     
 -(void)shfk
     {
-        [WTGoogleDriveManager sharedManager];
-        [WTDropboxManager sharedManager];
+//        [WTGoogleDriveManager sharedManager];
+//        [WTDropboxManager sharedManager];
     }
 
 @end

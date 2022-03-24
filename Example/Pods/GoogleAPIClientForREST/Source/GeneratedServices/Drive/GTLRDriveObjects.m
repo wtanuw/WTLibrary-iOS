@@ -17,12 +17,15 @@
 //
 
 @implementation GTLRDrive_About
-@dynamic appInstalled, exportFormats, folderColorPalette, importFormats, kind,
-         maxImportSizes, maxUploadSize, storageQuota, user;
+@dynamic appInstalled, canCreateDrives, canCreateTeamDrives, driveThemes,
+         exportFormats, folderColorPalette, importFormats, kind, maxImportSizes,
+         maxUploadSize, storageQuota, teamDriveThemes, user;
 
 + (NSDictionary<NSString *, Class> *)arrayPropertyToClassMap {
   NSDictionary<NSString *, Class> *map = @{
-    @"folderColorPalette" : [NSString class]
+    @"driveThemes" : [GTLRDrive_About_DriveThemes_Item class],
+    @"folderColorPalette" : [NSString class],
+    @"teamDriveThemes" : [GTLRDrive_About_TeamDriveThemes_Item class]
   };
   return map;
 }
@@ -32,10 +35,25 @@
 
 // ----------------------------------------------------------------------------
 //
-//   GTLRDrive_AboutExportFormats
+//   GTLRDrive_About_DriveThemes_Item
 //
 
-@implementation GTLRDrive_AboutExportFormats
+@implementation GTLRDrive_About_DriveThemes_Item
+@dynamic backgroundImageLink, colorRgb, identifier;
+
++ (NSDictionary<NSString *, NSString *> *)propertyToJSONKeyMap {
+  return @{ @"identifier" : @"id" };
+}
+
+@end
+
+
+// ----------------------------------------------------------------------------
+//
+//   GTLRDrive_About_ExportFormats
+//
+
+@implementation GTLRDrive_About_ExportFormats
 
 + (Class)classForAdditionalProperties {
   return [NSString class];
@@ -46,10 +64,10 @@
 
 // ----------------------------------------------------------------------------
 //
-//   GTLRDrive_AboutImportFormats
+//   GTLRDrive_About_ImportFormats
 //
 
-@implementation GTLRDrive_AboutImportFormats
+@implementation GTLRDrive_About_ImportFormats
 
 + (Class)classForAdditionalProperties {
   return [NSString class];
@@ -60,10 +78,10 @@
 
 // ----------------------------------------------------------------------------
 //
-//   GTLRDrive_AboutMaxImportSizes
+//   GTLRDrive_About_MaxImportSizes
 //
 
-@implementation GTLRDrive_AboutMaxImportSizes
+@implementation GTLRDrive_About_MaxImportSizes
 
 + (Class)classForAdditionalProperties {
   return [NSNumber class];
@@ -74,11 +92,26 @@
 
 // ----------------------------------------------------------------------------
 //
-//   GTLRDrive_AboutStorageQuota
+//   GTLRDrive_About_StorageQuota
 //
 
-@implementation GTLRDrive_AboutStorageQuota
+@implementation GTLRDrive_About_StorageQuota
 @dynamic limit, usage, usageInDrive, usageInDriveTrash;
+@end
+
+
+// ----------------------------------------------------------------------------
+//
+//   GTLRDrive_About_TeamDriveThemes_Item
+//
+
+@implementation GTLRDrive_About_TeamDriveThemes_Item
+@dynamic backgroundImageLink, colorRgb, identifier;
+
++ (NSDictionary<NSString *, NSString *> *)propertyToJSONKeyMap {
+  return @{ @"identifier" : @"id" };
+}
+
 @end
 
 
@@ -88,7 +121,8 @@
 //
 
 @implementation GTLRDrive_Change
-@dynamic file, fileId, kind, removed, time;
+@dynamic changeType, drive, driveId, file, fileId, kind, removed, teamDrive,
+         teamDriveId, time, type;
 @end
 
 
@@ -132,10 +166,10 @@
 
 // ----------------------------------------------------------------------------
 //
-//   GTLRDrive_ChannelParams
+//   GTLRDrive_Channel_Params
 //
 
-@implementation GTLRDrive_ChannelParams
+@implementation GTLRDrive_Channel_Params
 
 + (Class)classForAdditionalProperties {
   return [NSString class];
@@ -169,10 +203,10 @@
 
 // ----------------------------------------------------------------------------
 //
-//   GTLRDrive_CommentQuotedFileContent
+//   GTLRDrive_Comment_QuotedFileContent
 //
 
-@implementation GTLRDrive_CommentQuotedFileContent
+@implementation GTLRDrive_Comment_QuotedFileContent
 @dynamic mimeType, value;
 @end
 
@@ -201,20 +235,112 @@
 
 // ----------------------------------------------------------------------------
 //
+//   GTLRDrive_ContentRestriction
+//
+
+@implementation GTLRDrive_ContentRestriction
+@dynamic readOnly, reason, restrictingUser, restrictionTime, type;
+@end
+
+
+// ----------------------------------------------------------------------------
+//
+//   GTLRDrive_Drive
+//
+
+@implementation GTLRDrive_Drive
+@dynamic backgroundImageFile, backgroundImageLink, capabilities, colorRgb,
+         createdTime, hidden, identifier, kind, name, restrictions, themeId;
+
++ (NSDictionary<NSString *, NSString *> *)propertyToJSONKeyMap {
+  return @{ @"identifier" : @"id" };
+}
+
+@end
+
+
+// ----------------------------------------------------------------------------
+//
+//   GTLRDrive_Drive_BackgroundImageFile
+//
+
+@implementation GTLRDrive_Drive_BackgroundImageFile
+@dynamic identifier, width, xCoordinate, yCoordinate;
+
++ (NSDictionary<NSString *, NSString *> *)propertyToJSONKeyMap {
+  return @{ @"identifier" : @"id" };
+}
+
+@end
+
+
+// ----------------------------------------------------------------------------
+//
+//   GTLRDrive_Drive_Capabilities
+//
+
+@implementation GTLRDrive_Drive_Capabilities
+@dynamic canAddChildren, canChangeCopyRequiresWriterPermissionRestriction,
+         canChangeDomainUsersOnlyRestriction, canChangeDriveBackground,
+         canChangeDriveMembersOnlyRestriction, canComment, canCopy,
+         canDeleteChildren, canDeleteDrive, canDownload, canEdit,
+         canListChildren, canManageMembers, canReadRevisions, canRename,
+         canRenameDrive, canShare, canTrashChildren;
+@end
+
+
+// ----------------------------------------------------------------------------
+//
+//   GTLRDrive_Drive_Restrictions
+//
+
+@implementation GTLRDrive_Drive_Restrictions
+@dynamic adminManagedRestrictions, copyRequiresWriterPermission,
+         domainUsersOnly, driveMembersOnly;
+@end
+
+
+// ----------------------------------------------------------------------------
+//
+//   GTLRDrive_DriveList
+//
+
+@implementation GTLRDrive_DriveList
+@dynamic drives, kind, nextPageToken;
+
++ (NSDictionary<NSString *, Class> *)arrayPropertyToClassMap {
+  NSDictionary<NSString *, Class> *map = @{
+    @"drives" : [GTLRDrive_Drive class]
+  };
+  return map;
+}
+
++ (NSString *)collectionItemsKey {
+  return @"drives";
+}
+
+@end
+
+
+// ----------------------------------------------------------------------------
+//
 //   GTLRDrive_File
 //
 
 @implementation GTLRDrive_File
-@dynamic appProperties, capabilities, contentHints, createdTime,
-         descriptionProperty, explicitlyTrashed, fileExtension, folderColorRgb,
-         fullFileExtension, headRevisionId, iconLink, identifier,
-         imageMediaMetadata, isAppAuthorized, kind, lastModifyingUser,
-         md5Checksum, mimeType, modifiedByMe, modifiedByMeTime, modifiedTime,
-         name, originalFilename, ownedByMe, owners, parents, permissions,
-         properties, quotaBytesUsed, shared, sharedWithMeTime, sharingUser,
-         size, spaces, starred, thumbnailLink, trashed, version,
-         videoMediaMetadata, viewedByMe, viewedByMeTime, viewersCanCopyContent,
-         webContentLink, webViewLink, writersCanShare;
+@dynamic appProperties, capabilities, contentHints, contentRestrictions,
+         copyRequiresWriterPermission, createdTime, descriptionProperty,
+         driveId, explicitlyTrashed, exportLinks, fileExtension, folderColorRgb,
+         fullFileExtension, hasAugmentedPermissions, hasThumbnail,
+         headRevisionId, iconLink, identifier, imageMediaMetadata,
+         isAppAuthorized, kind, lastModifyingUser, md5Checksum, mimeType,
+         modifiedByMe, modifiedByMeTime, modifiedTime, name, originalFilename,
+         ownedByMe, owners, parents, permissionIds, permissions, properties,
+         quotaBytesUsed, shared, sharedWithMeTime, sharingUser, shortcutDetails,
+         size, spaces, starred, teamDriveId, thumbnailLink, thumbnailVersion,
+         trashed, trashedTime, trashingUser, version, videoMediaMetadata,
+         viewedByMe, viewedByMeTime, viewersCanCopyContent, webContentLink,
+         webViewLink, writersCanShare;
 
 + (NSDictionary<NSString *, NSString *> *)propertyToJSONKeyMap {
   NSDictionary<NSString *, NSString *> *map = @{
@@ -226,8 +352,10 @@
 
 + (NSDictionary<NSString *, Class> *)arrayPropertyToClassMap {
   NSDictionary<NSString *, Class> *map = @{
+    @"contentRestrictions" : [GTLRDrive_ContentRestriction class],
     @"owners" : [GTLRDrive_User class],
     @"parents" : [NSString class],
+    @"permissionIds" : [NSString class],
     @"permissions" : [GTLRDrive_Permission class],
     @"spaces" : [NSString class]
   };
@@ -239,10 +367,10 @@
 
 // ----------------------------------------------------------------------------
 //
-//   GTLRDrive_FileAppProperties
+//   GTLRDrive_File_AppProperties
 //
 
-@implementation GTLRDrive_FileAppProperties
+@implementation GTLRDrive_File_AppProperties
 
 + (Class)classForAdditionalProperties {
   return [NSString class];
@@ -253,30 +381,55 @@
 
 // ----------------------------------------------------------------------------
 //
-//   GTLRDrive_FileCapabilities
+//   GTLRDrive_File_Capabilities
 //
 
-@implementation GTLRDrive_FileCapabilities
-@dynamic canComment, canCopy, canEdit, canReadRevisions, canShare;
+@implementation GTLRDrive_File_Capabilities
+@dynamic canAddChildren, canAddFolderFromAnotherDrive, canAddMyDriveParent,
+         canChangeCopyRequiresWriterPermission, canChangeViewersCanCopyContent,
+         canComment, canCopy, canDelete, canDeleteChildren, canDownload,
+         canEdit, canListChildren, canModifyContent,
+         canModifyContentRestriction, canMoveChildrenOutOfDrive,
+         canMoveChildrenOutOfTeamDrive, canMoveChildrenWithinDrive,
+         canMoveChildrenWithinTeamDrive, canMoveItemIntoTeamDrive,
+         canMoveItemOutOfDrive, canMoveItemOutOfTeamDrive,
+         canMoveItemWithinDrive, canMoveItemWithinTeamDrive,
+         canMoveTeamDriveItem, canReadDrive, canReadRevisions, canReadTeamDrive,
+         canRemoveChildren, canRemoveMyDriveParent, canRename, canShare,
+         canTrash, canTrashChildren, canUntrash;
 @end
 
 
 // ----------------------------------------------------------------------------
 //
-//   GTLRDrive_FileContentHints
+//   GTLRDrive_File_ContentHints
 //
 
-@implementation GTLRDrive_FileContentHints
+@implementation GTLRDrive_File_ContentHints
 @dynamic indexableText, thumbnail;
 @end
 
 
 // ----------------------------------------------------------------------------
 //
-//   GTLRDrive_FileImageMediaMetadata
+//   GTLRDrive_File_ExportLinks
 //
 
-@implementation GTLRDrive_FileImageMediaMetadata
+@implementation GTLRDrive_File_ExportLinks
+
++ (Class)classForAdditionalProperties {
+  return [NSString class];
+}
+
+@end
+
+
+// ----------------------------------------------------------------------------
+//
+//   GTLRDrive_File_ImageMediaMetadata
+//
+
+@implementation GTLRDrive_File_ImageMediaMetadata
 @dynamic aperture, cameraMake, cameraModel, colorSpace, exposureBias,
          exposureMode, exposureTime, flashUsed, focalLength, height, isoSpeed,
          lens, location, maxApertureValue, meteringMode, rotation, sensor,
@@ -286,10 +439,10 @@
 
 // ----------------------------------------------------------------------------
 //
-//   GTLRDrive_FileProperties
+//   GTLRDrive_File_Properties
 //
 
-@implementation GTLRDrive_FileProperties
+@implementation GTLRDrive_File_Properties
 
 + (Class)classForAdditionalProperties {
   return [NSString class];
@@ -300,30 +453,40 @@
 
 // ----------------------------------------------------------------------------
 //
-//   GTLRDrive_FileVideoMediaMetadata
+//   GTLRDrive_File_ShortcutDetails
 //
 
-@implementation GTLRDrive_FileVideoMediaMetadata
+@implementation GTLRDrive_File_ShortcutDetails
+@dynamic targetId, targetMimeType;
+@end
+
+
+// ----------------------------------------------------------------------------
+//
+//   GTLRDrive_File_VideoMediaMetadata
+//
+
+@implementation GTLRDrive_File_VideoMediaMetadata
 @dynamic durationMillis, height, width;
 @end
 
 
 // ----------------------------------------------------------------------------
 //
-//   GTLRDrive_FileContentHintsThumbnail
+//   GTLRDrive_File_ContentHints_Thumbnail
 //
 
-@implementation GTLRDrive_FileContentHintsThumbnail
+@implementation GTLRDrive_File_ContentHints_Thumbnail
 @dynamic image, mimeType;
 @end
 
 
 // ----------------------------------------------------------------------------
 //
-//   GTLRDrive_FileImageMediaMetadataLocation
+//   GTLRDrive_File_ImageMediaMetadata_Location
 //
 
-@implementation GTLRDrive_FileImageMediaMetadataLocation
+@implementation GTLRDrive_File_ImageMediaMetadata_Location
 @dynamic altitude, latitude, longitude;
 @end
 
@@ -334,7 +497,7 @@
 //
 
 @implementation GTLRDrive_FileList
-@dynamic files, kind, nextPageToken;
+@dynamic files, incompleteSearch, kind, nextPageToken;
 
 + (NSDictionary<NSString *, Class> *)arrayPropertyToClassMap {
   NSDictionary<NSString *, Class> *map = @{
@@ -374,13 +537,42 @@
 //
 
 @implementation GTLRDrive_Permission
-@dynamic allowFileDiscovery, displayName, domain, emailAddress, expirationTime,
-         identifier, kind, photoLink, role, type;
+@dynamic allowFileDiscovery, deleted, displayName, domain, emailAddress,
+         expirationTime, identifier, kind, permissionDetails, photoLink, role,
+         teamDrivePermissionDetails, type, view;
 
 + (NSDictionary<NSString *, NSString *> *)propertyToJSONKeyMap {
   return @{ @"identifier" : @"id" };
 }
 
++ (NSDictionary<NSString *, Class> *)arrayPropertyToClassMap {
+  NSDictionary<NSString *, Class> *map = @{
+    @"permissionDetails" : [GTLRDrive_Permission_PermissionDetails_Item class],
+    @"teamDrivePermissionDetails" : [GTLRDrive_Permission_TeamDrivePermissionDetails_Item class]
+  };
+  return map;
+}
+
+@end
+
+
+// ----------------------------------------------------------------------------
+//
+//   GTLRDrive_Permission_PermissionDetails_Item
+//
+
+@implementation GTLRDrive_Permission_PermissionDetails_Item
+@dynamic inherited, inheritedFrom, permissionType, role;
+@end
+
+
+// ----------------------------------------------------------------------------
+//
+//   GTLRDrive_Permission_TeamDrivePermissionDetails_Item
+//
+
+@implementation GTLRDrive_Permission_TeamDrivePermissionDetails_Item
+@dynamic inherited, inheritedFrom, role, teamDrivePermissionType;
 @end
 
 
@@ -390,13 +582,17 @@
 //
 
 @implementation GTLRDrive_PermissionList
-@dynamic kind, permissions;
+@dynamic kind, nextPageToken, permissions;
 
 + (NSDictionary<NSString *, Class> *)arrayPropertyToClassMap {
   NSDictionary<NSString *, Class> *map = @{
     @"permissions" : [GTLRDrive_Permission class]
   };
   return map;
+}
+
++ (NSString *)collectionItemsKey {
+  return @"permissions";
 }
 
 @end
@@ -446,12 +642,26 @@
 //
 
 @implementation GTLRDrive_Revision
-@dynamic identifier, keepForever, kind, lastModifyingUser, md5Checksum,
-         mimeType, modifiedTime, originalFilename, publishAuto, published,
-         publishedOutsideDomain, size;
+@dynamic exportLinks, identifier, keepForever, kind, lastModifyingUser,
+         md5Checksum, mimeType, modifiedTime, originalFilename, publishAuto,
+         published, publishedLink, publishedOutsideDomain, size;
 
 + (NSDictionary<NSString *, NSString *> *)propertyToJSONKeyMap {
   return @{ @"identifier" : @"id" };
+}
+
+@end
+
+
+// ----------------------------------------------------------------------------
+//
+//   GTLRDrive_Revision_ExportLinks
+//
+
+@implementation GTLRDrive_Revision_ExportLinks
+
++ (Class)classForAdditionalProperties {
+  return [NSString class];
 }
 
 @end
@@ -486,6 +696,85 @@
 
 @implementation GTLRDrive_StartPageToken
 @dynamic kind, startPageToken;
+@end
+
+
+// ----------------------------------------------------------------------------
+//
+//   GTLRDrive_TeamDrive
+//
+
+@implementation GTLRDrive_TeamDrive
+@dynamic backgroundImageFile, backgroundImageLink, capabilities, colorRgb,
+         createdTime, identifier, kind, name, restrictions, themeId;
+
++ (NSDictionary<NSString *, NSString *> *)propertyToJSONKeyMap {
+  return @{ @"identifier" : @"id" };
+}
+
+@end
+
+
+// ----------------------------------------------------------------------------
+//
+//   GTLRDrive_TeamDrive_BackgroundImageFile
+//
+
+@implementation GTLRDrive_TeamDrive_BackgroundImageFile
+@dynamic identifier, width, xCoordinate, yCoordinate;
+
++ (NSDictionary<NSString *, NSString *> *)propertyToJSONKeyMap {
+  return @{ @"identifier" : @"id" };
+}
+
+@end
+
+
+// ----------------------------------------------------------------------------
+//
+//   GTLRDrive_TeamDrive_Capabilities
+//
+
+@implementation GTLRDrive_TeamDrive_Capabilities
+@dynamic canAddChildren, canChangeCopyRequiresWriterPermissionRestriction,
+         canChangeDomainUsersOnlyRestriction, canChangeTeamDriveBackground,
+         canChangeTeamMembersOnlyRestriction, canComment, canCopy,
+         canDeleteChildren, canDeleteTeamDrive, canDownload, canEdit,
+         canListChildren, canManageMembers, canReadRevisions, canRemoveChildren,
+         canRename, canRenameTeamDrive, canShare, canTrashChildren;
+@end
+
+
+// ----------------------------------------------------------------------------
+//
+//   GTLRDrive_TeamDrive_Restrictions
+//
+
+@implementation GTLRDrive_TeamDrive_Restrictions
+@dynamic adminManagedRestrictions, copyRequiresWriterPermission,
+         domainUsersOnly, teamMembersOnly;
+@end
+
+
+// ----------------------------------------------------------------------------
+//
+//   GTLRDrive_TeamDriveList
+//
+
+@implementation GTLRDrive_TeamDriveList
+@dynamic kind, nextPageToken, teamDrives;
+
++ (NSDictionary<NSString *, Class> *)arrayPropertyToClassMap {
+  NSDictionary<NSString *, Class> *map = @{
+    @"teamDrives" : [GTLRDrive_TeamDrive class]
+  };
+  return map;
+}
+
++ (NSString *)collectionItemsKey {
+  return @"teamDrives";
+}
+
 @end
 
 

@@ -10,7 +10,8 @@
 #import "WTMacro.h"
 
 
-#define WTDropboxManager_VERSION 0x00020000
+//#define WTDropboxManager_VERSION 0x00020000
+#define WTDropboxManager_VERSION 0x00060000
 
 #if WTDropboxManager_VERSION >= 0x00020000
 

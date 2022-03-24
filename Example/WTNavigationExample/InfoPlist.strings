@@ -1,0 +1,11 @@
+/* 
+  InfoPlist.strings
+  WTLibrary-iOS
+
+  Created by Mac on 5/5/2564 BE.
+  Copyright © 2564 BE wtanuw. All rights reserved.
+*/
+
+
+"CFBundleDisplayName" = "My_App_Name";
+"sssCFBundleDisplayName" = "My_App_Name2";

@@ -7,20 +7,56 @@
 //
 
 #import <Foundation/Foundation.h>
+
+#define WTGoogleDriveManager_VERSION 0x00030000
+#define GOOGLEOAUTH2_VERSION 0x00010000
+#define GOOGLEAPPAUTH_VERSION 0x00020000
+#define GOOGLEAPPAUTHSIGN6_VERSION 0x00030000
+
+#if (WTGoogleDriveManager_VERSION == GOOGLEOAUTH2_VERSION)
+
 #import "GTMOAuth2/GTMOAuth2ViewControllerTouch.h"
+#import "GTLRDrive.h"
+#import "WTMacro.h"
+#import "GoogleSignIn/GoogleSignIn.h"
+
+#elif (WTGoogleDriveManager_VERSION >= GOOGLEAPPAUTH_VERSION)
+
+//#import "GTMOAuth2/GTMOAuth2ViewControllerTouch.h"
 #import "GTLRDrive.h"
 #import "WTMacro.h"
 //#import <Google/SignIn.h>
 //#import <GoogleSignIn/GoogleSignIn.h>
 #import "GoogleSignIn/GoogleSignIn.h"
 //#import "GoogleSignIn.h"
+#import <GTMSessionFetcher/GTMSessionFetcher.h>
+#import "GTMAppAuth.h"
+#import "WTGoogleFetcherAuth.h"
 
+#endif
 
-#define WTGoogleDriveManager_VERSION 0x00010000
+#if (WTGoogleDriveManager_VERSION <= GOOGLEOAUTH2_VERSION)
 
 @interface WTGoogleDriveManager : NSObject<GIDSignInDelegate>
 
-@property (nonatomic, strong) GTLRDriveService *service;
+#elif (WTGoogleDriveManager_VERSION <= GOOGLEAPPAUTH_VERSION)
+
+@interface WTGoogleDriveManager : NSObject<GIDSignInDelegate>
+@property(nonatomic, nullable) GTMAppAuthFetcherAuthorization *authorization;
+@property(nonatomic, nullable) MyAuth *myauthorization;
+
+#elif (WTGoogleDriveManager_VERSION <= GOOGLEAPPAUTHSIGN6_VERSION)
+
+@interface WTGoogleDriveManager : NSObject
+@property(nonatomic, nullable) GTMAppAuthFetcherAuthorization *authorization;
+@property(nonatomic, nullable) MyAuth *myauthorization;
+@property(nonatomic, weak, nullable) UIViewController *vct;
+- (BOOL)checkScope:(NSArray* _Nonnull)scopes;
+- (BOOL)addScope:(NSArray* _Nonnull)scopes withCompletion:(void (^_Nullable)(BOOL linkSuccess))completion;
+
+#endif
+
+@property (nonatomic, strong, nullable) GTLRDriveService *service;
 @property (nonatomic, strong) UITextView *output;
 
 @property (nonatomic, strong) NSString *clientID;
@@ -49,6 +85,9 @@
 
 + (instancetype)sharedManager;
 
+- (BOOL)signInSilently;
+- (BOOL)signIn;
+- (UIButton* _Nonnull)googleButton;
 
 //- (void)addRevForFile:(DBMetadata*)metadata;
 //- (DBMetadata*)metadataForPath:(NSString*)path;
@@ -59,7 +98,9 @@
 // call this function in appdelegate
 - (void)authWithClientID:(NSString*)clientID keychainForName:(NSString*)kKeychainItemName withCompletion:(void (^)(BOOL linkSuccess))completion;
 
+- (BOOL)signIn:(UIViewController*)vct;
 - (void)linkFromViewController:(UIViewController*)vct;
+- (BOOL)handleOpenURL:(NSURL *)url;
 - (void)unlink;
 - (BOOL)isLogin;
 
@@ -114,8 +155,5 @@
 //- (void)downloadFileFromPath:(NSString*)path toFolderPath:(NSString*)localFolderPath;
 
 - (void)downloadFileFromPaths:(NSArray*)paths toFolderPath:(NSString*)localFolderPath __attribute((deprecated("not have available method.")));
-
-
-- (BOOL)handleOpenURL:(NSURL *)url __attribute((deprecated("not have available method.")));
 
 @end

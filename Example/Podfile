@@ -1,13 +1,137 @@
-use_frameworks!
+use_frameworks! :linkage => :static
+
+# if use_frameworks! is present - dynamic framework, old pod to use swift
+#use_frameworks! :linkage => :dynamic
+# if use_frameworks! is not present - static library
+#use_frameworks! :linkage => :static
+
+def import_pods
+  import_pods_appname
+end
+
+
+def import_pods_echo
+  script_phase :name => 'Echo', :script =>
+  '
+  echo "dsym"  ${DWARF_DSYM_FOLDER_PATH}/${DWARF_DSYM_FILE_NAME}/Contents/Resources/DWARF/${TARGET_NAME}
+  echo "plist"  ${BUILT_PRODUCTS_DIR}/${INFOPLIST_PATH}
+  
+
+  BUILD_NUMBER=$(/usr/libexec/PlistBuddy -c "Print CFBundleVersion" "$INFOPLIST_FILE")
+  BUNDLE_DISPLAY_NAME=$(/usr/libexec/PlistBuddy -c "Print CFBundleDisplayName" "$INFOPLIST_FILE")
+#  /usr/libexec/PlistBuddy -c "Set :CFBundleDisplayName $BUILD_NUMBER$BUNDLE_DISPLAY_NAME" "$TARGET_BUILD_DIR/$INFOPLIST_PATH"
+    
+    infoplist="$BUILT_PRODUCTS_DIR/$INFOPLIST_PATH"
+    builddate=`date +"%Y%m%d"`
+    if [[ -n "$builddate" ]]; then
+#        # if BuildDateString doesnt exist, add it
+#        /usr/libexec/PlistBuddy -c "Add :BuildDateString string $builddate" "${infoplist}"
+#        # and if BuildDateString already existed, update it
+#        /usr/libexec/PlistBuddy -c "Set :BuildDateString $builddate" "${infoplist}"
+
+      printf -v ddd "%(%Y-%m-%d)T\n" -1
+      echo "date r $d r $ddd"
+    fi
+    d=$builddate
+    echo "date $d"
+  BUILD_NUMBER=$(/usr/libexec/PlistBuddy -c "Print CFBundleVersion" "$INFOPLIST_FILE")
+  BUNDLE_DISPLAY_NAME=$(/usr/libexec/PlistBuddy -c "Print CFBundleDisplayName" "$INFOPLIST_FILE")
+  BUNDLE_PRODUCT_NAME=$PRODUCT_NAME
+  BUNDLE_DISPLAY_NAME=$BUNDLE_PRODUCT_NAME
+
+  echo "INFOPLIST_FILE CFBundleDisplayName is " $BUNDLE_DISPLAY_NAME
+  echo "INFOPLIST_FILE CFBundleVersion is " $BUILD_NUMBER
+  echo "INFOPLIST_FILE ProductName is " $BUNDLE_PRODUCT_NAME
+
+#  /usr/libexec/PlistBuddy -c "Set :CFBundleDisplayName $BUILD_NUMBER$BUNDLE_DISPLAY_NAME" "$TARGET_BUILD_DIR/$INFOPLIST_PATH"
+  echo "TARGET_BUILD_DIR CFBundleDisplayName change to \"$BUILD_NUMBER$BUNDLE_DISPLAY_NAME"
+
+  echo $INFOPLIST_FILE
+  echo $INFOPLIST_PATH
+  echo "TARGET_BUILD_DIR = \"$TARGET_BUILD_DIR"
+  echo "BUILT_PRODUCTS_DIR = \"$BUILT_PRODUCTS_DIR"
+  echo "DEPLOYMENT_LOCATION = \"$DEPLOYMENT_LOCATION"
+  #AAAAA=$(/usr/libexec/PlistBuddy -c "Print CFBundleDisplayName" "$TARGET_BUILD_DIR/$INFOPLIST_PATH")
+  #echo "may be " $AAAAA
+  #/usr/libexec/PlistBuddy -c "Set :CFBundleDisplayName $BUILD_NUMBER$BUNDLE_DISPLAY_NAME" "$INFOPLIST_FILE"
+  '
+end
+
+def import_pods_firebase
+  
+#  pod 'Google-Mobile-Ads-SDK' #AdMob +Analytic?
+  pod 'Firebase/Analytics' #Analytics
+#  pod 'Firebase/AppDistribution' #App Distribution
+#  pod 'Firebase/Auth' #Authentication
+#  pod 'Firebase/Firestore' #Cloud Firestore
+#  pod 'Firebase/Functions' #Cloud Functions for Firebase Client SDK
+#  pod 'Firebase/Messaging' #Cloud Messaging +Analytic?
+#  pod 'Firebase/Storage' #Cloud Storage
+  pod 'Firebase/Crashlytics' #Crashlytics
+#  pod 'Firebase/DynamicLinks' #Dynamic Links +Analytic?
+#  pod 'Firebase/InAppMessaging' #In-App Messaging +Analytic
+#  pod 'Firebase/Installations' #Firebase installations
+#  pod 'Firebase/MLModelDownloader' #Firebase ML Custom Model APIs
+#  pod 'Firebase/Performance' #Performance Monitoring
+#  pod 'Firebase/Database' #Realtime Database
+#  pod 'Firebase/RemoteConfig' #Remote Config +Analytic?
+  
+  script_phase :name => 'FirebaseCrashlytics', :script =>
+  '"${PODS_ROOT}/FirebaseCrashlytics/run"', :input_files => ["${DWARF_DSYM_FOLDER_PATH}/${DWARF_DSYM_FILE_NAME}/Contents/Resources/DWARF/${TARGET_NAME}","$(BUILT_PRODUCTS_DIR)/$(INFOPLIST_PATH)"]
+end
+
+def import_pods_increment
+  script_phase :name => 'WTIncrement', :script =>
+'
+buildNumber=$(/usr/libexec/PlistBuddy -c "Print CFBundleVersion" "$INFOPLIST_FILE")
+increaseBuildNumber=$(($buildNumber + 1))
+  /usr/libexec/PlistBuddy -c "Set :CFBundleVersion $increaseBuildNumber" "$INFOPLIST_FILE"
+echo "WTIncrement CFBundleVersion is increase from $buildNumber  to $increaseBuildNumber "
+'
+end
+
+def import_pods_appname
+  script_phase :name => 'WTAppName', :script =>
+'
+
+#  BUILD_NUMBER=$(/usr/libexec/PlistBuddy -c "Print CFBundleVersion" "$INFOPLIST_FILE")
+#  BUNDLE_DISPLAY_NAME=$(/usr/libexec/PlistBuddy -c "Print CFBundleDisplayName" "$INFOPLIST_FILE")
+#  /usr/libexec/PlistBuddy -c "Set :CFBundleDisplayName $BUILD_NUMBER$BUNDLE_DISPLAY_NAME" "$TARGET_BUILD_DIR/$INFOPLIST_PATH"
+#  /usr/libexec/PlistBuddy -c "Set :CFBundleDisplayName $APP_NAME" "$TARGET_BUILD_DIR/$INFOPLIST_PATH"
+  
+  infoPlistPath="$TARGET_BUILD_DIR/$INFOPLIST_PATH"
+  todayDate=`date +"%y%m%d"`
+  echo "$TARGET_BUILD_DIR/$INFOPLIST_PATH"
+  echo "${infoPlistPath}"
+  echo "date $todayDate"
+  BUILD_NUMBER=$(/usr/libexec/PlistBuddy -c "Print CFBundleVersion" "$INFOPLIST_FILE")
+  BUNDLE_DISPLAY_NAME=$(/usr/libexec/PlistBuddy -c "Print CFBundleDisplayName" "$INFOPLIST_FILE")
+  BUNDLE_PRODUCT_NAME=$PRODUCT_NAME
+  BUNDLE_DISPLAY_NAME=$BUNDLE_PRODUCT_NAME
+  v_debugAppName=$BUILD_NUMBER/$todayDate
+      echo "date $BUILD_NUMBER"
+      echo "date /$todayDate"
+      echo "date //$todayDate"
+      echo "name $v_debugAppName"
+      if [[ -n "$BUNDLE_DISPLAY_NAME" ]];
+      then
+      /usr/libexec/PlistBuddy -c "Set :CFBundleDisplayName ${v_debugAppName}" "${infoPlistPath}"
+      else
+      /usr/libexec/PlistBuddy -c "Add :CFBundleDisplayName string ${v_debugAppName}" "${infoPlistPath}"
+      fi
+  echo "WTAppName TARGET_BUILD_DIR CFBundleDisplayName change to ${v_debugAppName}"
+'
+end
 
 target 'WTLibrary-iOS-ObjC_Example' do
+  platform :ios, '9.0'
   pod 'WTLibrary-iOS', :path => '../'
   pod 'WTLibrary-iOS/AQGridViewHorizontal', :path => '../'
   pod 'WTLibrary-iOS/CategoriesExtension', :path => '../'
   pod 'WTLibrary-iOS/CategoriesExtensionMD5', :path => '../'
   pod 'WTLibrary-iOS/MetadataRetriever', :path => '../'
   pod 'WTLibrary-iOS/WTDatabase', :path => '../'
-  pod 'WTLibrary-iOS/WTDropbox', :path => '../'
+#  pod 'WTLibrary-iOS/WTGoogle1', :path => '../'
   pod 'WTLibrary-iOS/WTGoogle', :path => '../'
   pod 'WTLibrary-iOS/WTLocation', :path => '../'
   pod 'WTLibrary-iOS/WTSNS', :path => '../'
@@ -19,6 +143,10 @@ target 'WTLibrary-iOS-ObjC_Example' do
   pod 'WTLibrary-iOS/WTiOS', :path => '../'
   pod 'WTLibrary-iOS/WTmacOS', :path => '../'
   
+#  import_pods2
+  import_pods_increment
+  import_pods_appname
+  
   target 'WTLibrary-iOS-ObjC_Tests' do
     inherit! :search_paths
 
@@ -27,11 +155,8 @@ target 'WTLibrary-iOS-ObjC_Example' do
   end
 end
 
-target 'WTStoreKitExample' do
-  pod 'WTLibrary-iOS/WTStoreKit', :path => '../'
-end
-
 target 'WTLibrary-iOS-Swift_Example' do
+  platform :ios, '9.0'
   pod 'WTLibrary-iOS/WTSwift', :path => '../'
 
   target 'WTLibrary-iOS-Swift_Tests' do
@@ -42,7 +167,24 @@ target 'WTLibrary-iOS-Swift_Example' do
   end
 end
 
+target 'WTStoreKitExample' do
+  platform :ios, '12.0'
+  pod 'WTLibrary-iOS/WTStoreKit', :path => '../'
+end
 
+target 'WTNavigationExample' do
+  platform :ios, '11.0'
+  pod 'WTLibrary-iOS/WTUIKit', :path => '../'
+  pod 'WTLibrary-iOS', :path => '../', :subspecs => ['CategoriesExtension']
+  pod 'PPRevealSideViewController', '~> 1.2.1'
+  pod 'WTLibrary-iOS/WTIncrement', :path => '../'
+#  pod 'WTLibrary-iOS/WTGoogle', :path => '../'
+  
+  import_pods_echo
+  import_pods_firebase
+  import_pods_increment
+  import_pods_appname
+end
 
 
 # example
@@ -50,3 +192,4 @@ end
 # pod 'WTLibrary-iOS', :git => 'https://github.com/wtanuw/WTLibrary-iOS.git', :subspecs => ['AQGridViewHorizontal', 'CategoriesExtension', 'CategoriesExtensionMD5', 'MetadataRetriever', 'WTDropbox', 'WTGoogle', 'WTStoreKit', 'WTSwipeModalView', 'WTUIKit', 'WTRuntime']
 
 # pod 'WTLibrary-iOS', :path => '~/Desktop/Wat/WTLibrary/WTLibrary-iOS', :subspecs => ['AQGridViewHorizontal', 'CategoriesExtension', 'CategoriesExtensionMD5', 'MetadataRetriever', 'WTDropbox', 'WTGoogle', 'WTStoreKit', 'WTSwipeModalView', 'WTUIKit', 'WTRuntime'] 
+

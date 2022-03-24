@@ -1,0 +1,6 @@
+framework module PPRevealSideViewController {
+  umbrella header "PPRevealSideViewController-umbrella.h"
+
+  export *
+  module * { export * }
+}

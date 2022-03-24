@@ -30,10 +30,12 @@ typedef void(^colorChanged)();
 
 @interface WTLVResizableNavigationBar : UINavigationBar
 
+@property (nonatomic, assign) CGFloat normalHeight;
+@property (nonatomic, assign) BOOL obser;
 // These properties and methods should never be accessed externally.  Instead
 // refer to the LVResizableNavigationController protocol
-@property (nonatomic) CGFloat extraHeight;
-@property (nonatomic) UIView *subHeaderView;
+@property (nonatomic, assign) CGFloat extraHeight;
+@property (nonatomic, weak) UIView *subHeaderView;
 @property (nonatomic, copy) void (^colorChanged)(void);
 
 @property (nonatomic,strong) NSObject<ResizeableNavigationBar> *bar;
@@ -54,10 +56,18 @@ typedef void(^colorChanged)();
 @end
 
 
+@interface iosDefaultBar : NSObject<ResizeableNavigationBar>
+@property (nonatomic,weak) WTLVResizableNavigationBar* navigationBar;
+@end
+
 @interface ios11Bar : NSObject<ResizeableNavigationBar>
 @property (nonatomic,weak) WTLVResizableNavigationBar* navigationBar;
 @end
 
 @interface ios9Bar : NSObject<ResizeableNavigationBar>
+@property (nonatomic,weak) WTLVResizableNavigationBar* navigationBar;
+@end
+
+@interface ios12Bar : NSObject<ResizeableNavigationBar>
 @property (nonatomic,weak) WTLVResizableNavigationBar* navigationBar;
 @end
