@@ -437,7 +437,7 @@
     return imageCopy;
 }
 
-+ (UIImage*)imageWithImage:(UIImage*)sourceImage scaledToSizeWithSameAspectRatio:(CGSize)targetSize;
++ (UIImage*)imageWithImage:(UIImage*)sourceImage scaledToSizeWithSameAspectRatio:(CGSize)targetSize
 {
     CGSize imageSize = sourceImage.size;
     CGFloat width = imageSize.width;

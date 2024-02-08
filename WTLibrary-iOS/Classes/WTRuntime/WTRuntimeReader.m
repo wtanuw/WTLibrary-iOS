@@ -667,7 +667,7 @@
         Method method = methods[i];
         SEL methodSelector = method_getName(method);
         NSString *methodName = [NSString stringWithFormat:@"%s",sel_getName(methodSelector)];
-        //const char *typeEncodings = method_getTypeEncoding(method);
+        const char *typeEncodings = method_getTypeEncoding(method);
         
         char returnType[80];
         method_getReturnType(method, returnType, 80);
@@ -711,7 +711,7 @@
         Method method = methods[i];
         SEL methodSelector = method_getName(method);
         NSString *methodName = [NSString stringWithFormat:@"%s",sel_getName(methodSelector)];
-//        const char *typeEncodings = method_getTypeEncoding(method);
+        const char *typeEncodings = method_getTypeEncoding(method);
         
 //        char returnType[80];
 //        method_getReturnType(method, returnType, 80);

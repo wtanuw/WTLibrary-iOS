@@ -43,7 +43,7 @@
 #import "AQGridView+CellLocationDelegation.h"
 #import "NSIndexSet+AQIsSetContiguous.h"
 #import "NSIndexSet+AQIndexesOutsideSet.h"
-#import "WTMacro.h"
+#import <WTLibrary_iOS/WTUIInterface.h>
 
 #import <libkern/OSAtomic.h>
 
@@ -548,7 +548,7 @@ NSString * const AQGridViewSelectionDidChangeNotification = @"AQGridViewSelectio
 	if (self.gridFooterView)
 	{
 	    // In-call status bar influences footer position
-		CGRect statusRect = [UIApplication sharedApplication].statusBarFrame;
+		CGRect statusRect = [WTUIInterfaceShared statusBarFrame];
 	    CGFloat statusHeight = MIN(CGRectGetWidth(statusRect), CGRectGetHeight(statusRect))  - 20;
 
 	    CGFloat footerHeight = CGRectGetHeight(self.gridFooterView.bounds);
@@ -2284,7 +2284,12 @@ NSArray * __sortDescriptors;
 	if ( [_visibleCells containsObject: cell] == NO )
 		//[_visibleCells addObject: cell];
 		[self doAddVisibleCell: cell];
-	[_visibleCells sortUsingSelector: @selector(compareOriginAgainstCell:)];
+    if(self.layoutDirection == AQGridViewLayoutDirectionVertical){
+        [_visibleCells sortUsingSelector: @selector(compareOriginAgainstCellVertical:)];
+    }else
+    {
+        [_visibleCells sortUsingSelector: @selector(compareOriginAgainstCellHorizontal:)];
+    }
 }
 
 @end

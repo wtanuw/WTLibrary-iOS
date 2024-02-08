@@ -72,11 +72,11 @@
 - (CGFloat)statusBarHeight:(UIViewController*)vct
 {
     if (@available(iOS 13.0, *)) {
-        UINavigationController *f = self.navigationController;
-        UIWindow *d = self.navigationController.view.window;
-        UIWindowScene *c = self.navigationController.view.window.windowScene;
-        UIStatusBarManager *b = self.navigationController.view.window.windowScene.statusBarManager;
-        CGRect a = self.navigationController.view.window.windowScene.statusBarManager.statusBarFrame;
+//        UINavigationController *f = self.navigationController;
+//        UIWindow *d = self.navigationController.view.window;
+//        UIWindowScene *c = self.navigationController.view.window.windowScene;
+//        UIStatusBarManager *b = self.navigationController.view.window.windowScene.statusBarManager;
+//        CGRect a = self.navigationController.view.window.windowScene.statusBarManager.statusBarFrame;
         return vct.view.window.windowScene.statusBarManager.statusBarFrame.size.height;
     } else {
         // Fallback on earlier versions

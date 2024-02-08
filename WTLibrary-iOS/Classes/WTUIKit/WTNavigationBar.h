@@ -25,7 +25,6 @@
 //  THE SOFTWARE
 
 #import <UIKit/UIKit.h>
-#import "WTMacro.h"
 
 @interface WTNavigationBar : UINavigationBar
 {

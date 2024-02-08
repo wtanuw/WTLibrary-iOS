@@ -286,6 +286,9 @@ return _sharedObject; \
 #define UI_INTERFACE_IDIOM_IS_IPHONE_SCREEN4_7INCH()      UI_INTERFACE_IDIOM_IS_IPHONE() && ((CGRectGetHeight([UIScreen mainScreen].bounds) * UI_INTERFACE_SCALE()) == 667*UI_INTERFACE_SCALE())
 #define UI_INTERFACE_IDIOM_IS_IPHONE_SCREEN5_5INCH()      UI_INTERFACE_IDIOM_IS_IPHONE() && ((CGRectGetHeight([UIScreen mainScreen].bounds) * UI_INTERFACE_SCALE()) == 736*UI_INTERFACE_SCALE())
 
+#define UI_INTERFACE_IDIOM_PHONE_PAD(phone,pad) ((UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone)?phone:pad)
+#define UI_INTERFACE_IDIOM_IS_IPHONE_SCREEN5_5INCH()      UI_INTERFACE_IDIOM_IS_IPHONE() && ((CGRectGetHeight([UIScreen mainScreen].bounds) * UI_INTERFACE_SCALE()) == 736*UI_INTERFACE_SCALE())
+
 ///<------------------------------------------------!>
 
 #pragma mark - Other
@@ -530,11 +533,11 @@ _Pragma("clang diagnostic pop") \
 
 // MARK: Midhun
 
-//<--------------------------------------------------!>
+//--------------------------------------------------!>
 
 
 
 
 
 
-//<--------------------------------------------------!>
+//--------------------------------------------------!>

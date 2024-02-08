@@ -62,6 +62,15 @@
       "source_files": "WTLibrary-iOS/Classes/CategoriesExtensionMD5/*.{h,m}"
     },
     {
+      "name": "KLCPopup",
+      "dependencies": {
+        "WTLibrary-iOS/WTObjC": [
+
+        ]
+      },
+      "source_files": "WTLibrary-iOS/Classes/KLCPopup/*.{h,m}"
+    },
+    {
       "name": "MetadataRetriever",
       "dependencies": {
         "WTLibrary-iOS/WTObjC": [
@@ -153,7 +162,7 @@
           "~> 1.2.2"
         ],
         "GoogleSignIn": [
-          "~> 5.0"
+          "~> 6.1"
         ]
       },
       "source_files": "WTLibrary-iOS/Classes/WTGoogle/*.{h,m}"
@@ -242,7 +251,7 @@
       "name": "WTSwift",
       "dependencies": {
         "AFDateHelper": [
-          "~> 4.1"
+          "~> 4.3"
         ]
       },
       "source_files": "WTLibrary-iOS/Swift/*",

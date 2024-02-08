@@ -1,6 +1,0 @@
-framework module WTLibrary_iOS {
-  umbrella header "WTLibrary-iOS-7c4051db-umbrella.h"
-
-  export *
-  module * { export * }
-}

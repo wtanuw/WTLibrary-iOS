@@ -1,11 +1,6 @@
 PODS:
   - AFDateHelper (4.3.0)
   - AGWindowView (0.1.9)
-  - AppAuth (1.4.0):
-    - AppAuth/Core (= 1.4.0)
-    - AppAuth/ExternalUserAgent (= 1.4.0)
-  - AppAuth/Core (1.4.0)
-  - AppAuth/ExternalUserAgent (1.4.0)
   - Expecta (1.0.6)
   - Firebase/Analytics (8.1.0):
     - Firebase/Core
@@ -67,11 +62,6 @@ PODS:
   - FMDB (2.7.5):
     - FMDB/standard (= 2.7.5)
   - FMDB/standard (2.7.5)
-  - GoogleAPIClientForREST/Core (1.5.2):
-    - GTMSessionFetcher (>= 1.1.7)
-  - GoogleAPIClientForREST/Drive (1.5.2):
-    - GoogleAPIClientForREST/Core
-    - GTMSessionFetcher (>= 1.1.7)
   - GoogleAppMeasurement (8.1.0):
     - GoogleAppMeasurement/AdIdSupport (= 8.1.0)
     - GoogleUtilities/AppDelegateSwizzler (~> 7.4)
@@ -89,10 +79,6 @@ PODS:
     - GoogleUtilities/Environment (~> 7.2)
     - nanopb (~> 2.30908.0)
     - PromisesObjC (~> 1.2)
-  - GoogleSignIn (5.0.2):
-    - AppAuth (~> 1.2)
-    - GTMAppAuth (~> 1.0)
-    - GTMSessionFetcher/Core (~> 1.1)
   - GoogleUtilities/AppDelegateSwizzler (7.4.1):
     - GoogleUtilities/Environment
     - GoogleUtilities/Logger
@@ -112,14 +98,6 @@ PODS:
     - GoogleUtilities/Logger
   - GoogleUtilities/UserDefaults (7.4.1):
     - GoogleUtilities/Logger
-  - GTMAppAuth (1.2.2):
-    - AppAuth/Core (~> 1.4)
-    - GTMSessionFetcher/Core (~> 1.5)
-  - GTMSessionFetcher (1.5.0):
-    - GTMSessionFetcher/Full (= 1.5.0)
-  - GTMSessionFetcher/Core (1.5.0)
-  - GTMSessionFetcher/Full (1.5.0):
-    - GTMSessionFetcher/Core (= 1.5.0)
   - nanopb (2.30908.0):
     - nanopb/decode (= 2.30908.0)
     - nanopb/encode (= 2.30908.0)
@@ -139,15 +117,12 @@ PODS:
     - WTLibrary-iOS/WTObjC
   - WTLibrary-iOS/CategoriesExtensionMD5 (0.4.1):
     - WTLibrary-iOS/WTObjC
+  - WTLibrary-iOS/KLCPopup (0.4.1):
+    - WTLibrary-iOS/WTObjC
   - WTLibrary-iOS/MetadataRetriever (0.4.1):
     - WTLibrary-iOS/WTObjC
   - WTLibrary-iOS/WTDatabase (0.4.1):
     - FMDB (~> 2.0)
-    - WTLibrary-iOS/WTObjC
-  - WTLibrary-iOS/WTGoogle (0.4.1):
-    - GoogleAPIClientForREST/Drive
-    - GoogleSignIn (~> 5.0)
-    - GTMAppAuth (~> 1.2.2)
     - WTLibrary-iOS/WTObjC
   - WTLibrary-iOS/WTIncrement (0.4.1):
     - WTLibrary-iOS/WTObjC
@@ -167,7 +142,7 @@ PODS:
     - WTLibrary-iOS/CategoriesExtension
     - WTLibrary-iOS/WTObjC
   - WTLibrary-iOS/WTSwift (0.4.1):
-    - AFDateHelper (~> 4.1)
+    - AFDateHelper (~> 4.3)
   - WTLibrary-iOS/WTSwipeModalView (0.4.1):
     - AGWindowView (~> 0.1)
     - WTLibrary-iOS/WTObjC
@@ -186,9 +161,9 @@ DEPENDENCIES:
   - WTLibrary-iOS/AQGridViewHorizontal (from `../`)
   - WTLibrary-iOS/CategoriesExtension (from `../`)
   - WTLibrary-iOS/CategoriesExtensionMD5 (from `../`)
+  - WTLibrary-iOS/KLCPopup (from `../`)
   - WTLibrary-iOS/MetadataRetriever (from `../`)
   - WTLibrary-iOS/WTDatabase (from `../`)
-  - WTLibrary-iOS/WTGoogle (from `../`)
   - WTLibrary-iOS/WTIncrement (from `../`)
   - WTLibrary-iOS/WTiOS (from `../`)
   - WTLibrary-iOS/WTLocation (from `../`)
@@ -205,7 +180,6 @@ SPEC REPOS:
   trunk:
     - AFDateHelper
     - AGWindowView
-    - AppAuth
     - Expecta
     - Firebase
     - FirebaseAnalytics
@@ -214,13 +188,9 @@ SPEC REPOS:
     - FirebaseCrashlytics
     - FirebaseInstallations
     - FMDB
-    - GoogleAPIClientForREST
     - GoogleAppMeasurement
     - GoogleDataTransport
-    - GoogleSignIn
     - GoogleUtilities
-    - GTMAppAuth
-    - GTMSessionFetcher
     - nanopb
     - PPHelpMe
     - PPRevealSideViewController
@@ -235,7 +205,6 @@ EXTERNAL SOURCES:
 SPEC CHECKSUMS:
   AFDateHelper: b769c07d3d4784ee9a74633285304261bb27dc52
   AGWindowView: 08dc8d448b8c96430e78b3945a9c2cf5b0fde754
-  AppAuth: 31bcec809a638d7bd2f86ea8a52bd45f6e81e7c7
   Expecta: 3b6bd90a64b9a1dcb0b70aa0e10a7f8f631667d5
   Firebase: b5956acddaaa53a6c292bec00649fadd18367344
   FirebaseAnalytics: e812eaae316ba8914b1ef06bef18f11efc1f56c6
@@ -244,21 +213,17 @@ SPEC CHECKSUMS:
   FirebaseCrashlytics: 1b55b3a718f9e20d59d96db46a4652d95a8ba1d2
   FirebaseInstallations: 7f31798a8198c354eadcb87176d2090b62edc187
   FMDB: 2ce00b547f966261cd18927a3ddb07cb6f3db82a
-  GoogleAPIClientForREST: 538a8ad0014fd88b78894e77100775a6b0a4f7ed
   GoogleAppMeasurement: 9ff7b9e23cced93a5a41736c09bdeb5b5b7fb111
   GoogleDataTransport: 04c3e9a480bbcaa2ec3f5d27f1cdeb6a92f20c8d
-  GoogleSignIn: 7137d297ddc022a7e0aa4619c86d72c909fa7213
   GoogleUtilities: f8a43108b38a68eebe8b3540e1f4f2d28843ce20
-  GTMAppAuth: ad5c2b70b9a8689e1a04033c9369c4915bfcbe89
-  GTMSessionFetcher: b3503b20a988c4e20cc189aa798fd18220133f52
   nanopb: a0ba3315591a9ae0a16a309ee504766e90db0c96
   PPHelpMe: 243c40d2fad33ebdcc6b158c0db54893e0cc2d14
   PPRevealSideViewController: eb2109c91688f34647dc8427d683f1d43ec012f9
   PromisesObjC: 3113f7f76903778cf4a0586bd1ab89329a0b7b97
   Reachability: 33e18b67625424e47b6cde6d202dce689ad7af96
   Specta: 3e1bd89c3517421982dc4d1c992503e48bd5fe66
-  WTLibrary-iOS: e7c864b9804e217651623d67c928169304f41805
+  WTLibrary-iOS: d347bb90b58d06ed94fd9871e9f67593491c5cc6
 
-PODFILE CHECKSUM: c2132ef8f136e7aaa54deaa5d4e5c46c8aa51182
+PODFILE CHECKSUM: 1d07fecca9ae25323009cf5ead298abe3dfe7dde
 
-COCOAPODS: 1.10.1
+COCOAPODS: 1.11.3

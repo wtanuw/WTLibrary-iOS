@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "AGWindowView.h"
+#import <AGWindowView/AGWindowView.h>
 
 #define WTSwipeModalView_VERSION 0x00010000
 

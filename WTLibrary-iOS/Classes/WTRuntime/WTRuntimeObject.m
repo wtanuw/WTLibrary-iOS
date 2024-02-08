@@ -219,7 +219,6 @@ NSString *CamelCaseToUnderscores(NSString *input) {
              @"projectName": _projectName,
              @"isIOS": [NSNumber numberWithBool:_isIOS],
              @"isMacOS": [NSNumber numberWithBool:_isMacOS],
-             @"projectName": _projectName,
              @"projectFolderPath": _projectFolderPath,
              @"mainBundleName": _mainBundle.bundleName,
              @"mainBundle": [_mainBundle exportJSON],

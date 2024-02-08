@@ -12,6 +12,7 @@
 
 #import "WTPath.h"
 #import "WTMacro.h"
+#import "WTBundleInfo.h"
 
 @interface WTPath() {
 }
@@ -108,23 +109,56 @@
     return httpString;
 }
 
++ (NSString*)addAppStoreId:(NSString*)appstoreIdString
+{
+    return @"";
+}
+
 + (void)openItunes
 {
 #if TARGET_OS_IPHONE
-    //open link in app store
-    NSString *itmsString = [self itunesAppstorePath];
     
-    NSString *httpString = [self itunesBrowserPath];
+    //open link in app store
+//    NSString *itmsString = [self itunesAppstorePath];
+//
+//    NSString *httpString = [self itunesBrowserPath];
+    
+    NSString *itmsString = @"";
+    
+    NSString *httpString = @"";
     
     //check if can open the link in app store
-    if ([[UIApplication sharedApplication] canOpenURL:[NSURL URLWithString:itmsString]])
-    {
-        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:itmsString]];
+    if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"8.0")) {
+#if IS_IOS_BASE_SDK_ATLEAST(__IPHONE_10_0)
+        if ([[UIApplication sharedApplication] respondsToSelector:@selector(openURL:options:completionHandler:)])
+        {
+            if ([[UIApplication sharedApplication] canOpenURL:[NSURL URLWithString:itmsString]])
+            {
+                [[UIApplication sharedApplication] openURL:[NSURL URLWithString:itmsString] options:@{} completionHandler:nil];
+            }
+            else
+            {
+                [[UIApplication sharedApplication] openURL:[NSURL URLWithString:httpString] options:@{} completionHandler:nil];
+            }
+        }
+#if IS_IOS_DEPLOY_TARGET_BELOW(__IPHONE_10_0)
+        else
+#endif
+#endif
+#if IS_IOS_DEPLOY_TARGET_BELOW(__IPHONE_10_0)
+        {
+            if ([[UIApplication sharedApplication] canOpenURL:[NSURL URLWithString:itmsString]])
+            {
+                [[UIApplication sharedApplication] openURL:[NSURL URLWithString:itmsString]];
+            }
+            else
+            {
+                [[UIApplication sharedApplication] openURL:[NSURL URLWithString:httpString]];
+            }
+        }
+#endif
     }
-    else
-    {
-        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:httpString]];
-    }
+    
 #elif TARGET_OS_MAC
 #endif
 }
@@ -132,11 +166,41 @@
 + (void)openSettingApp;
 {
 #if TARGET_OS_IPHONE
+    
     if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"8.0")) {
-        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:UIApplicationOpenSettingsURLString]];
+#if IS_IOS_BASE_SDK_ATLEAST(__IPHONE_10_0)
+        if ([[UIApplication sharedApplication] respondsToSelector:@selector(openURL:options:completionHandler:)])
+        {
+            [[UIApplication sharedApplication] openURL:[NSURL URLWithString:UIApplicationOpenSettingsURLString] options:@{} completionHandler:nil];
+        }
+#if IS_IOS_DEPLOY_TARGET_BELOW(__IPHONE_10_0)
+        else
+#endif
+#endif
+#if IS_IOS_DEPLOY_TARGET_BELOW(__IPHONE_10_0)
+        {
+            [[UIApplication sharedApplication] openURL:[NSURL URLWithString:UIApplicationOpenSettingsURLString]];
+        }
+#endif
     }
+    
 #elif TARGET_OS_MAC
 #endif
+}
+
+
+@end
+
+@implementation WTPath(OnDemand)
+
++ (NSString*)onDemandPathForTag:(NSString*)tag
+{
+    return [[WTBundleInfo onDemandBundleForTag:tag] resourcePath];
+}
+
++ (NSString*)onDemandPathForTag:(NSString*)tag fileName:(NSString*)fileName
+{
+    return [[WTBundleInfo onDemandBundleForTag:tag] pathForResource:fileName ofType:nil];
 }
 
 @end

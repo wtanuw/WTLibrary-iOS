@@ -133,42 +133,42 @@ extern NSString * const AQGridViewSelectionDidChangeNotification;
     
 	struct
 	{
-		unsigned	resizesCellWidths:1;
-		unsigned	numColumns:6;
-		unsigned	separatorStyle:3;
-		unsigned	allowsSelection:1;
-		unsigned	backgroundViewExtendsUp:1;
-		unsigned	backgroundViewExtendsDown:1;
-        unsigned    backgroundViewExtendsLeft:1;
-		unsigned    backgroundViewExtendsRight:1;
-        unsigned	usesPagedHorizontalScrolling:1;
-		unsigned    layoutChange:1;
-        unsigned	updating:1;				// unused
-		unsigned	ignoreTouchSelect:1;
-		unsigned	needsReload:1;
-		unsigned	allCellsNeedLayout:1;
-		unsigned	isRotating:1;
-		unsigned	clipsContentWidthToBounds:1;
-		unsigned	isAnimatingUpdates:1;	// unused, see _animationCount instead
-		unsigned	requiresSelection:1;
-		unsigned	contentSizeFillsBounds:1;
+        NSUInteger	resizesCellWidths:1;
+		NSUInteger	numColumns:6;
+        NSUInteger	separatorStyle:3;
+        NSUInteger	allowsSelection:1;
+        NSUInteger	backgroundViewExtendsUp:1;
+        NSUInteger	backgroundViewExtendsDown:1;
+        NSUInteger    backgroundViewExtendsLeft:1;
+        NSUInteger    backgroundViewExtendsRight:1;
+        NSUInteger	usesPagedHorizontalScrolling:1;
+        NSUInteger    layoutChange:1;
+        NSUInteger	updating:1;				// unused
+        NSUInteger	ignoreTouchSelect:1;
+        NSUInteger	needsReload:1;
+        NSUInteger	allCellsNeedLayout:1;
+        NSUInteger	isRotating:1;
+        NSUInteger	clipsContentWidthToBounds:1;
+        NSUInteger	isAnimatingUpdates:1;	// unused, see _animationCount instead
+        NSUInteger	requiresSelection:1;
+        NSUInteger	contentSizeFillsBounds:1;
 
-		unsigned	delegateWillDisplayCell:1;
-		unsigned	delegateWillSelectItem:1;
-        unsigned    delegateWillSelectItemMultiTouch:1;
-		unsigned	delegateWillDeselectItem:1;
-		unsigned	delegateDidSelectItem:1;
-        unsigned    delegateDidSelectItemMultiTouch:1;
-		unsigned	delegateDidDeselectItem:1;
-		unsigned	delegateGestureRecognizerActivated:1;
-		unsigned	delegateAdjustGridCellFrame:1;
-		unsigned    delegateDidEndUpdateAnimation:1;
+        NSUInteger	delegateWillDisplayCell:1;
+        NSUInteger	delegateWillSelectItem:1;
+        NSUInteger    delegateWillSelectItemMultiTouch:1;
+        NSUInteger	delegateWillDeselectItem:1;
+        NSUInteger	delegateDidSelectItem:1;
+        NSUInteger    delegateDidSelectItemMultiTouch:1;
+        NSUInteger	delegateDidDeselectItem:1;
+        NSUInteger	delegateGestureRecognizerActivated:1;
+        NSUInteger	delegateAdjustGridCellFrame:1;
+        NSUInteger    delegateDidEndUpdateAnimation:1;
 
-		unsigned	dataSourceGridCellSize:1;
+        NSUInteger	dataSourceGridCellSize:1;
 
         unsigned int isEditing:1;
 
-		unsigned	__RESERVED__:1;
+        NSUInteger	__RESERVED__:1;
 	} _flags;
 }
 

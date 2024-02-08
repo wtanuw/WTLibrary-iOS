@@ -587,7 +587,6 @@
 				6003F587195388D20070C39A /* Frameworks */,
 				6003F588195388D20070C39A /* Resources */,
 				885D77031F0CE6F70008AD51 /* Run Script Increase build version */,
-				D5E540021CC05CDB1AE00A9E /* [CP] Copy Pods Resources */,
 				B127323A2925A73CAFF91D14 /* [CP-User] WTIncrement */,
 				33C52CA6A6452D625E5AD32D /* [CP-User] WTAppName */,
 			);
@@ -931,7 +930,7 @@
 			name = "[CP-User] Echo";
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\n  echo \"dsym\"  ${DWARF_DSYM_FOLDER_PATH}/${DWARF_DSYM_FILE_NAME}/Contents/Resources/DWARF/${TARGET_NAME}\n  echo \"plist\"  ${BUILT_PRODUCTS_DIR}/${INFOPLIST_PATH}\n  \n\n  BUILD_NUMBER=$(/usr/libexec/PlistBuddy -c \"Print CFBundleVersion\" \"$INFOPLIST_FILE\")\n  BUNDLE_DISPLAY_NAME=$(/usr/libexec/PlistBuddy -c \"Print CFBundleDisplayName\" \"$INFOPLIST_FILE\")\n#  /usr/libexec/PlistBuddy -c \"Set :CFBundleDisplayName $BUILD_NUMBER$BUNDLE_DISPLAY_NAME\" \"$TARGET_BUILD_DIR/$INFOPLIST_PATH\"\n    \n    infoplist=\"$BUILT_PRODUCTS_DIR/$INFOPLIST_PATH\"\n    builddate=`date +\"%Y%m%d\"`\n    if [[ -n \"$builddate\" ]]; then\n#        # if BuildDateString doesnt exist, add it\n#        /usr/libexec/PlistBuddy -c \"Add :BuildDateString string $builddate\" \"${infoplist}\"\n#        # and if BuildDateString already existed, update it\n#        /usr/libexec/PlistBuddy -c \"Set :BuildDateString $builddate\" \"${infoplist}\"\n\n      printf -v ddd \"%(%Y-%m-%d)T\\n\" -1\n      echo \"date r $d r $ddd\"\n    fi\n    d=$builddate\n    echo \"date $d\"\n  BUILD_NUMBER=$(/usr/libexec/PlistBuddy -c \"Print CFBundleVersion\" \"$INFOPLIST_FILE\")\n  BUNDLE_DISPLAY_NAME=$(/usr/libexec/PlistBuddy -c \"Print CFBundleDisplayName\" \"$INFOPLIST_FILE\")\n  BUNDLE_PRODUCT_NAME=$PRODUCT_NAME\n  BUNDLE_DISPLAY_NAME=$BUNDLE_PRODUCT_NAME\n\n  echo \"INFOPLIST_FILE CFBundleDisplayName is \" $BUNDLE_DISPLAY_NAME\n  echo \"INFOPLIST_FILE CFBundleVersion is \" $BUILD_NUMBER\n  echo \"INFOPLIST_FILE ProductName is \" $BUNDLE_PRODUCT_NAME\n\n#  /usr/libexec/PlistBuddy -c \"Set :CFBundleDisplayName $BUILD_NUMBER$BUNDLE_DISPLAY_NAME\" \"$TARGET_BUILD_DIR/$INFOPLIST_PATH\"\n  echo \"TARGET_BUILD_DIR CFBundleDisplayName change to \\\"$BUILD_NUMBER$BUNDLE_DISPLAY_NAME\"\n\n  echo $INFOPLIST_FILE\n  echo $INFOPLIST_PATH\n  echo \"TARGET_BUILD_DIR = \\\"$TARGET_BUILD_DIR\"\n  echo \"BUILT_PRODUCTS_DIR = \\\"$BUILT_PRODUCTS_DIR\"\n  echo \"DEPLOYMENT_LOCATION = \\\"$DEPLOYMENT_LOCATION\"\n  #AAAAA=$(/usr/libexec/PlistBuddy -c \"Print CFBundleDisplayName\" \"$TARGET_BUILD_DIR/$INFOPLIST_PATH\")\n  #echo \"may be \" $AAAAA\n  #/usr/libexec/PlistBuddy -c \"Set :CFBundleDisplayName $BUILD_NUMBER$BUNDLE_DISPLAY_NAME\" \"$INFOPLIST_FILE\"\n  \n";
+			shellScript = "\n  echo \"dsym\"  ${DWARF_DSYM_FOLDER_PATH}/${DWARF_DSYM_FILE_NAME}/Contents/Resources/DWARF/${TARGET_NAME}\n  echo \"plist\"  ${BUILT_PRODUCTS_DIR}/${INFOPLIST_PATH}\n  \n\n  BUILD_NUMBER=$(/usr/libexec/PlistBuddy -c \"Print CFBundleVersion\" \"$INFOPLIST_FILE\")\n  BUNDLE_DISPLAY_NAME=$(/usr/libexec/PlistBuddy -c \"Print CFBundleDisplayName\" \"$INFOPLIST_FILE\")\n#  /usr/libexec/PlistBuddy -c \"Set :CFBundleDisplayName $BUILD_NUMBER$BUNDLE_DISPLAY_NAME\" \"$TARGET_BUILD_DIR/$INFOPLIST_PATH\"\n    \n    infoplist=\"$BUILT_PRODUCTS_DIR/$INFOPLIST_PATH\"\n    builddate=`date +\"%Y%m%d\"`\n    if [[ -n \"$builddate\" ]]; then\n#        # if BuildDateString doesnt exist, add it\n#        /usr/libexec/PlistBuddy -c \"Add :BuildDateString string $builddate\" \"${infoplist}\"\n#        # and if BuildDateString already existed, update it\n#        /usr/libexec/PlistBuddy -c \"Set :BuildDateString $builddate\" \"${infoplist}\"\n\n      printf -v ddd \"%(%Y-%m-%d)T\\n\" -1\n      echo \"date r $d r $ddd\"\n    fi\n    d=$builddate\n    echo \"date $d\"\n  BUILD_NUMBER=$(/usr/libexec/PlistBuddy -c \"Print CFBundleVersion\" \"$INFOPLIST_FILE\")\n  BUNDLE_DISPLAY_NAME=$(/usr/libexec/PlistBuddy -c \"Print CFBundleDisplayName\" \"$INFOPLIST_FILE\")\n  BUNDLE_PRODUCT_NAME=$PRODUCT_NAME\n  BUNDLE_DISPLAY_NAME=$BUNDLE_PRODUCT_NAME\n\n  echo \"INFOPLIST_FILE CFBundleDisplayName is \" $BUNDLE_DISPLAY_NAME\n  echo \"INFOPLIST_FILE CFBundleVersion is \" $BUILD_NUMBER\n  echo \"INFOPLIST_FILE ProductName is \" $BUNDLE_PRODUCT_NAME\n\n#  /usr/libexec/PlistBuddy -c \"Set :CFBundleDisplayName $BUILD_NUMBER$BUNDLE_DISPLAY_NAME\" \"$TARGET_BUILD_DIR/$INFOPLIST_PATH\"\n  echo \"TARGET_BUILD_DIR CFBundleDisplayName change to \\\"$BUILD_NUMBER$BUNDLE_DISPLAY_NAME\"\n\n  echo $INFOPLIST_FILE\n  echo $INFOPLIST_PATH\n  echo \"TARGET_BUILD_DIR = \\\"$TARGET_BUILD_DIR\"\n  echo \"BUILT_PRODUCTS_DIR = \\\"$BUILT_PRODUCTS_DIR\"\n  echo \"DEPLOYMENT_LOCATION = \\\"$DEPLOYMENT_LOCATION\"\n  #AAAAA=$(/usr/libexec/PlistBuddy -c \"Print CFBundleDisplayName\" \"$TARGET_BUILD_DIR/$INFOPLIST_PATH\")\n  #echo \"may be \" $AAAAA\n  #/usr/libexec/PlistBuddy -c \"Set :CFBundleDisplayName $BUILD_NUMBER$BUNDLE_DISPLAY_NAME\" \"$INFOPLIST_FILE\"\n  ";
 		};
 		33C52CA6A6452D625E5AD32D /* [CP-User] WTAppName */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -1075,25 +1074,7 @@
 			name = "[CP-User] FirebaseCrashlytics";
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/FirebaseCrashlytics/run\"\n";
-		};
-		D5E540021CC05CDB1AE00A9E /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-WTLibrary-iOS-ObjC_Example/Pods-WTLibrary-iOS-ObjC_Example-resources.sh",
-				"${PODS_ROOT}/GoogleSignIn/Resources/GoogleSignIn.bundle",
-			);
-			name = "[CP] Copy Pods Resources";
-			outputPaths = (
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/GoogleSignIn.bundle",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-WTLibrary-iOS-ObjC_Example/Pods-WTLibrary-iOS-ObjC_Example-resources.sh\"\n";
-			showEnvVarsInLog = 0;
+			shellScript = "\"${PODS_ROOT}/FirebaseCrashlytics/run\"";
 		};
 		DD9D254A22BDC7CE723CDDFF /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;

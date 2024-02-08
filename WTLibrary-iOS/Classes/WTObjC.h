@@ -14,10 +14,14 @@
 #ifdef __cplusplus
 extern "C" {
 #endif
-    
+
 #import "WTMacro.h"
+#import "WTWatLog.h"
 #import "WTPath.h"
 #import "WTBundleInfo.h"
+#import "WTVersion.h"
+#import "WTWarningARC.h"
+#import "WTUIInterface.h"
     
 #ifdef __cplusplus
 }

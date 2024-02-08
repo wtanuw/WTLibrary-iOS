@@ -7,6 +7,9 @@
 //
 //http://www.rumex.it/2010/07/how-to-customise-the-tab-bar-uitabbar-in-an-iphone-application-part-1-of-2/
 
+#import <WTLibrary_iOS/WTVersion.h>
+#import <WTLibrary_iOS/WTWarningARC.h>
+
 #if WT_NOT_CONSIDER_ARC
 #error This file can be compiled with ARC and without ARC.
 #endif
@@ -161,10 +164,12 @@
 
 #pragma mark -
 
+#if IS_IOS_DEPLOY_TARGET_BELOW(__IPHONE_16_0)
 - (BOOL)shouldAutorotate
 {
     return YES;
 }
+#endif
 
 #if IS_IOS_BASE_SDK_ATLEAST(__IPHONE_6_0)
 - (UIInterfaceOrientationMask)supportedInterfaceOrientations

@@ -29,8 +29,10 @@
 #endif
 
 #import "WTNavigationBar.h"
-#import "WTMacro.h"
 #import <QuartzCore/QuartzCore.h>
+#import <WTLibrary_iOS/WTUIInterface.h>
+#import <WTLibrary_iOS/WTVersion.h>
+#import <WTLibrary_iOS/WTWarningARC.h>
 
 #define MAX_BACK_BUTTON_WIDTH 160.0
 
@@ -73,7 +75,7 @@
     if (navigationBarBackgroundImage){
         
         BOOL havePrompt = NO;
-        if(notGrowPromptIpad && UI_INTERFACE_IDIOM_IS_IPAD()){
+        if(notGrowPromptIpad && [WTUIInterfaceShared UI_INTERFACE_IDIOM_IS_IPAD]){
             
         }else if(self.navigationController.topViewController.navigationItem.prompt){
                 havePrompt = YES;
@@ -393,7 +395,7 @@
     if (navigationBarBackgroundImage){
         // This is how you set the custom size of your UINavigationBar
         BOOL havePrompt = NO;
-        if(UI_INTERFACE_IDIOM_IS_IPAD()){
+        if([WTUIInterfaceShared UI_INTERFACE_IDIOM_IS_IPAD]){
             
         }else if(self.navigationController.topViewController.navigationItem.prompt){
             havePrompt = YES;
@@ -791,7 +793,7 @@
                 NSLog(@"%@",con);
             }
             
-            NSLog(@"%d",self.autoresizingMask);
+            NSLog(@"%lu",(unsigned long)self.autoresizingMask);
             NSLog(@"self: %@",self.superview);
             self.translatesAutoresizingMaskIntoConstraints = NO;
             NSLog(@"%@",self.constraints);
@@ -801,8 +803,8 @@
                 
                 NSLog(@"firstItem %@",con.firstItem);
                 NSLog(@"secondItem %@",con.secondItem);
-                NSLog(@"firstAttribute %d",con.firstAttribute);
-                NSLog(@"secondAttribute %d",con.secondAttribute);
+                NSLog(@"firstAttribute %ld",(long)con.firstAttribute);
+                NSLog(@"secondAttribute %ld",(long)con.secondAttribute);
                 NSLog(@"constant %.2f",con.constant);
                 
                 if (con.firstItem == self && con.firstAttribute == NSLayoutAttributeHeight) {

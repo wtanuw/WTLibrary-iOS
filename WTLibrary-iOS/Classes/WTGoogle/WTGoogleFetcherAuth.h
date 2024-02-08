@@ -31,7 +31,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 /*! @brief The authorization state.
  */
-@property(nonatomic, nullable) GTMAppAuthFetcherAuthorization *authorization;
+@property(nonatomic, strong, nullable) GTMAppAuthFetcherAuthorization *authorization;
 
 /*! @brief Authorization code flow using @c OIDAuthState automatic code exchanges.
     @param sender IBAction sender.

@@ -45,7 +45,6 @@
 @property (nonatomic, readonly) NSMutableDictionary<NSString *, WTRTBundleObject *> *bundles;
 @property (nonatomic, strong) NSString *json;
 + (instancetype)projectObject;
-+ (WTRTProjectObject*)startParser:(NSString*)filePath;
 - (NSString *)exportJSONData;
 @end
 

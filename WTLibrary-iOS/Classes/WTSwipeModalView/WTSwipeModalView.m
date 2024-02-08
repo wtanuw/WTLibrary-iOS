@@ -156,7 +156,7 @@
     // Set up scroll view
     containerScrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 0, screenSize.width, screenSize.height)];
 //    containerScrollView.autoresizingMask = UIViewAutoresizingFlexibleBottomMargin | UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleWidth;
-    containerScrollView.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth;
+    containerScrollView.autoresizingMask =  UIViewAutoresizingFlexibleWidth;
     [containerScrollView setBounces:NO];
     [containerScrollView setShowsHorizontalScrollIndicator:YES];
     [containerScrollView setShowsVerticalScrollIndicator:YES];
@@ -959,14 +959,14 @@
 //    NSInteger curve = [[aNotification userInfo][UIKeyboardAnimationCurveUserInfoKey] integerValue];
 //    _animationCurve = curve<<16;
     
-    //  Getting keyboard animation duration
-    CGFloat duration = [[aNotification userInfo][UIKeyboardAnimationDurationUserInfoKey] floatValue];
-    
+//    //  Getting keyboard animation duration
+//    CGFloat duration = [[aNotification userInfo][UIKeyboardAnimationDurationUserInfoKey] floatValue];
+//    
 //    //Saving animation duration
 //    if (duration != 0.0)    _animationDuration = duration;
     
-    CGSize oldKBSize = _kbSize;
-    
+//    CGSize oldKBSize = _kbSize;
+//
     //  Getting UIKeyboardSize.
     CGRect kbFrame = [[aNotification userInfo][UIKeyboardFrameEndUserInfoKey] CGRectValue];
     
@@ -986,7 +986,7 @@
     
 //    if ([self privateIsEnabled] == NO)    return;
     
-    CFTimeInterval startTime = CACurrentMediaTime();
+//    CFTimeInterval startTime = CACurrentMediaTime();
 //    [self showLog:[NSString stringWithFormat:@"****** %@ started ******",NSStringFromSelector(_cmd)]];
     
 //    UIView *textFieldView = _textFieldView;
@@ -1034,7 +1034,7 @@
 {
 //    if ([self privateIsEnabled] == NO)    return;
     
-    CFTimeInterval startTime = CACurrentMediaTime();
+//    CFTimeInterval startTime = CACurrentMediaTime();
 //    [self showLog:[NSString stringWithFormat:@"****** %@ started ******",NSStringFromSelector(_cmd)]];
     
 //    UIView *textFieldView = _textFieldView;
@@ -1054,7 +1054,7 @@
 //    originalView = sourceView;
 //    originalViewRect = [originalView.superview convertRect:originalView.frame toView:_agWindow];;
     
-    CGPoint calculateCenter = [originalView.superview convertPoint:originalView.center toView:_agWindow];
+//    CGPoint calculateCenter = [originalView.superview convertPoint:originalView.center toView:_agWindow];
     
     self.show = YES;
 //    self->containerView.center = calculateCenter;
@@ -1072,7 +1072,7 @@
     
 //    }
     
-    CFTimeInterval elapsedTime = CACurrentMediaTime() - startTime;
+//    CFTimeInterval elapsedTime = CACurrentMediaTime() - startTime;
 //    [self showLog:[NSString stringWithFormat:@"****** %@ ended: %g seconds ******\n",NSStringFromSelector(_cmd),elapsedTime]];
 }
 
@@ -1095,7 +1095,7 @@
     //If not enabled then do nothing.
 //    if ([self privateIsEnabled] == NO)    return;
     
-    CFTimeInterval startTime = CACurrentMediaTime();
+//    CFTimeInterval startTime = CACurrentMediaTime();
 //    [self showLog:[NSString stringWithFormat:@"****** %@ started ******",NSStringFromSelector(_cmd)]];
     
     //Commented due to #56. Added all the conditions below to handle UIWebView's textFields.    (Bug ID: #56)
@@ -1157,14 +1157,16 @@
 /*  UIKeyboardDidHideNotification. So topViewBeginRect can be set to CGRectZero. */
 - (void)keyboardDidHide:(NSNotification*)aNotification
 {
-    CFTimeInterval startTime = CACurrentMediaTime();
+//    CFTimeInterval startTime = CACurrentMediaTime();
 //    [self showLog:[NSString stringWithFormat:@"****** %@ started ******",NSStringFromSelector(_cmd)]];
     
 //    _topViewBeginOrigin = kIQCGPointInvalid;
     
     _kbSize = CGSizeZero;
     
-    CFTimeInterval elapsedTime = CACurrentMediaTime() - startTime;
+    [self adjustPosition];
+    
+//    CFTimeInterval elapsedTime = CACurrentMediaTime() - startTime;
 //    [self showLog:[NSString stringWithFormat:@"****** %@ ended: %g seconds ******\n",NSStringFromSelector(_cmd),elapsedTime]];
 }
 

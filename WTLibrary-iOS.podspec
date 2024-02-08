@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
 s.name             = 'WTLibrary-iOS'
-s.version          = '0.4.1'
+s.version          = '0.4.5'
 s.summary          = 'summary with WTLibrary-iOS.'
 
 # This description is used to generate tags and improve search results.
@@ -29,7 +29,8 @@ s.author           = { 'wtanuw' => 'wat_wtanuw@hotmail.com' }
 s.source           = { :git => 'https://github.com/wtanuw/WTLibrary-iOS.git', :tag => s.version.to_s }
 # s.social_media_url = 'https://twitter.com/<TWITTER_USERNAME>'
 
-s.ios.deployment_target = '9.0'
+#s.ios.deployment_target = '9.0'
+s.ios.deployment_target = '12.0' # 231218 + xcode 14.2
 s.osx.deployment_target = '10.12'
 
 # s.source_files = 'WTLibrary-iOS/Classes/**/*'
@@ -52,6 +53,14 @@ s.default_subspec = 'WTObjC'
 s.subspec 'WTObjC' do |subspec|
 subspec.source_files = 'WTLibrary-iOS/Classes/WT*.{h,m}'
 subspec.frameworks = 'QuartzCore'
+end
+
+##################################################20240110
+
+s.subspec 'OCProgress' do |subspec|
+subspec.source_files = 'WTLibrary-iOS/Library/OCProgress/*.{h,m}'
+subspec.requires_arc = false
+subspec.frameworks = 'UIKit'
 end
 
 ##################################################
@@ -79,6 +88,13 @@ end
 
 ##################################################
 
+s.subspec 'KLCPopup' do |subspec|
+subspec.dependency 'WTLibrary-iOS/WTObjC'
+subspec.source_files = 'WTLibrary-iOS/Classes/KLCPopup/*.{h,m}'
+end
+
+##################################################
+
 s.subspec 'MetadataRetriever' do |subspec|
 subspec.dependency 'WTLibrary-iOS/WTObjC'
 subspec.source_files = 'WTLibrary-iOS/Classes/MetadataRetriever/*.{h,m}'
@@ -96,6 +112,15 @@ end
 ##################################################
 
 s.subspec 'WTDropbox' do |subspec|
+subspec.dependency 'WTLibrary-iOS/WTObjC'
+#subspec.dependency 'ObjectiveDropboxOfficial', '3.9.1'
+subspec.dependency 'ObjectiveDropboxOfficial', '7.0.0'
+subspec.source_files = 'WTLibrary-iOS/Classes/WTDropbox/*.{h,m}'
+end
+
+##################################################
+
+s.subspec 'WTDropbox6' do |subspec|
 subspec.dependency 'WTLibrary-iOS/WTObjC'
 #subspec.dependency 'ObjectiveDropboxOfficial', '3.9.1'
 subspec.dependency 'ObjectiveDropboxOfficial', '6.0.0'
@@ -130,7 +155,7 @@ end
 s.subspec 'WTGoogle' do |subspec|
 #subspec.ios.deployment_target = '11.0'
 subspec.dependency 'WTLibrary-iOS/WTObjC'
-subspec.dependency 'GoogleAPIClientForREST/Drive'#, '~> 1.1.1' # drive
+subspec.dependency 'GoogleAPIClientForREST/Drive', '~> 1.6.0' # drive
 #subspec.dependency 'GTMOAuth2', '~> 1.1.4'
 #subspec.dependency 'GTMSessionFetcher'
 subspec.dependency 'GTMAppAuth' ,'~> 1.2.2' # login
@@ -200,7 +225,8 @@ end
 ##################################################
 
 s.subspec 'WTSwift' do |subspec|
-subspec.dependency 'AFDateHelper', '~> 4.1'
+#  subspec.dependency 'AFDateHelper', '~> 4.1'
+  subspec.dependency 'AFDateHelper', '~> 4.3'
 subspec.source_files = 'WTLibrary-iOS/Swift/*'
 subspec.pod_target_xcconfig = { 'SWIFT_VERSION' => '4.2' }
 end
@@ -252,6 +278,23 @@ end
 #s.subspec 'WTAppName' do |subspec|
 #s.script_phase = { :name => 'WTAppName', :script => 'echo "Hello World"' }
 #end
+
+##################################################
+
+s.subspec 'WTMetal' do |subspec|
+subspec.dependency 'WTLibrary-iOS/WTObjC'
+subspec.dependency 'EZAudio', '1.1.5'
+subspec.frameworks = 'Metal', 'MetalKit', 'AVFoundation'
+subspec.source_files = 'WTLibrary-iOS/Classes/WTMetal/*.{h,m}'
+end
+
+##################################################20240129
+
+s.subspec 'WTVolumeView' do |subspec|
+subspec.source_files = 'WTLibrary-iOS/Classes/WTVolumeView/WT*.{h,m}'
+subspec.resource = 'WTLibrary-iOS/Classes/WTVolumeView/WT*.{storyboard}', 'WTLibrary-iOS/Classes/WTVolumeView/*.{xcassets}'
+subspec.frameworks = 'QuartzCore'
+end
 
 ##################################################
 

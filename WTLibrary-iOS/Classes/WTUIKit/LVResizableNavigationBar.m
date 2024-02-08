@@ -19,6 +19,7 @@
 //
 
 #import "LVResizableNavigationBar.h"
+#import <WTLibrary_iOS/WTUIInterface.h>
 
 CGFloat const LVNavigationBarHeight = 44.0;
 CGFloat const LVStatusBarHeight = 20.0;
@@ -73,7 +74,7 @@ CGFloat const LVAnimationDuration = 0.25;
 - (void)layoutSubviews {
   [super layoutSubviews];
   CGRect frame = self.frame;
-  frame.origin.y = ([[UIApplication sharedApplication] isStatusBarHidden] ? 0 : LVStatusBarHeight) - _extraHeight;
+  frame.origin.y = ([WTUIInterfaceShared isStatusBarHidden] ? 0 : LVStatusBarHeight) - _extraHeight;
   self.frame = frame;
   NSArray *classNamesToReposition = @[@"_UINavigationBarBackground"];
   

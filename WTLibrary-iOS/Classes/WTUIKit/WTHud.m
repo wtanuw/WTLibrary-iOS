@@ -12,6 +12,13 @@
 
 #import "WTHud.h"
 #import <QuartzCore/QuartzCore.h>
+#import <AvailabilityVersions.h>
+#import <WTLibrary_iOS/WTUIInterface.h>
+#import <WTLibrary_iOS/WTVersion.h>
+
+#define WTLibrary_iOS_WTHud_VERSION 0x00030024
+#define WTLibrary_iOS_WTHud_API_VERSION_13 __IPHONE_13_0
+#define WTLibrary_iOS_WTHud_API_VERSION_06 __IPHONE_6_0
 
 @interface WTHud ()
 
@@ -36,6 +43,7 @@
 @property (nonatomic, retain, readonly) UIActivityIndicatorView *indicatorView;
 
 @property (nonatomic, readonly) CGFloat visibleKeyboardHeight;
+@property (nonatomic, retain) UIWindow *overlayWindow;
 
 - (void)updatePosition;
 - (void)registerNotifications;
@@ -107,7 +115,20 @@
     [WTHud setHudHudType:WTHudHudTypeOpaqe];
     [WTHud setHudSize:CGSizeMake(100, 100)];
     [WTHud setCornerOffset:CGSizeZero];
-    [WTHud setIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
+    #if IS_IOS_BASE_SDK_ATLEAST(WTLibrary_iOS_WTHud_API_VERSION_13)
+    if (@available(iOS 13.0, *))
+      {
+          [WTHud setIndicatorStyle:UIActivityIndicatorViewStyleLarge];
+      }
+    #if IS_IOS_DEPLOY_TARGET_BELOW(WTLibrary_iOS_WTHud_API_VERSION_13)
+      else
+    #endif
+    #endif
+    #if IS_IOS_DEPLOY_TARGET_BELOW(WTLibrary_iOS_WTHud_API_VERSION_13)
+      {
+          [WTHud setIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
+      }
+    #endif
     [WTHud showHud];
 }
 
@@ -141,6 +162,12 @@
 
 + (BOOL)isAnimation {
     return ([[WTHud sharedManager] isAnimation]);
+}
+
++ (void)viewWillTransitionToSize:(CGSize)size
+       withTransitionCoordinator:(id<UIViewControllerTransitionCoordinator>)coordinator;
+{
+//    [self positionHUD];
 }
 
 #pragma mark - Instance Methods
@@ -189,7 +216,21 @@
         
         [self setStatus:nil];
         [self setImage:nil];
-        [self setIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
+#if IS_IOS_BASE_SDK_ATLEAST(WTLibrary_iOS_WTHud_API_VERSION_13)
+        if (@available(iOS 13.0, *))
+        {
+            [WTHud setIndicatorStyle:UIActivityIndicatorViewStyleLarge];
+            
+        }
+#if IS_IOS_DEPLOY_TARGET_BELOW(WTLibrary_iOS_WTHud_API_VERSION_13)
+        else
+#endif
+#endif
+#if IS_IOS_DEPLOY_TARGET_BELOW(WTLibrary_iOS_WTHud_API_VERSION_13)
+        {
+            [WTHud setIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
+        }
+#endif
     }
 	
     return self;
@@ -342,8 +383,10 @@
 }
 
 - (void)setFadeOutTimer:(NSTimer *)newTimer {
-    if(fadeOutTimer)
-        [fadeOutTimer invalidate], fadeOutTimer = nil;
+    if(fadeOutTimer) {
+        [fadeOutTimer invalidate];
+        fadeOutTimer = nil;
+    }
     
     if(newTimer)
         fadeOutTimer = newTimer;
@@ -374,10 +417,12 @@
 - (void)registerNotifications {
     [[self hudContainer] addObserver:self forKeyPath:@"frame" options:NSKeyValueObservingOptionNew|NSKeyValueObservingOptionOld context:nil];
     
+#if IS_IOS_DEPLOY_TARGET_BELOW(WTLibrary_iOS_WTHud_API_VERSION_13)
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(positionHUD:)
                                                  name:UIApplicationDidChangeStatusBarOrientationNotification
                                                object:nil];
+#endif
     
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(positionHUD:)
@@ -419,7 +464,7 @@
                 CGPoint newCenter;
                 CGFloat rotateAngle;
                 
-                UIInterfaceOrientation orientation = [[UIApplication sharedApplication] statusBarOrientation];
+                UIInterfaceOrientation orientation = [WTUIInterfaceShared statusBarOrientation];
                 
                 switch (orientation) {
                     case UIInterfaceOrientationPortraitUpsideDown:
@@ -455,7 +500,7 @@
     CGFloat keyboardHeight;
     double animationDuration = 0.3;
     
-    UIInterfaceOrientation orientation = [[UIApplication sharedApplication] statusBarOrientation];
+    UIInterfaceOrientation orientation = [WTUIInterfaceShared statusBarOrientation];
     
     if(notification) {
         NSDictionary* keyboardInfo = [notification userInfo];
@@ -474,7 +519,7 @@
     }
     
     CGRect orientationFrame = [UIScreen mainScreen].bounds;
-    CGRect statusBarFrame = [UIApplication sharedApplication].statusBarFrame;
+    CGRect statusBarFrame = [WTUIInterfaceShared statusBarFrame];
     
     if(UIInterfaceOrientationIsLandscape(orientation)) {
         float temp = orientationFrame.size.width;
@@ -634,7 +679,21 @@
     [self setHudHudType:WTHudHudTypeOpaqe];
     [self setHudSize:CGSizeMake(100, 100)];
     [self setCornerOffset:CGSizeZero];
-    [self setIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
+#if IS_IOS_BASE_SDK_ATLEAST(WTLibrary_iOS_WTHud_API_VERSION_13)
+        if (@available(iOS 13.0, *))
+        {
+            [WTHud setIndicatorStyle:UIActivityIndicatorViewStyleLarge];
+            
+        }
+#if IS_IOS_DEPLOY_TARGET_BELOW(WTLibrary_iOS_WTHud_API_VERSION_13)
+        else
+#endif
+#endif
+#if IS_IOS_DEPLOY_TARGET_BELOW(WTLibrary_iOS_WTHud_API_VERSION_13)
+        {
+            [WTHud setIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
+        }
+#endif
     [self showHud];
 }
     
@@ -697,12 +756,14 @@
     if(self.alpha != 1) {
         animation = YES;
         [self registerNotifications];
+        __weak WTHud *weak_self = self;
+        
         switch (hudAnimationType) {
             case WTHudAnimationTypeNone:
             {
-                self.alpha = 1;
-                animation = NO;
-                UIAccessibilityPostNotification(UIAccessibilityScreenChangedNotification, self.stringLabel.text);
+                weak_self.alpha = 1;
+                weak_self.animation = NO;
+                UIAccessibilityPostNotification(UIAccessibilityScreenChangedNotification, weak_self.stringLabel.text);
             }
                 break;
                 
@@ -712,12 +773,12 @@
                                       delay:0
                                     options:UIViewAnimationOptionAllowUserInteraction | UIViewAnimationCurveEaseOut | UIViewAnimationOptionBeginFromCurrentState
                                  animations:^{
-                                     self.alpha = 1;
-                                 }
+                                    weak_self.alpha = 1;
+                                }
                                  completion:^(BOOL finished){
-                                     animation = NO;
-                                     UIAccessibilityPostNotification(UIAccessibilityScreenChangedNotification, self.stringLabel.text);
-                                 }];
+                                    weak_self.animation = NO;
+                                    UIAccessibilityPostNotification(UIAccessibilityScreenChangedNotification, weak_self.stringLabel.text);
+                                }];
             }
                 break;
                 
@@ -730,12 +791,12 @@
                                       delay:0
                                     options:UIViewAnimationOptionAllowUserInteraction | UIViewAnimationCurveEaseOut | UIViewAnimationOptionBeginFromCurrentState
                                  animations:^{
-                                     [self hudContainer].transform = CGAffineTransformScale([self hudContainer].transform, 1/1.3, 1/1.3);
-                                     self.alpha = 1;
+                                    [weak_self hudContainer].transform = CGAffineTransformScale([weak_self hudContainer].transform, 1/1.3, 1/1.3);
+                                    weak_self.alpha = 1;
                                  }
                                  completion:^(BOOL finished){
-                                     animation = NO;
-                                     UIAccessibilityPostNotification(UIAccessibilityScreenChangedNotification, self.stringLabel.text);
+                                    weak_self.animation = NO;
+                                    UIAccessibilityPostNotification(UIAccessibilityScreenChangedNotification, weak_self.stringLabel.text);
                                  }];
             }
                 break;
@@ -769,39 +830,42 @@
         }
     }
     
-    if(fadeOutTimer)
-        [fadeOutTimer invalidate], fadeOutTimer = nil;
+    if(fadeOutTimer) {
+        [fadeOutTimer invalidate];
+        fadeOutTimer = nil;
+    }
     
     [self stopAnimateIndicator];
     
     animation = YES;
+    __weak WTHud *weak_self = self;
     
     [UIView animateWithDuration:0.15
                           delay:0
                         options:UIViewAnimationCurveEaseIn | UIViewAnimationOptionAllowUserInteraction
                      animations:^{
-                         switch (hudAnimationType) {
+                         switch (weak_self.hudAnimationType) {
                              case WTHudAnimationTypeNone:
                              {
-                                 self.alpha = 0;
+                                 weak_self.alpha = 0;
                              }
                                  break;
                              case WTHudAnimationTypeFade:
                              {
-                                 self.alpha = 0;
+                                 weak_self.alpha = 0;
                              }
                                  break;
                              case WTHudAnimationTypeZoomOutZoomOut:
                              default:
                              {
-                                 [self hudContainer].transform = CGAffineTransformScale([self hudContainer].transform, 0.8, 0.8);
-                                 self.alpha = 0;
+                                 [weak_self hudContainer].transform = CGAffineTransformScale([weak_self hudContainer].transform, 0.8, 0.8);
+                                 weak_self.alpha = 0;
                              }
                                  break;
                          }
                      }
                      completion:^(BOOL finished){
-                         if(self.alpha == 0) {
+                         if(weak_self.alpha == 0) {
                              [[NSNotificationCenter defaultCenter] removeObserver:self];
                              
 //                             if([self isSharedHud]){
@@ -814,10 +878,10 @@
 ////                                 hudContainer = nil;
 //                             }
                              
-                             if([self isSharedHud]){
-                                 [overlayWindow removeFromSuperview];
+                             if([weak_self isSharedHud]){
+                                 [weak_self.overlayWindow removeFromSuperview];
                                  WT_SAFE_ARC_RELEASE(overlayWindow);
-                                 overlayWindow = nil;
+                                 weak_self.overlayWindow = nil;
 //                                 [overlayView removeFromSuperview];
 //                                 [overlayView release];
 //                                 overlayView = nil;
@@ -827,7 +891,7 @@
 //                                 overlayView = nil;
                              }
                              
-                             animation = NO;
+                             weak_self.animation = NO;
                              UIAccessibilityPostNotification(UIAccessibilityScreenChangedNotification, nil);
                              
                              // uncomment to make sure UIWindow is gone from app.windows
@@ -901,10 +965,19 @@
 		stringLabel.textColor = [UIColor whiteColor];
 		stringLabel.backgroundColor = [UIColor clearColor];
 		stringLabel.adjustsFontSizeToFitWidth = YES;
-#if __IPHONE_OS_VERSION_MIN_REQUIRED < 60000
-        stringLabel.textAlignment = UITextAlignmentCenter;
-#else
-        stringLabel.textAlignment = NSTextAlignmentCenter;
+#if IS_IOS_BASE_SDK_ATLEAST(WTLibrary_iOS_WTHud_API_VERSION_06)
+        if (@available(iOS 6.0, *))
+          {
+              stringLabel.textAlignment = NSTextAlignmentCenter;
+          }
+#if IS_IOS_DEPLOY_TARGET_BELOW(WTLibrary_iOS_WTHud_API_VERSION_06)
+        else
+#endif
+#endif
+#if IS_IOS_DEPLOY_TARGET_BELOW(WTLibrary_iOS_WTHud_API_VERSION_06)
+        {
+            stringLabel.textAlignment = UITextAlignmentCenter;
+        }
 #endif
 		stringLabel.baselineAdjustment = UIBaselineAdjustmentAlignCenters;
 		stringLabel.font = [UIFont boldSystemFontOfSize:16];
@@ -932,7 +1005,21 @@
 
 - (UIActivityIndicatorView *)indicatorView {
     if (indicatorView == nil) {
-        indicatorView = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
+#if IS_IOS_BASE_SDK_ATLEAST(WTLibrary_iOS_WTHud_API_VERSION_13)
+        if (@available(iOS 13.0, *))
+        {
+            indicatorView = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleLarge];;
+            
+        }
+#if IS_IOS_DEPLOY_TARGET_BELOW(WTLibrary_iOS_WTHud_API_VERSION_13)
+        else
+#endif
+#endif
+#if IS_IOS_DEPLOY_TARGET_BELOW(WTLibrary_iOS_WTHud_API_VERSION_13)
+        {
+            indicatorView = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
+        }
+#endif
 		indicatorView.hidesWhenStopped = YES;
 		indicatorView.bounds = CGRectMake(0, 0, 37, 37);
     }

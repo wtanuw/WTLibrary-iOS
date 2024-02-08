@@ -7,7 +7,6 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "WTMacro.h"
 
 #define nHideTabFooterWithPushAnimationNotification @"hideTab"
 #define nShowTabFooterWithPopAnimationNotification @"showTab"

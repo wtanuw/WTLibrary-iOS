@@ -132,7 +132,7 @@ target 'WTLibrary-iOS-ObjC_Example' do
   pod 'WTLibrary-iOS/MetadataRetriever', :path => '../'
   pod 'WTLibrary-iOS/WTDatabase', :path => '../'
 #  pod 'WTLibrary-iOS/WTGoogle1', :path => '../'
-  pod 'WTLibrary-iOS/WTGoogle', :path => '../'
+#  pod 'WTLibrary-iOS/WTGoogle', :path => '../'
   pod 'WTLibrary-iOS/WTLocation', :path => '../'
   pod 'WTLibrary-iOS/WTSNS', :path => '../'
   pod 'WTLibrary-iOS/WTStoreKit', :path => '../'
@@ -142,6 +142,7 @@ target 'WTLibrary-iOS-ObjC_Example' do
   pod 'WTLibrary-iOS/WTRuntime', :path => '../'
   pod 'WTLibrary-iOS/WTiOS', :path => '../'
   pod 'WTLibrary-iOS/WTmacOS', :path => '../'
+  pod 'WTLibrary-iOS/KLCPopup', :path => '../'
   
 #  import_pods2
   import_pods_increment

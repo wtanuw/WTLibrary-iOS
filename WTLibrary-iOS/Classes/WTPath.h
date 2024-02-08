@@ -7,8 +7,9 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <AvailabilityMacros.h>
 
-#define WTPath_VERSION 0x00020003
+#define WTPath_VERSION 0x00020004
 
 @interface WTPath : NSObject
 
@@ -32,12 +33,22 @@
 + (NSString*)resourcePathByAppend:(NSString*)path;
 
 
-+ (NSString*)itunesAppstorePath;
++ (NSString*)itunesAppstorePath DEPRECATED_MSG_ATTRIBUTE("still use fix path.");
 
-+ (NSString*)itunesBrowserPath;
++ (NSString*)itunesBrowserPath DEPRECATED_MSG_ATTRIBUTE("still use fix path.");
 
 + (void)openItunes;
 
 + (void)openSettingApp;
+
+
++ (NSString*)addAppStoreId:(NSString*)appstoreIdString;
+
+@end
+
+@interface WTPath(OnDemand)
+
++ (NSString*)onDemandPathForTag:(NSString*)tag;
++ (NSString*)onDemandPathForTag:(NSString*)tag fileName:(NSString*)fileName;
 
 @end

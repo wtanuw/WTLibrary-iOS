@@ -22,7 +22,7 @@
 
 @protocol ResizeableNavigationBar;
 
-typedef void(^colorChanged)();
+typedef void(^colorChanged)(void);
 
 //extern CGFloat const LVNavigationBarHeight;
 //extern CGFloat const LVStatusBarHeight;
