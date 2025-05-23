@@ -19,6 +19,7 @@
 //
 
 #import "WTLVResizableNavigationBar.h"
+#import <WTLibrary_iOS/WTWatLog.h>
 //#import "LVResizableNavigationBar.h"
 
 //CGFloat const LVNavigationBarHeight = 44.0;
@@ -216,9 +217,9 @@
     
 //    self.navigationBar.tintColor = [UIColor blackColor];
     
-    WatLog(@"self.navigationBar.frame %@  ",NSStringFromCGRect(self.navigationBar.frame), topPadding);
+    WatLog(@"self.navigationBar.frame %@  , %f",NSStringFromCGRect(self.navigationBar.frame), topPadding);
     self.navigationBar.frame = CGRectMake(self.navigationBar.frame.origin.x, topPadding,  self.navigationBar.frame.size.width, self.navigationBar.frame.size.height);
-    WatLog(@"self.navigationBar.frame %@  ",NSStringFromCGRect(self.navigationBar.frame), topPadding);
+    WatLog(@"self.navigationBar.frame %@  , %f",NSStringFromCGRect(self.navigationBar.frame), topPadding);
 
     // title position (statusbar height / 2)
 //    [self.navigationBar setTitleVerticalPositionAdjustment:-10 forBarMetrics:UIBarMetricsDefault];
@@ -236,7 +237,7 @@
             [subview setFrame:frame];
 //            subview.backgroundColor = [UIColor yellowColor];
 WatLog(@"bounds.origin %@  - toppad %.2f",NSStringFromCGRect(bounds), topPadding);
-WatLog(@"frame %@  ",NSStringFromCGRect(frame), topPadding);
+WatLog(@"frame %@  , %f",NSStringFromCGRect(frame), topPadding);
         }
         
         stringFromClass = NSStringFromClass(subview.classForCoder);
@@ -508,7 +509,7 @@ WatLog(@"frame %@  ",NSStringFromCGRect(frame), topPadding);
     WatLog(@"\n   bar topPadding %f  ",topPadding);
     WatLog(@"\n   bar self.navigationBar.frame %@  ",NSStringFromCGRect(self.navigationBar.frame));
 //    self.navigationBar.frame = CGRectMake(self.navigationBar.frame.origin.x, topPadding,  self.navigationBar.frame.size.width, self.navigationBar.frame.size.height);
-    WatLog(@"\n   bfar self.navigationBar.frame %@  ",NSStringFromCGRect(self.navigationBar.frame), topPadding);
+    WatLog(@"\n   bfar self.navigationBar.frame %@  , %f",NSStringFromCGRect(self.navigationBar.frame), topPadding);
 
     // title position (statusbar height / 2)
 //    [self.navigationBar setTitleVerticalPositionAdjustment:-10 forBarMetrics:UIBarMetricsDefault];
@@ -542,7 +543,7 @@ WatLog(@"frame %@  ",NSStringFromCGRect(frame), topPadding);
             [subview setFrame:frame];
 //            subview.backgroundColor = [UIColor yellowColor];
 WatLog(@"\n ---bar bounds.origin - toppad = %@ - %.2f",NSStringFromCGRect(bounds), topPadding);
-WatLog(@"\n -++-bar frame = %@  ",NSStringFromCGRect(frame), topPadding);
+WatLog(@"\n -++-bar frame = %@  , %f",NSStringFromCGRect(frame), topPadding);
         }
         
         stringFromClass = NSStringFromClass(subview.classForCoder);
@@ -663,10 +664,10 @@ WatLog(@"\n -++-bar frame = %@  ",NSStringFromCGRect(frame), topPadding);
     WatLog(@"\n   bar topPadding = %f \n",topPadding);
 //  [self sizeToFit];
   CGRect frame = [self.navigationBar frame];
-  WatLog(@"\n   bar navigationBar.frame = %f \n",NSStringFromCGRect(frame));
+  WatLog(@"\n   bar navigationBar.frame = %@ \n",NSStringFromCGRect(frame));
     frame.origin.y = self.navigationBar.translucent ? 0 : topPadding;
   self.navigationBar.frame = frame;
-  WatLog(@"\n   bar navigationBar.frame = %f \n",NSStringFromCGRect(frame));
+  WatLog(@"\n   bar navigationBar.frame = %@ \n",NSStringFromCGRect(frame));
 }
 
 @end

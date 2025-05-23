@@ -15,8 +15,8 @@
 @property (nonatomic, strong) NSArray<NSBundle *> *allBundle;
 @property (nonatomic, strong) NSDictionary *infoDictionary;
 
-@property (nonatomic, strong) NSMutableDictionary *onDemandBundleDictionary;
-@property (nonatomic, strong) NSMutableDictionary *onDemandLoadedDictionary;
+@property (nonatomic, strong) NSMutableDictionary<NSString*,NSBundleResourceRequest*> *onDemandBundleDictionary;
+@property (nonatomic, strong) NSMutableDictionary<NSString*,NSNumber*> *onDemandLoadedDictionary;
 
 @end
 
@@ -109,10 +109,18 @@
     return buildNumber;
 }
 
+#pragma mark -
 
-+ (void)addOnDemandBundle:(NSBundleResourceRequest*)resourceRequest forTag:(NSString*)tag
+//+ (void)addOnDemandBundle:(NSBundleResourceRequest*)resourceRequest forTag:(NSString*)tag
+//{
+//    [[WTBundleInfo mainBundleInfo] addOnDemandBundle:resourceRequest forTag:tag];
+//}
+
++ (void)addOnDemandBundleForTag:(NSArray<NSString*>*)tags
 {
-    [[WTBundleInfo mainBundleInfo] addOnDemandBundle:resourceRequest forTag:tag];
+    for (NSString *tag in tags) {
+        [self initializingResourceRequestForTag:tag];
+    }
 }
 
 - (void)addOnDemandBundle:(NSBundleResourceRequest*)resourceRequest forTag:(NSString*)tag
@@ -140,7 +148,7 @@
 {
     NSSet *tags = [NSSet setWithObject:tag];
     NSBundleResourceRequest *resourceRequest = [[NSBundleResourceRequest alloc] initWithTags:tags];
-    [self addOnDemandBundle:resourceRequest forTag:tag];
+    [[WTBundleInfo mainBundleInfo] addOnDemandBundle:resourceRequest forTag:tag];
     return resourceRequest;
 }
 
@@ -168,7 +176,10 @@
             // The associated resources are loaded
         [[WTBundleInfo mainBundleInfo].onDemandLoadedDictionary setObject:[NSNumber numberWithBool:YES] forKey:tag];
         
-        completionHandler(error);
+        //needed mainqueue
+        MAIN(^(void){
+            completionHandler(error);
+        });
         }
     ];
 }

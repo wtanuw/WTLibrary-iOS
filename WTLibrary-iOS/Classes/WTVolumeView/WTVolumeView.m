@@ -9,9 +9,10 @@
 #import "WTVolumeView.h"
 #import <MediaPlayer/MediaPlayer.h>
 #import <AVFoundation/AVFoundation.h>
+
 #import <WTLibrary_iOS/WTVersion.h>
 #import <WTLibrary_iOS/WTMacro.h>
-
+#import <WTLibrary_iOS/WTUIInterface.h>
 
 @interface WTMasterVolumeView()
 
@@ -356,7 +357,7 @@
     
     if(SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"6.0")){
         float cap = 0;
-        if(UI_INTERFACE_IDIOM_IS_IPHONE()){
+        if([WTUIInterface UI_INTERFACE_IDIOM_IS_IPHONE]){
             cap = 12;
         }else{
             cap = 12;
@@ -591,7 +592,7 @@
         [super changeVolumeViewImage];
     } else if(SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"14.0")){
         float cap = 0;
-        if(UI_INTERFACE_IDIOM_IS_IPHONE()){
+        if([WTUIInterface UI_INTERFACE_IDIOM_IS_IPHONE]){
             cap = 12;
         }else{
             cap = 12;

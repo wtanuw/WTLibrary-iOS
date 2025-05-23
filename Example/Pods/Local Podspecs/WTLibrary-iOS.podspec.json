@@ -1,6 +1,6 @@
 {
   "name": "WTLibrary-iOS",
-  "version": "0.4.1",
+  "version": "0.4.5",
   "summary": "summary with WTLibrary-iOS.",
   "description": "TODO: Add long description of the pod here.\nA simple life with WTLibrary-iOS.",
   "homepage": "https://github.com/wtanuw/WTLibrary-iOS",
@@ -13,10 +13,10 @@
   },
   "source": {
     "git": "https://github.com/wtanuw/WTLibrary-iOS.git",
-    "tag": "0.4.1"
+    "tag": "0.4.5"
   },
   "platforms": {
-    "ios": "9.0",
+    "ios": "12.0",
     "osx": "10.12"
   },
   "default_subspecs": "WTObjC",
@@ -25,6 +25,12 @@
       "name": "WTObjC",
       "source_files": "WTLibrary-iOS/Classes/WT*.{h,m}",
       "frameworks": "QuartzCore"
+    },
+    {
+      "name": "OCProgress",
+      "source_files": "WTLibrary-iOS/Library/OCProgress/*.{h,m}",
+      "requires_arc": false,
+      "frameworks": "UIKit"
     },
     {
       "name": "AQGridViewHorizontal",
@@ -103,6 +109,18 @@
 
         ],
         "ObjectiveDropboxOfficial": [
+          "7.0.0"
+        ]
+      },
+      "source_files": "WTLibrary-iOS/Classes/WTDropbox/*.{h,m}"
+    },
+    {
+      "name": "WTDropbox6",
+      "dependencies": {
+        "WTLibrary-iOS/WTObjC": [
+
+        ],
+        "ObjectiveDropboxOfficial": [
           "6.0.0"
         ]
       },
@@ -150,13 +168,13 @@
       }
     },
     {
-      "name": "WTGoogle",
+      "name": "WTGoogle2",
       "dependencies": {
         "WTLibrary-iOS/WTObjC": [
 
         ],
         "GoogleAPIClientForREST/Drive": [
-
+          "~> 1.6.0"
         ],
         "GTMAppAuth": [
           "~> 1.2.2"
@@ -165,7 +183,43 @@
           "~> 6.1"
         ]
       },
-      "source_files": "WTLibrary-iOS/Classes/WTGoogle/*.{h,m}"
+      "source_files": "WTLibrary-iOS/Classes/WTGoogle1/*.{h,m}"
+    },
+    {
+      "name": "WTGoogle6",
+      "dependencies": {
+        "WTLibrary-iOS/WTObjC": [
+
+        ],
+        "GoogleAPIClientForREST/Drive": [
+          "~> 3.5.0"
+        ],
+        "GTMAppAuth": [
+          "~> 1.2.2"
+        ],
+        "GoogleSignIn": [
+          "~> 6.1"
+        ]
+      },
+      "source_files": "WTLibrary-iOS/Classes/WTGoogle6/*.{h,m}"
+    },
+    {
+      "name": "WTGoogle",
+      "dependencies": {
+        "WTLibrary-iOS/WTObjC": [
+
+        ],
+        "GoogleAPIClientForREST/Drive": [
+          "~> 3.5.0"
+        ],
+        "GTMAppAuth": [
+          "~> 4.1.1"
+        ],
+        "GoogleSignIn": [
+          "~> 7.1.0"
+        ]
+      },
+      "source_files": "WTLibrary-iOS/Classes/WTGoogle7/*.{h,m}"
     },
     {
       "name": "WTLocation",
@@ -206,6 +260,26 @@
       "source_files": "WTLibrary-iOS/Classes/WTStoreKit/*.{h,m}",
       "frameworks": [
         "StoreKit",
+        "Security"
+      ]
+    },
+    {
+      "name": "WTStoreKit2",
+      "dependencies": {
+        "WTLibrary-iOS/WTObjC": [
+
+        ],
+        "Reachability": [
+          "~> 3.2"
+        ],
+        "WTLibrary-iOS/CategoriesExtension": [
+
+        ]
+      },
+      "source_files": "WTLibrary-iOS/Classes/WTStoreKit2/*.{h,m}",
+      "frameworks": [
+        "StoreKit",
+        "StoreKit2",
         "Security"
       ]
     },
@@ -300,6 +374,42 @@
 
         ]
       }
+    },
+    {
+      "name": "WTMetal",
+      "dependencies": {
+        "WTLibrary-iOS/WTObjC": [
+
+        ],
+        "EZAudio": [
+          "1.1.5"
+        ]
+      },
+      "frameworks": [
+        "Metal",
+        "MetalKit",
+        "AVFoundation"
+      ],
+      "source_files": "WTLibrary-iOS/Classes/WTMetal/*.{h,m}"
+    },
+    {
+      "name": "WTVolumeView",
+      "dependencies": {
+        "WTLibrary-iOS/WTUIInterface": [
+
+        ]
+      },
+      "source_files": "WTLibrary-iOS/Classes/WTVolumeView/WT*.{h,m}",
+      "resources": [
+        "WTLibrary-iOS/Classes/WTVolumeView/WT*.{storyboard}",
+        "WTLibrary-iOS/Classes/WTVolumeView/*.{xcassets}"
+      ],
+      "frameworks": "QuartzCore"
+    },
+    {
+      "name": "WTUIInterface",
+      "source_files": "WTLibrary-iOS/Classes/WTUIInterface/WT*.{h,m}",
+      "frameworks": "QuartzCore"
     }
   ]
 }

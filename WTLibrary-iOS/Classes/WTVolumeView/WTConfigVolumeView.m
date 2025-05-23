@@ -12,6 +12,7 @@
 #import <WTLibrary_iOS/WTVersion.h>
 #import <WTLibrary_iOS/WTMacro.h>
 #import <WTLibrary_iOS/WTSwipeModalView.h>
+#import <WTLibrary_iOS/WTUIInterface.h>
 #import "WTVolumeView.h"
 
 @interface WTConfigMasterVolumeView()
@@ -64,7 +65,7 @@
     NSBundle *bundle3 = [NSBundle bundleWithPath:path];
     NSBundle *bundle4 = [NSBundle mainBundle];
     UIStoryboard *s;
-    if(UI_INTERFACE_IDIOM_IS_IPAD()){
+    if([WTUIInterface UI_INTERFACE_IDIOM_IS_IPAD]){
         s = [UIStoryboard storyboardWithName:@"WTVolumeView" bundle:bundle];
     } else {
         s = [UIStoryboard storyboardWithName:@"WTVolumeView" bundle:bundle];
@@ -132,7 +133,7 @@
         swipeView.dimViewAlphaMax = 0.0;
         swipeView.showAnimation = WTSwipeModalAnimationPop;
         swipeView.hideAnimation = WTSwipeModalAnimationPop;
-        if (UI_INTERFACE_IDIOM_IS_IPAD()) {
+        if ([WTUIInterface UI_INTERFACE_IDIOM_IS_IPAD]) {
             swipeView.useAdaptiveSize = NO;
         }
         self.swipeView = swipeView;

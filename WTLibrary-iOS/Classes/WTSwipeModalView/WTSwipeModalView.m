@@ -10,6 +10,7 @@
 #import "WTSwipeModalView.h"
 #import "WTMacro.h"
 #import <AGWindowView/AGWindowView.h>
+#import <WTLibrary_iOS/WTWatLog.h>
 
 @interface WTSwipeModalView ()
 {
@@ -94,22 +95,36 @@
 - (void)setup
 {
     // Initialization
-    if([[AGWindowView allActiveWindowViews] count]>0){
-        ;
-        //            AGWindowView *windowView = [[AGWindowView alloc] initAndAddToKeyWindow];
-        //            windowView.supportedInterfaceOrientations = AGInterfaceOrientationMaskLandscape;
-        AGWindowView *a = [[AGWindowView allActiveWindowViews] firstObject];
-        //            _agWindow = a;
-        AGWindowView *windowView =  [[AGWindowView alloc] initAndAddToWindow:a.window];
-        _agWindow = windowView;
-        //            _agWindow.hidden = YES;
-        //            _isShareWindow = YES;
-    }else{
-        AGWindowView *windowView = [[AGWindowView alloc] initAndAddToKeyWindow];
-        windowView.supportedInterfaceOrientations = AGInterfaceOrientationMaskAll;
-        _agWindow = windowView;
-        _agWindow.hidden = YES;
-        _isShareWindow = NO;
+//    UIScreen *screen = [UIScreen mainScreen];
+//    UIWindowScene *winscene = [UIScreen mainScreen];
+//    UIWindow *window = [UIScreen mainScreen];
+//    view.window.windowScene.screen
+    if (NO) {
+//        AGWindowView *windowView = [[AGWindowView alloc] initAndAddToWindow:<#(UIWindow *)#>];
+//        windowView.supportedInterfaceOrientations = AGInterfaceOrientationMaskAll;
+//        _agWindow = windowView;
+//        _agWindow.hidden = YES;
+//        _isShareWindow = NO;
+    } else {
+        
+        if([[AGWindowView allActiveWindowViews] count]>0){
+            ;
+            //            AGWindowView *windowView = [[AGWindowView alloc] initAndAddToKeyWindow];
+            //            windowView.supportedInterfaceOrientations = AGInterfaceOrientationMaskLandscape;
+            AGWindowView *a = [[AGWindowView allActiveWindowViews] firstObject];
+            //            _agWindow = a;
+            AGWindowView *windowView =  [[AGWindowView alloc] initAndAddToWindow:a.window];
+            _agWindow = windowView;
+            //            _agWindow.hidden = YES;
+            //            _isShareWindow = YES;
+        }else{
+            AGWindowView *windowView = [[AGWindowView alloc] initAndAddToKeyWindow];
+            windowView.supportedInterfaceOrientations = AGInterfaceOrientationMaskAll;
+            _agWindow = windowView;
+            _agWindow.hidden = YES;
+            _isShareWindow = NO;
+        }
+        
     }
     
     _parentViewWindow = _agWindow;

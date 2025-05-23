@@ -124,7 +124,7 @@ def import_pods_appname
 end
 
 target 'WTLibrary-iOS-ObjC_Example' do
-  platform :ios, '9.0'
+  platform :ios, '12.0'
   pod 'WTLibrary-iOS', :path => '../'
   pod 'WTLibrary-iOS/AQGridViewHorizontal', :path => '../'
   pod 'WTLibrary-iOS/CategoriesExtension', :path => '../'
@@ -136,6 +136,7 @@ target 'WTLibrary-iOS-ObjC_Example' do
   pod 'WTLibrary-iOS/WTLocation', :path => '../'
   pod 'WTLibrary-iOS/WTSNS', :path => '../'
   pod 'WTLibrary-iOS/WTStoreKit', :path => '../'
+  pod 'WTLibrary-iOS/WTStoreKit2', :path => '../'
   pod 'WTLibrary-iOS/WTSwipeModalView', :path => '../'
   pod 'WTLibrary-iOS/WTUIKit', :path => '../'
   pod 'WTLibrary-iOS/WTUtaPlayer', :path => '../'
@@ -143,6 +144,7 @@ target 'WTLibrary-iOS-ObjC_Example' do
   pod 'WTLibrary-iOS/WTiOS', :path => '../'
   pod 'WTLibrary-iOS/WTmacOS', :path => '../'
   pod 'WTLibrary-iOS/KLCPopup', :path => '../'
+  pod 'WTLibrary-iOS/WTUIInterface', :path => '../'
   
 #  import_pods2
   import_pods_increment

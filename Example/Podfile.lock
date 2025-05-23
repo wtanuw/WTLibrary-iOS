@@ -109,46 +109,51 @@ PODS:
   - PromisesObjC (1.2.12)
   - Reachability (3.2)
   - Specta (1.0.7)
-  - WTLibrary-iOS (0.4.1):
-    - WTLibrary-iOS/WTObjC (= 0.4.1)
-  - WTLibrary-iOS/AQGridViewHorizontal (0.4.1):
+  - WTLibrary-iOS (0.4.5):
+    - WTLibrary-iOS/WTObjC (= 0.4.5)
+  - WTLibrary-iOS/AQGridViewHorizontal (0.4.5):
     - WTLibrary-iOS/WTObjC
-  - WTLibrary-iOS/CategoriesExtension (0.4.1):
+  - WTLibrary-iOS/CategoriesExtension (0.4.5):
     - WTLibrary-iOS/WTObjC
-  - WTLibrary-iOS/CategoriesExtensionMD5 (0.4.1):
+  - WTLibrary-iOS/CategoriesExtensionMD5 (0.4.5):
     - WTLibrary-iOS/WTObjC
-  - WTLibrary-iOS/KLCPopup (0.4.1):
+  - WTLibrary-iOS/KLCPopup (0.4.5):
     - WTLibrary-iOS/WTObjC
-  - WTLibrary-iOS/MetadataRetriever (0.4.1):
+  - WTLibrary-iOS/MetadataRetriever (0.4.5):
     - WTLibrary-iOS/WTObjC
-  - WTLibrary-iOS/WTDatabase (0.4.1):
+  - WTLibrary-iOS/WTDatabase (0.4.5):
     - FMDB (~> 2.0)
     - WTLibrary-iOS/WTObjC
-  - WTLibrary-iOS/WTIncrement (0.4.1):
+  - WTLibrary-iOS/WTIncrement (0.4.5):
     - WTLibrary-iOS/WTObjC
-  - WTLibrary-iOS/WTiOS (0.4.1):
+  - WTLibrary-iOS/WTiOS (0.4.5):
     - WTLibrary-iOS/WTObjC
-  - WTLibrary-iOS/WTLocation (0.4.1):
+  - WTLibrary-iOS/WTLocation (0.4.5):
     - WTLibrary-iOS/WTObjC
-  - WTLibrary-iOS/WTmacOS (0.4.1):
+  - WTLibrary-iOS/WTmacOS (0.4.5):
     - WTLibrary-iOS/WTObjC
-  - WTLibrary-iOS/WTObjC (0.4.1)
-  - WTLibrary-iOS/WTRuntime (0.4.1):
+  - WTLibrary-iOS/WTObjC (0.4.5)
+  - WTLibrary-iOS/WTRuntime (0.4.5):
     - WTLibrary-iOS/WTObjC
-  - WTLibrary-iOS/WTSNS (0.4.1):
+  - WTLibrary-iOS/WTSNS (0.4.5):
     - WTLibrary-iOS/WTObjC
-  - WTLibrary-iOS/WTStoreKit (0.4.1):
+  - WTLibrary-iOS/WTStoreKit (0.4.5):
     - Reachability (~> 3.2)
     - WTLibrary-iOS/CategoriesExtension
     - WTLibrary-iOS/WTObjC
-  - WTLibrary-iOS/WTSwift (0.4.1):
+  - WTLibrary-iOS/WTStoreKit2 (0.4.5):
+    - Reachability (~> 3.2)
+    - WTLibrary-iOS/CategoriesExtension
+    - WTLibrary-iOS/WTObjC
+  - WTLibrary-iOS/WTSwift (0.4.5):
     - AFDateHelper (~> 4.3)
-  - WTLibrary-iOS/WTSwipeModalView (0.4.1):
+  - WTLibrary-iOS/WTSwipeModalView (0.4.5):
     - AGWindowView (~> 0.1)
     - WTLibrary-iOS/WTObjC
-  - WTLibrary-iOS/WTUIKit (0.4.1):
+  - WTLibrary-iOS/WTUIInterface (0.4.5)
+  - WTLibrary-iOS/WTUIKit (0.4.5):
     - WTLibrary-iOS/WTObjC
-  - WTLibrary-iOS/WTUtaPlayer (0.4.1):
+  - WTLibrary-iOS/WTUtaPlayer (0.4.5):
     - WTLibrary-iOS/WTObjC
 
 DEPENDENCIES:
@@ -171,8 +176,10 @@ DEPENDENCIES:
   - WTLibrary-iOS/WTRuntime (from `../`)
   - WTLibrary-iOS/WTSNS (from `../`)
   - WTLibrary-iOS/WTStoreKit (from `../`)
+  - WTLibrary-iOS/WTStoreKit2 (from `../`)
   - WTLibrary-iOS/WTSwift (from `../`)
   - WTLibrary-iOS/WTSwipeModalView (from `../`)
+  - WTLibrary-iOS/WTUIInterface (from `../`)
   - WTLibrary-iOS/WTUIKit (from `../`)
   - WTLibrary-iOS/WTUtaPlayer (from `../`)
 
@@ -222,8 +229,8 @@ SPEC CHECKSUMS:
   PromisesObjC: 3113f7f76903778cf4a0586bd1ab89329a0b7b97
   Reachability: 33e18b67625424e47b6cde6d202dce689ad7af96
   Specta: 3e1bd89c3517421982dc4d1c992503e48bd5fe66
-  WTLibrary-iOS: d347bb90b58d06ed94fd9871e9f67593491c5cc6
+  WTLibrary-iOS: 9c74f6ef12ba5aabab5db9b4c70b6a2a59dd19a8
 
-PODFILE CHECKSUM: 1d07fecca9ae25323009cf5ead298abe3dfe7dde
+PODFILE CHECKSUM: fc333a7f4252ed80fb0fcdcb041d9af6a9b9b54b
 
-COCOAPODS: 1.11.3
+COCOAPODS: 1.15.2

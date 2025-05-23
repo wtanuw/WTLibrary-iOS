@@ -74,7 +74,7 @@ CGFloat const LVAnimationDuration = 0.25;
 - (void)layoutSubviews {
   [super layoutSubviews];
   CGRect frame = self.frame;
-  frame.origin.y = ([WTUIInterfaceShared isStatusBarHidden] ? 0 : LVStatusBarHeight) - _extraHeight;
+  frame.origin.y = ([WTUIInterface isStatusBarHidden] ? 0 : LVStatusBarHeight) - _extraHeight;
   self.frame = frame;
   NSArray *classNamesToReposition = @[@"_UINavigationBarBackground"];
   

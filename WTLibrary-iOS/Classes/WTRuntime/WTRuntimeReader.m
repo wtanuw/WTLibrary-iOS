@@ -19,6 +19,7 @@
 #import "WTMacro.h"
 #import "WTBundleInfo.h"
 #import "WTPath.h"
+#import <WTLibrary_iOS/WTWatLog.h>
 
 //http://www.cocoawithlove.com/2010/01/getting-subclasses-of-objective-c-class.html
 

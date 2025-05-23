@@ -10,9 +10,9 @@
 
 #define WTMacro_VERSION 0x00020003
 
-//#ifndef WATLOG_DEBUG
-//#define WATLOG_DEBUG
-//#endif
+#ifndef WATLOG_DEBUG
+#define WATLOG_DEBUG
+#endif
 
 // show "WatLog()" only when define both WATLOG_DEBUG and DEBUG
 #ifdef WATLOG_DEBUG
@@ -101,10 +101,6 @@ return _sharedObject; \
 
 #define ShowNetworkActivityIndicator() [UIApplication sharedApplication].networkActivityIndicatorVisible = YES
 #define HideNetworkActivityIndicator() [UIApplication sharedApplication].networkActivityIndicatorVisible = NO
-
-//#define UI_INTERFACE_RETINA()               ([[UIScreen mainScreen] respondsToSelector:@selector(displayLinkWithTarget:selector:)] && ([UIScreen mainScreen].scale >= 2.0))?1:0
-//#define UI_INTERFACE_SCREEN_IS_NONRETINA()  (!UI_INTERFACE_RETINA())
-//#define UI_INTERFACE_SCREEN_IS_RETINA()     (UI_INTERFACE_RETINA())
 
 ///<------------------------------------------------!>
 

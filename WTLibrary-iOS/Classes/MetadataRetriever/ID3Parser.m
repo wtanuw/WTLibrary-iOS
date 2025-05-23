@@ -92,9 +92,9 @@
         NSDictionary* nsDict = (__bridge NSDictionary*)piDict;
 
         ID3Tag* tag = [[ID3Tag alloc] init];
-
         tag.album = [nsDict objectForKey:[NSString stringWithUTF8String: kAFInfoDictionary_Album]];
         tag.approxDuration = [NSNumber numberWithInt:[[nsDict objectForKey:[NSString stringWithUTF8String: kAFInfoDictionary_ApproximateDurationInSeconds]] intValue]];
+        tag.approxDurationString = [nsDict objectForKey:[NSString stringWithUTF8String: kAFInfoDictionary_ApproximateDurationInSeconds]];
         tag.artist = [nsDict objectForKey:[NSString stringWithUTF8String: kAFInfoDictionary_Artist]];
         tag.bitRate = [nsDict objectForKey:[NSString stringWithUTF8String: kAFInfoDictionary_NominalBitRate]];
         tag.channelLayout = [nsDict objectForKey:[NSString stringWithUTF8String: kAFInfoDictionary_ChannelLayout]];

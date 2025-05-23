@@ -26,9 +26,9 @@
 #endif
 
 NSString * const kAEAudioControllerSessionRouteChangeNotification = @"com.theamazingaudioengine.AEAudioControllerRouteChangeNotification";
-static float const kCarPrice = 300.0f;
-static NSString* const kCarModel = @"Lexus IS 200T";
-static int const KCarType = 1;
+//static float const kCarPrice = 300.0f;
+//static NSString* const kCarModel = @"Lexus IS 200T";
+//static int const KCarType = 1;
 
 #define UnknownArtist   @"Unknown Artist"
 #define UnknownAlbum    @"Unknown Album"
@@ -146,7 +146,6 @@ static NSString* const kUnknownTime = @"";
         _valid = true;
     }
     _retrived = true;
-    
     return _valid;
 }
 
@@ -161,7 +160,16 @@ static NSString* const kUnknownTime = @"";
         _trackNumber1 = [NSString stringWithFormat:@"%ld",idtag.trackNumber.integerValue];
         _trackNumber2 = [NSString stringWithFormat:@"%ld",idtag.totalTracks.integerValue];
         _genreName = idtag.genre;
-        _durationTime = [NSString stringWithFormat:@"%ld",idtag.approxDuration.integerValue];
+//        _durationTime = [NSString stringWithFormat:@"%ld",idtag.approxDurationString.integerValue];
+        NSNumberFormatter * numberFormatter = [NSNumberFormatter new];
+
+        [numberFormatter setNumberStyle:NSNumberFormatterDecimalStyle];
+        [numberFormatter setGroupingSeparator:@","];
+        [numberFormatter setDecimalSeparator:@"."];
+
+        NSNumber * number = [numberFormatter numberFromString:idtag.approxDurationString];
+
+        _durationTime = [NSString stringWithFormat:@"%ld",number.integerValue];
         _valid = true;
     }
     _retrived = true;
@@ -800,6 +808,37 @@ static NSString* const kUnknownTime = @"";
 }
 
 + (UIImage *)scaleImage:(UIImage*)image toResolution:(int)resolution {
+    
+    CGFloat width = image.size.width;
+    CGFloat height = image.size.height;
+    CGRect bounds = CGRectMake(0, 0, width, height);
+    //if already at the minimum resolution, return the orginal image, otherwise scale
+    if (width <= resolution && height <= resolution) {
+        return image;
+    } else {
+        CGFloat ratio = width/height;
+        
+        if (ratio > 1) {//landscape
+            bounds.size.width = resolution;
+            bounds.size.height = bounds.size.width / ratio;
+        } else {//portrait
+            bounds.size.height = resolution;
+            bounds.size.width = bounds.size.height * ratio;
+        }
+    }
+    
+    // TODO: not test yet
+    CGSize imageSize = bounds.size;
+    CGRect rect = CGRectMake(0, 0, imageSize.width, imageSize.height);
+    UIGraphicsImageRenderer *renderer = [[UIGraphicsImageRenderer alloc] initWithSize:imageSize];
+    UIImage *imageCopy = [renderer imageWithActions:^(UIGraphicsImageRendererContext *context) {
+        [image drawInRect:rect];
+    }];
+    
+    return imageCopy;
+}
+
++ (UIImage *)scaleImageUsingUIGraphicsBeginImageContext:(UIImage*)image toResolution:(int)resolution {
     
     CGFloat width = image.size.width;
     CGFloat height = image.size.height;

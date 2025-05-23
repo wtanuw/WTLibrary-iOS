@@ -51,6 +51,7 @@
 @property (nonatomic, retain) NSString *genre;
 @property (nonatomic, retain) NSString *year;
 @property (nonatomic, retain) NSNumber *approxDuration;
+@property (nonatomic, retain) NSString *approxDurationString;
 @property (nonatomic, retain) NSString *composer;
 @property (nonatomic, retain) NSString *tempo;
 @property (nonatomic, retain) NSString *keySignature;

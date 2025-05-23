@@ -30,7 +30,8 @@ s.source           = { :git => 'https://github.com/wtanuw/WTLibrary-iOS.git', :t
 # s.social_media_url = 'https://twitter.com/<TWITTER_USERNAME>'
 
 #s.ios.deployment_target = '9.0'
-s.ios.deployment_target = '12.0' # 231218 + xcode 14.2
+#s.ios.deployment_target = '12.0' # 231218 + xcode 14.2
+s.ios.deployment_target = '18.0'
 s.osx.deployment_target = '10.12'
 
 # s.source_files = 'WTLibrary-iOS/Classes/**/*'
@@ -152,7 +153,7 @@ end
 
 ##################################################
 
-s.subspec 'WTGoogle' do |subspec|
+s.subspec 'WTGoogle2' do |subspec|
 #subspec.ios.deployment_target = '11.0'
 subspec.dependency 'WTLibrary-iOS/WTObjC'
 subspec.dependency 'GoogleAPIClientForREST/Drive', '~> 1.6.0' # drive
@@ -160,7 +161,7 @@ subspec.dependency 'GoogleAPIClientForREST/Drive', '~> 1.6.0' # drive
 #subspec.dependency 'GTMSessionFetcher'
 subspec.dependency 'GTMAppAuth' ,'~> 1.2.2' # login
 subspec.dependency 'GoogleSignIn', '~> 6.1'
-subspec.source_files = 'WTLibrary-iOS/Classes/WTGoogle/*.{h,m}'
+subspec.source_files = 'WTLibrary-iOS/Classes/WTGoogle1/*.{h,m}'
 #subspec.vendored_frameworks = ['WTLibrary-iOS/Classes/WTGoogle/GoogleAppUtilities.framework', 'WTLibrary-iOS/Classes/WTGoogle/GoogleSignIn.framework', 'WTLibrary-iOS/Classes/WTGoogle/GoogleSignInDependencies.framework', 'WTLibrary-iOS/Classes/WTGoogle/GoogleSymbolUtilities.framework']
 #subspec.resource = 'WTLibrary-iOS/Classes/WTGoogle/GoogleSignIn.bundle'
 #subspec.frameworks = 'SafariServices', 'SystemConfiguration', 'GoogleAppUtilities', 'GoogleSignIn', 'GoogleSignInDependencies', 'GoogleSymbolUtilities'
@@ -171,6 +172,32 @@ subspec.source_files = 'WTLibrary-iOS/Classes/WTGoogle/*.{h,m}'
 
 #subspec.xcconfig = { 'OTHER_LDFLAGS' => '-ObjC', 'FRAMEWORK_SEARCH_PATHS' => '"${PODS_ROOT}/WTLibrary-iOS/WTLibrary-iOS/Classes/WTGoogle" "${PODS_ROOT}/../../WTLibrary-iOS/Classes/WTGoogle"' }
 #subspec.xcconfig = { 'OTHER_LDFLAGS' => '-ObjC', 'FRAMEWORK_SEARCH_PATHS' => '"${PODS_ROOT}/WTLibrary-iOS/WTLibrary-iOS/Classes/WTGoogle" "${PODS_ROOT}/../../WTLibrary-iOS/Classes/WTGoogle" "~/Desktop/Wat/WTLibrary/WTLibrary-iOS/WTLibrary-iOS/Classes/WTGoogle"', 'HEADER_SEARCH_PATHS' => '"${PODS_ROOT}/WTLibrary-iOS/WTLibrary-iOS/Classes/WTGoogle"' }
+end
+
+##################################################
+
+s.subspec 'WTGoogle6' do |subspec|
+#subspec.ios.deployment_target = '11.0'
+subspec.dependency 'WTLibrary-iOS/WTObjC'
+subspec.dependency 'GoogleAPIClientForREST/Drive', '~> 3.5.0' # drive
+#subspec.dependency 'GTMOAuth2', '~> 1.1.4'
+#subspec.dependency 'GTMSessionFetcher'
+subspec.dependency 'GTMAppAuth' ,'~> 1.2.2' # login
+subspec.dependency 'GoogleSignIn', '~> 6.1'
+subspec.source_files = 'WTLibrary-iOS/Classes/WTGoogle6/*.{h,m}'
+end
+
+##################################################
+
+s.subspec 'WTGoogle' do |subspec|
+#subspec.ios.deployment_target = '11.0'
+subspec.dependency 'WTLibrary-iOS/WTObjC'
+subspec.dependency 'GoogleAPIClientForREST/Drive', '~> 3.5.0' # drive
+#subspec.dependency 'GTMOAuth2', '~> 1.1.4'
+#subspec.dependency 'GTMSessionFetcher'
+subspec.dependency 'GTMAppAuth' ,'~> 4.1.1' # login
+subspec.dependency 'GoogleSignIn', '~> 7.1.0'
+subspec.source_files = 'WTLibrary-iOS/Classes/WTGoogle7/*.{h,m}'
 end
 
 ##################################################
@@ -196,6 +223,17 @@ subspec.dependency 'Reachability', '~> 3.2'
 subspec.dependency 'WTLibrary-iOS/CategoriesExtension'
 subspec.source_files = 'WTLibrary-iOS/Classes/WTStoreKit/*.{h,m}'
 subspec.frameworks = 'StoreKit', 'Security'
+end
+
+s.subspec 'WTStoreKit2' do |subspec|
+    subspec.dependency 'WTLibrary-iOS/WTObjC'
+    subspec.dependency 'WTLibrary-iOS/WTSwift'
+subspec.dependency 'Reachability', '~> 3.2'
+subspec.dependency 'AFDateHelper', '~> 4.3'
+subspec.dependency 'WTLibrary-iOS/CategoriesExtension'
+subspec.source_files = 'WTLibrary-iOS/Classes/WTStoreKit2/*.{h,m,swift}'
+subspec.frameworks = 'StoreKit', 'Security'
+subspec.pod_target_xcconfig = { 'SWIFT_VERSION' => '4.2' }
 end
 
 ##################################################
@@ -226,7 +264,7 @@ end
 
 s.subspec 'WTSwift' do |subspec|
 #  subspec.dependency 'AFDateHelper', '~> 4.1'
-  subspec.dependency 'AFDateHelper', '~> 4.3'
+subspec.dependency 'AFDateHelper', '~> 4.3'
 subspec.source_files = 'WTLibrary-iOS/Swift/*'
 subspec.pod_target_xcconfig = { 'SWIFT_VERSION' => '4.2' }
 end
@@ -291,9 +329,25 @@ end
 ##################################################20240129
 
 s.subspec 'WTVolumeView' do |subspec|
+subspec.dependency 'WTLibrary-iOS/WTUIInterface'
 subspec.source_files = 'WTLibrary-iOS/Classes/WTVolumeView/WT*.{h,m}'
-subspec.resource = 'WTLibrary-iOS/Classes/WTVolumeView/WT*.{storyboard}', 'WTLibrary-iOS/Classes/WTVolumeView/*.{xcassets}'
+subspec.resource =
+'WTLibrary-iOS/Classes/WTVolumeView/WT*.{storyboard}',
+'WTLibrary-iOS/Classes/WTVolumeView/*.{xcassets}'
 subspec.frameworks = 'QuartzCore'
+end
+
+##################################################20240917
+
+s.subspec 'WTUIInterface' do |subspec|
+subspec.source_files = 'WTLibrary-iOS/Classes/WTUIInterface/WT*.{h,m}'
+subspec.frameworks = 'UIKit', 'QuartzCore'
+end
+
+##################################################
+
+s.subspec 'CXAlertView' do |subspec|
+subspec.source_files = 'WTLibrary-iOS/Library/CXAlertView/*.{h,m}'
 end
 
 ##################################################

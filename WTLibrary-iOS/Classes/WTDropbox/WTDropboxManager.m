@@ -10,6 +10,7 @@
 
 #import "WTMacro.h"
 #import <WTLibrary_iOS/WTStoreKit.h>
+#import <WTLibrary_iOS/WTWatLog.h>
 
 #if WT_REQUIRE_ARC
 #error This file must be compiled with ARC.
@@ -136,7 +137,7 @@
         
         DBScopeRequest *scopeRequest = [[DBScopeRequest alloc]
                     initWithScopeType:DBScopeTypeUser
-                                                scopes:@[@"account_info.read"]
+                                                scopes:@[@""]
                                                 includeGrantedScopes:NO];
         [DBClientsManager authorizeFromControllerV2:[UIApplication sharedApplication]
             controller:vct

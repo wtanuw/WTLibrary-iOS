@@ -24,6 +24,7 @@
 
 #define WATLOG_DEBUG
 #import "WTMacro.h"
+#import <WTLibrary_iOS/WTWatLog.h>
 
 @interface WTLVResizableNavigationController ()
 

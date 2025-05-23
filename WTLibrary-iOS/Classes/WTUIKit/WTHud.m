@@ -464,7 +464,7 @@
                 CGPoint newCenter;
                 CGFloat rotateAngle;
                 
-                UIInterfaceOrientation orientation = [WTUIInterfaceShared statusBarOrientation];
+                UIInterfaceOrientation orientation = [WTUIInterface statusBarOrientation];
                 
                 switch (orientation) {
                     case UIInterfaceOrientationPortraitUpsideDown:
@@ -500,7 +500,7 @@
     CGFloat keyboardHeight;
     double animationDuration = 0.3;
     
-    UIInterfaceOrientation orientation = [WTUIInterfaceShared statusBarOrientation];
+    UIInterfaceOrientation orientation = [WTUIInterface statusBarOrientation];
     
     if(notification) {
         NSDictionary* keyboardInfo = [notification userInfo];
@@ -519,7 +519,7 @@
     }
     
     CGRect orientationFrame = [UIScreen mainScreen].bounds;
-    CGRect statusBarFrame = [WTUIInterfaceShared statusBarFrame];
+    CGRect statusBarFrame = [WTUIInterface statusBarFrame];
     
     if(UIInterfaceOrientationIsLandscape(orientation)) {
         float temp = orientationFrame.size.width;
@@ -938,6 +938,7 @@
 
 - (UIWindow *)overlayWindow {
     if(!overlayWindow) {
+//        NSAssert(NO,@"change initwithframe to initwithwindowscene");
         overlayWindow = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
         overlayWindow.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
         overlayWindow.backgroundColor = [UIColor clearColor];

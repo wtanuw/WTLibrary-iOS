@@ -10,6 +10,8 @@
 
 @interface WTBundleInfo : NSObject
 
+#pragma mark - useful string
+
 + (NSString*)bundleIdentifier;
 + (NSString*)displayName;
 + (NSString*)bundleName;
@@ -24,11 +26,19 @@
 - (NSString*)versionNumber;
 - (NSString*)buildNumber;
 
-+ (void)addOnDemandBundle:(NSBundleResourceRequest*)request forTag:(NSString*)tag;
-+ (NSBundle*)onDemandBundleForTag:(NSString*)tag;
+#pragma mark - on demand resource
 
-+ (BOOL)conditionallyBeginAccessingResourcesForTag:(NSString*)tag withCompletionHandler:(void (^)(BOOL resourcesAvailable))completionHandler;
-+ (void)beginAccessingResources:(NSString*)tag withCompletionHandler:(void (^)(NSError * error))completionHandler;
+//+ (void)addOnDemandBundle:(NSBundleResourceRequest*)request forTag:(NSString*)tag;
++ (void)addOnDemandBundleForTag:(NSArray<NSString*>*)tags;
+
++ (NSBundle*)onDemandBundleForTag:(NSString*)tag;// wtpath useing
+
+//Requesting Access to the Tags
++ (void)beginAccessingResources:(NSString*)tag withCompletionHandler:(void (^)(NSError * error))completionHandler;//downloads the resources from the App Store.
+
+//Checking Whether Tags Are Already on the Device
++ (BOOL)conditionallyBeginAccessingResourcesForTag:(NSString*)tag withCompletionHandler:(void (^)(BOOL resourcesAvailable))completionHandler;//does not download the resources.
+
 + (void)endAccessingResourcesForTag:(NSString*)tag;
 
 @end

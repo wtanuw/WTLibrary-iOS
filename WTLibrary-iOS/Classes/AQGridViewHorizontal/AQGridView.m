@@ -548,7 +548,7 @@ NSString * const AQGridViewSelectionDidChangeNotification = @"AQGridViewSelectio
 	if (self.gridFooterView)
 	{
 	    // In-call status bar influences footer position
-		CGRect statusRect = [WTUIInterfaceShared statusBarFrame];
+		CGRect statusRect = [WTUIInterface statusBarFrame];
 	    CGFloat statusHeight = MIN(CGRectGetWidth(statusRect), CGRectGetHeight(statusRect))  - 20;
 
 	    CGFloat footerHeight = CGRectGetHeight(self.gridFooterView.bounds);
@@ -1024,28 +1024,31 @@ NSString * const AQGridViewSelectionDidChangeNotification = @"AQGridViewSelectio
 	_animationCount++;
 	//NSAssert(_animationCount == 1, @"Stacked animations occurring!!");
     
+    typeof(self) __weak weakSelf = self;
     [UIView animateWithDuration:0.3 delay:0 options:UIViewAnimationOptionCurveEaseInOut
                      animations:^(void) {
-                         self.animatingCells = [info animateCellUpdatesUsingVisibleContentRect: [self gridViewVisibleBounds]];
+        typeof(self) strongSelf = weakSelf;
+        self.animatingCells = [info animateCellUpdatesUsingVisibleContentRect: [self gridViewVisibleBounds]];
                          
                          
-                         _gridData = [info newGridViewData];
-                         if ( _selectedIndex != NSNotFound )
-                             _selectedIndex = [info newIndexForOldIndex: _selectedIndex];
+        strongSelf->_gridData = [info newGridViewData];
+        if ( strongSelf->_selectedIndex != NSNotFound )
+            strongSelf->_selectedIndex = [info newIndexForOldIndex: strongSelf->_selectedIndex];
                          
-                         _reloadingSuspendedCount--;
+        strongSelf->_reloadingSuspendedCount--;
                      }
                      completion:^(BOOL finished) {
+        typeof(self) strongSelf = weakSelf;
                          // if nothing was animated, we don't have to do anything at all
                          //	if ( self.animatingCells.count != 0 )
                          [self fixCellsFromAnimation];
                          
                          // NB: info becomes invalid at this point
-                         [_updateInfoStack removeObject: info];
-                         _animationCount--;
+                         [strongSelf->_updateInfoStack removeObject: info];
+        strongSelf->_animationCount--;
                          
                          //_reloadingSuspendedCount--;
-                         if ( _flags.delegateDidEndUpdateAnimation == 1 )
+                         if ( strongSelf->_flags.delegateDidEndUpdateAnimation == 1 )
                              [self.delegate gridViewDidEndUpdateAnimation: self];
                      }];
 }

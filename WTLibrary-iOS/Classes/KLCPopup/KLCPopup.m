@@ -996,7 +996,7 @@ const KLCPopupLayout KLCPopupLayoutCenter = { KLCPopupHorizontalLayoutCenter, KL
 
 - (void)updateForInterfaceOrientation {
     
-    UIInterfaceOrientation orientation = [WTUIInterfaceShared statusBarOrientation];
+    UIInterfaceOrientation orientation = [WTUIInterface statusBarOrientation];
     CGFloat angle;
     
     // no transformation needed in iOS 8

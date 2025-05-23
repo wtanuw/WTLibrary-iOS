@@ -21,7 +21,7 @@ static NSString* const kUnknownAlbum;
 
 @interface WTMetadataRetriever : NSObject
 
-+ (NSArray *)getMetadataForURL:(NSURL *)fileURL DEPRECATED_MSG_ATTRIBUTE("use metaDataFromFileURL instead.");
++ (NSArray *)getMetadataForURL:(NSURL *)fileURL DEPRECATED_MSG_ATTRIBUTE("use metaDataFromFileURL and readBy... instead.");
 
 + (NSString *)artistForMetadataArray:(NSArray *)array;
 + (NSString *)songForMetadataArray:(NSArray *)array;

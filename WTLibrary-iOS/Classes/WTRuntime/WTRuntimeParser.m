@@ -19,6 +19,7 @@
 #import "WTMacro.h"
 #import "WTBundleInfo.h"
 #import "WTPath.h"
+#import <WTLibrary_iOS/WTWatLog.h>
 
 #define kProjectLevel @"kProject"
 #define kClassLevel @"kProject"

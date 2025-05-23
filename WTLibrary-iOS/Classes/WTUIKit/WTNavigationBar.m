@@ -75,7 +75,7 @@
     if (navigationBarBackgroundImage){
         
         BOOL havePrompt = NO;
-        if(notGrowPromptIpad && [WTUIInterfaceShared UI_INTERFACE_IDIOM_IS_IPAD]){
+        if(notGrowPromptIpad && [WTUIInterface UI_INTERFACE_IDIOM_IS_IPAD]){
             
         }else if(self.navigationController.topViewController.navigationItem.prompt){
                 havePrompt = YES;
@@ -395,7 +395,7 @@
     if (navigationBarBackgroundImage){
         // This is how you set the custom size of your UINavigationBar
         BOOL havePrompt = NO;
-        if([WTUIInterfaceShared UI_INTERFACE_IDIOM_IS_IPAD]){
+        if([WTUIInterface UI_INTERFACE_IDIOM_IS_IPAD]){
             
         }else if(self.navigationController.topViewController.navigationItem.prompt){
             havePrompt = YES;

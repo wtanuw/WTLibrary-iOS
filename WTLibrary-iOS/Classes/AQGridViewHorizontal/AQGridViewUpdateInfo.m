@@ -467,13 +467,15 @@
 
 - (UIImageView *) _imageViewForView: (UIView *) view
 {
-    UIGraphicsBeginImageContextWithOptions(view.bounds.size, NO, [[UIScreen mainScreen] scale]);
-	[view.layer renderInContext: UIGraphicsGetCurrentContext()];
-	
-	UIImageView * result = [[UIImageView alloc] initWithImage: UIGraphicsGetImageFromCurrentImageContext()];
-	
-	UIGraphicsEndImageContext();
-	
+    // TODO: not test yet
+    CGSize imageSize = view.bounds.size;
+    UIGraphicsImageRenderer *renderer = [[UIGraphicsImageRenderer alloc] initWithSize:imageSize];
+    UIImage *image = [renderer imageWithActions:^(UIGraphicsImageRendererContext *context) {
+        [view.layer renderInContext: UIGraphicsGetCurrentContext()];
+    }];
+    
+    UIImageView * result = [[UIImageView alloc] initWithImage:image];
+    
 	return ( result );
 }
 
